@@ -1,4 +1,4 @@
-const JsxModel = require('./plugins/babel-plugin-react-model')
+const JsxModel = require('plain-design-composition/plugins/babel-plugin-react-model')
 
 module.exports = {
     presets: ["@babel/preset-react", "@babel/preset-env", "@babel/preset-typescript"],
