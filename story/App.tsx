@@ -3,7 +3,7 @@ import './app.css'
 
 export const App = () => {
     return (
-        <div style={{padding: '20px'}}>
+        <div>
             hello world
         </div>
     )
