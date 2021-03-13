@@ -11,7 +11,9 @@ export const DemoRow = designComponent({
         return () => (
             <div className="demo-row">
                 <div className="demo-row-title">{props.title}</div>
-                {slots.default()}
+                <div className="demo-row-content">
+                    {slots.default()}
+                </div>
             </div>
         )
     },

@@ -76,7 +76,13 @@ export const PlIcon = designComponent({
 
         return () => {
             const {value: Icon} = icon
-            return !!Icon ? <Icon class={classes.value}/> : <i className="PlIcon"/>
+            return !!Icon ? {
+                ...Icon,
+                props: {
+                    ...Icon.props,
+                    className: `${Icon.props.className || ''} ${classes.value}`
+                },
+            } : <i className="PlIcon"/>
         }
     },
 })
