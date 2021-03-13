@@ -1,3 +1,3 @@
 ```shell script
-npm i react react-dom @types/react @types/react-dom autoprefixer@8 babel-plugin-syntax-jsx css-loader file-loader html-webpack-plugin@4 dart-sass postcss@8 postcss-loader@4 sass-loader style-loader typescript url-loader webpack@4 webpack-cli@3 webpack-dev-server@3 babel-loader @babel/preset-react @babel/preset-env @babel/core webpack-bundle-analyzer cross-env @babel/preset-typescript fork-ts-checker-webpack-plugin
+npm i react react-dom @types/react @types/react-dom autoprefixer@8 babel-plugin-syntax-jsx css-loader file-loader html-webpack-plugin@4 sass@1.32 postcss@8 postcss-loader@4 sass-loader@10 style-loader typescript url-loader webpack@4 webpack-cli@3 webpack-dev-server@3 babel-loader @babel/preset-react @babel/preset-env @babel/core webpack-bundle-analyzer cross-env @babel/preset-typescript fork-ts-checker-webpack-plugin
 ```

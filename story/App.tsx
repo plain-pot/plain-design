@@ -1,5 +1,6 @@
 import React from "react";
 import {AppMenu} from "./app/AppMenu";
+import './app.scss'
 
 export const App = () => {
     return (
