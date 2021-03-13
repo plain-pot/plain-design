@@ -11,7 +11,7 @@ export const AppMenu = designComponent({
                         <span>{group.name}</span>
                     </div>
                     {group.children.map(menu => (
-                        <div className="app-menu-item" key={`item_${menu.page}`}>
+                        <div className="app-menu-item" key={`item_${menu.page}`} onClick={() => Menu.openMenu(menu)}>
                             <span>{menu.name}</span>
                         </div>
                     ))}
