@@ -38,6 +38,25 @@ html, body {
     overflow-y: auto;
     overflow-x: hidden;
     background-color: white;
+
+    .app-menu-group {
+        padding: 8px 0 8px 24px;
+        color: #455a64;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    .app-menu-item {
+        display: block;
+        margin: 8px 0;
+        padding: 8px 0 8px 24px;
+        color: #455a64;
+        font-size: 14px;
+        line-height: 20px;
+        transition: color .2s;
+        cursor: pointer;
+    }
 }
 
 .app-navigator {
