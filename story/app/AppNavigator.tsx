@@ -24,13 +24,10 @@ export function getRoute(): AppRoute {
 export const AppNavigator = designComponent({
     slots: ['default'],
     setup({props, slots}) {
-
-        const pathChangeListener = [] as ((route: AppRoute) => void)[]
-        const hashChangeListener = [] as ((route: AppRoute) => void)[]
-        const pageReadyListener = [] as ((route: AppRoute) => void)[]
-
         return () => (
-            slots.default()
+            <div className="app-navigator">
+                app-navigator
+            </div>
         )
     },
 })
