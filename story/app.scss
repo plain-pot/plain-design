@@ -72,6 +72,7 @@ html, body {
         .app-menu-item {
             &:hover {
                 background-color: rgba($colorPrimary, 0.1);
+                text-decoration: underline;
             }
         }
     }
