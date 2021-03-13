@@ -1,7 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
 
-export const DemoButton = designComponent({
+export default designComponent({
     setup() {
         return {
             render: () => (

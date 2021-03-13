@@ -1,32 +1,25 @@
 import {designComponent} from 'plain-design-composition'
 import React from 'react';
-
-export type AppRoute = {
-    path: string,
-    hash: string,
-}
-
-export function getRoute(): AppRoute {
-    let uri = decodeURIComponent(window.location.hash || '')
-    if (uri.charAt(0) === '#' && uri.length > 0) {
-        uri = uri.substring(1)
-    }
-    let [path, hash] = uri.split('#')
-    if (!!path && path.charAt(0) === '/') {
-        path = path.slice(1)
-    }
-    return {
-        path,
-        hash,
-    }
-}
+import {reactive, watch} from 'vue';
+import {Router} from "./navigator.utils";
 
 export const AppNavigator = designComponent({
-    slots: ['default'],
-    setup({props, slots}) {
+    setup() {
+
+        const state = reactive({
+            Page: null as any
+        })
+
+        watch(() => Router.route.path, async (path) => {
+            if (!path) path = 'normal/DemoButton'
+            if (path.charAt(0) === '/') {path = path.slice(1)}
+
+            state.Page = (await import('../pages/' + path)).default
+        }, {immediate: true})
+
         return () => (
             <div className="app-navigator">
-                app-navigator
+                {!!state.Page && <state.Page/>}
             </div>
         )
     },
