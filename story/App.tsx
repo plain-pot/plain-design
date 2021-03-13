@@ -1,10 +1,13 @@
 import React from "react";
-import './app.css'
+import {AppMenu} from "./app/AppMenu";
 
 export const App = () => {
     return (
-        <div>
-            hello world
+        <div className="app-home">
+            <div className="app-head">
+                <div>plain-ui</div>
+            </div>
+            <AppMenu/>
         </div>
     )
 }
