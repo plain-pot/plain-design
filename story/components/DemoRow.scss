@@ -1,0 +1,17 @@
+@include theme {
+    .demo-row {
+        margin-bottom: 20px;
+        padding: 16px 0;
+        border-radius: 4px;
+        box-shadow: 0 8px 12px #ebedf0;
+        background-color: #fff;
+
+        .demo-row-title {
+            border-bottom: 1px dashed #f1f1f1;
+            font-size: 22px;
+            padding: 14px 24px;
+            color: #000;
+            font-weight: 700;
+        }
+    }
+}

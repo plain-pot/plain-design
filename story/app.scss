@@ -61,8 +61,8 @@ html, body {
 
 .app-navigator {
     min-height: 100vh;
-    padding-top: $headSize;
-    padding-left: $menuSize;
+    padding-top: $headSize +20;
+    padding-left: $menuSize +20;
     box-sizing: border-box;
     background-color: #f7f8fa;
 }
