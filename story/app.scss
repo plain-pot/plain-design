@@ -66,3 +66,13 @@ html, body {
     box-sizing: border-box;
     background-color: #f7f8fa;
 }
+
+@include theme {
+    .app-menu {
+        .app-menu-item {
+            &:hover {
+                background-color: rgba($colorPrimary, 0.1);
+            }
+        }
+    }
+}
