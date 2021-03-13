@@ -12,6 +12,10 @@ export default designComponent({
                     <PlIcon icon="el-icon-bell"/>
                     <PlIcon icon="el-icon-bottom"/>
                 </DemoRow>
+
+                <DemoRow title={"状态"}>
+                    {['primary', 'success', 'warn', 'error', 'info'].map(status => <PlIcon icon={"el-icon-search"} status={status} key={status}/>)}
+                </DemoRow>
             </div>
         )
     },
