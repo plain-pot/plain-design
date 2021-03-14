@@ -19,7 +19,7 @@ const MenuData: MenuGroup[] = [
             {name: 'useSlots', page: '/use/DemoUseSlots', complete: true},
             {name: 'useScopedSlots', page: '/use/DemoUseScopedSlots', complete: true},
             {name: 'useModel', page: '/use/DemoUseModel', complete: true},
-            {name: 'useStyle', page: '/use/useStyle', complete: true},
+            {name: 'useStyles', page: '/use/DemoUseStyles', complete: true},
             {name: 'useRefs', page: '/use/useRefs', complete: true},
             {name: 'useEvent', page: '/use/useEvent', complete: true},
             {name: 'useProps', page: '/use/useProps', complete: true},
