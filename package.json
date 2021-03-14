@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react-transition-group": "^4.4.1",
     "plain-loading": "^0.1.5",
     "plain-utils": "^0.1.17",
     "react-transition-group": "^4.4.1"
