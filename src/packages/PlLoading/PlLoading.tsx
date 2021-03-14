@@ -21,7 +21,6 @@ export const PlLoading = designComponent({
             ])
 
             watch(() => props.type, async val => {
-                console.log(val)
                 if (!val) {
                     return !!el.current && (el.current.innerHTML = '')
                 }
