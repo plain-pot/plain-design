@@ -12,6 +12,35 @@ export default designComponent({
                 <DemoRow title={"基本用法"}>
                     <PlLoading/>
                 </DemoRow>
+                <DemoRow title={"类型"}>
+                    <PlLoading type={'alpha'}/>
+                    <PlLoading type={'beta'}/>
+                    <PlLoading type={'gamma'}/>
+                    <PlLoading type={'delta'}/>
+                    <PlLoading type={'ice'}/>
+                </DemoRow>
+                <DemoRow title={"字体大小"}>
+                    <div style={{fontSize: '24px'}}>
+                        <PlLoading type={'alpha'}/>
+                        <PlLoading type={'beta'}/>
+                        <PlLoading type={'gamma'}/>
+                        <PlLoading type={'delta'}/>
+                        <PlLoading type={'ice'}/>
+                    </div>
+                </DemoRow>
+                <DemoRow title={"状态颜色"}>
+                    <PlLoading type={'alpha'} status={'primary'}/>
+                    <PlLoading type={'alpha'} status={'success'}/>
+                    <PlLoading type={'alpha'} status={'warn'}/>
+                    <PlLoading type={'alpha'} status={'error'}/>
+                    <PlLoading type={'alpha'} status={'info'}/>
+                </DemoRow>
+                <DemoRow title={"基本用法"}>
+                    <PlLoading/>
+                </DemoRow>
+                <DemoRow title={"基本用法"}>
+                    <PlLoading/>
+                </DemoRow>
             </div>
         )
     },
