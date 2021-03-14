@@ -47,7 +47,7 @@ module.exports = {
             {
                 test: /\.(t|j)sx?$/,
                 loader: 'babel-loader',
-                exclude: /node_modules(?!.*plain-design-composition.*)/,
+                exclude: /node_modules(?!.*(plain-design-composition|plain-utils|plain-loading).*)/,
             },
             {
                 test: /\.css$/,//css处理顺口

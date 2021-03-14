@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "classnames": "^2.2.6"
+    "plain-loading": "^0.1.5",
+    "plain-utils": "^0.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
@@ -30,7 +31,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^4.5.2",
-    "plain-design-composition": "0.0.7",
+    "plain-design-composition": "0.0.8",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
     "react": "^17.0.1",
