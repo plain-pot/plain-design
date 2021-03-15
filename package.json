@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",
-    "plain-design-composition": "0.0.22",
+    "plain-design-composition": "0.0.23",
     "plain-loading": "^0.1.5",
     "plain-utils": "^0.1.17",
     "react-transition-group": "^4.4.1"
