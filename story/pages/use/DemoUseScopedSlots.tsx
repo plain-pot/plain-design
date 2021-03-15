@@ -28,7 +28,7 @@ const DemoUseScopedSlotsComponent = designComponent({
         const classes = useClass(() => [
             'demo-use-scoped-slots-components',
             {
-                'demo-use-scoped-slots-components-has-default': (scopeSlots.default as any).isExist()
+                'demo-use-scoped-slots-components-has-default': scopeSlots.default.isExist()
             }
         ])
 
