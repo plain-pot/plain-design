@@ -62,7 +62,7 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
             const data: ReturnType<typeof useCollectInParentInner> = {
                 items,
                 utils,
-                parent: ctx.refer,
+                parent: ctx.proxy,
             }
             provide(provideString, data)
             return items.value
@@ -79,8 +79,8 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
             if (!!data) {
                 const ctx = getCurrentDesignInstance()
                 const child = markRaw(ctx)
-                onMounted(() => data.utils.addItem(child.refer, sort))
-                onBeforeUnmount(() => data.utils.removeItem(child.refer))
+                onMounted(() => data.utils.addItem(child.proxy, sort))
+                onBeforeUnmount(() => data.utils.removeItem(child.proxy))
                 return data.parent
             } else {
                 return null

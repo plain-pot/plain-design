@@ -5,12 +5,13 @@ import React from "react";
 import {useCollect} from "../../../src/use/useCollect";
 
 export const DemoUseCollectChildComponent = designComponent({
+    name: 'demo-use-collect-child-component',
     props: {
         label: {type: String},
         val: {type: [String, Number]},
         modelValue: {},
-        trueValue: {default: true},
-        falseValue: {default: false},
+        trueValue: {default: true as any},
+        falseValue: {default: false as any},
     },
     slots: ['default'],
     emits: {
@@ -67,6 +68,7 @@ export const DemoUseCollectChildComponent = designComponent({
 })
 
 export const DemoUseCollectParentComponent = designComponent({
+    name: 'demo-use-collect-parent-component',
     props: {
         parentName: {type: String},
         modelValue: {},
@@ -76,6 +78,8 @@ export const DemoUseCollectParentComponent = designComponent({
         onUpdateModelValue: (val: undefined | (string | number)[]) => true
     },
     setup({props, event, slots}) {
+
+        console.log(props.modelValue)
 
         const children = DemoUseCollector.parent()
 
@@ -124,15 +128,13 @@ export const DemoUseCollectParentComponent = designComponent({
                 handler,
                 utils,
             },
-            render: () => (
-                [
-                    <button className={minusClass.value}
-                            onClick={utils.toggleCheckAll}>
-                        全选
-                    </button>,
-                    slots.default(),
-                ]
-            )
+            render: () => <>
+                <button className={minusClass.value}
+                        onClick={utils.toggleCheckAll}>
+                    全选
+                </button>
+                {slots.default()}
+            </>
         }
     },
 })
@@ -152,7 +154,24 @@ export default designComponent(({
                 <DemoUseCollectChildComponent v-model={state.showFlag}>
                     isShow:{String(state.showFlag)}
                 </DemoUseCollectChildComponent>
+                <h1>真假值</h1>
+                <DemoUseCollectChildComponent v-model={state.showFlag2} trueValue={10} falseValue={20}>
+                    isShow:{String(state.showFlag2)}
+                </DemoUseCollectChildComponent>
+                <h1>选项组</h1>
+                <DemoUseCollectParentComponent v-model={state.selected}>
+                    <DemoUseCollectChildComponent label="选项一" val="one"/>
+                    <DemoUseCollectChildComponent label="选项二" val="two"/>
+                    <DemoUseCollectChildComponent label="选项三" val="three"/>
+                </DemoUseCollectParentComponent>
+                <div>{JSON.stringify(state.selected)}</div>
+                <DemoUseCollectParentComponent v-model={state.selected}>
+                    <DemoUseCollectChildComponent label="选项一" val="one"/>
+                    {!!state.showFlag && <DemoUseCollectChildComponent label="选项二" val="two"/>}
+                    <DemoUseCollectChildComponent label="选项三" val="three"/>
+                </DemoUseCollectParentComponent>
             </div>
+
         )
     },
 }))
