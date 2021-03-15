@@ -22,13 +22,10 @@ function useCollectInParentInner() {
                         .indexOf(el)
                     // console.log(el, sort)
                 }
+                items.value.push(item)
+                item = items.value[items.value.length - 1]
                 indexMap.set(item, sort as number)
-
-                items.value.splice(
-                    0,
-                    items.value.length,
-                    ...[...items.value, item]
-                        .sort((a, b) => indexMap.get(a)! - indexMap.get(b)!))
+                items.value.sort((a, b) => indexMap.get(a)! - indexMap.get(b)!)
             } else {
                 items.value.push(item)
             }

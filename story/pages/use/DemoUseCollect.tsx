@@ -3,6 +3,7 @@ import {useRefs} from "../../../src/use/useRefs"
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
 import {useCollect} from "../../../src/use/useCollect";
+import './DemoUseCollect.scss'
 
 export const DemoUseCollectChildComponent = designComponent({
     name: 'demo-use-collect-child-component',
@@ -79,8 +80,6 @@ export const DemoUseCollectParentComponent = designComponent({
     },
     setup({props, event, slots}) {
 
-        console.log(props.modelValue)
-
         const children = DemoUseCollector.parent()
 
         const modelValue = useModel(() => props.modelValue as undefined | (string | number)[], event.emit.onUpdateModelValue)
@@ -133,7 +132,9 @@ export const DemoUseCollectParentComponent = designComponent({
                         onClick={utils.toggleCheckAll}>
                     全选
                 </button>
-                {slots.default()}
+                <span>
+                    {slots.default()}
+                </span>
             </>
         }
     },
