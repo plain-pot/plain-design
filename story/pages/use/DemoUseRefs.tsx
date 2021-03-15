@@ -1,6 +1,7 @@
 import {reactive} from "@vue/runtime-core";
 import React from "react";
 import {designComponent, useModel, useReference} from "plain-design-composition";
+import {useRefs} from "../../../src/use/useRefs";
 
 const Child = designComponent({
     props: {
@@ -94,14 +95,46 @@ const TestLifecycle = designComponent({
     },
 })
 
+const TestUseRefs = designComponent({
+    setup() {
+
+        const {refs, onRef,} = useRefs({
+            input: HTMLInputElement,
+            child: Child,
+        })
+
+        const state = reactive({
+            show: true,
+        })
+
+        return () => (
+            <div>
+                <h2>测试 useRefs</h2>
+                <button onClick={() => state.show = !state.show}>show</button>
+                <div>
+                    {!!state.show && <input type="text" ref={onRef.input}/>}
+                    <button onClick={() => !!refs.input && refs.input.focus()}>input focus</button>
+                    <button onClick={() => console.log(refs.input)}>input log</button>
+                </div>
+                <br/>
+                <div>
+                    {!!state.show && <Child onRef={onRef.child}/>}
+                    <button onClick={() => !!refs.child && refs.child.focus()}>child focus</button>
+                    <button onClick={() => console.log(refs.child)}>child log</button>
+                </div>
+            </div>
+        )
+    },
+})
+
 export default designComponent({
     setup() {
         return () => (
             <div>
-
                 <TestUseReference/>
                 <TestUseComponentUse/>
                 <TestLifecycle/>
+                <TestUseRefs/>
             </div>
         )
     },
