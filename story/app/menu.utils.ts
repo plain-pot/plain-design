@@ -18,7 +18,7 @@ const MenuData: MenuGroup[] = [
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/DemoUseSlots', complete: true},
             {name: 'useScopedSlots', page: '/use/DemoUseScopedSlots', complete: true},
-            {name: 'useModel', page: '/use/DemoUseModel', complete: false},
+            {name: 'useModel', page: '/use/DemoUseModel', complete: true},
             {name: 'useStyles', page: '/use/DemoUseStyles', complete: false},
             {name: 'useRefs', page: '/use/useRefs', complete: false},
             {name: 'useEvent', page: '/use/useEvent', complete: false},

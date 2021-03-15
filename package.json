@@ -33,7 +33,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^4.5.2",
-    "plain-design-composition": "0.0.13",
+    "plain-design-composition": "0.0.15",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
     "react": "^17.0.1",
