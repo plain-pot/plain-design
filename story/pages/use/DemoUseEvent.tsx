@@ -46,13 +46,8 @@ export const DemoUseEventTableHead = designComponent({
         }
 
         table.event.on.onScroll(handler.scroll)
-        onMounted(() => {
-            refs.wrapper!.addEventListener('wheel', handler.mousewheel, {passive: false})
-        })
-        onBeforeUnmount(() => {
-            refs.wrapper!.removeEventListener('wheel', handler.mousewheel)
-            table.event.off.onScroll(handler.scroll)
-        })
+        onBeforeUnmount(() => {table.event.off.onScroll(handler.scroll)})
+        onMounted(() => {refs.wrapper!.addEventListener('wheel', handler.mousewheel, {passive: false})})
 
         return {
             render: () => (
@@ -97,13 +92,8 @@ export const DemoUseEventTableBody = designComponent({
         }
 
         table.event.on.onScroll(handler.scroll)
-        onMounted(() => {
-            refs.wrapper!.addEventListener('wheel', handler.mousewheel, {passive: false})
-        })
-        onBeforeUnmount(() => {
-            table.event.off.onScroll(handler.scroll)
-            refs.wrapper!.removeEventListener('wheel', handler.mousewheel)
-        })
+        onBeforeUnmount(() => {table.event.off.onScroll(handler.scroll)})
+        onMounted(() => {refs.wrapper!.addEventListener('wheel', handler.mousewheel, {passive: false})})
 
         return {
             render: () => (
