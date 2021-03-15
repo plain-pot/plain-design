@@ -1,7 +1,6 @@
-import {designComponent} from 'plain-design-composition'
+import {designComponent, watch} from 'plain-design-composition'
 import React from 'react';
 import {reactive} from '@vue/reactivity';
-import {watch} from '@vue/runtime-core'
 import {Router} from "./navigator.utils";
 
 export const AppNavigator = designComponent({

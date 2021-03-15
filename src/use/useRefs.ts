@@ -1,4 +1,4 @@
-import {shallowReactive} from '@vue/runtime-core'
+import {shallowReactive} from "plain-design-composition"
 
 type RefValueType<V> = V extends { use: { ref: () => { current: infer Refer } } } ? Refer :
     V extends new (...args: any[]) => infer Refer ? Refer : V

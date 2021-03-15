@@ -1,9 +1,7 @@
-import {designComponent} from 'plain-design-composition'
+import {designComponent, ref, watch} from 'plain-design-composition'
 import './PlIcon.scss'
 import React, {ReactNode} from "react";
 import useClass from 'plain-design-composition/src/use/useClasses';
-import {ref} from '@vue/reactivity';
-import {watch} from '@vue/runtime-core'
 
 interface IconGetter {
     (icon: string): ReactNode | Promise<ReactNode>

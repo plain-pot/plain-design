@@ -1,7 +1,6 @@
-import {designComponent, useReference} from "plain-design-composition";
+import {designComponent, useReference, watch} from "plain-design-composition";
 import {PlainLoading} from "plain-loading";
 import {delay} from "plain-utils/utils/delay";
-import {watch} from '@vue/runtime-core'
 import React from "react";
 import useClass from "plain-design-composition/src/use/useClasses";
 import './PlLoading.scss'

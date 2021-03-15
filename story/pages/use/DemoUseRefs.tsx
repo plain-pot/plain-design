@@ -1,6 +1,5 @@
-import {reactive} from "@vue/runtime-core";
 import React from "react";
-import {designComponent, useModel, useReference} from "plain-design-composition";
+import {designComponent, reactive, useModel, useReference} from "plain-design-composition";
 import {useRefs} from "../../../src/use/useRefs";
 
 const Child = designComponent({

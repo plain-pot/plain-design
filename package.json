@@ -11,10 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",
+    "plain-design-composition": "0.0.21",
     "plain-loading": "^0.1.5",
     "plain-utils": "^0.1.17",
-    "react-transition-group": "^4.4.1",
-    "plain-design-composition": "0.0.20"
+    "react-transition-group": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
