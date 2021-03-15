@@ -1,6 +1,6 @@
 import {designComponent, useModel} from "plain-design-composition";
 import React from "react";
-import {reactive} from "vue";
+import {reactive} from "@vue/reactivity";
 
 const DemoUseModelComponent = designComponent({
     props: {

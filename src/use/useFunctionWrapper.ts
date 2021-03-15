@@ -1,8 +1,7 @@
-import {ComponentInternalInstance} from 'vue'
 import {getCurrentDesignInstance} from 'plain-design-composition'
 
 export function useFunctionWrapper<P extends any[],
-    T extends (ctx: ComponentInternalInstance, ...args: P) => any>(
+    T extends (ctx: any, ...args: P) => any>(
     key: string,
     func: T,
 ): (...args: P) => ReturnType<T> {

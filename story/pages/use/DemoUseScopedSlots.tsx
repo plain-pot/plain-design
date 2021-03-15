@@ -1,6 +1,6 @@
 import {designComponent} from 'plain-design-composition'
 import React from 'react'
-import {computed, reactive} from 'vue'
+import {computed, reactive} from '@vue/reactivity'
 import './DemoUseScopedSlots.scss'
 import useClass from "plain-design-composition/src/use/useClasses";
 import {delay} from "plain-utils/utils/delay";
