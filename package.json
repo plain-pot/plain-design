@@ -13,7 +13,8 @@
     "@types/react-transition-group": "^4.4.1",
     "plain-loading": "^0.1.5",
     "plain-utils": "^0.1.17",
-    "react-transition-group": "^4.4.1"
+    "react-transition-group": "^4.4.1",
+    "plain-design-composition": "0.0.20"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
@@ -33,7 +34,6 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^4.5.2",
-    "plain-design-composition": "0.0.18",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
     "react": "^17.0.1",
