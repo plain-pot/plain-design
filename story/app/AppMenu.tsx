@@ -1,6 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
 import {Menu} from "./menu.utils";
+import {PlIcon} from "../../src/packages/PlIcon/PlIcon";
 
 export const AppMenu = designComponent({
     setup() {
@@ -13,6 +14,12 @@ export const AppMenu = designComponent({
                     {group.children.map(menu => (
                         <div className="app-menu-item" key={`item_${menu.page}`} onClick={() => Menu.openMenu(menu)}>
                             <span>{menu.name}</span>
+
+                            {!!menu.complete && (
+                                <div className="app-menu-item-is-done">
+                                    <PlIcon icon="el-icon-star-on"/>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </React.Fragment>)}

@@ -56,6 +56,16 @@ html, body {
         line-height: 20px;
         transition: color .2s;
         cursor: pointer;
+        position: relative;
+
+        .app-menu-item-is-done {
+            top: 0;
+            bottom: 0;
+            color: #ff7400;
+            position: absolute;
+            right: 16px;
+            line-height: 40px;
+        }
     }
 }
 
