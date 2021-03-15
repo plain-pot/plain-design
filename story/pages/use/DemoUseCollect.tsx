@@ -33,7 +33,6 @@ export const DemoUseCollectChildComponent = designComponent({
                 if (!!parent) {
                     parent.handler.clickItem(props.val!)
                 } else {
-                    console.log(props)
                     modelValue.value = isChecked.value ? props.falseValue : props.trueValue
                 }
             }
