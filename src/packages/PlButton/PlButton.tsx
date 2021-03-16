@@ -10,6 +10,7 @@ import useClass from "plain-design-composition/src/use/useClasses";
 import {PlLoading} from "../PlLoading/PlLoading";
 import {PlIcon} from "../PlIcon/PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
+import {ButtonModeProvider} from "../PlButtonGroup/PlButtonGroup";
 
 console.log('load button component')
 
@@ -43,10 +44,10 @@ export const PlButton = designComponent({
 
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const {editState, editComputed} = useEdit()
-        // const buttonGroup = ButtonModeProvider.inject()
+        const buttonGroup = ButtonModeProvider.inject()
         const otherComputed = computed(() => ({
-            // mode: !!buttonGroup ? buttonGroup.value.mode : props.mode
-            mode: 'fill',
+            mode: !!buttonGroup ? buttonGroup.value.mode : props.mode
+            // mode: 'fill',
         }))
         const state = reactive({
             handleClick: null as SimpleFunction | null,
