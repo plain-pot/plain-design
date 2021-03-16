@@ -31,7 +31,7 @@ const MenuData: MenuGroup[] = [
         name: '基础', children: [
             {name: 'Color', title: '颜色', page: '/normal/Color', complete: false},
             {name: 'Icon', title: '图标', page: '/normal/DemoIcon', complete: true},
-            {name: 'Button', title: '按钮', page: '/normal/Button', complete: false},
+            {name: 'Button', title: '按钮', page: '/normal/DemoButton', complete: true},
             {name: 'Grid', title: '栅格', page: '/normal/Grid', complete: false},
         ]
     },
