@@ -15,6 +15,19 @@ interface MenuGroup {
 
 const MenuData: MenuGroup[] = [
     {
+        name: '测试', children: [
+            {name: 'Test', title: '测试手动渲染实例', page: '/test/TestGroupTransition', complete: true},
+            /*{name: 'Drag', title: '测试拖拽节点', page: '/test/test-drag', complete: false},
+            {name: 'Svg', title: '测试svg', page: '/test/test-svg', complete: false},
+            {name: 'Canvas', title: '测试canvas', page: '/test/test-canvas', complete: false},
+            {name: 'High', title: '测试高阶组件', page: '/test/test-high', complete: false},
+            {name: 'Listener', title: '测试事件', page: '/test/test-listener', complete: false},
+            {name: 'Filter', title: '异步过滤器', page: '/test/test-filter', complete: false},
+            {name: 'List Draggier', title: '列表拖拽排序', page: '/test/test-list-draggier', complete: false},
+            {name: '传递属性给根节点组件热更新报错', title: '列表拖拽排序', page: '/test/test-pass-attrs-hot-reload/test-pass-attrs-hot-reload', complete: false},*/
+        ]
+    },
+    {
         name: '组合函数', children: [
             {name: 'useSlots', page: '/use/DemoUseSlots', complete: true},
             {name: 'useScopedSlots', page: '/use/DemoUseScopedSlots', complete: true},
@@ -144,19 +157,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Sticky', title: '粘粘组件', page: '/sticky-table/demo-sticky', complete: false},
         ]
     },
-    {
-        name: '测试', children: [
-            {name: 'Test', title: '测试手动渲染实例', page: '/test/test', complete: false},
-            {name: 'Drag', title: '测试拖拽节点', page: '/test/test-drag', complete: false},
-            {name: 'Svg', title: '测试svg', page: '/test/test-svg', complete: false},
-            {name: 'Canvas', title: '测试canvas', page: '/test/test-canvas', complete: false},
-            {name: 'High', title: '测试高阶组件', page: '/test/test-high', complete: false},
-            {name: 'Listener', title: '测试事件', page: '/test/test-listener', complete: false},
-            {name: 'Filter', title: '异步过滤器', page: '/test/test-filter', complete: false},
-            {name: 'List Draggier', title: '列表拖拽排序', page: '/test/test-list-draggier', complete: false},
-            {name: '传递属性给根节点组件热更新报错', title: '列表拖拽排序', page: '/test/test-pass-attrs-hot-reload/test-pass-attrs-hot-reload', complete: false},
-        ]
-    },*/
+    */
 
 ]
 
