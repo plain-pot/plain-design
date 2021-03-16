@@ -5,3 +5,9 @@ export const StoryStatus = [
     {label: '失败', status: 'error' as 'error'},
     {label: '帮助', status: 'info' as 'info'},
 ]
+
+export const Modes = [
+    'fill',
+    'stroke',
+    'text',
+]

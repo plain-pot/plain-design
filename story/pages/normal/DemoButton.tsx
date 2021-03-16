@@ -2,7 +2,7 @@ import {designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton/PlButton";
-import {StoryStatus} from "../../story.utils";
+import {Modes, StoryStatus} from "../../story.utils";
 
 export default designComponent({
     setup() {
@@ -23,6 +23,13 @@ export default designComponent({
                     </DemoRow>
                     <DemoRow title={'状态'}>
                         {StoryStatus.map(item => <PlButton status={item.status} key={item.status} label={item.label}/>)}
+                    </DemoRow>
+                    <DemoRow title={'模式'}>
+                        {Modes.map(mode => (
+                            <div key={mode}>
+                                {StoryStatus.map(item => <PlButton mode={mode} status={item.status} key={item.status} label={item.label}/>)}
+                            </div>
+                        ))}
                     </DemoRow>
                 </div>
             )
