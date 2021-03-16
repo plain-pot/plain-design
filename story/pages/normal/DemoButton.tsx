@@ -3,14 +3,28 @@ import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton/PlButton";
 import {Modes, StoryShapes, StorySizes, StoryStatus} from "../../story.utils";
+import {delay} from "plain-utils/utils/delay";
+import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
 
 export default designComponent({
     setup() {
-
         const state = reactive({
             show: true,
             loadingFlag: true,
         })
+
+        const handler = {
+            asyncHandler: async () => {
+                console.log('async task start')
+                await delay(3000)
+                if (Math.random() > 0.5) {
+                    console.error('async task error')
+                    throw new Error('异步任务出错')
+                } else {
+                    console.log('async task end')
+                }
+            },
+        }
 
         return {
             render: () => (
@@ -73,6 +87,103 @@ export default designComponent({
                     <DemoRow title={'click节流'}>
                         <PlButton label="1000ms" onClick={() => console.log(String(Date.now()))} throttleClick/>
                         <PlButton label="500ms" onClick={() => console.log(String(Date.now()))} throttleClick={500}/>
+                    </DemoRow>
+
+                    <DemoRow title={'自动处理loading状态(当异步任务开始时开启loading，结束时关闭loading)'}>
+                        <PlButton label="异步任务" asyncHandler={handler.asyncHandler}/>
+                    </DemoRow>
+
+                    <DemoRow title={'按钮组（基本用法）'}>
+                        <PlButtonGroup>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                    </DemoRow>
+                    <DemoRow title={'按钮组（模式）'}>
+                        <PlButtonGroup mode={'fill'}>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                        <PlButtonGroup mode={'stroke'}>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                        <PlButtonGroup mode={'text'}>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                    </DemoRow>
+
+                    <DemoRow title={'按钮组（继承属性）'}>
+                        <DemoRow title={'大小'}>
+                            <PlButtonGroup size={'large'}>
+                                <PlButton label={'奶油'}/>
+                                <PlButton label={'蛋糕'}/>
+                                <PlButton label={'大福'}/>
+                            </PlButtonGroup>
+                            <PlButtonGroup size={'normal'}>
+                                <PlButton label={'奶油'}/>
+                                <PlButton label={'蛋糕'}/>
+                                <PlButton label={'大福'}/>
+                            </PlButtonGroup>
+                            <PlButtonGroup size={'mini'}>
+                                <PlButton label={'奶油'}/>
+                                <PlButton label={'蛋糕'}/>
+                                <PlButton label={'大福'}/>
+                            </PlButtonGroup>
+                        </DemoRow>
+                        <DemoRow title={'形状'}>
+                            <PlButtonGroup shape={'fillet'}>
+                                <PlButton label={'奶油'}/>
+                                <PlButton label={'蛋糕'}/>
+                                <PlButton label={'大福'}/>
+                            </PlButtonGroup>
+                            <PlButtonGroup shape={'round'}>
+                                <PlButton label={'奶油'}/>
+                                <PlButton label={'蛋糕'}/>
+                                <PlButton label={'大福'}/>
+                            </PlButtonGroup>
+                            <PlButtonGroup shape={'square'}>
+                                <PlButton label={'奶油'}/>
+                                <PlButton label={'蛋糕'}/>
+                                <PlButton label={'大福'}/>
+                            </PlButtonGroup>
+                        </DemoRow>
+                    </DemoRow>
+
+                    <DemoRow title={'按钮组方向'}>
+                        <PlButtonGroup vertical>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                        <PlButtonGroup vertical mode={'stroke'}>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                        <PlButtonGroup vertical mode={'text'}>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                    </DemoRow>
+
+                    <DemoRow title={'按钮组禁用与只读'}>
+                        <PlButtonGroup disabled>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
+                        <PlButtonGroup readonly>
+                            <PlButton label={'奶油'}/>
+                            <PlButton label={'蛋糕'}/>
+                            <PlButton label={'大福'}/>
+                        </PlButtonGroup>
                     </DemoRow>
                 </div>
             )
