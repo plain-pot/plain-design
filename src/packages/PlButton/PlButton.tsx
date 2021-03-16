@@ -11,6 +11,8 @@ import {PlLoading} from "../PlLoading/PlLoading";
 import {PlIcon} from "../PlIcon/PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {ButtonModeProvider} from "../PlButtonGroup/PlButtonGroup";
+import {useClickWave} from "../../directives/ClickWave";
+import {useRefs} from "../../use/useRefs";
 
 console.log('load button component')
 
@@ -40,6 +42,9 @@ export const PlButton = designComponent({
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
 
+        const {refs, onRef} = useRefs({
+            button: HTMLButtonElement,
+        })
         const {numberState} = useNumber(props, ['width'])
 
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
@@ -110,10 +115,13 @@ export const PlButton = designComponent({
             style.width = unit(numberState.width)
         })
 
+        useClickWave({elGetter: () => refs.button, optionsGetter: () => 'large',})
+
         return {
             render: () => {
                 return (
                     <button
+                        ref={onRef.button}
                         style={styles.value}
                         className={classes.value}
                         type={props.type as any}
