@@ -1,6 +1,5 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, reactive} from "plain-design-composition";
 import React from "react";
-import {reactive} from "@vue/reactivity";
 import useClass from "plain-design-composition/src/use/useClasses";
 import './DemoUseSlots.scss'
 

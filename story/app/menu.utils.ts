@@ -1,4 +1,4 @@
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {Router} from "./navigator.utils";
 
 export interface Menu {

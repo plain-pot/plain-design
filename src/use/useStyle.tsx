@@ -1,6 +1,5 @@
-import {inject, provide} from "plain-design-composition";
+import {computed, inject, provide} from "plain-design-composition";
 import {PropType} from "plain-design-composition/src/composition/prop-type";
-import {computed} from "@vue/reactivity";
 import {useFunctionWrapper} from "./useFunctionWrapper";
 
 export enum StyleMode {
