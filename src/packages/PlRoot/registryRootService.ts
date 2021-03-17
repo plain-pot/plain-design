@@ -8,7 +8,7 @@ import {getCurrentDesignInstance} from "plain-design-composition";
 
 export function createUseService<_,
     ManagerComponent extends { use: { class: any } },
-    CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>, ctx: any) => any>(
+    CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>) => any>(
     {
         name,
         managerComponent,
@@ -26,7 +26,7 @@ export function createUseService<_,
         const ctx = getCurrentDesignInstance()
         let service = map.get(root)
         if (!!service) { return service}
-        service = createService(async () => root.getManagerInstance(name, managerComponent), ctx)
+        service = createService(async () => root.getManagerInstance(name, managerComponent))
         map.set(root, service!)
         return service!
     }
