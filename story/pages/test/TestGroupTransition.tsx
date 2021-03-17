@@ -1,7 +1,6 @@
 import {designComponent, onBeforeUpdate, onUpdated, reactive} from "plain-design-composition";
 import React from "react";
 import './TestGroupTransition.scss'
-import {createEventListener} from "../../../src/utils/createEventListener";
 import {useRefs} from "../../../src/use/useRefs";
 import {PlButton} from "../../../src/packages/PlButton/PlButton";
 
@@ -47,6 +46,7 @@ const Item = designComponent({
 export default designComponent({
     setup() {
 
+        let count = 0;
         const state = reactive({
             data: [
                 '上海',
@@ -69,7 +69,7 @@ export default designComponent({
                         <Item key={item}>
                             <div className={'test-item'}>
                                 <span>{item}</span>
-                                <PlButton label={'add'} onClick={() => state.data.splice(index, 0, item + item)}/>
+                                <PlButton label={'add'} onClick={() => state.data.splice(index, 0, item + (count++))}/>
                                 <PlButton label={'remove'} onClick={() => state.data.splice(index, 1)}/>
                             </div>
                         </Item>

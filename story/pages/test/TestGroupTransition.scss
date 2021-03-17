@@ -12,3 +12,15 @@
         margin-right: 8px !important;
     }
 }
+
+.test-app {
+    position: relative;
+
+    &.app-to-end {
+        top: 100px;
+    }
+
+    &.animate-on-transforms {
+        transition: all 3s linear;
+    }
+}

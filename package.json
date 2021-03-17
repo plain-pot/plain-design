@@ -13,8 +13,7 @@
     "@types/react-transition-group": "^4.4.1",
     "plain-design-composition": "0.0.31",
     "plain-loading": "^0.1.5",
-    "plain-utils": "^0.1.17",
-    "react-transition-group": "^4.4.1"
+    "plain-utils": "^0.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
@@ -38,6 +37,7 @@
     "postcss-loader": "^4.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-flip-move": "^3.0.4",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
