@@ -21,7 +21,7 @@ export const PlNoticeContainer = designComponent({
         const state = reactive({
             options: [] as NoticeServiceFormatOption[]
         })
-        const refs = useRefList<{ option: NoticeServiceFormatOption }>()
+        const refs = useRefList<{ props: { option: NoticeServiceFormatOption } }>()
         const styles = {padding: props.duration}
         const utils = {
             close: (i: number) => {
@@ -37,7 +37,7 @@ export const PlNoticeContainer = designComponent({
                     const messages = refs.filter(Boolean)
                     for (let i = 0; i < messages.length; i++) {
                         const message = messages[i];
-                        if (message.option === option) {
+                        if (message.props.option === option) {
                             return message
                         }
                     }
