@@ -13,7 +13,7 @@ export const useRefList: UseRefList = <T>(reactive?: boolean) => {
         return refs
     } else {
         const refs = [] as any
-        onBeforeUpdate(() => refs.value = [])
+        onBeforeUpdate(() => refs.splice(0, refs.length))
         return refs
     }
 }

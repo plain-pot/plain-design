@@ -80,7 +80,7 @@ export default designComponent({
             },
         }
 
-        const items = useRefList<{}>()
+        const items = useRefList<{ props: { data: any } }>()
 
         return () => (
             <div className={'demo-use-ref-list'}>
@@ -89,6 +89,7 @@ export default designComponent({
                         <PlButton onClick={() => handler.add(0)}>add</PlButton>
                         <PlButton onClick={() => handler.remove(0)}>remove</PlButton>
                         <PlButton onClick={() => state.cities = shuffle(state.cities)}>shuffle</PlButton>
+                        <PlButton onClick={() => console.log(items.map(i => i.props.data.name))} label={'log items'}/>
                     </PlButtonGroup>
                 </DemoRow>
                 <DemoRow>
@@ -99,6 +100,7 @@ export default designComponent({
                                     data={city}
                                     onAdd={() => handler.add(index)}
                                     onRemove={() => handler.remove(index)}
+                                    onRef={refer => items[index] = refer as any}
                                 />
                             )
                         )}
