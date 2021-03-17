@@ -48,7 +48,7 @@ export default designComponent({
             },
             render: () => (
                 <div className={classes.value} style={styles}>
-                    <PlList animation={'fade'}>
+                    <PlList animation={'accordionVertical'}>
                         {state.options.map((option, index) =>
                             <div className="pl-item" key={option.id}>
                                 <PlMessage
