@@ -8,8 +8,9 @@ export const PlList = designComponent({
     props: {
         easing: {type: String, default: 'cubic-bezier(0.23, 1, 0.32, 1)'},
         duration: {type: [String, Number], default: '300ms'},
-        enterAnimation: {type: String as PropType<FlipMove.AnimationProp>, default: 'accordionVertical'},
-        leaveAnimation: {type: String as PropType<FlipMove.AnimationProp>, default: 'accordionVertical'},
+        animation: {type: String as PropType<FlipMove.AnimationProp>, default: 'accordionVertical'},
+        enterAnimation: {type: String as PropType<FlipMove.AnimationProp>},
+        leaveAnimation: {type: String as PropType<FlipMove.AnimationProp>},
         onStart: {type: Function as PropType<(childElement: ReactElement<any>, domNode: HTMLElement) => void>},
         onFinish: {type: Function as PropType<(childElement: ReactElement<any>, domNode: HTMLElement) => void>},
         onStartAll: {type: Function as PropType<(childElements: Array<ReactElement<any>>, domNodes: Array<HTMLElement>) => void>},
@@ -24,8 +25,8 @@ export const PlList = designComponent({
                     typeName={null}
                     easing={props.easing}
                     duration={props.duration}
-                    enterAnimation={props.enterAnimation}
-                    leaveAnimation={props.leaveAnimation}
+                    enterAnimation={props.enterAnimation || props.animation}
+                    leaveAnimation={props.leaveAnimation || props.animation}
                     onStart={props.onStart}
                     onFinish={props.onFinish}
                     onStartAll={props.onStartAll}

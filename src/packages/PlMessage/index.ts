@@ -86,7 +86,7 @@ export type MessageService = MessageServiceFunction & {
     [k in MessageServiceStatus]: MessageServiceFunction
 }
 
-const useMessage = createUseService({
+export const useMessage = createUseService({
     name: 'message-service',
     managerComponent: PlMessageManager,
     createService: (getManager) => {

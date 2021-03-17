@@ -48,14 +48,15 @@ export default designComponent({
             },
             render: () => (
                 <div className={classes.value} style={styles}>
-                    <PlList>
+                    <PlList animation={'fade'}>
                         {state.options.map((option, index) =>
-                            <PlMessage
-                                key={option.id}
-                                option={option}
-                                onRef={(proxy: any) => refs[index] = proxy}
-                                onClose={() => utils.closeMessage(index)}
-                            />
+                            <div className="pl-item" key={option.id}>
+                                <PlMessage
+                                    option={option}
+                                    onRef={(proxy: any) => refs[index] = proxy}
+                                    onClose={() => utils.closeMessage(index)}
+                                />
+                            </div>
                         )}
                     </PlList>
                 </div>

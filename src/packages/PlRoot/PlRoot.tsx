@@ -8,6 +8,7 @@ import {useRefList} from "../../use/useRefList";
 export const PlRoot = designComponent({
     name: 'pl-root',
     slots: ['default'],
+    provideRefer: true,
     props: {
         ...StyleProps,
     },
@@ -39,7 +40,7 @@ export const PlRoot = designComponent({
                 for (let i = 0; i < refs.length; i++) {
                     const managerInstance = refs[i];
                     if (!!managerInstance) {
-                        const {name: attrName, Component: attrComponent} = managerInstance.$attrs
+                        const {name: attrName, Component: attrComponent} = managerInstance.props
                         if (name === attrName && managerComponent === attrComponent) {
                             return managerInstance as any
                         }
