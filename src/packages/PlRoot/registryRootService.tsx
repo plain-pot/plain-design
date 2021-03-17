@@ -9,7 +9,7 @@ import React from "react";
 import {addClass} from "plain-utils/dom/addClass";
 
 export function createUseService<_,
-    ManagerComponent extends { use: { class: any } },
+    ManagerComponent extends { use: { class: { props: { name: any, Component: any } } } },
     CreateService extends (getManager: () => Promise<ManagerComponent["use"]["class"]>) => any>(
     {
         name,
