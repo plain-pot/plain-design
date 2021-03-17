@@ -1,4 +1,4 @@
-import {designComponent, reactive} from "plain-design-composition";
+import {designClassComponent, designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
@@ -9,16 +9,6 @@ import {PlItem} from "../../../src/packages/PlItem/PlItem";
 import {useRefList} from "../../../src/use/useRefList";
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 import './DemoUseRefList.scss'
-
-const designClassComponent: typeof designComponent = (option) => {
-    const SFC = designComponent(option)
-    const Cls = class extends React.Component<any, any> {
-        render() {
-            return <SFC {...this.props as any}/>
-        }
-    }
-    return Cls as any
-}
 
 const Item = designClassComponent({
     props: {
