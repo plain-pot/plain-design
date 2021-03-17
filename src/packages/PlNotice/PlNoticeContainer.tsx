@@ -49,9 +49,10 @@ export const PlNoticeContainer = designComponent({
                     <PlList>
                         {state.options.map((option, index) =>
                             <div className={"pl-item"} key={option.id}>
-                                <PlNotice option={option}
-                                          onRef={(proxy: any) => refs[index] = proxy}
-                                          onClose={() => utils.close(index)}
+                                <PlNotice
+                                    option={option}
+                                    onRef={(proxy: any) => refs[index] = proxy}
+                                    onClose={() => utils.close(index)}
                                 />
                             </div>
                         )}

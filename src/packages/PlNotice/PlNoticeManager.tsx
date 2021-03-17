@@ -6,7 +6,11 @@ import React from "react";
 
 export const PlNoticeManager = designComponent({
     name: 'pl-notice-manager',
-    setup() {
+    props: {
+        name: {required: true},
+        Component: {required: true},
+    },
+    setup({props}) {
 
         const state = reactive({
             containers: [
@@ -34,11 +38,13 @@ export const PlNoticeManager = designComponent({
             refer: {
                 name: 'I am notice controller',
                 getContainer,
+                props,
             },
             render: () => (
                 <div className="pl-notice-manager">
                     {state.containers.map((container, index) =>
                         <PlNoticeContainer
+                            key={index}
                             horizontal={container.horizontal}
                             vertical={container.vertical}
                             onRef={(proxy: any) => refs[index] = proxy}/>)}

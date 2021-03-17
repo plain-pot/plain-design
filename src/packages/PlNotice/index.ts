@@ -62,7 +62,7 @@ export interface NoticeServiceFunction {
 
 export type NoticeService = NoticeServiceFunction & { [k in 'primary' | 'success' | 'warn' | 'error' | 'info']: NoticeServiceFunction }
 
-const useNotice = createUseService({
+export const useNotice = createUseService({
     name: 'notice-service',
     managerComponent: PlNoticeManager,
     createService(getManager) {

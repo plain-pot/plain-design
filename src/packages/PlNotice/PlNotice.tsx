@@ -5,6 +5,7 @@ import {NoticeServiceFormatOption} from "./index";
 import React from "react";
 import {PlIcon} from "../PlIcon/PlIcon";
 import {PlButton} from "../PlButton/PlButton";
+import './PlNotice.scss'
 
 export default designComponent({
     name: 'pl-notice',
