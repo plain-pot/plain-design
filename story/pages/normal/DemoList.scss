@@ -1,5 +1,9 @@
 @include theme {
     .demo-list {
+        .pl-item {
+            display: inline-block;
+        }
+
         .test-item {
             position: relative;
             height: 120px;

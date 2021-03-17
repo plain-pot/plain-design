@@ -6,6 +6,7 @@ import {PlButton} from "../../../src/packages/PlButton/PlButton";
 import {PlList} from "../../../src/packages/PlList/PlList";
 import './DemoList.scss'
 import {shuffle} from "plain-utils/object/shuffle";
+import {PlItem} from "../../../src/packages/PlItem/PlItem";
 
 export default designComponent({
     setup() {
@@ -63,17 +64,19 @@ export default designComponent({
                 <DemoRow>
                     <PlList enterAnimation={state.animations} leaveAnimation={state.animations}>
                         {state.cities.map((city, index) => (
-                            <div className={"test-item"} key={city.name}>
-                                <span>{city.name}</span>
-                                <div style={{position: 'absolute', right: '8px', bottom: '8px'}}>
-                                    <PlButton label={'add'} status={'success'} size={'mini'} style={{marginRight: '8px'}}
-                                              onClick={() => handler.add(index)}
-                                    />
-                                    <PlButton label={'remove'} status={'success'} size={'mini'}
-                                              onClick={() => handler.remove(index)}
-                                    />
+                            <PlItem key={city.name}>
+                                <div className={"test-item"} key={city.name}>
+                                    <span>{city.name}</span>
+                                    <div style={{position: 'absolute', right: '8px', bottom: '8px'}}>
+                                        <PlButton label={'add'} status={'success'} size={'mini'} style={{marginRight: '8px'}}
+                                                  onClick={() => handler.add(index)}
+                                        />
+                                        <PlButton label={'remove'} status={'success'} size={'mini'}
+                                                  onClick={() => handler.remove(index)}
+                                        />
+                                    </div>
                                 </div>
-                            </div>)
+                            </PlItem>)
                         )}
                     </PlList>
                 </DemoRow>
