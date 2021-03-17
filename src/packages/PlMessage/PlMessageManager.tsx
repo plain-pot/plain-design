@@ -8,8 +8,8 @@ import React from "react";
 export const PlMessageManager = designComponent({
     name: 'pl-message-manager',
     props: {
-        name: {},
-        Component: {},
+        name: {required: true},
+        Component: {required: true},
     },
     setup({props}) {
 
