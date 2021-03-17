@@ -15,7 +15,7 @@ export interface NoticeServiceOption {
     title?: string | null,                              // 标题
     message?: string,                                   // 通知消息
     time?: number | null,                               // 停留时间
-    status?: StyleStatus,                               // 状态
+    status?: StyleStatus | null,                        // 状态
     icon?: string,                                      // 显示图标
     noClose?: boolean,                                  // 不显示关闭按钮
     renderHead?: () => ReactNode,                       // 自定义头部内容
@@ -57,7 +57,7 @@ const formatOption = (() => {
 })()
 
 export interface NoticeServiceFunction {
-    (message: string | NoticeServiceOption, option?: NoticeServiceOption): void
+    (message: string | NoticeServiceOption, option?: NoticeServiceOption): NoticeServiceFormatOption
 }
 
 export type NoticeService = NoticeServiceFunction & { [k in 'primary' | 'success' | 'warn' | 'error' | 'info']: NoticeServiceFunction }
