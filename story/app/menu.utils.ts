@@ -35,6 +35,7 @@ const MenuData: MenuGroup[] = [
             {name: 'useStyles', page: '/use/DemoUseStyles', complete: true},
             {name: 'useStyle', page: '/use/DemoUseStyle', complete: true},
             {name: 'useRefs', page: '/use/DemoUseRefs', complete: true},
+            {name: 'useRefList', page: '/use/DemoUseRefList', complete: true},
             {name: 'useEvent', page: '/use/DemoUseEvent', complete: true},
             // {name: 'useProps', page: '/use/useProps', complete: false},
             {name: 'useCollect', page: '/use/DemoUseCollect', complete: true},
