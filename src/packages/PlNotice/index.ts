@@ -3,6 +3,8 @@ import {SimpleFunction} from "plain-design-composition/src/composition/event";
 import {RequireFormat} from "../../shims";
 import {ReactNode} from "react";
 import {STATUS} from "../../utils/constant";
+import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
+import {PlNoticeManager} from "./PlNoticeManager";
 
 export enum NoticeServiceDirection {
     start = 'start',
@@ -59,3 +61,41 @@ export interface NoticeServiceFunction {
 }
 
 export type NoticeService = NoticeServiceFunction & { [k in 'primary' | 'success' | 'warn' | 'error' | 'info']: NoticeServiceFunction }
+
+const useNotice = createUseService({
+    name: 'notice-service',
+    managerComponent: PlNoticeManager,
+    createService(getManager) {
+        const service: NoticeServiceFunction = (message: string | NoticeServiceOption, option?: NoticeServiceOption): NoticeServiceFormatOption => {
+            let o = typeof message === "object" ? message : {message}
+            if (!!option) {
+                Object.assign(o, option)
+            }
+            const fo = formatOption(o);
+            getManager().then(manager => manager.getContainer(fo).then(container => container.getNotice(fo)))
+            return fo
+        };
+
+        return Object.assign(service, [
+            'lite',
+            'dark',
+            'primary',
+            'success',
+            'warn',
+            'error',
+            'info',
+        ].reduce((prev: any, status: any) => {
+            prev[status] = function (message: string | NoticeServiceOption, option?: NoticeServiceOption) {
+                const o = typeof message === "object" ? message : {message}
+                if (!!option) {
+                    Object.assign(o, option)
+                }
+                o.status = status
+                return service(o)
+            }
+            return prev
+        }, {})) as NoticeService
+    },
+})
+
+export const $$notice = createServiceWithoutContext(useNotice)
