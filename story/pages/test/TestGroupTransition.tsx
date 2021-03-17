@@ -1,12 +1,31 @@
-import {designComponent, reactive} from "plain-design-composition";
+import {designComponent, onBeforeUpdate, onUpdated, reactive} from "plain-design-composition";
 import React from "react";
+import './TestGroupTransition.scss'
+import {createEventListener} from "../../../src/utils/createEventListener";
+import {useRefs} from "../../../src/use/useRefs";
 
 
 const List = designComponent({
     slots: ['default'],
     setup({slots}) {
+
+        const {refs, onRef} = useRefs({
+            el: HTMLDivElement,
+        })
+
+        onBeforeUpdate(() => {
+            if (!refs.el) return
+            console.log('before update')
+            console.log(refs.el!.childNodes)
+        })
+
+        onUpdated(() => {
+            console.log('update')
+            console.log(refs.el!.childNodes)
+        })
+
         return () => (
-            <div>
+            <div ref={onRef.el}>
                 {slots.default()}
             </div>
         )
@@ -45,8 +64,10 @@ export default designComponent({
             <div>
                 <h1>测试队列动画</h1>
                 <List>
-                    {state.data.map(item => (
-                        <Item key={item}>
+                    {state.data.map((item, index) => (
+                        <Item key={item} className={"test-item"} {...createEventListener({
+                            onClick: () => state.data.splice(index, 1)
+                        })}>
                             {item}
                         </Item>
                     ))}
