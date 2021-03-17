@@ -3,6 +3,7 @@ import React from "react";
 import './TestGroupTransition.scss'
 import {createEventListener} from "../../../src/utils/createEventListener";
 import {useRefs} from "../../../src/use/useRefs";
+import {PlButton} from "../../../src/packages/PlButton/PlButton";
 
 
 const List = designComponent({
@@ -63,12 +64,14 @@ export default designComponent({
         return () => (
             <div>
                 <h1>测试队列动画</h1>
-                <List>
+                <List style={{width: '800px'}}>
                     {state.data.map((item, index) => (
-                        <Item key={item} className={"test-item"} {...createEventListener({
-                            onClick: () => state.data.splice(index, 1)
-                        })}>
-                            {item}
+                        <Item key={item}>
+                            <div className={'test-item'}>
+                                <span>{item}</span>
+                                <PlButton label={'add'} onClick={() => state.data.splice(index, 0, item + item)}/>
+                                <PlButton label={'remove'} onClick={() => state.data.splice(index, 1)}/>
+                            </div>
                         </Item>
                     ))}
                 </List>
