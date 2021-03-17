@@ -4,6 +4,7 @@ import './TestGroupTransition.scss'
 import {useRefs} from "../../../src/use/useRefs";
 import {PlButton} from "../../../src/packages/PlButton/PlButton";
 import FlipMove from "react-flip-move";
+import {shuffle} from 'plain-utils/object/shuffle'
 
 
 const List = designComponent({
@@ -65,17 +66,16 @@ export default designComponent({
         return () => (
             <div>
                 <h1>测试队列动画</h1>
-                <FlipMove typeName={'div'} className={"test-move"}>
-                    {state.data.map((item, index) => (
-                        <Item key={item}>
-                            <div className={'test-item'}>
-                                <span>{item}</span>
-                                <PlButton label={'add'} onClick={() => state.data.splice(index, 0, item + (count++))}/>
-                                <PlButton label={'remove'} onClick={() => state.data.splice(index, 1)}/>
-                            </div>
-                        </Item>
-                    ))}
-                </FlipMove>
+                <PlButton label={'打乱数组'} onClick={() => state.data = shuffle(state.data)}/>
+                <FlipMove typeName={'div'} className={"test-move"} {...{
+                    children: state.data.map((item, index) => (
+                        <div className={'test-item'} key={item}>
+                            <span>{item}</span>
+                            <PlButton label={'add'} onClick={() => state.data.splice(index, 0, item + (count++))}/>
+                            <PlButton label={'remove'} onClick={() => state.data.splice(index, 1)}/>
+                        </div>
+                    ))
+                } as any}/>
             </div>
         )
     },
