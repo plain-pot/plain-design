@@ -1,4 +1,4 @@
-import {reactive, designComponent, useRefList} from "plain-design-composition"
+import {designComponent, reactive, useRefList} from "plain-design-composition"
 import useClass from "plain-design-composition/src/use/useClasses";
 import {MessageServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
@@ -21,7 +21,7 @@ export default designComponent({
         const state = reactive({
             options: [] as MessageServiceFormatOption[]
         })
-        const refs = useRefList<{ option: MessageServiceFormatOption }>()
+        const refs = useRefList<{ props: { option: MessageServiceFormatOption } }>()
         const styles = {padding: props.duration}
 
         const utils = {
@@ -39,7 +39,7 @@ export default designComponent({
                     const messages = refs.filter(Boolean)
                     for (let i = 0; i < messages.length; i++) {
                         const message = messages[i];
-                        if (message.option === option) {
+                        if (message.props.option === option) {
                             return message
                         }
                     }

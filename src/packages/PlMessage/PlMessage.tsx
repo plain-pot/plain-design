@@ -51,6 +51,9 @@ export default designClassComponent({
         !!props.option.time && (closeTimer = setTimeout(close, props.option.time) as any)
 
         return {
+            refer: {
+                props,
+            },
             render: () => (
                 <div className={classes.value}
                      style={styles}
