@@ -74,7 +74,7 @@ const formatOption = (() => {
  * @date    2020/11/7 18:21
  */
 interface MessageServiceFunction {
-    (message: string | MessageServiceOption, option?: MessageServiceOption): void
+    (message: string | MessageServiceOption, option?: MessageServiceOption): MessageServiceFormatOption
 }
 
 /**
