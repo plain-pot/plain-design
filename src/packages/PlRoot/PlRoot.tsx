@@ -81,3 +81,5 @@ export const PlRoot = designComponent({
         }
     },
 })
+
+export type PlRootInstance = typeof PlRoot.use.class

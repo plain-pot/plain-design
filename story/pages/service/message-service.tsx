@@ -2,8 +2,12 @@ import {designComponent} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton/PlButton";
-import {MessageServiceDirection, useMessage} from "../../../src/packages/PlMessage";
+import {$$message, MessageServiceDirection, useMessage} from "../../../src/packages/PlMessage";
 import {reactive} from "@vue/reactivity";
+
+const showMessageWithoutContext = () => {
+    $$message('没有上下文的消息服务')
+}
 
 export default designComponent({
     setup() {
@@ -31,6 +35,9 @@ export default designComponent({
             <div>
                 <DemoRow title={'基本用法'}>
                     <PlButton label={'显示基本消息'} onClick={() => $message('hello world' + count++)}/>
+                </DemoRow>
+                <DemoRow title={'没有上下文的消息服务'}>
+                    <PlButton label={'没有上下文的消息服务'} onClick={showMessageWithoutContext}/>
                 </DemoRow>
                 <DemoRow title={'提示类型'}>
                     <PlButton onClick={() => $message.lite('提示信息！')} label="lite" style={{backgroundColor: 'white', border: 'solid 1px #ccc', color: '#333'}}/>

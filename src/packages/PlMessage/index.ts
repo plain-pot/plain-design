@@ -5,7 +5,7 @@
  */
 import {ReactNode} from "react";
 import {RequireFormat} from "../../shims";
-import {createUseService} from "../PlRoot/registryRootService";
+import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {PlMessageManager} from "./PlMessageManager";
 
 export enum MessageServiceDirection {
@@ -122,3 +122,5 @@ export const useMessage = createUseService({
         }, {})) as MessageService
     }
 })
+
+export const $$message = createServiceWithoutContext(useMessage)
