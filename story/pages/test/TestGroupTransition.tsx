@@ -3,6 +3,7 @@ import React from "react";
 import './TestGroupTransition.scss'
 import {useRefs} from "../../../src/use/useRefs";
 import {PlButton} from "../../../src/packages/PlButton/PlButton";
+import FlipMove from "react-flip-move";
 
 
 const List = designComponent({
@@ -64,7 +65,7 @@ export default designComponent({
         return () => (
             <div>
                 <h1>测试队列动画</h1>
-                <List style={{width: '800px'}}>
+                <FlipMove typeName={'div'} className={"test-move"}>
                     {state.data.map((item, index) => (
                         <Item key={item}>
                             <div className={'test-item'}>
@@ -74,7 +75,7 @@ export default designComponent({
                             </div>
                         </Item>
                     ))}
-                </List>
+                </FlipMove>
             </div>
         )
     },
