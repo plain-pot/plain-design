@@ -1,9 +1,8 @@
-import {designComponent, markRaw, reactive, ref} from "plain-design-composition"
+import {designComponent, markRaw, reactive} from "plain-design-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
 import {createPortal} from 'react-dom'
-import {RootController} from "./registryRootService";
 import {useRefList} from "../../use/useRefList";
 
 export const PlRoot = designComponent({
@@ -58,10 +57,8 @@ export const PlRoot = designComponent({
         }
 
         const refer = {
-            rootRef: () => refer,
             getManagerInstance,
         }
-        RootController.initRoot(refer)
 
         return {
             refer,
