@@ -1,8 +1,8 @@
 import {designComponent, onBeforeUnmount, onMounted, reactive} from "plain-design-composition"
 import React from "react"
 import {useRefs} from "../../../src/use/useRefs";
-import {createEventListener} from "../../../src/utils/createEventListener";
 import './DemoUseEvent.scss'
+import {createEventListener} from 'plain-design-composition/src/utils/createEventListener'
 
 export enum DemoUseEventTablePart {
     head = 'head',

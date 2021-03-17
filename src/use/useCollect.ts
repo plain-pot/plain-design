@@ -1,5 +1,5 @@
 import {ref, provide, inject, onMounted, onBeforeUnmount, markRaw, getCurrentDesignInstance} from 'plain-design-composition';
-import {createCounter} from "../utils/createCounter";
+import {createCounter} from 'plain-design-composition/src/utils/createCounter'
 
 type UseCollectComponent = { name?: string, use: { class: any } }
 type UseCollectSort = (() => HTMLElement) | number

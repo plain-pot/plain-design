@@ -1,8 +1,8 @@
 import React from "react";
-import {designComponent, reactive, useModel, useReference} from "plain-design-composition";
+import {designClassComponent, designComponent, reactive, useModel, useReference} from "plain-design-composition";
 import {useRefs} from "../../../src/use/useRefs";
 
-const Child = designComponent({
+const Child = designClassComponent({
     props: {
         name: {type: String},
         age: {type: Number},

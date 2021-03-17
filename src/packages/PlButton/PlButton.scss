@@ -55,12 +55,8 @@
             min-width: $min-width;
 
             @include statusMixin(button) {
-
                 background-color: $value;
-                background-image: linear-gradient(135deg, mix(white, $value, 40%) 0%, $value 100%);
-                box-shadow: 0 1px 9px mix(black, $value, 1%);
-                border: none;
-
+                border-color: $value;
                 color: white;
 
                 &:hover {
@@ -129,11 +125,9 @@
             cursor: not-allowed;
 
             &.pl-button-mode-fill, &.pl-button-mode-stroke {
-                border: solid 1px #d3d3d3 !important;
+                border-color: #d3d3d3 !important;
                 color: $disabledText !important;
                 background-color: $disabled !important;
-                background: none;
-                box-shadow: none;
             }
 
             &.pl-button-mode-text {
