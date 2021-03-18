@@ -30,11 +30,11 @@ export default designComponent({
             render: () => (
                 <div>
                     <DemoRow title={"基本用法"}>
-                        <button onClick={() => state.show = !state.show}>show button:{state.show}</button>
                         {!!state.show && <>
                             <PlButton label={"按钮"}/>
                             <span>普通文本</span>
                         </>}
+                        <button onClick={() => state.show = !state.show}>show button:{state.show}</button>
                     </DemoRow>
                     <DemoRow title={'状态'}>
                         {StoryStatus.map(item => <PlButton status={item.status} key={item.status} label={item.label}/>)}
