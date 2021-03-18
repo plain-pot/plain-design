@@ -23,7 +23,7 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'预定义内置的动画'}>
                 <div>
-                    <PlButton label={'toggle scale'} onClick={() => state.show = !state.show}/>
+                    <PlButton label={'scale'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
                     <PlTransition name={'pl-transition-scale'}>
                         {state.show ? (
@@ -35,7 +35,7 @@ export default designPage(() => {
                 </div>
                 <br/>
                 <div>
-                    <PlButton label={'toggle scale-y'} onClick={() => state.show = !state.show}/>
+                    <PlButton label={'scale-y'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
                     <PlTransition name={'pl-transition-scale-y'}>
                         {state.show ? (
@@ -47,13 +47,37 @@ export default designPage(() => {
                 </div>
                 <br/>
                 <div>
-                    <PlButton label={'toggle fade'} onClick={() => state.show = !state.show}/>
+                    <PlButton label={'fade'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
                     <PlTransition name={'pl-transition-fade'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'}/>
                         ) : (
                             <PlButton label={'off'} status={'error'} key={'off'}/>
+                        )}
+                    </PlTransition>
+                </div>
+                <br/>
+                <div>
+                    <PlButton label={'slide prev (horizontal)'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-slide-prev'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'horizontal'} as any}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'} {...{direction: 'horizontal'} as any}/>
+                        )}
+                    </PlTransition>
+                </div>
+                <br/>
+                <div>
+                    <PlButton label={'slide next (horizontal)'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-slide-next'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'horizontal'} as any}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'} {...{direction: 'horizontal'} as any}/>
                         )}
                     </PlTransition>
                 </div>
