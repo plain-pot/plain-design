@@ -1,8 +1,8 @@
 import {designPage, reactive} from 'plain-design-composition'
 import React from 'react'
-import {PlButton} from "../../../src/packages";
 import './DemoTransition.scss'
 import PlTransition from "../../../src/packages/PlTransition";
+import {PlButton} from "../../../src";
 
 export default designPage(() => {
     const state = reactive({
