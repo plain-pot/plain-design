@@ -1,7 +1,7 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlButton} from "../../../src/packages/PlButton/PlButton";
+import {PlButton} from "../../../src/packages/PlButton";
 import {$$notice, NoticeServiceDirection, useNotice} from "../../../src/packages/PlNotice";
 import {StyleStatus} from "../../../src/use/useStyle";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";

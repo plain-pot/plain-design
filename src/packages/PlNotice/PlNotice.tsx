@@ -4,7 +4,7 @@ import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
 import {NoticeServiceFormatOption} from "./index";
 import React from "react";
 import {PlIcon} from "../PlIcon/PlIcon";
-import {PlButton} from "../PlButton/PlButton";
+import {PlButton} from "../PlButton";
 import './PlNotice.scss'
 
 export default designComponent({

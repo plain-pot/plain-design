@@ -2,7 +2,7 @@ import {designClassComponent, designComponent, reactive} from "plain-design-comp
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
-import {PlButton} from "../../../src/packages/PlButton/PlButton";
+import {PlButton} from "../../../src/packages/PlButton";
 import {shuffle} from "plain-utils/object/shuffle";
 import {PlList} from "../../../src/packages/PlList/PlList";
 import {PlItem} from "../../../src/packages/PlItem/PlItem";

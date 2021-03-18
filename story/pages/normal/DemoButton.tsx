@@ -1,7 +1,7 @@
 import {designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlButton} from "../../../src/packages/PlButton/PlButton";
+import {PlButton} from "../../../src/packages/PlButton";
 import {Modes, StoryShapes, StorySizes, StoryStatus} from "../../story.utils";
 import {delay} from "plain-utils/utils/delay";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";

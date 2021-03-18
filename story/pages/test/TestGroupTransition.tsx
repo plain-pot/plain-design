@@ -2,7 +2,7 @@ import {designComponent, onBeforeUpdate, onUpdated, reactive} from "plain-design
 import React from "react";
 import './TestGroupTransition.scss'
 import {useRefs} from "../../../src/use/useRefs";
-import {PlButton} from "../../../src/packages/PlButton/PlButton";
+import {PlButton} from "../../../src/packages/PlButton";
 import FlipMove from "react-flip-move";
 import {shuffle} from 'plain-utils/object/shuffle'
 

@@ -1,7 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlButton} from "../../../src/packages/PlButton/PlButton";
+import {PlButton} from "../../../src/packages/PlButton";
 import {$$message, MessageServiceDirection, useMessage} from "../../../src/packages/PlMessage";
 import {reactive} from "@vue/reactivity";
 
