@@ -4,6 +4,7 @@ import {delay} from "plain-utils/utils/delay";
 import React from "react";
 import {createPortal} from 'react-dom'
 import {useRefList} from "../../use/useRefList";
+import './PlRoot.scss'
 
 export const PlRoot = designComponent({
     name: 'pl-root',
