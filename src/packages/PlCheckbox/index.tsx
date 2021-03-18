@@ -12,6 +12,7 @@ import {CheckboxGroupCollector} from "../PlCheckboxGroup";
 import {useClickWave} from "../../directives/ClickWave";
 import {useRefs} from "../../use/useRefs";
 import './checkbox.scss'
+import {isis} from "../../utils/ifSlotIsString";
 
 export const PlCheckbox = designComponent({
     name: 'pl-checkbox',
@@ -127,11 +128,7 @@ export const PlCheckbox = designComponent({
                                     disabled={editComputed.value.disabled!}/>
                             </PlTransition>
                         </span>
-                        {(() => {
-                            const label = slots.label()
-                            if (!label) return null
-                            return typeof label === "string" ? <span className="pl-checkbox-label">{label}</span> : label
-                        })()}
+                        {isis(slots.label, label => <span className="pl-checkbox-label">{label}</span>)}
                     </div>
                 ))
         }
