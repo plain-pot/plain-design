@@ -24,8 +24,8 @@ export const PlRadio = designComponent({
         modelValue: {},                                             // 双向绑定值
         val: {type: [String, Number]},                              // 在group中的唯一标识
         width: {type: [String, Number]},                            // 宽度
-        trueValue: {default: true},                                 // 真值
-        falseValue: {default: false},                               // 假值
+        trueValue: {default: true as any},                          // 真值
+        falseValue: {default: false as any},                        // 假值
         checkStatus: {type: String as PropType<'check' | 'uncheck'>}, // 自定义选中状态
     },
     slots: ['label'],
