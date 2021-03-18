@@ -21,10 +21,9 @@ export const PlCheckbox = designComponent({
 
         modelValue: {},
         val: {type: [String, Number]},                              // 多选时选中值
-        label: {type: String},                                      // 显示文本
         width: {type: [String, Number]},                            // 宽度
-        trueValue: {default: true},                                 // 选中实际值
-        falseValue: {default: false},                               // 非选中值
+        trueValue: {default: true as any},                           // 选中实际值
+        falseValue: {default: false as any},                         // 非选中值
 
         checkboxForAll: {type: Boolean},                            // 是否为 checkbox 全选按钮
         checkStatus: {type: String},                                // checkbox 自定义状态
@@ -76,7 +75,7 @@ export const PlCheckbox = designComponent({
         /*当前选项宽度*/
         const targetWidth = computed(() => {
             if (!!numberState.width) return numberState.width
-            if (!!checkboxGroup && !!checkboxGroup.numberState.itemWidth) return checkboxGroup.numberState.itemWidth
+            if (!!checkboxGroup && !!checkboxGroup.props.itemWidth) return checkboxGroup.props.itemWidth
             return null
         })
 
@@ -128,7 +127,11 @@ export const PlCheckbox = designComponent({
                                     disabled={editComputed.value.disabled!}/>
                             </PlTransition>
                         </span>
-                        {slots.label(!!props.label ? <span className="pl-checkbox-label">{props.label}</span> : null)}
+                        {(() => {
+                            const label = slots.label()
+                            if (!label) return null
+                            return typeof label === "string" ? <span className="pl-checkbox-label">{label}</span> : label
+                        })()}
                     </div>
                 ))
         }

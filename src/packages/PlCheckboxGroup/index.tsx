@@ -30,7 +30,7 @@ export const PlCheckboxGroup = designComponent({
         /*样式控制*/
         useStyle({status: DEFAULT_STATUS})
         /*格式化属性*/
-        const {numberState} = useNumber(props, ['max', 'min', 'itemWidth'])
+        const {numberState} = useNumber(props, ['max', 'min'])
         /*绑定值*/
         const modelValue = useModel(() => props.modelValue, emit.onUpdateModelValue)
         /*子组件Checkbox*/
@@ -177,6 +177,7 @@ export const PlCheckboxGroup = designComponent({
                 utils,
                 handler,
                 numberState,
+                props,
             },
             render: () => !formItem ? slots.default() : (
                 <div className="pl-checkbox-group">
