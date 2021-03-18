@@ -1,7 +1,7 @@
 import {ref, provide, inject, onMounted, onBeforeUnmount, markRaw, getCurrentDesignInstance} from 'plain-design-composition';
 import {createCounter} from 'plain-design-composition/src/utils/createCounter'
 
-type UseCollectComponent = { name?: string, use: { class: any } }
+type UseCollectComponent = { options: { name?: string }, use: { class: any } }
 type UseCollectSort = (() => HTMLElement) | number
 
 const counter = createCounter('use_collector')
@@ -49,7 +49,7 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
 }) {
 
     const {parent} = config()
-    const parentName = parent.name || counter()
+    const parentName = parent.options.name || counter()
     const provideString = `@@Collector_${parentName}`
 
     return {

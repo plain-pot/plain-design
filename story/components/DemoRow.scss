@@ -12,6 +12,12 @@
             padding: 14px 24px;
             color: #000;
             font-weight: 700;
+
+            .pl-icon {
+                transform: rotate(90deg);
+                margin-left: 8px;
+                color: $icc;
+            }
         }
 
         .demo-row-content {
