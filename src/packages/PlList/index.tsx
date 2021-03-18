@@ -38,3 +38,5 @@ export const PlList = designComponent({
         )
     },
 })
+
+export default PlList

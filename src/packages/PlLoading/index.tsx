@@ -38,3 +38,5 @@ export const PlLoading = designComponent({
         },
     }
 )
+
+export default PlLoading

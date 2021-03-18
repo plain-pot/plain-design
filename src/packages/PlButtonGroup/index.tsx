@@ -61,3 +61,5 @@ export const PlButtonGroup = designComponent({
         }
     },
 })
+
+export default PlButtonGroup

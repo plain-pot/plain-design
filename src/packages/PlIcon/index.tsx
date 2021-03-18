@@ -85,3 +85,5 @@ export const PlIcon = designComponent({
         }
     },
 })
+
+export default PlIcon

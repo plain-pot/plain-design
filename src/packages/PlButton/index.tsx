@@ -144,3 +144,5 @@ export const PlButton = designComponent({
         }
     },
 })
+
+export default PlButton
