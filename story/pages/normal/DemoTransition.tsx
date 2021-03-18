@@ -10,7 +10,19 @@ export default designPage(() => {
     })
     return () => (
         <div>
-            <PlTransition name={'fade'}>
+            <button onClick={() => state.show = !state.show}>
+                {state.show ? "Hello, world!" : "Goodbye, world!"}
+            </button>
+            <br/>
+            <br/>
+            {/*<PlTransition name={'fade'}>
+                <PlButton key={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}>
+                    {state.show ? "Hello, world!" : "Goodbye, world!"}
+                </PlButton>
+            </PlTransition>
+            <br/>
+            <br/>*/}
+            <PlTransition name={'pl-transition-scale'} k={state.show ? 'show' : 'hide'}>
                 <PlButton key={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}>
                     {state.show ? "Hello, world!" : "Goodbye, world!"}
                 </PlButton>
