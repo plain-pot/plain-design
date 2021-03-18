@@ -92,8 +92,10 @@ export const PlInput = designComponent({
         /*---------------------------------------handler-------------------------------------------*/
 
         const handler = {
-            input: (e: Event) => {
-                model.value = (e.target as HTMLInputElement).value
+            input: (e: React.ChangeEvent<HTMLInputElement>) => {
+                const nativeEvent = e.nativeEvent as any
+                if (nativeEvent.inputType === 'insertCompositionText') {return}
+                model.value = nativeEvent.target.value
             },
             enter: (e: KeyboardEvent) => {
                 state.handlerEnter!(e)
@@ -170,7 +172,7 @@ export const PlInput = designComponent({
             style: styles.value,
             disabled: editComputed.value.disabled,
             readOnly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
-            value: model.value,
+            value: model.value || '',
             placeholder: props.placeholder,
             ...(props.nativeAttrs || {}),
 
@@ -179,7 +181,7 @@ export const PlInput = designComponent({
                 onInput: (e: Event) => {
                     /*ie 下不知道为什么页面初始化的之后这里默认就执行了一次，这里判断绕过这个问题*/
                     if (e.target === document.activeElement) {
-                        handler.input(e)
+                        handler.input(e as any)
                     }
                 },
             } : {}),
