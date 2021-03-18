@@ -7,8 +7,12 @@ import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
 import PlCheckboxInner from "../PlCheckboxInner";
+import PlTransition from "../PlTransition";
+import {CheckboxGroupCollector} from "../PlCheckboxGroup";
+import {useClickWave} from "../../directives/ClickWave";
+import {useRefs} from "../../use/useRefs";
+import './checkbox.scss'
 
-/*
 export const PlCheckbox = designComponent({
     name: 'pl-checkbox',
     props: {
@@ -35,20 +39,21 @@ export const PlCheckbox = designComponent({
     },
     setup({props, slots, scopeSlots, event: {emit}}) {
 
-        /!*group父组件*!/
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
+        /*group父组件*/
         const checkboxGroup = CheckboxGroupCollector.child({injectDefaultValue: null})
-        /!*绑定值*!/
+        /*绑定值*/
         const modelValue = useModel(() => props.modelValue, emit.onUpdateModelValue)
-        /!*格式化属性值*!/
+        /*格式化属性值*/
         const {numberState} = useNumber(props, ['width'])
 
-        /!*可编辑控制*!/
+        /*可编辑控制*/
         const {editComputed} = useEdit()
-        /!*样式控制*!/
+        /*样式控制*/
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
-        /!*当前组件内部变量引用*!/
+        /*当前组件内部变量引用*/
         const refer = {innerState: {props, editComputed}}
-        /!*当前选中状态*!/
+        /*当前选中状态*/
         const checkStatus = computed((): CheckboxStatus => {
             if (!!props.checkStatus) {
                 return props.checkStatus as CheckboxStatus
@@ -68,10 +73,10 @@ export const PlCheckbox = designComponent({
             {'pl-checkbox-disabled': editComputed.value.disabled},
         ])
 
-        /!*当前选项宽度*!/
+        /*当前选项宽度*/
         const targetWidth = computed(() => {
             if (!!numberState.width) return numberState.width
-            if (!!checkboxGroup && !!checkboxGroup.propsState.itemWidth) return checkboxGroup.propsState.itemWidth
+            if (!!checkboxGroup && !!checkboxGroup.numberState.itemWidth) return checkboxGroup.numberState.itemWidth
             return null
         })
 
@@ -100,6 +105,8 @@ export const PlCheckbox = designComponent({
             }
         }
 
+        useClickWave({elGetter: () => refs.el, optionsGetter: () => ({size: 'large', disabled: !editComputed.value.editable}),})
+
         return {
             refer,
             render: () => scopeSlots.default(
@@ -112,18 +119,18 @@ export const PlCheckbox = designComponent({
                     <div className={classes.value}
                          style={styles.value}
                          onClick={handler.clickEl}
-                         v-click-wave={{disabled: !editComputed.value.editable}}>
+                         ref={onRef.el}>
                         <span className="plain-click-node">
-                            <Transition name="pl-transition-scale" mode="out-in">
+                            <PlTransition name="pl-transition-scale">
                                 <PlCheckboxInner
                                     checkStatus={checkStatus.value}
                                     key={checkStatus.value}
                                     disabled={editComputed.value.disabled!}/>
-                            </Transition>
+                            </PlTransition>
                         </span>
                         {slots.label(!!props.label ? <span className="pl-checkbox-label">{props.label}</span> : null)}
                     </div>
                 ))
         }
     },
-})*/
+})
