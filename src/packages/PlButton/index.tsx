@@ -1,5 +1,5 @@
 import {computed, designComponent, reactive, useNumber, useStyles, watch} from 'plain-design-composition'
-import './PlButton.scss'
+import './button.scss'
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {SimpleFunction} from 'plain-design-composition/src/composition/event';
