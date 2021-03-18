@@ -39,6 +39,7 @@ const MenuData: MenuGroup[] = [
             {name: 'useEvent', page: '/use/DemoUseEvent', complete: true},
             // {name: 'useProps', page: '/use/useProps', complete: false},
             {name: 'useCollect', page: '/use/DemoUseCollect', complete: true},
+            {name: 'PlTransition', page: '/normal/DemoTransition', complete: true},
         ]
     },
     {
