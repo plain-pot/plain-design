@@ -4,7 +4,7 @@ import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton";
 import {Modes, StoryShapes, StorySizes, StoryStatus} from "../../story.utils";
 import {delay} from "plain-utils/utils/delay";
-import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
+import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {$$message} from "../../../src/packages/PlMessage";
 
 export default designComponent({

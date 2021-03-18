@@ -4,7 +4,7 @@ import {MessageServiceFormatOption} from "./index";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {nextIndex} from 'plain-design-composition/src/utils/nextIndex'
 import React from 'react';
-import {PlIcon} from "../PlIcon/PlIcon";
+import {PlIcon} from "../PlIcon";
 import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
 
 export default designClassComponent({

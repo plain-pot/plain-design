@@ -1,5 +1,5 @@
 import {computed, designComponent, inject, provide} from 'plain-design-composition'
-import './PlButtonGroup.scss'
+import './button-group.scss'
 import {DEFAULT_STATUS, StyleMode, StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
 import useClass from "plain-design-composition/src/use/useClasses";

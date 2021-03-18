@@ -1,5 +1,5 @@
 import {designComponent, ref, watch} from 'plain-design-composition'
-import './PlIcon.scss'
+import './icon.scss'
 import React, {ReactNode} from "react";
 import useClass from 'plain-design-composition/src/use/useClasses';
 

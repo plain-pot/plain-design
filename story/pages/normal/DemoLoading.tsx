@@ -1,7 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlLoading} from "../../../src/packages/PlLoading/PlLoading";
+import {PlLoading} from "../../../src/packages/PlLoading";
 
 // console.log(delay, PlainLoading)
 

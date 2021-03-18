@@ -1,11 +1,10 @@
 import {designClassComponent, designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
+import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {PlButton} from "../../../src/packages/PlButton";
 import {shuffle} from "plain-utils/object/shuffle";
-import {PlList} from "../../../src/packages/PlList/PlList";
-import {PlItem} from "../../../src/packages/PlItem/PlItem";
+import {PlList} from "../../../src/packages/PlList";
 import {useRefList} from "../../../src/use/useRefList";
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 import './DemoUseRefList.scss'
@@ -23,19 +22,17 @@ const Item = designClassComponent({
                 yes: 111,
             },
             render: () => (
-                <PlItem key={props.data.name}>
-                    <div className={"test-item"} key={props.data.name}>
-                        <span>{props.data.name}</span>
-                        <div style={{position: 'absolute', right: '8px', bottom: '8px'}}>
-                            <PlButton label={'add'} status={'success'} size={'mini'} style={{marginRight: '8px'}}
-                                      onClick={props.onAdd}
-                            />
-                            <PlButton label={'remove'} status={'success'} size={'mini'}
-                                      onClick={props.onRemove}
-                            />
-                        </div>
+                <div className={"test-item"} key={props.data.name}>
+                    <span>{props.data.name}</span>
+                    <div style={{position: 'absolute', right: '8px', bottom: '8px'}}>
+                        <PlButton label={'add'} status={'success'} size={'mini'} style={{marginRight: '8px'}}
+                                  onClick={props.onAdd}
+                        />
+                        <PlButton label={'remove'} status={'success'} size={'mini'}
+                                  onClick={props.onRemove}
+                        />
                     </div>
-                </PlItem>
+                </div>
             )
         }
     },

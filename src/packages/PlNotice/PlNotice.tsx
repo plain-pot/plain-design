@@ -3,7 +3,7 @@ import useClass from "plain-design-composition/src/use/useClasses";
 import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
 import {NoticeServiceFormatOption} from "./index";
 import React from "react";
-import {PlIcon} from "../PlIcon/PlIcon";
+import {PlIcon} from "../PlIcon";
 import {PlButton} from "../PlButton";
 import './PlNotice.scss'
 

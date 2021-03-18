@@ -1,7 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
 import {Menu} from "./menu.utils";
-import {PlIcon} from "../../src/packages/PlIcon/PlIcon";
+import {PlIcon} from "../../src/packages/PlIcon";
 
 export const AppMenu = designComponent({
     setup() {

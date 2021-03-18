@@ -1,7 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React, {ReactElement} from "react";
 import FlipMove from "react-flip-move";
-import './PlList.scss'
+import './list.scss'
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 
 export const PlList = designComponent({

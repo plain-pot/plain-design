@@ -2,7 +2,7 @@ import {designComponent, reactive, useRefList} from "plain-design-composition"
 import useClass from "plain-design-composition/src/use/useClasses";
 import {MessageServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
-import {PlList} from "../PlList/PlList";
+import {PlList} from "../PlList";
 import React from "react";
 import PlMessage from "./PlMessage";
 

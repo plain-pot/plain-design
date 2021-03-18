@@ -1,9 +1,9 @@
 import {designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
+import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {PlButton} from "../../../src/packages/PlButton";
-import {PlList} from "../../../src/packages/PlList/PlList";
+import {PlList} from "../../../src/packages/PlList";
 import './DemoList.scss'
 import {shuffle} from "plain-utils/object/shuffle";
 

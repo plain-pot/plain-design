@@ -4,10 +4,10 @@ import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton";
 import {$$notice, NoticeServiceDirection, useNotice} from "../../../src/packages/PlNotice";
 import {StyleStatus} from "../../../src/use/useStyle";
-import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
+import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {$$message} from "../../../src/packages/PlMessage";
-import {PlLoading} from "../../../src/packages/PlLoading/PlLoading";
-import {PlIcon} from "../../../src/packages/PlIcon/PlIcon";
+import {PlLoading} from "../../../src/packages/PlLoading";
+import {PlIcon} from "../../../src/packages/PlIcon";
 
 const showNoticeWithoutContext = () => {
     $$notice('系统不会保留你所做的更改，请在退出之前确认是否已经提交你的操作记录，否则系统退出后当前内容将丢失！')

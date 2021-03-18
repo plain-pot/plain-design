@@ -1,7 +1,7 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlIcon} from "../../../src/packages/PlIcon/PlIcon";
+import {PlIcon} from "../../../src/packages/PlIcon";
 
 export default designComponent({
     setup() {

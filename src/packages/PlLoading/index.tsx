@@ -3,7 +3,7 @@ import {PlainLoading} from "plain-loading";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
 import useClass from "plain-design-composition/src/use/useClasses";
-import './PlLoading.scss'
+import './loading.scss'
 
 export const PlLoading = designComponent({
         props: {

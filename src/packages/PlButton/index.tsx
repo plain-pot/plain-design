@@ -7,10 +7,10 @@ import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 import React from 'react';
 import useClass from "plain-design-composition/src/use/useClasses";
-import {PlLoading} from "../PlLoading/PlLoading";
-import {PlIcon} from "../PlIcon/PlIcon";
+import {PlLoading} from "../PlLoading";
+import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {ButtonModeProvider} from "../PlButtonGroup/PlButtonGroup";
+import {ButtonModeProvider} from "../PlButtonGroup";
 import {useClickWave} from "../../directives/ClickWave";
 import {useRefs} from "../../use/useRefs";
 
