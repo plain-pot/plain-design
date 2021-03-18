@@ -35,7 +35,7 @@ export const PlCheckbox = designComponent({
     },
     slots: ['label'],
     scopeSlots: {
-        default: (scope: { checked: boolean, status: string, click: SimpleFunction }) => {},
+        default: (scope: { checked: boolean, status: keyof typeof CheckboxStatus, click: SimpleFunction }) => {},
     },
     setup({props, slots, scopeSlots, event: {emit}}) {
 

@@ -60,7 +60,7 @@ export default designPage(() => {
                                     check: '以全选',
                                     uncheck: '未选中',
                                     minus: '半选',
-                                } as any)[status]}
+                                })[status]}
                             </div>
                         )}
                     </PlCheckbox>
