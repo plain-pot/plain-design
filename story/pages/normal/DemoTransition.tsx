@@ -81,6 +81,30 @@ export default designPage(() => {
                         )}
                     </PlTransition>
                 </div>
+                <br/>
+                <div>
+                    <PlButton label={'slide prev (horizontal)'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-slide-prev'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'vertical'} as any}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'} {...{direction: 'vertical'} as any}/>
+                        )}
+                    </PlTransition>
+                </div>
+                <br/>
+                <div>
+                    <PlButton label={'slide next (horizontal)'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-slide-next'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'vertical'} as any}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'} {...{direction: 'vertical'} as any}/>
+                        )}
+                    </PlTransition>
+                </div>
             </DemoRow>
         </div>
     )
