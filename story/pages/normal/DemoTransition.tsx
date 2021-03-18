@@ -22,14 +22,41 @@ export default designPage(() => {
                 </PlTransition>
             </DemoRow>
             <DemoRow title={'预定义内置的动画'}>
-                <PlButton label={'switch'} onClick={() => state.show = !state.show}/>
+                <div>
+                    <PlButton label={'toggle scale'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-scale'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'}/>
+                        )}
+                    </PlTransition>
+                </div>
                 <br/>
+                <div>
+                    <PlButton label={'toggle scale-y'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-scale-y'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'}/>
+                        )}
+                    </PlTransition>
+                </div>
                 <br/>
-                <PlTransition name={'pl-transition-scale'}>
-                    <PlButton key={state.show ? 'show' : 'hide'}>
-                        {state.show ? "Hello, world!" : "Goodbye, world!"}
-                    </PlButton>
-                </PlTransition>
+                <div>
+                    <PlButton label={'toggle fade'} onClick={() => state.show = !state.show}/>
+                    &nbsp;&nbsp;
+                    <PlTransition name={'pl-transition-fade'}>
+                        {state.show ? (
+                            <PlButton label={'on'} status={'success'} key={'on'}/>
+                        ) : (
+                            <PlButton label={'off'} status={'error'} key={'off'}/>
+                        )}
+                    </PlTransition>
+                </div>
             </DemoRow>
         </div>
     )

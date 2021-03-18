@@ -1,35 +1,78 @@
-/*scale*/
+$transition: cubic-bezier(0.23, 1, 0.32, 1);
 
-.pl-transition-scale-enter, .pl-transition-scale-exit-active {
+/*---------------------------------------scale-------------------------------------------*/
+
+.pl-transition-scale-enter {
     opacity: 0;
     transform: scale(0.75);
 }
 
-.pl-transition-scale-enter-active, .pl-transition-scale-exit {
+.pl-transition-scale-enter-active {
     opacity: 1;
     transform: scale(1);
 }
 
+.pl-transition-scale-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.pl-transition-scale-exit-active {
+    opacity: 0;
+    transform: scale(0.75);
+}
+
 .pl-transition-scale-enter-active, .pl-transition-scale-exit-active {
-    transition: opacity 300ms, transform 300ms;
+    transition: opacity 300ms linear, transform 300ms $transition;
 }
 
-/*scale-y*/
-.pl-transition-scale-y-enter-active, .pl-transition-scale-y-exit-active {
-}
+/*---------------------------------------scale-y-------------------------------------------*/
 
-.pl-transition-scale-y-enter, .pl-transition-scale-y-exit {
+.pl-transition-scale-y-enter {
     transform: scaleY(0);
     opacity: 0;
 }
 
-/*fade*/
-.pl-transition-fade-enter-active, .pl-transition-fade-exit-active {
+.pl-transition-scale-y-enter-active {
+    transform: scaleY(1);
     opacity: 1;
 }
 
-.pl-transition-fade-enter, .pl-transition-fade-exit {
+.pl-transition-scale-y-exit {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.pl-transition-scale-y-exit-active {
+    transform: scaleY(0);
     opacity: 0;
+}
+
+.pl-transition-scale-y-enter-active, .pl-transition-scale-y-exit-active {
+    transform-origin: top;
+    transition: opacity 300ms linear, transform 300ms $transition;
+}
+
+/*---------------------------------------fade-------------------------------------------*/
+
+.pl-transition-fade-enter {
+    opacity: 0;
+}
+
+.pl-transition-fade-enter-active {
+    opacity: 1;
+}
+
+.pl-transition-fade-exit {
+    opacity: 1;
+}
+
+.pl-transition-fade-exit-active {
+    opacity: 0;
+}
+
+.pl-transition-fade-enter-active, .pl-transition-fade-exit-active {
+    transition: opacity 300ms linear;
 }
 
 /*slider*/
