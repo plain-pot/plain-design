@@ -22,8 +22,8 @@ export default designPage(() => {
             </PlTransition>
             <br/>
             <br/>*/}
-            <PlTransition name={'pl-transition-scale'} k={state.show ? 'show' : 'hide'}>
-                <PlButton key={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}>
+            <PlTransition name={'pl-transition-scale'}>
+                <PlButton onClick={() => state.show = !state.show} key={state.show ? 'show' : 'hide'}>
                     {state.show ? "Hello, world!" : "Goodbye, world!"}
                 </PlButton>
             </PlTransition>
