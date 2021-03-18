@@ -5,7 +5,7 @@ import {PlButton} from "../../../src/packages/PlButton";
 import {$$notice, NoticeServiceDirection, useNotice} from "../../../src/packages/PlNotice";
 import {StyleStatus} from "../../../src/use/useStyle";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
-import {$$message} from "../../../src/packages/PlMessage";
+import {$$message} from "../../../src/packages/$$message";
 import {PlLoading} from "../../../src/packages/PlLoading";
 import {PlIcon} from "../../../src/packages/PlIcon";
 

@@ -2,8 +2,9 @@ import {designComponent} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButton} from "../../../src/packages/PlButton";
-import {$$message, MessageServiceDirection, useMessage} from "../../../src/packages/PlMessage";
+import {MessageServiceDirection, useMessage} from "../../../src/packages/useMessage";
 import {reactive} from "@vue/reactivity";
+import $$message from "../../../src/packages/$$message";
 
 const showMessageWithoutContext = () => {
     $$message('没有上下文的消息服务')

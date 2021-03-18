@@ -5,7 +5,7 @@ import {PlButton} from "../../../src/packages/PlButton";
 import {Modes, StoryShapes, StorySizes, StoryStatus} from "../../story.utils";
 import {delay} from "plain-utils/utils/delay";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
-import {$$message} from "../../../src/packages/PlMessage";
+import {$$message} from "../../../src/packages/$$message";
 
 export default designComponent({
     setup() {

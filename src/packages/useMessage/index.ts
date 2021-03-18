@@ -123,4 +123,4 @@ export const useMessage = createUseService({
     }
 })
 
-export const $$message = createServiceWithoutContext(useMessage)
+export default useMessage
