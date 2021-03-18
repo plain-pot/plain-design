@@ -1,6 +1,7 @@
 import {designComponent} from "plain-design-composition"
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
+import './radio-inner.scss'
 
 export const PlRadioInner = designComponent({
     name: 'pl-radio-inner',
