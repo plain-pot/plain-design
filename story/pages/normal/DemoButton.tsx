@@ -5,6 +5,7 @@ import {PlButton} from "../../../src/packages/PlButton/PlButton";
 import {Modes, StoryShapes, StorySizes, StoryStatus} from "../../story.utils";
 import {delay} from "plain-utils/utils/delay";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup/PlButtonGroup";
+import {$$message} from "../../../src/packages/PlMessage";
 
 export default designComponent({
     setup() {
@@ -31,13 +32,13 @@ export default designComponent({
                 <div>
                     <DemoRow title={"基本用法"}>
                         {!!state.show && <>
-                            <PlButton label={"按钮"}/>
+                            <PlButton label={"按钮"} onClick={() => $$message('click')}/>
                             <span>普通文本</span>
                         </>}
                         <button onClick={() => state.show = !state.show}>show button:{state.show}</button>
                     </DemoRow>
                     <DemoRow title={'状态'}>
-                        {StoryStatus.map(item => <PlButton status={item.status} key={item.status} label={item.label}/>)}
+                        {StoryStatus.map(item => <PlButton status={item.status} key={item.status} label={item.label} onClick={() => $$message[item.status](item.label)}/>)}
                     </DemoRow>
                     <DemoRow title={'模式'}>
                         {Modes.map(mode => (
