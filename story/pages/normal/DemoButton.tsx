@@ -42,7 +42,7 @@ export default designComponent({
                     </DemoRow>
                     <DemoRow title={'模式'}>
                         {Modes.map(mode => (
-                            <div key={mode}>
+                            <div key={mode} className={'demo-line'}>
                                 {StoryStatus.map(item => <PlButton mode={mode} status={item.status} key={item.status} label={item.label}/>)}
                             </div>
                         ))}
