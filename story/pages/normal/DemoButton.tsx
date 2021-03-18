@@ -16,13 +16,13 @@ export default designComponent({
 
         const handler = {
             asyncHandler: async () => {
-                console.log('async task start')
+                $$message('async task start')
                 await delay(3000)
                 if (Math.random() > 0.5) {
-                    console.error('async task error')
+                    $$message.error('async task error')
                     throw new Error('异步任务出错')
                 } else {
-                    console.log('async task end')
+                    $$message.success('async task end')
                 }
             },
         }
@@ -86,8 +86,8 @@ export default designComponent({
                     </DemoRow>
 
                     <DemoRow title={'click节流'}>
-                        <PlButton label="1000ms" onClick={() => console.log(String(Date.now()))} throttleClick/>
-                        <PlButton label="500ms" onClick={() => console.log(String(Date.now()))} throttleClick={500}/>
+                        <PlButton label="1000ms" onClick={() => $$message(String(Date.now()))} throttleClick/>
+                        <PlButton label="500ms" onClick={() => $$message(String(Date.now()))} throttleClick={500}/>
                     </DemoRow>
 
                     <DemoRow title={'自动处理loading状态(当异步任务开始时开启loading，结束时关闭loading)'}>
