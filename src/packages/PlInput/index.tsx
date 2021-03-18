@@ -43,7 +43,7 @@ export const PlInput = designComponent({
         inputInnerTabindex: {type: Number, default: 0},
         type: {type: String, default: 'text'},
         placeholder: {type: String},
-        nativeAttrs: {type: Object, default: () => ({})},
+        nativeAttrs: {type: Object},
     },
     emits: {
         onUpdateModelValue: (val: any) => true,

@@ -10,13 +10,15 @@ export default designPage(() => {
         val: {} as any
     })
 
-    return () => (
-        <div>
-            <DemoRow title={'基本用法'}>
-                <PlInput v-model={state.val[0]}/>
-                <PlInput v-model={state.val[0]}/>
-                {state.val[0]}
-            </DemoRow>
-        </div>
-    )
+    return () => {
+        return (
+            <div>
+                <DemoRow title={'基本用法'}>
+                    <PlInput v-model={state.val[0]}/>
+                    <PlInput v-model={state.val[0]}/>
+                    {state.val[0]}
+                </DemoRow>
+            </div>
+        )
+    }
 })
