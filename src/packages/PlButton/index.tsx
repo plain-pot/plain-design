@@ -115,7 +115,7 @@ export const PlButton = designComponent({
             style.width = unit(numberState.width)
         })
 
-        useClickWave({elGetter: () => refs.button, optionsGetter: () => 'large',})
+        useClickWave({elGetter: () => refs.button, optionsGetter: () => ({size: 'large', disabled: !editComputed.value.editable}),})
 
         return {
             render: () => {
