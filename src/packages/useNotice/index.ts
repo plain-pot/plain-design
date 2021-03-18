@@ -98,4 +98,4 @@ export const useNotice = createUseService({
     },
 })
 
-export const $$notice = createServiceWithoutContext(useNotice)
+export default useNotice
