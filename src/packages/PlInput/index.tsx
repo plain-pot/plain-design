@@ -10,6 +10,7 @@ import React from "react";
 import PlIcon from "../PlIcon";
 import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
 import PlLoading from "../PlLoading";
+import './input.scss'
 
 console.log('load input component')
 
@@ -168,7 +169,7 @@ export const PlInput = designComponent({
         const publicProps = computed(() => ({
             style: styles.value,
             disabled: editComputed.value.disabled,
-            readonly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
+            readOnly: props.inputReadonly || editComputed.value.readonly || editComputed.value.loading,
             value: model.value,
             placeholder: props.placeholder,
             ...(props.nativeAttrs || {}),
@@ -186,7 +187,7 @@ export const PlInput = designComponent({
             onClick: emit.onClickInput,
             onFocus: emit.onFocus,
             onBlur: emit.onBlur,
-            onKeydown: (e: KeyboardEvent) => {
+            onKeyDown: (e: KeyboardEvent) => {
                 emit.onKeydown(e)
                 switch (getKey(e)) {
                     case KEY.enter:
@@ -195,7 +196,7 @@ export const PlInput = designComponent({
                         return emit.onEsc(e)
                 }
             },
-            ref: "input",
+            ref: onRef.input,
         } as any))
 
         /*---------------------------------------methods-------------------------------------------*/
