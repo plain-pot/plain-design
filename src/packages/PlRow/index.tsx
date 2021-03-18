@@ -8,6 +8,9 @@ export enum GridAlign {
     left = 'left',
     center = 'center',
     right = 'right',
+    top = 'top',
+    middle = 'middle',
+    bottom = 'bottom',
 }
 
 export enum GridJustify {
@@ -22,8 +25,8 @@ export const PlRow = designComponent({
     name: 'pl-row',
     props: {
         type: {type: String as PropType<undefined | null | string>},        //类型,type
-        align: {type: String as PropType<GridAlign>},                       //对其方式,left|center|right
-        justify: {type: String as PropType<GridJustify>},                   //内容弹性布局方式,start,end,center,space-around,space-between
+        align: {type: String as PropType<keyof typeof GridAlign>},          //对其方式,left|center|right
+        justify: {type: String as PropType<keyof typeof GridJustify>},      //内容弹性布局方式,start,end,center,space-around,space-between
         gutter: {type: [Number, String], default: 0},                       //间隔
     },
     slots: ['default'],
