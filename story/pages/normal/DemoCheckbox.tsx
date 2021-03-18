@@ -56,11 +56,11 @@ export default designPage(() => {
                     <PlCheckbox checkboxForAll>
                         {({status, click}) => (
                             <div onClick={click} className={classNames(['demo-checkbox-custom-item', {'demo-checkbox-custom-item-active': status === 'check'}])}>
-                                {{
+                                {({
                                     check: '以全选',
                                     uncheck: '未选中',
                                     minus: '半选',
-                                }[status]}
+                                } as any)[status]}
                             </div>
                         )}
                     </PlCheckbox>
