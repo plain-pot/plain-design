@@ -31,7 +31,7 @@ export const PlInput = designComponent({
         suffixIcon: {type: [String, Function]},                 // 右侧图标
         prefixIcon: {type: String},                             // 左侧图标
         clearIcon: {type: Boolean},                             // 清除图标
-        clearHandler: Function,                         // 点击清除图标处理逻辑
+        clearHandler: Function,                                 // 点击清除图标处理逻辑
 
         autoHeight: {type: Boolean},                            // 自适应高度
         isFocus: {type: Boolean},                               // 当前是否处于激活状态
