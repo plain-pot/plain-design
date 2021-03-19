@@ -109,7 +109,12 @@ export const PlInput = designComponent({
                 emit.onClickPrefixIcon(e.nativeEvent)
             },
             clickSuffixIcon: (e: React.MouseEvent<any>) => {
-
+                if (!editComputed.value.editable) {
+                    return
+                }
+                e.stopPropagation()
+                e.preventDefault()
+                emit.onClickSuffixIcon(e.nativeEvent)
             },
             clickClearIcon: (e: React.MouseEvent<any>) => {
                 if (!editComputed.value.editable) {
