@@ -129,7 +129,7 @@ export default designPage(() => {
                     <CSSTransition
                         in={state.show}
                         timeout={300}
-                        classNames="demo-show"
+                        classNames="demo-disappear"
                     >
                         <PlInput/>
                     </CSSTransition>
