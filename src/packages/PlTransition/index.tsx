@@ -3,7 +3,7 @@ import React from "react";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 import {createCounter} from "plain-design-composition/src/utils/createCounter";
 
-export const PlTransition = designComponent({
+const PlSwitchTransition = designComponent({
     props: {
         mode: {type: String as PropType<'out-in' | 'in-out'>, default: 'out-in'},
         name: {type: String, required: true},
@@ -47,5 +47,33 @@ export const PlTransition = designComponent({
         }
     },
 })
+
+/**
+ * switch:      name,mode
+ * disappear:   show,timeout,name
+ * @author  韦胜健
+ * @date    2021/3/19 21:44
+ */
+export const PlTransition: React.FC<{
+    switch?: boolean,
+    name: string,
+
+    mode?: 'out-in' | 'in-out',
+
+    show?: boolean,
+    timeout?: number,
+    unmount?: boolean,
+}> = (props) => {
+    if (props.switch) return <PlSwitchTransition {...props}/>
+    else return (
+        <CSSTransition
+            in={props.show}
+            timeout={props.timeout == null ? 300 : props.timeout}
+            classNames={props.name}
+            unmountOnExit={props.switch ? undefined : props.unmount}>
+            {props.children}
+        </CSSTransition>
+    )
+}
 
 export default PlTransition

@@ -3,7 +3,6 @@ import React from 'react'
 import './DemoTransition.scss'
 import PlTransition from "../../../src/packages/PlTransition";
 import {DemoRow} from "../../components/DemoRow";
-import CSSTransition from 'react-transition-group/CSSTransition';
 import {PlButton} from "../../../src/packages/PlButton";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {PlInput} from "../../../src/packages/PlInput";
@@ -18,7 +17,7 @@ export default designPage(() => {
                 <PlButton label={'switch'} onClick={() => state.show = !state.show}/>
                 <br/>
                 <br/>
-                <PlTransition name={'demo-fade'}>
+                <PlTransition switch name={'demo-fade'}>
                     <PlButton onClick={() => state.show = !state.show} key={state.show ? 'show' : 'hide'}>
                         {state.show ? "Hello, world!" : "Goodbye, world!"}
                     </PlButton>
@@ -28,7 +27,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'scale'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-scale'}>
+                    <PlTransition switch name={'pl-transition-scale'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'}/>
                         ) : (
@@ -40,7 +39,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'scale-y'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-scale-y'}>
+                    <PlTransition switch name={'pl-transition-scale-y'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'}/>
                         ) : (
@@ -52,7 +51,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'fade'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-fade'}>
+                    <PlTransition switch name={'pl-transition-fade'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'}/>
                         ) : (
@@ -64,7 +63,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'slide prev (horizontal)'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-slide-prev'}>
+                    <PlTransition switch name={'pl-transition-slide-prev'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'horizontal'} as any}/>
                         ) : (
@@ -76,7 +75,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'slide next (horizontal)'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-slide-next'}>
+                    <PlTransition switch name={'pl-transition-slide-next'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'horizontal'} as any}/>
                         ) : (
@@ -88,7 +87,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'slide prev (horizontal)'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-slide-prev'}>
+                    <PlTransition switch name={'pl-transition-slide-prev'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'vertical'} as any}/>
                         ) : (
@@ -100,7 +99,7 @@ export default designPage(() => {
                 <div>
                     <PlButton label={'slide next (horizontal)'} onClick={() => state.show = !state.show}/>
                     &nbsp;&nbsp;
-                    <PlTransition name={'pl-transition-slide-next'}>
+                    <PlTransition switch name={'pl-transition-slide-next'}>
                         {state.show ? (
                             <PlButton label={'on'} status={'success'} key={'on'} {...{direction: 'vertical'} as any}/>
                         ) : (
@@ -112,27 +111,18 @@ export default designPage(() => {
             <DemoRow title={'v-if transition'}>
                 <PlButtonGroup>
                     <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
-                    <CSSTransition
-                        in={state.show}
-                        timeout={300}
-                        classNames="demo-disappear"
-                        unmountOnExit
-                    >
+                    <PlTransition name={'demo-disappear'} unmount show={state.show}>
                         <PlInput/>
-                    </CSSTransition>
+                    </PlTransition>
                     <PlButton label={'next content'} mode={'stroke'}/>
                 </PlButtonGroup>
             </DemoRow>
             <DemoRow title={'v-show transition'}>
                 <PlButtonGroup>
                     <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
-                    <CSSTransition
-                        in={state.show}
-                        timeout={300}
-                        classNames="demo-disappear"
-                    >
+                    <PlTransition name={'demo-disappear'} show={state.show}>
                         <PlInput/>
-                    </CSSTransition>
+                    </PlTransition>
                     <PlButton label={'next content'} mode={'stroke'}/>
                 </PlButtonGroup>
             </DemoRow>
