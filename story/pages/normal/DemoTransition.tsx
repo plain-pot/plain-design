@@ -111,7 +111,7 @@ export default designPage(() => {
             <DemoRow title={'v-if transition'}>
                 <PlButtonGroup>
                     <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
-                    <PlTransition name={'demo-disappear'} unmount show={state.show}>
+                    <PlTransition name={'pl-transition-scale-y'} unmount show={state.show}>
                         <PlInput/>
                     </PlTransition>
                     <PlButton label={'next content'} mode={'stroke'}/>
