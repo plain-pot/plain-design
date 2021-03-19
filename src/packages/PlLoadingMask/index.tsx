@@ -7,6 +7,7 @@ import useClass from "plain-design-composition/src/use/useClasses";
 import {delay} from "plain-utils/utils/delay";
 import React from 'react';
 import PlLoading from "../PlLoading";
+import PlTransition from "../PlTransition";
 
 export const PlLoadingMask = designComponent({
     name: 'pl-loading-mask',
@@ -90,14 +91,12 @@ export const PlLoadingMask = designComponent({
 
         return {
             render: () => (
-                <>
-                    {!!modelValue.value && state.isMounted && (
-                        <div style={styles.value} className={classes.value} ref={onRef.el}>
-                            <PlLoading type={props.loadingType}/>
-                            {!!props.message && <span>{props.message}</span>}
-                        </div>
-                    )}
-                </>
+                <PlTransition name={'pl-transition-fade'} unmount show={!!modelValue.value && state.isMounted}>
+                    <div style={styles.value} className={classes.value} ref={onRef.el}>
+                        <PlLoading type={props.loadingType}/>
+                        {!!props.message && <span>{props.message}</span>}
+                    </div>
+                </PlTransition>
             )
         }
     },
