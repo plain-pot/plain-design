@@ -47,18 +47,18 @@ export default designComponent({
                 </DemoRow>
                 <DemoRow title={"状态颜色"}>
                     <PlLoading type={'alpha'} status={'primary'}/>
-                    <PlLoading type={'alpha'} status={'success'}/>
-                    <PlLoading type={'alpha'} status={'warn'}/>
-                    <PlLoading type={'alpha'} status={'error'}/>
-                    <PlLoading type={'alpha'} status={'info'}/>
+                    <PlLoading type={'beta'} status={'success'}/>
+                    <PlLoading type={'gamma'} status={'warn'}/>
+                    <PlLoading type={'delta'} status={'error'}/>
+                    <PlLoading type={'ice'} status={'info'}/>
                 </DemoRow>
                 <DemoRow title={"自定义颜色"}>
                     <div style={{color: 'blueviolet'}}>
                         <PlLoading type={'alpha'}/>
-                        <PlLoading type={'alpha'}/>
-                        <PlLoading type={'alpha'}/>
-                        <PlLoading type={'alpha'}/>
-                        <PlLoading type={'alpha'}/>
+                        <PlLoading type={'beta'}/>
+                        <PlLoading type={'gamma'}/>
+                        <PlLoading type={'delta'}/>
+                        <PlLoading type={'ice'}/>
                     </div>
                 </DemoRow>
                 <DemoRow title={"组件调用loading-mask"}>
