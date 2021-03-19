@@ -2,9 +2,11 @@ import {designPage, reactive} from 'plain-design-composition'
 import React from 'react'
 import './DemoTransition.scss'
 import PlTransition from "../../../src/packages/PlTransition";
-import {PlButton} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 import CSSTransition from 'react-transition-group/CSSTransition';
+import {PlButton} from "../../../src/packages/PlButton";
+import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
+import {PlInput} from "../../../src/packages/PlInput";
 
 export default designPage(() => {
     const state = reactive({
@@ -107,17 +109,32 @@ export default designPage(() => {
                     </PlTransition>
                 </div>
             </DemoRow>
-            <DemoRow title={'disappear transition'}>
-                <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
-                <CSSTransition
-                    in={state.show}
-                    timeout={300}
-                    classNames="demo-disappear"
-                    unmountOnExit
-                >
+            <DemoRow title={'v-if transition'}>
+                <PlButtonGroup>
                     <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
-                </CSSTransition>
-                <PlButton label={'next content'} mode={'stroke'}/>
+                    <CSSTransition
+                        in={state.show}
+                        timeout={300}
+                        classNames="demo-disappear"
+                        unmountOnExit
+                    >
+                        <PlInput/>
+                    </CSSTransition>
+                    <PlButton label={'next content'} mode={'stroke'}/>
+                </PlButtonGroup>
+            </DemoRow>
+            <DemoRow title={'v-show transition'}>
+                <PlButtonGroup>
+                    <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
+                    <CSSTransition
+                        in={state.show}
+                        timeout={300}
+                        classNames="demo-show"
+                    >
+                        <PlInput/>
+                    </CSSTransition>
+                    <PlButton label={'next content'} mode={'stroke'}/>
+                </PlButtonGroup>
             </DemoRow>
         </div>
     )
