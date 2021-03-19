@@ -5,7 +5,6 @@ import {reactive} from "@vue/reactivity";
 import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {delay} from "plain-utils/utils/delay";
-import PlTransition from "../PlTransition";
 import React from 'react';
 import PlLoading from "../PlLoading";
 
@@ -91,14 +90,14 @@ export const PlLoadingMask = designComponent({
 
         return {
             render: () => (
-                <PlTransition name="pl-transition-loading-mask">
+                <>
                     {!!modelValue.value && state.isMounted && (
                         <div style={styles.value} className={classes.value} ref={onRef.el}>
                             <PlLoading type={props.loadingType}/>
                             {!!props.message && <span>{props.message}</span>}
                         </div>
                     )}
-                </PlTransition>
+                </>
             )
         }
     },
