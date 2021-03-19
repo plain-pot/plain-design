@@ -11,6 +11,7 @@ import PlIcon from "../PlIcon";
 import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
 import PlLoading from "../PlLoading";
 import './input.scss'
+import {noop} from "../../utils/constant";
 
 console.log('load input component')
 
@@ -266,7 +267,7 @@ export const PlInput = designComponent({
                     return (
                         <div className={'pl-textarea ' + classes.value}>
                             <textarea className="pl-textarea-inner" {...publicProps.value}/>
-                            <textarea className="pl-textarea-inner pl-textarea-hidden" ref={onRef.hiddenInput} value={model.value}/>
+                            <textarea className="pl-textarea-inner pl-textarea-hidden" ref={onRef.hiddenInput} value={model.value} onChange={noop}/>
                         </div>
                     )
                 } else {

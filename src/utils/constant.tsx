@@ -13,3 +13,5 @@ export const STATUS = {
     error: {icon: 'el-icon-error', status: 'error'},
     info: {icon: 'el-icon-info', status: 'info'},
 } as { [k: string]: { icon: string, status: string } }
+
+export const noop = () => {}
