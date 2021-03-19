@@ -2,11 +2,28 @@ import {designComponent} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlLoading} from "../../../src/packages/PlLoading";
+import {PlCheckbox} from "../../../src/packages/PlCheckbox";
+import {reactive} from "@vue/reactivity";
+import {PlLoadingMask} from "../../../src/packages/PlLoadingMask";
+import {PlButton} from "../../../src";
 
 // console.log(delay, PlainLoading)
 
 export default designComponent({
     setup() {
+
+        const state = reactive({
+            flag1: {
+                loading: true,
+                init: true,
+            },
+            flag2: {
+                loading: true,
+                init: true,
+            },
+            bar: null,
+        })
+
         return () => (
             <div>
                 <DemoRow title={"基本用法"}>
@@ -35,11 +52,25 @@ export default designComponent({
                     <PlLoading type={'alpha'} status={'error'}/>
                     <PlLoading type={'alpha'} status={'info'}/>
                 </DemoRow>
-                <DemoRow title={"基本用法"}>
-                    <PlLoading/>
+                <DemoRow title={"自定义颜色"}>
+                    <div style={{color: 'blueviolet'}}>
+                        <PlLoading type={'alpha'}/>
+                        <PlLoading type={'alpha'}/>
+                        <PlLoading type={'alpha'}/>
+                        <PlLoading type={'alpha'}/>
+                        <PlLoading type={'alpha'}/>
+                    </div>
                 </DemoRow>
-                <DemoRow title={"基本用法"}>
-                    <PlLoading/>
+                <DemoRow title={"组件调用loading-mask"}>
+                    <PlCheckbox label={'init'} v-model={state.flag1.init}/>
+                    <PlCheckbox label={'open mask'} v-model={state.flag1.loading}/>
+                    <span>如果父节点的position不为fixed、relative、absolute，pl-loading-mask会自动将父节点的样式设置为 relative</span>
+                    {!!state.flag1.init && (
+                        <div style={{height: '300px', width: '300px', backgroundColor: '#f6f6f6'}}>
+                            <PlButton label={'this is button'}/>
+                            <PlLoadingMask v-model={state.flag1.loading} message={'loading...'}/>
+                        </div>
+                    )}
                 </DemoRow>
             </div>
         )
