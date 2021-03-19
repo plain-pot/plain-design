@@ -25,7 +25,7 @@ export const PlInput = designComponent({
 
         width: {type: [Number, String, Object, Function] as PropType<string | number>, default: null,},        // 输入框默认宽度
         minHeight: {type: [Number, String], default: 100},      // 文本域最小高度
-        maxHeight: {type: [Number, String], default: 156},      // 文本域最大高度
+        maxHeight: {type: [Number, String] as PropType<string | number | null>, default: 156},                  // 文本域最大高度
         block: {type: Boolean},                                 // 块级元素
         textarea: {type: Boolean},                              // 当前是否为文本域输入框
         suffixIcon: {type: [String, Function]},                 // 右侧图标
