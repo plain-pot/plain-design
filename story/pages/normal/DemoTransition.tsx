@@ -4,6 +4,7 @@ import './DemoTransition.scss'
 import PlTransition from "../../../src/packages/PlTransition";
 import {PlButton} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 export default designPage(() => {
     const state = reactive({
@@ -105,6 +106,18 @@ export default designPage(() => {
                         )}
                     </PlTransition>
                 </div>
+            </DemoRow>
+            <DemoRow title={'disappear transition'}>
+                <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
+                <CSSTransition
+                    in={state.show}
+                    timeout={300}
+                    classNames="demo-disappear"
+                    unmountOnExit
+                >
+                    <PlButton label={state.show ? 'show' : 'hide'} onClick={() => state.show = !state.show}/>
+                </CSSTransition>
+                <PlButton label={'next content'} mode={'stroke'}/>
             </DemoRow>
         </div>
     )
