@@ -125,7 +125,7 @@ export const PlRadio = designComponent({
                         onKeyDown={handler.keydown}
                     >
                         <span className="plain-click-node">
-                            <PlTransition name="pl-transition-fade">
+                            <PlTransition switch name="pl-transition-fade">
                                 <PlRadioInner checkStatus={checkStatus.value} key={checkStatus.value}/>
                             </PlTransition>
                         </span>
