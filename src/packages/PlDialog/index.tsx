@@ -35,7 +35,6 @@ export const PlDialog = designComponent({
         showHead: {type: Boolean, default: true},                               // 是否展示对话框标题栏
         transition: {type: String, default: 'pl-transition-dialog'},            // 弹框动画, pl-transition-dialog，pl-transition-dialog-top,pl-transition-dialog-left,pl-transition-dialog-right,pl-transition-dialog-bottom
 
-        title: {type: [String, Object], default: '提示'},                        // 对话框标题
         fullscreen: {type: Boolean},                                            // 是否全屏
         mask: {type: Boolean, default: true},                                   // 是否需要遮罩
         dialogClass: {type: String},                                            // 对话框内容自定义类名
@@ -66,7 +65,7 @@ export const PlDialog = designComponent({
         onConfirm: () => true,
         onCancel: () => true,
     },
-    slots: ['default', 'head', 'foot'],
+    slots: ['default', 'head', 'foot', 'title'],
     setup({props, slots, event: {emit}}) {
         const {refs, onRef} = useRefs({
             body: HTMLDivElement,
@@ -237,7 +236,7 @@ export const PlDialog = designComponent({
                             {<div onClick={handler.clickWrapper} style={wrapperStyles.value as any} className={wrapperClasses.value}>
                                 <div className={bodyClasses.value} ref={onRef.body}>
                                     {hasHead.value && <div className="pl-dialog-head">
-                                        {slots.head(<span className="pl-dialog-head-title">{props.title}</span>)}
+                                        {slots.head(<span className="pl-dialog-head-title">{slots.title() || '提示'}</span>)}
                                         {!!props.showClose && (
                                             <div className="pl-dialog-head-close">
                                                 <PlButton icon="el-icon-close"
