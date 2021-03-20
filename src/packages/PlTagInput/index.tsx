@@ -131,17 +131,17 @@ export const PlTagInput = designComponent({
                         <PlInput v-model={state.inputValue}
                                  onRef={onRef.input}
                                  key={state.isEditing ? 1 : 2}
-                                 onKeydown={handler.keydown}
-                                 v-slots={!state.isEditing ? {
-                                     default: () => (
-                                         <div className="pl-tag-input-not-edit"
-                                              onClick={handler.clickEditButton}>
-                                             <PlIcon icon="el-icon-plus"/>
-                                             <span>添加</span>
-                                         </div>
-                                     )
-                                 } : null}
-                        />
+                                 onKeydown={handler.keydown}>
+                            {{
+                                default: !state.isEditing ? undefined : (
+                                    <div className="pl-tag-input-not-edit"
+                                         onClick={handler.clickEditButton}>
+                                        <PlIcon icon="el-icon-plus"/>
+                                        <span>添加</span>
+                                    </div>
+                                )
+                            }}
+                        </PlInput>
                     )}
                 </div>
             )
