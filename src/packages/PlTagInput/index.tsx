@@ -70,7 +70,7 @@ export const PlTagInput = designComponent({
                     return
                 }
                 state.isEditing = true
-                await delay()
+                await delay(1000)
                 refs.input!.methods.focus()
                 // 点击其他元素的时候关闭输入状态
                 await delay()
