@@ -72,9 +72,8 @@ export const PlTagInput = designComponent({
                 state.isEditing = true
                 await delay()
                 refs.input!.methods.focus()
-
                 // 点击其他元素的时候关闭输入状态
-                await delay(0)
+                await delay()
                 window.addEventListener('click', handler.clickWindow, true)
             },
             inputEnter: async () => {
@@ -118,33 +117,35 @@ export const PlTagInput = designComponent({
         }
 
         return {
-            render: () => (
-                <div className={classes.value}>
-                    {
-                        (model.value || []).map((item: any, index) => (
-                            scopeSlots.default({item, index}, (
-                                <PlTag key={index} label={item} close={editComputed.value.editable && props.close} onClose={() => handler.tagClose(item, index)}/>
+            render: () => {
+                return (
+                    <div className={classes.value}>
+                        {
+                            (model.value || []).map((item: any, index) => (
+                                scopeSlots.default({item, index}, (
+                                    <PlTag key={index} label={item} close={editComputed.value.editable && props.close} onClose={() => handler.tagClose(item, index)}/>
+                                ))
                             ))
-                        ))
-                    }
-                    {!props.noInput && (
-                        <PlInput v-model={state.inputValue}
-                                 onRef={onRef.input}
-                                 key={state.isEditing ? 1 : 2}
-                                 onKeydown={handler.keydown}>
-                            {{
-                                default: !state.isEditing ? undefined : (
-                                    <div className="pl-tag-input-not-edit"
-                                         onClick={handler.clickEditButton}>
-                                        <PlIcon icon="el-icon-plus"/>
-                                        <span>添加</span>
-                                    </div>
-                                )
-                            }}
-                        </PlInput>
-                    )}
-                </div>
-            )
+                        }
+                        {!props.noInput && (
+                            <PlInput v-model={state.inputValue}
+                                     onRef={onRef.input}
+                                     key={state.isEditing ? 1 : 2}
+                                     onKeydown={handler.keydown}>
+                                {{
+                                    default: state.isEditing ? undefined : (
+                                        <div className="pl-tag-input-not-edit"
+                                             onClick={handler.clickEditButton}>
+                                            <PlIcon icon="el-icon-plus"/>
+                                            <span>添加</span>
+                                        </div>
+                                    )
+                                }}
+                            </PlInput>
+                        )}
+                    </div>
+                )
+            }
         }
     },
 })
