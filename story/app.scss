@@ -71,6 +71,18 @@ html, body {
             right: 16px;
             line-height: 40px;
         }
+
+        span:first-child {
+            color: #455a64;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        span:nth-child(2) {
+            font-size: 12px;
+            margin-left: .5em;
+            color: #ccc;
+        }
     }
 }
 

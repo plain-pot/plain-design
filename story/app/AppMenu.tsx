@@ -14,6 +14,7 @@ export const AppMenu = designComponent({
                     {group.children.map(menu => (
                         <div className="app-menu-item" key={`item_${menu.page}`} onClick={() => Menu.openMenu(menu)}>
                             <span>{menu.name}</span>
+                            <span>{menu.title}</span>
 
                             {!!menu.complete && (
                                 <div className="app-menu-item-is-done">
