@@ -1,6 +1,6 @@
 import {computed, reactive, ref} from "plain-design-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {DialogServiceFormatOption} from "./index";
+import {DialogServiceEditType, DialogServiceFormatOption} from "./index";
 import {useRefs} from "../../use/useRefs";
 import {PlInput} from "../PlInput";
 import {PlDialog} from "../PlDialog";
@@ -53,6 +53,9 @@ export default createDefaultService({
                     (binding as any)[key] = (state.option as any)[key]
                 }
             })
+            if (!!state.option.dialogProps) {
+                Object.assign(binding, state.option.dialogProps)
+            }
 
             return {
                 option,
@@ -150,7 +153,9 @@ export default createDefaultService({
                         onConfirm={handler.confirm}
                         onCancel={handler.cancel}
 
-                        {...binding}>
+                        {...binding}
+                        width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : undefined}
+                    >
                         {{
                             default: content,
                             head,
