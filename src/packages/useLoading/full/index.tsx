@@ -1,4 +1,4 @@
-import {createUseService} from "../../PlRoot/registryRootService";
+import {createServiceWithoutContext, createUseService} from "../../PlRoot/registryRootService";
 import {createDefaultManager} from "../../PlRoot/createDefaultManager";
 import Service from './Service'
 
@@ -25,3 +25,5 @@ export const useLoadingMask = createUseService({
         }
     },
 )
+
+export const $$loadingMask = createServiceWithoutContext(useLoadingMask)
