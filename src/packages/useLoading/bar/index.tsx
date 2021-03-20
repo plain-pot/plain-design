@@ -24,6 +24,8 @@ export interface LoadingBarHandler {
     fail: () => void,
 }
 
+export type LoadingBar = LoadingBarFormatOption & LoadingBarHandler
+
 export enum LoadingBarStatus {
     wait = 'wait',
     process = 'process',
@@ -47,7 +49,7 @@ export const useLoadingBar = createUseService({
         name: 'loading-bar',
         managerComponent: createDefaultManager('pl-loading-bar-manager', Service),
         createService: getManager => {
-            return (option?: LoadingBarOption): LoadingBarFormatOption & LoadingBarHandler => {
+            return (option?: LoadingBarOption): LoadingBar => {
                 const fo = formatOption(option || {})
                 getManager().then(manager => manager.service(fo))
                 return fo as any

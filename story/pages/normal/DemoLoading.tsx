@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, ref} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlLoading} from "../../../src/packages/PlLoading";
@@ -6,6 +6,11 @@ import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {reactive} from "@vue/reactivity";
 import {PlLoadingMask} from "../../../src/packages/PlLoadingMask";
 import PlButton from "../../../src/packages/PlButton";
+import {useLoading} from "../../../src/packages/useLoading";
+import $$message from "../../../src/packages/$$message";
+import {delay} from "plain-utils/utils/delay";
+import {LoadingBar} from "../../../src/packages/useLoading/bar";
+import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 
 // console.log(delay, PlainLoading)
 
@@ -23,6 +28,18 @@ export default designComponent({
             },
             bar: null,
         })
+
+        const $loading = useLoading()
+
+        const testFullLoading = async () => {
+            const option = $loading.full({message: '正在加载资源文件...'})
+            $$message('三秒钟之后关闭！')
+            await delay(3000)
+            option.close()
+        }
+
+        const bars = ref([] as LoadingBar[])
+        const newLoadingBar = () => bars.value.push($loading.bar())
 
         return () => (
             <div>
@@ -71,6 +88,26 @@ export default designComponent({
                             <PlLoadingMask v-model={state.flag1.loading} message={'loading...'}/>
                         </div>
                     )}
+                </DemoRow>
+                <DemoRow title={'全屏加载遮罩服务'}>
+                    <PlButton label={'提交'} onClick={testFullLoading}/>
+                </DemoRow>
+                <DemoRow title={'加载进度条'}>
+                    <PlButton label={'新的进度条'} onClick={newLoadingBar}/>
+                    {bars.value.map((item, index) => (
+                        <div key={index} style={{marginTop: '16px'}}>
+                            <PlButtonGroup size={'mini'} mode={'stroke'}>
+                                <PlButton label={'done'} onClick={() => {
+                                    item.done()
+                                    bars.value.splice(index, 1)
+                                }}/>
+                                <PlButton label={'fail'} onClick={() => {
+                                    item.fail()
+                                    bars.value.splice(index, 1)
+                                }} status={'error'}/>
+                            </PlButtonGroup>
+                        </div>
+                    ))}
                 </DemoRow>
             </div>
         )

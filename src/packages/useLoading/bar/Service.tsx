@@ -6,6 +6,7 @@ import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
 import useClass from "plain-design-composition/src/use/useClasses";
+import './loading-bar.scss'
 
 export default createDefaultService({
     name: 'pl-loading-bar-service',
