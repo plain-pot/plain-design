@@ -5,7 +5,7 @@ import {DemoRow} from "../../components/DemoRow";
 import {PlNumber} from "../../../src/packages/PlNumber";
 import {DemoLine} from "../../components/DemoLine";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
-import {$$message} from "../../../src";
+import $$message from "../../../src/packages/$$message";
 
 export default designPage(() => {
     const state = reactive({

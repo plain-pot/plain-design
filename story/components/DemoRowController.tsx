@@ -1,9 +1,9 @@
 import {designComponent} from "plain-design-composition"
 import React from "react";
 import {DemoRowCache} from "./DemoRow.utils";
-import {PlIcon} from "../../src";
 import {useCollect} from "../../src/use/useCollect";
 import {DemoRow} from "./DemoRow";
+import PlIcon from "../../src/packages/PlIcon";
 
 export const DemoRowController = designComponent({
     name: 'demo-row-controller',

@@ -1,12 +1,14 @@
 import {designPage, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {$$message, PlButton, PlButtonGroup} from "../../../src";
 import {PlDialog} from "../../../src/packages/PlDialog";
 import data from '../data/data-1.json'
 import './DemoDialog.scss'
 import {PlInput} from "../../../src/packages/PlInput";
 import {delay} from "plain-utils/utils/delay";
+import $$message from "../../../src/packages/$$message";
+import PlButton from "../../../src/packages/PlButton";
+import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 
 export default designPage(() => {
 

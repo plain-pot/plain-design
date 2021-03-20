@@ -3,9 +3,9 @@ import React from "react";
 import './DemoRow.scss'
 import {DemoRowCollector} from "./DemoRowController";
 import {DemoRowCache} from "./DemoRow.utils";
-import {PlIcon} from "../../src";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {Router} from "../app/navigator.utils";
+import PlIcon from "../../src/packages/PlIcon";
 
 export const DemoRow = designComponent({
     name: 'demo-row',

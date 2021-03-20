@@ -5,7 +5,7 @@ import {PlLoading} from "../../../src/packages/PlLoading";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {reactive} from "@vue/reactivity";
 import {PlLoadingMask} from "../../../src/packages/PlLoadingMask";
-import {PlButton} from "../../../src";
+import PlButton from "../../../src/packages/PlButton";
 
 // console.log(delay, PlainLoading)
 

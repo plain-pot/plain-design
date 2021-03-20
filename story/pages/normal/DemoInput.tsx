@@ -4,10 +4,10 @@ import {reactive} from "@vue/reactivity";
 import React from "react";
 import {PlInput} from "../../../src/packages/PlInput";
 import {DemoLine} from "../../components/DemoLine";
-import {$$message} from "../../../src";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {delay} from "plain-utils/utils/delay";
 import {StoryStatus} from "../../story.utils";
+import $$message from "../../../src/packages/$$message";
 
 export default designPage(() => {
 
