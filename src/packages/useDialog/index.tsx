@@ -36,7 +36,7 @@ export type DialogServiceFormatOption = RequireFormat<DialogServiceOption, 'stat
     close: () => void
 }
 
-type DialogServiceFunction = (message: string | DialogServiceOption, option?: DialogServiceOption) => void
+type DialogServiceFunction = (message: string | DialogServiceOption, option?: DialogServiceOption) => DialogServiceFormatOption
 type DialogService = DialogServiceFunction & { [k in StyleStatus]: DialogServiceFunction } & { confirm: DialogServiceFunction }
 
 function formatOption(o: DialogServiceOption): DialogServiceFormatOption {

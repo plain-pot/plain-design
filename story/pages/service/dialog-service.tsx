@@ -32,6 +32,22 @@ export default designPage(() => {
         })
     }
 
+    const multiService = (message = 1) => {
+        const option = $dialog({
+            render: () => {
+                return (
+                    <div>
+                        <div>
+                            {`第${message}个实例`}
+                        </div>
+                        <PlButton label="close" onClick={() => option.close()} style={{marginRight: '8px'}}/>
+                        <PlButton label="open another dialog" onClick={() => multiService(message + 1)}/>
+                    </div>
+                )
+            },
+        })
+    }
+
     let inputValue: string | undefined = '默认文本'
 
     return () => (
@@ -98,6 +114,10 @@ export default designPage(() => {
                     confirmButton: true,
                     cancelButton: true,
                 })}/>
+            </DemoRow>
+
+            <DemoRow title={'多实例'}>
+                <PlButton label={'open dialog'} onClick={() => multiService()}/>
             </DemoRow>
         </div>
     )
