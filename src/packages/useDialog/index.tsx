@@ -6,6 +6,7 @@ import {createServiceWithoutContext, createUseService} from "../PlRoot/registryR
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import PlDialogService from "./PlDialogService";
 import {defer} from "../../utils/defer";
+import './dialog-service.scss'
 
 export enum DialogServiceEditType {
     input = 'input',
@@ -15,10 +16,10 @@ export enum DialogServiceEditType {
 export interface DialogServiceOption {
     title?: string,                                                 // 标题
     message?: string,                                               // 提示的消息
-    editType?: DialogServiceEditType,                               // 输入类型
+    editType?: keyof typeof DialogServiceEditType,                               // 输入类型
     editValue?: string | number,                                    // 输入初始内容
     editReadonly?: boolean,                                         // 输入框只读
-    status?: StyleStatus | null,                                    // 对话框状态
+    status?: keyof typeof StyleStatus | null,                                    // 对话框状态
     render?: () => ReactNode,                                       // 自定义对话框内容
     renderHead?: () => ReactNode,                                   // 自定义对话框标题内容
     renderFoot?: () => ReactNode,                                   // 自定义对话框底部内容
