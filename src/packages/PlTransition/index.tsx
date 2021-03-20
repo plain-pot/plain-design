@@ -1,7 +1,8 @@
-import {designComponent, PropType} from "plain-design-composition";
+import {designClassComponent, designComponent, onMounted, PropType, useReference} from "plain-design-composition";
 import React from "react";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {findDOMNode} from "react-dom";
 
 const PlSwitchTransition = designComponent({
     props: {
@@ -48,6 +49,53 @@ const PlSwitchTransition = designComponent({
     },
 })
 
+const PlDisappearTransition = designClassComponent({
+    props: {
+        name: {type: String, required: true},
+        show: {type: Boolean},
+        timeout: {type: Number, default: 300},
+        unmount: {type: Boolean},
+    },
+    slots: ['default'],
+    setup({props, slots}) {
+
+        const {
+            binding,
+            cssRef,
+        } = (() => {
+            const cssRef = useReference()
+            /*隐藏的时候销毁内容*/
+            if (props.unmount) return {binding: {}, cssRef}
+            /*隐藏的时候不销毁内容*/
+            onMounted(() => {
+                /*初始化的时候就设置不可见*/
+                const el = findDOMNode(cssRef.current) as any
+                if (!el) return
+                if (!props.show) {el.style.display = 'none'}
+            });
+            return {
+                cssRef,
+                binding: {
+                    onEnter: (el: HTMLElement) => {el.style.display = ''},
+                    onExited: (el: HTMLElement) => {el.style.display = 'none'},
+                },
+            }
+        })();
+
+        return () => (
+            <CSSTransition
+                {...binding}
+                ref={cssRef}
+                in={props.show}
+                timeout={props.timeout}
+                classNames={props.name}
+                unmountOnExit={props.unmount}>
+                {slots.default()}
+            </CSSTransition>
+        )
+    },
+})
+
 /**
  * switch:      name,mode
  * disappear:   show,timeout,name
@@ -65,15 +113,7 @@ export const PlTransition: React.FC<{
     unmount?: boolean,
 }> = (props) => {
     if (props.switch) return <PlSwitchTransition {...props}/>
-    else return (
-        <CSSTransition
-            in={props.show}
-            timeout={props.timeout == null ? 300 : props.timeout}
-            classNames={props.name}
-            unmountOnExit={props.switch ? undefined : props.unmount}>
-            {props.children}
-        </CSSTransition>
-    )
+    else return <PlDisappearTransition {...props}/>
 }
 
 export default PlTransition
