@@ -59,7 +59,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Loading', title: '加载', page: '/normal/DemoLoading', complete: true},
             {name: 'Select', title: '下拉选择', page: '/normal/Select', complete: false},
             {name: 'Toggle', title: '开关切换', page: '/normal/DemoToggle', complete: true},
-            {name: 'Slider', title: '滑块', page: '/normal/Slider', complete: false},
+            {name: 'Slider', title: '滑块', page: '/normal/DemoSlider', complete: true},
             {name: 'Tag', title: '标签', page: '/normal/Tag', complete: false},
             {name: 'Rate', title: '评分', page: '/normal/Rate', complete: false},
             {name: 'ColorPicker', title: '颜色选择', page: '/normal/ColorPicker', complete: false},

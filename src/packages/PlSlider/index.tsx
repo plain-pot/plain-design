@@ -1,4 +1,4 @@
-import {computed, designComponent, reactive, useModel, useMounted} from "plain-design-composition"
+import {computed, designComponent, PropType, reactive, useModel, useMounted} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {useRefs} from "../../use/useRefs";
@@ -10,7 +10,7 @@ import {enableUserSelect} from 'plain-utils/dom/enableUserSelect'
 import React from "react";
 import './slider.scss'
 
-export default designComponent({
+export const PlSlider = designComponent({
     name: 'pl-slider',
     props: {
         ...EditProps,
@@ -31,7 +31,7 @@ export default designComponent({
 
         showSteps: {type: Boolean, default: true},                  //是否显示步骤点
         tooltip: {type: Boolean, default: true},                    //是否tooltip显示值
-        tooltipFormatter: Function,                                 //tooltip显示格式化函数
+        tooltipFormatter: Function as PropType<(val: number) => string | undefined>,//tooltip显示格式化函数
         range: {type: Boolean},                                     //是否为范围选择
     },
     emits: {
@@ -41,7 +41,7 @@ export default designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const {refs} = useRefs({
+        const {refs, onRef} = useRefs({
             el: HTMLDivElement,
         })
 
@@ -222,7 +222,7 @@ export default designComponent({
 
         return {
             render: () => (
-                <div className={classes.value} style={styles.value} ref={'el'}>
+                <div className={classes.value} style={styles.value} ref={onRef.el}>
                     {
                         props.showSteps && props.step > 1 && (
                             <div className="pl-slider-step">
@@ -249,3 +249,5 @@ export default designComponent({
         }
     },
 })
+
+export default PlSlider
