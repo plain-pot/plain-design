@@ -13,7 +13,10 @@ import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 export default designPage(() => {
 
     const state = reactive({
-        val: {} as any,
+        val: {
+            14: false,
+            // 14: true,
+        } as any,
     })
 
     const str = JSON.stringify(data)
@@ -115,9 +118,9 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'destroyOnClose'}>
                 <PlButton label={'关闭时销毁'} onClick={() => state.val[14] = !state.val[14]}/>
-                <PlDialog v-model={state.val[14]}><PlInput/></PlDialog>
+                <PlDialog v-model={state.val[14]}><PlInput block/></PlDialog>
                 <PlButton label={'关闭时不销毁'} onClick={() => state.val[15] = !state.val[15]}/>
-                <PlDialog v-model={state.val[15]} destroyOnClose={false}><PlInput/></PlDialog>
+                <PlDialog v-model={state.val[15]} destroyOnClose={false}><PlInput block/></PlDialog>
             </DemoRow>
             <DemoRow title={'确认以及取消按钮'}>
                 <PlButton label={'确认以及取消按钮'} onClick={() => state.val[16] = !state.val[16]}/>
