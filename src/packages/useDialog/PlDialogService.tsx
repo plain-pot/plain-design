@@ -1,7 +1,6 @@
-import {computed, reactive, ref} from "plain-design-composition";
+import {computed, useRefs, reactive, ref} from "plain-design-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {DialogServiceEditType, DialogServiceFormatOption} from "./index";
-import {useRefs} from "../../use/useRefs";
 import {PlInput} from "../PlInput";
 import {PlDialog} from "../PlDialog";
 import {delay} from "plain-utils/utils/delay";
@@ -124,7 +123,7 @@ export default createDefaultService({
                         (binding as any).minHeight = null
                     }
                     serviceClass += ` pl-dialog-service-edit`
-                    content = <PlInput onRef={onRef.input}
+                    content = <PlInput ref={(refer) => { onRef.input(refer) }}
                                        block
                                        minHeight={null as any}
                                        maxHeight={null as any}

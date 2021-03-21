@@ -47,7 +47,7 @@ export const PlNoticeManager = designComponent({
                             key={index}
                             horizontal={container.horizontal}
                             vertical={container.vertical}
-                            onRef={(proxy: any) => refs[index] = proxy}/>)}
+                            ref={(proxy: any) => refs[index] = proxy}/>)}
                 </div>
             )
         }

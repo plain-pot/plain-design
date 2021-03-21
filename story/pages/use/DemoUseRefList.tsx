@@ -1,11 +1,10 @@
-import {designClassComponent, designComponent, reactive} from "plain-design-composition";
+import {designClassComponent, useRefList, designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {PlButton} from "../../../src/packages/PlButton";
 import {shuffle} from "plain-utils/object/shuffle";
 import {PlList} from "../../../src/packages/PlList";
-import {useRefList} from "../../../src/use/useRefList";
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 import './DemoUseRefList.scss'
 
@@ -97,7 +96,7 @@ export default designComponent({
                                     data={city}
                                     onAdd={() => handler.add(index)}
                                     onRemove={() => handler.remove(index)}
-                                    onRef={refer => items[index] = refer as any}
+                                    ref={refer => items[index] = refer as any}
                                 />
                             )
                         )}

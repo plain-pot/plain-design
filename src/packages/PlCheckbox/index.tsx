@@ -1,4 +1,4 @@
-import {computed, designComponent, useModel, useNumber, useStyles} from "plain-design-composition";
+import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
@@ -10,7 +10,6 @@ import PlCheckboxInner from "../PlCheckboxInner";
 import PlTransition from "../PlTransition";
 import {CheckboxGroupCollector} from "../PlCheckboxGroup";
 import {useClickWave} from "../../directives/ClickWave";
-import {useRefs} from "../../use/useRefs";
 import './checkbox.scss'
 import {isis} from "../../utils/ifSlotIsString";
 

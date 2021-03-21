@@ -1,6 +1,5 @@
 import React from "react";
-import {designClassComponent, designComponent, reactive, useModel, useReference} from "plain-design-composition";
-import {useRefs} from "../../../src/use/useRefs";
+import {designClassComponent, useRefs, designComponent, reactive, useModel, useReference} from "plain-design-composition";
 
 const Child = designClassComponent({
     props: {
@@ -42,7 +41,7 @@ const TestUseReference = designComponent({
         return () => (
             <div>
                 <h2>测试 useReference</h2>
-                {!!state.show && <Child onRef={childRef}/>}
+                {!!state.show && <Child ref={childRef}/>}
                 <button onClick={() => console.log(childRef.current)}>log</button>
                 <button onClick={() => state.show = !state.show}>show child:{String(state.show)}</button>
                 <button onClick={() => !!childRef.current && childRef.current.focus()}>focus</button>
@@ -60,7 +59,7 @@ const TestUseComponentUse = designComponent({
         return () => (
             <div>
                 <h2>测试组件use.ref</h2>
-                {!!state.show && <Child onRef={childRef}/>}
+                {!!state.show && <Child ref={childRef}/>}
                 <button onClick={() => console.log(childRef.current)}>log</button>
                 <button onClick={() => state.show = !state.show}>show child:{String(state.show)}</button>
                 <button onClick={() => !!childRef.current && childRef.current.focus()}>focus</button>
@@ -80,7 +79,7 @@ const TestLifecycle = designComponent({
                 <h2>测试组件生命周期事件</h2>
 
                 {!!state.show && <Child
-                    onRef={childRef}
+                    ref={childRef}
                     onMounted={() => console.log('child mounted')}
                     onUpdated={() => console.log('child updated')}
                     onBeforeUnmount={() => console.log('child unmounted')}
@@ -117,7 +116,7 @@ const TestUseRefs = designComponent({
                 </div>
                 <br/>
                 <div>
-                    {!!state.show && <Child onRef={onRef.child}/>}
+                    {!!state.show && <Child ref={onRef.child}/>}
                     <button onClick={() => !!refs.child && refs.child.focus()}>child focus</button>
                     <button onClick={() => console.log(refs.child)}>child log</button>
                 </div>

@@ -1,5 +1,4 @@
-import {computed, designComponent, reactive, useModel} from "plain-design-composition"
-import {useRefs} from "../../../src/use/useRefs"
+import {computed, useRefs, designComponent, reactive, useModel} from "plain-design-composition"
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
 import {useCollect} from "../../../src/use/useCollect";

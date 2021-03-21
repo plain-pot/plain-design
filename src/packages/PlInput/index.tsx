@@ -1,7 +1,6 @@
-import {computed, designComponent, onMounted, PropType, reactive, useModel, useNumber, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {useRefs} from "../../use/useRefs";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import {getKey, KEY} from "../keyboard";

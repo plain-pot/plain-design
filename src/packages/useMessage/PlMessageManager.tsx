@@ -1,6 +1,5 @@
-import {designComponent, reactive} from "plain-design-composition";
+import {designComponent, useRefList, reactive} from "plain-design-composition";
 import {MessageServiceDirection} from "./index";
-import {useRefList} from "../../use/useRefList";
 import PlMessageContainer from "./PlMessageContainer";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
@@ -46,7 +45,7 @@ export const PlMessageManager = designComponent({
                             key={index}
                             horizontal={container.horizontal}
                             vertical={container.vertical}
-                            onRef={(proxy: any) => refs[index] = proxy}/>)}
+                            ref={(proxy: any) => refs[index] = proxy}/>)}
                 </div>
             )
         }

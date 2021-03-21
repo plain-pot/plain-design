@@ -51,7 +51,7 @@ export const PlNoticeContainer = designComponent({
                             <div className={"pl-item"} key={option.id}>
                                 <PlNotice
                                     option={option}
-                                    onRef={(proxy: any) => refs[index] = proxy}
+                                    ref={(proxy: any) => refs[index] = proxy}
                                     onClose={() => utils.close(index)}
                                 />
                             </div>

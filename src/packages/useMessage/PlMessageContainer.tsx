@@ -53,7 +53,7 @@ export default designComponent({
                             <div className="pl-item" key={option.id}>
                                 <PlMessage
                                     option={option}
-                                    onRef={(proxy: any) => refs[index] = proxy}
+                                    ref={(proxy: any) => refs[index] = proxy}
                                     onClose={() => utils.closeMessage(index)}
                                 />
                             </div>

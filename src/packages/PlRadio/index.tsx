@@ -1,4 +1,4 @@
-import {computed, designComponent, PropType, useModel, useNumber, useStyles} from 'plain-design-composition'
+import {computed, designComponent, PropType, useModel, useNumber, useRefs, useStyles} from 'plain-design-composition'
 import './radio.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
@@ -11,7 +11,6 @@ import React from 'react';
 import PlTransition from "../PlTransition";
 import PlRadioInner from "../PlRadioInner";
 import {isis} from "../../utils/ifSlotIsString";
-import {useRefs} from "../../use/useRefs";
 import {useClickWave} from "../../directives/ClickWave";
 import {PlRadioGroup} from "../PlRadioGroup";
 

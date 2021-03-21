@@ -1,8 +1,7 @@
-import {designComponent, onBeforeUnmount, reactive, useModel} from 'plain-design-composition'
+import {designComponent, useRefs, onBeforeUnmount, reactive, useModel} from 'plain-design-composition'
 import './tag-input.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {useRefs} from "../../use/useRefs";
 import {PlInput} from "../PlInput";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {delay} from "plain-utils/utils/delay";
@@ -129,7 +128,7 @@ export const PlTagInput = designComponent({
                         }
                         {!props.noInput && (
                             <PlInput v-model={state.inputValue}
-                                     onRef={onRef.input}
+                                     ref={onRef.input}
                                      key={state.isEditing ? 1 : 2}
                                      onKeydown={handler.keydown}>
                                 {{

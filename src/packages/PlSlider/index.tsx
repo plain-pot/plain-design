@@ -1,7 +1,6 @@
-import {computed, designComponent, PropType, reactive, useModel, useMounted} from "plain-design-composition"
+import {computed, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {useRefs} from "../../use/useRefs";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import {removeUnit} from "plain-utils/string/removeUnit";

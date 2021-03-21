@@ -1,8 +1,7 @@
 import './dialog.scss'
-import {computed, designComponent, onBeforeUnmount, reactive, ref, watch} from "plain-design-composition";
+import {computed, designComponent, onBeforeUnmount, reactive, ref, useRefs, watch} from "plain-design-composition";
 import {StyleProps, StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
-import {useRefs} from "../../use/useRefs";
 import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";

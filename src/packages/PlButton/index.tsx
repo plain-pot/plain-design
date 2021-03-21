@@ -1,4 +1,4 @@
-import {computed, designComponent, reactive, useNumber, useStyles, watch} from 'plain-design-composition'
+import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from 'plain-design-composition'
 import './button.scss'
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
@@ -12,7 +12,6 @@ import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {ButtonModeProvider} from "../PlButtonGroup";
 import {useClickWave} from "../../directives/ClickWave";
-import {useRefs} from "../../use/useRefs";
 
 console.log('load button component')
 

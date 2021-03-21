@@ -1,11 +1,9 @@
-import {designComponent, onBeforeUpdate, onUpdated, reactive} from "plain-design-composition";
+import {designComponent, useRefs, onBeforeUpdate, onUpdated, reactive} from "plain-design-composition";
 import React from "react";
 import './TestGroupTransition.scss'
-import {useRefs} from "../../../src/use/useRefs";
 import {PlButton} from "../../../src/packages/PlButton";
 import FlipMove from "react-flip-move";
 import {shuffle} from 'plain-utils/object/shuffle'
-
 
 const List = designComponent({
     slots: ['default'],

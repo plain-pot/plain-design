@@ -1,5 +1,4 @@
-import {useRefList} from "../../use/useRefList";
-import {designComponent, ref} from "plain-design-composition";
+import {designComponent, useRefList, ref} from "plain-design-composition";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
 
@@ -74,7 +73,7 @@ export function createDefaultManager<Option>(
                             {options.value.map((opt, i) => <ServiceComponent
                                 key={i}
                                 option={opt}
-                                onRef={(proxy: any) => refs[i] = proxy}
+                                ref={(proxy: any) => refs[i] = proxy}
                             />)}
                         </div>
                     )

@@ -1,9 +1,8 @@
-import {designComponent, installJSXModelPlugin, markRaw, reactive} from "plain-design-composition"
+import {designComponent, useRefList, installJSXModelPlugin, markRaw, reactive} from "plain-design-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
 import {createPortal} from 'react-dom'
-import {useRefList} from "../../use/useRefList";
 import './PlRoot.scss'
 
 installJSXModelPlugin(React)
@@ -74,7 +73,7 @@ export const PlRoot = designComponent({
                             <RenderComponent
                                 key={index}
                                 {...{name, Component}}
-                                onRef={(refer: any) => refs[index] = refer}
+                                ref={(refer: any) => refs[index] = refer}
                             />
                         ))}
                     </div>,

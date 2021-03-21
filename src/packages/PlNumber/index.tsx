@@ -1,7 +1,6 @@
-import {computed, designComponent, reactive, useModel, useNumber} from "plain-design-composition";
+import {computed, designComponent, reactive, useModel, useNumber, useRefs} from "plain-design-composition";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {useRefs} from "../../use/useRefs";
 import {getKey, KEY} from "../keyboard";
 import {PlInput} from "../PlInput";
 import React from "react";

@@ -1,6 +1,5 @@
-import {designComponent, onBeforeUnmount, onMounted, reactive} from "plain-design-composition"
+import {designComponent, useRefs, onBeforeUnmount, onMounted, reactive} from "plain-design-composition"
 import React from "react"
-import {useRefs} from "../../../src/use/useRefs";
 import './DemoUseEvent.scss'
 import {createEventListener} from 'plain-design-composition/src/utils/createEventListener'
 

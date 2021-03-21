@@ -1,6 +1,5 @@
-import {designComponent, onMounted, reactive, useModel, useStyles, watch} from 'plain-design-composition'
+import {designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-design-composition'
 import './loading-mask.scss'
-import {useRefs} from "../../use/useRefs";
 import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {delay} from "plain-utils/utils/delay";

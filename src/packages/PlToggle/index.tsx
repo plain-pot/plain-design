@@ -1,10 +1,9 @@
-import {computed, designComponent, reactive, useModel} from "plain-design-composition"
+import {computed, useRefs, designComponent, reactive, useModel} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {getKey, KEY} from "../keyboard";
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
-import {useRefs} from "../../use/useRefs";
 import {useClickWave} from "../../directives/ClickWave";
 import './toggle.scss'
 
