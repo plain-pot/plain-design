@@ -73,7 +73,6 @@ const PlDisappearTransition = designClassComponent({
         }
 
         return () => {
-            // console.log(props.name, props.show, props.children)
             return (
                 <CSSTransition
                     {...binding}
