@@ -11,7 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",
-    "plain-design-composition": "0.0.38",
     "plain-loading": "^0.1.5",
     "plain-utils": "^0.1.18",
     "react-flip-move": "^3.0.4",
@@ -35,6 +34,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^4.5.2",
+    "plain-design-composition": "0.0.39",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
     "react": "^17.0.1",
