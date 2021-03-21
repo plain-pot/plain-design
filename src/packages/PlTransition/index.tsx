@@ -1,7 +1,8 @@
-import {designClassComponent, designComponent, PropType, useMounted} from "plain-design-composition";
-import React from "react";
+import {designClassComponent, designComponent, onMounted, PropType, useHooksOnDesign, useReference} from "plain-design-composition";
+import React, {useLayoutEffect} from "react";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {findDOMNode} from "react-dom";
 
 const PlSwitchTransition = designComponent({
     props: {
@@ -58,53 +59,30 @@ const PlDisappearTransition = designClassComponent({
     slots: ['default'],
     setup({props}) {
 
-        /*props.show 初始值， setDisplayNone在mounted结束之后，需要根据这个判断是否给chlidren设置不显示*/
-        let initShow = !!props.show as boolean | null
-        /*是否已经mounted，没有mounted的情况下，setDisplayNone有效，设置children不显示*/
-        const mounted = useMounted()
-        /*unmount为false的情况下，每次动画结束之后，设置节点可见/不可见*/
         const binding = props.unmount ? {} : {
             onEnter: (el: HTMLElement) => {el.style.display = ''},
             onExited: (el: HTMLElement) => {el.style.display = 'none'},
         }
+        const cssRef = useReference<any>()
 
-        /*因为render 比 watch要先执行，这里在render比较prevShow以及show已达到 watch props.show的效果*/
-        let prevShow = props.show
+        if (!props.unmount && !props.show) {
+            useHooksOnDesign(() => useLayoutEffect(() => {
+                const el = findDOMNode(cssRef.current) as HTMLElement | undefined
+                !!el && (el.style.display = 'none')
+            }, []))
+        }
 
         return () => {
-
-            let children = props.children as any
-
-            /*watch props.show*/
-            if (mounted.value && initShow !== null) {
-                if (prevShow !== props.show) {initShow = null}
-            }
-
-            /*是否要设置children不可见*/
-            const setDisplayNone = (() => {
-                /*如果没有mounted，直接设置不显示*/
-                if (!mounted.value) {return true}
-                /*show没有变化过，并且为false，设置不显示*/
-                if (initShow != null && !initShow) {return true}
-                return false
-            })();
-
-            if (!props.unmount) {
-                if (!!children && setDisplayNone) {
-                    /*当有children的情况下，在没有mounted的时候，以及初始化的时候没有show的情况下，直接设置 display:none*/
-                    const childProps = children.props || {}
-                    children = {...children, props: {...childProps, style: Object.assign({}, childProps.style, {display: 'none'})}}
-                }
-            }
-
+            // console.log(props.name, props.show, props.children)
             return (
                 <CSSTransition
                     {...binding}
-                    in={props.show && !setDisplayNone}
+                    ref={cssRef}
+                    in={props.show}
                     timeout={props.timeout}
                     classNames={props.name}
                     unmountOnExit={props.unmount}>
-                    {children}
+                    {props.children}
                 </CSSTransition>
             )
         }
