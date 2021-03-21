@@ -20,7 +20,7 @@ export const PlInput = designComponent({
         ...EditProps,
         ...StyleProps,
 
-        modelValue: {type: [String, Number]},
+        modelValue: {type: String as PropType<string | null>},
         placeValue: {type: [String, Number]},
 
         width: {type: [Number, String, Object, Function] as PropType<string | number>, default: null,},        // 输入框默认宽度
@@ -266,7 +266,7 @@ export const PlInput = designComponent({
                     return (
                         <div className={'pl-textarea ' + classes.value}>
                             <textarea className="pl-textarea-inner" {...publicProps.value}/>
-                            <textarea className="pl-textarea-inner pl-textarea-hidden" ref={onRef.hiddenInput} value={model.value} onChange={noop}/>
+                            <textarea className="pl-textarea-inner pl-textarea-hidden" ref={onRef.hiddenInput} value={model.value!} onChange={noop}/>
                         </div>
                     )
                 } else {
