@@ -90,15 +90,16 @@ export default designComponent({
                 </DemoRow>
                 <DemoRow>
                     <PlList enterAnimation={state.animations} leaveAnimation={state.animations}>
-                        <Item
-                            key={'111'}
-                            data={{id: '111', name: '111'}}
-                            onAdd={() => {}}
-                            onRemove={() => {}}
-                            ref={refer => {
-                                console.log('ref item', refer)
-                            }}
-                        />
+                        {state.cities.map((city, index) => (
+                                <Item
+                                    key={city.id}
+                                    data={city}
+                                    onAdd={() => handler.add(index)}
+                                    onRemove={() => handler.remove(index)}
+                                    onRef={refer => items[index] = refer as any}
+                                />
+                            )
+                        )}
                     </PlList>
                 </DemoRow>
             </div>
