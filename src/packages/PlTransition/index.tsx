@@ -57,7 +57,7 @@ const PlDisappearTransition = designClassComponent({
         unmount: {type: Boolean},
     },
     slots: ['default'],
-    setup({props}) {
+    setup({props, slots}) {
 
         const binding = props.unmount ? {} : {
             onEnter: (el: HTMLElement) => {el.style.display = ''},
@@ -82,7 +82,7 @@ const PlDisappearTransition = designClassComponent({
                     timeout={props.timeout}
                     classNames={props.name}
                     unmountOnExit={props.unmount}>
-                    {props.children}
+                    {slots.default()}
                 </CSSTransition>
             )
         }
