@@ -9,6 +9,8 @@ import PlTagInput from "../../../src/packages/PlTagInput";
 import {reactive} from "@vue/reactivity";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlButton from "../../../src/packages/PlButton";
+import {DemoLine} from "../../components/DemoLine";
+import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 
 export default designPage(() => {
 
@@ -92,6 +94,15 @@ export default designPage(() => {
                 <div>
                     {JSON.stringify(state.val[2])}
                 </div>
+            </DemoRow>
+            <DemoRow title={'禁用与只读'}>
+                <PlCheckbox label={'禁用/只读'} v-model={state.val[3]}/>
+                <DemoLine>
+                    <PlTagInput v-model={state.val[4]} disabled={state.val[3]}/>
+                </DemoLine>
+                <DemoLine>
+                    <PlTagInput v-model={state.val[4]} readonly={state.val[3]}/>
+                </DemoLine>
             </DemoRow>
         </div>
     )
