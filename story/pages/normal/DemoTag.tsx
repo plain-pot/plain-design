@@ -83,13 +83,15 @@ export default designPage(() => {
             <DemoRow title={'自定义标签内容与格式化显示值'}>
                 <PlTagInput v-model={state.val[2]} formatValue={formatValue}>
                     {({item, index}: any) => (
-                        <PlTag status={item.status} disabled={item.disabled} close onClose={() => state.val[2].splice(index, 1)}>
+                        <PlTag key={index} status={item.status} disabled={item.disabled} close onClose={() => state.val[2].splice(index, 1)}>
                             <PlIcon icon={item.icon}/>
                             <span>{item.name}</span>
                         </PlTag>
                     )}
                 </PlTagInput>
-                {state.val[2]}
+                <div>
+                    {JSON.stringify(state.val[2])}
+                </div>
             </DemoRow>
         </div>
     )
