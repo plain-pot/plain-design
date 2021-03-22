@@ -11,6 +11,8 @@ import $$message from "../../../src/packages/$$message";
 import './DemoStep.scss'
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
+import PlArrowStepGroup from "../../../src/packages/PlArrowStepGroup";
+import PlArrowStep from "../../../src/packages/PlArrowStep";
 
 export default designPage(() => {
 
@@ -245,6 +247,18 @@ export default designPage(() => {
                             </PlStep>
                         </PlStepGroup>
                     </DemoLine>
+                </DemoRow>
+                <DemoRow title={'箭头步骤条'}>
+                    <DemoLine title={'当前步骤条索引'}>
+                        <PlNumber v-model={state.val[5].index}/>
+                    </DemoLine>
+                    <PlArrowStepGroup current={state.val[5].index}>
+                        <PlArrowStep title={'获取token'} onClick={() => $$message('获取token')}/>
+                        <PlArrowStep title={'上传logo'} onClick={() => $$message('上传logo')}/>
+                        <PlArrowStep title={'创建卡券'} onClick={() => $$message('创建卡券')}/>
+                        <PlArrowStep title={'创建二维码'} onClick={() => $$message('创建二维码')}/>
+                        <PlArrowStep title={'显示二维码'} onClick={() => $$message('显示二维码')}/>
+                    </PlArrowStepGroup>
                 </DemoRow>
             </div>
         )

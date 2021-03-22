@@ -25,7 +25,7 @@ export const PlTriangle = designComponent({
     },
     setup({props}) {
         const {refs, onRef} = useRefs({
-            el: HTMLSpanElement,
+            el: HTMLElement,
         })
 
         const size = useModel(() => props.size, () => {})
@@ -76,7 +76,7 @@ export const PlTriangle = designComponent({
         return {
             render: () => (
                 size.value == null ? <span ref={onRef.el} style={{display: 'none'}}/> : (
-                    <div className={classes.value} style={styles.value} ref="el">
+                    <div className={classes.value} style={styles.value} ref={onRef.el}>
                         <div className="pl-triangle-target" style={targetStyles.value}/>
                     </div>
                 )
