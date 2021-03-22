@@ -198,6 +198,54 @@ export default designPage(() => {
                         <h1 style={{display: state.val1[3] === 'step5' ? '' : 'none'}}>Step 5</h1>
                     </div>
                 </DemoRow>
+                <DemoRow title={'自定义标题以及文本内容'}>
+                    <DemoLine title={'当前步骤索引'}>
+                        <PlNumber v-model={state.val[4].index}/>
+                        <PlCheckbox label={'迷你尺寸'} v-model={state.val[4].mini}/>
+                        <PlCheckbox label={'纵向步骤条'} v-model={state.val[4].vertical}/>
+                        <PlCheckbox label={'标题放在图标下方'} v-model={state.val[4].titleAlignBottom}/>
+                    </DemoLine>
+                    <DemoLine>
+                        <PlStepGroup
+                            current={state.val[4].index}
+                            vertical={state.val[4].vertical}
+                            mini={state.val[4].mini}
+                            titleAlignBottom={state.val[4].titleAlignBottom}
+                            currentStatus={state.val[4].index === 5 ? 'finish' : undefined}
+                        >
+                            <PlStep>
+                                {{
+                                    title: (<span>获取token</span>),
+                                    content: (<span>1、调用接口，获取token</span>)
+                                }}
+                            </PlStep>
+                            <PlStep>
+                                {{
+                                    title: (<span>上传logo</span>),
+                                    content: (<span>2、使用token上传logo图片</span>)
+                                }}
+                            </PlStep>
+                            <PlStep>
+                                {{
+                                    title: (<span>创建卡券</span>),
+                                    content: (<span>3、调用接口创建卡券信息</span>)
+                                }}
+                            </PlStep>
+                            <PlStep>
+                                {{
+                                    title: (<span>创建二维码</span>),
+                                    content: (<span>4、调用接口创建二维码</span>)
+                                }}
+                            </PlStep>
+                            <PlStep>
+                                {{
+                                    title: (<span>显示二维码</span>),
+                                    content: (<span>5、在应用中显示二维码</span>)
+                                }}
+                            </PlStep>
+                        </PlStepGroup>
+                    </DemoLine>
+                </DemoRow>
             </div>
         )
     }
