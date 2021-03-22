@@ -153,7 +153,7 @@ export const PlCheckboxGroup = designComponent({
                 }
 
                 /*单个按钮*/
-                if (!val) {
+                if (val == null) {
                     throw new Error('Checkbox: val is necessary when Checkbox in CheckboxGroup')
                 }
                 if (!modelValue.value) {
