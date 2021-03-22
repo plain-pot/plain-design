@@ -106,7 +106,7 @@ const MenuData: MenuGroup[] = [
     },*/
     {
         name: '其他', children: [
-            {name: 'Scroll', title: '滚动条', page: '/normal/scroll', complete: false},
+            {name: 'Scroll', title: '滚动条', page: '/normal/DemoScroll', complete: true},
             {name: 'Dialog', title: '对话框', page: '/normal/DemoDialog', complete: true},
             {name: 'Tooltip', title: '文字提示', page: '/normal/tooltip', complete: false},
             {name: 'Dropdown', title: '下拉菜单', page: '/normal/dropdown', complete: false},
