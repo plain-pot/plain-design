@@ -34,7 +34,7 @@ export const PlBadge = designComponent({
                 <div className="pl-badge">
                     {slots.default()}
                     <div className={contentClass.value}>
-                        {slots.badge(props.data != null ? <span>{showValue.value as any}</span> : null)}
+                        {!props.dot && slots.badge(props.data != null ? <span>{showValue.value as any}</span> : null)}
                     </div>
                 </div>
             )
