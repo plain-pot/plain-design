@@ -249,7 +249,7 @@ export const PlCarousel = designComponent({
                             scopeSlots.indicator({val: String(item.itemVal), index, active: index === activeIndex.value}, (
                                 <div
                                     {...{
-                                        [props.indicatorTrigger === 'hover' ? 'onMouseenter' : 'onClick']: () => handler.onIndicator(index)
+                                        [props.indicatorTrigger === 'hover' ? 'onMouseEnter' : 'onClick']: () => handler.onIndicator(index)
                                     }}
                                     className={classnames([
                                         'pl-carousel-indicator-item',
