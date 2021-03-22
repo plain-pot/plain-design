@@ -58,7 +58,9 @@ export const PlStep = designComponent({
         ])
 
         return {
-            refer: {},
+            refer: {
+                props,
+            },
             render: () => (
                 <div className={classes.value} onClick={e => emit.onClick(e.nativeEvent)} ref={onRef.el}>
                     <div className="pl-step-head">

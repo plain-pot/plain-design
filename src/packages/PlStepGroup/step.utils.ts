@@ -13,7 +13,7 @@ export const StepUtils = {
         } else {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
-                if (item.val === current) return i
+                if (item.props.val === current) return i
             }
         }
     },
