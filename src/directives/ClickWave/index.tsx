@@ -1,11 +1,10 @@
 import {onBeforeUnmount, watch} from 'plain-design-composition';
-import './ClickWave.scss'
+import './click-wave.scss'
 import {delay} from "plain-utils/utils/delay";
 
 export interface ClickWaveOptions {
     disabled?: boolean,
     size?: 'large' | 'normal' | 'mini',
-
 }
 
 function createClickWaveManager(el: HTMLElement, o?: ClickWaveOptions | string) {
