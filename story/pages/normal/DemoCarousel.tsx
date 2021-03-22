@@ -1,4 +1,3 @@
-import './DemoCarousel.scss'
 import {designPage} from "plain-design-composition";
 import React from 'react';
 import {DemoRow} from "../../components/DemoRow";
@@ -15,11 +14,17 @@ export default designPage(() => {
         <div>
             <DemoRow title={'基本用法'}>
                 <PlCarousel>
+                    <PlCarouselItem>panel1</PlCarouselItem>
+                    <PlCarouselItem>panel2</PlCarouselItem>
+                    <PlCarouselItem>panel3</PlCarouselItem>
+                    <PlCarouselItem>panel4</PlCarouselItem>
+                </PlCarousel>
+                {/*<PlCarousel>
                     <PlCarouselItem style={{backgroundColor: '#8A2BE2', ...publicItemStyles}}>panel1</PlCarouselItem>
                     <PlCarouselItem style={{backgroundColor: '#409EFF', ...publicItemStyles}}>panel2</PlCarouselItem>
                     <PlCarouselItem style={{backgroundColor: '#F38585', ...publicItemStyles}}>panel3</PlCarouselItem>
                     <PlCarouselItem style={{backgroundColor: '#455a64', ...publicItemStyles}}>panel4</PlCarouselItem>
-                </PlCarousel>
+                </PlCarousel>*/}
             </DemoRow>
         </div>
     )

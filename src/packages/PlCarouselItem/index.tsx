@@ -19,7 +19,7 @@ export const PlCarouselItem = designComponent({
         })
         const carousel = CarouselCollector.child({sort: () => refs.el!})
         const itemVal = computed(() => props.val == null ? counter() : props.val)
-        const style = useStyles(() => carousel.utils.getItemStyles(itemVal.value) as any)
+        const styles = useStyles(() => carousel.utils.getItemStyles(itemVal.value) as any)
 
         const classes = useClass(() => [
             'pl-carousel-item',
@@ -30,13 +30,15 @@ export const PlCarouselItem = designComponent({
             refer: {
                 itemVal,
             },
-            render: () => (
-                <div className={classes.value}
-                     ref={onRef.el}
-                     style={style.value}>
-                    {slots.default()}
-                </div>
-            )
+            render: () => {
+                return (
+                    <div className={classes.value}
+                         ref={onRef.el}
+                         style={styles.value}>
+                        {slots.default()}
+                    </div>
+                )
+            }
         }
     },
 })
