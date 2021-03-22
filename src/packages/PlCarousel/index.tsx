@@ -47,7 +47,7 @@ export const PlCarousel = designComponent({
         /*双向绑定值*/
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         /*子元素val数组*/
-        const vals = computed(() => items.map(item => String(item.itemVal.value)!))
+        const vals = computed(() => items.map(item => String(item.itemVal)!))
         /*当前激活的元素的val值*/
         const activeVal = computed(() => {
             if (vals.value.length === 0) {
@@ -246,7 +246,7 @@ export const PlCarousel = designComponent({
 
                     {!props.disabledIndicator && <div className="pl-carousel-indicator">
                         {items.map((item, index) => (
-                            scopeSlots.indicator({val: String(item.itemVal.value), index, active: index === activeIndex.value}, (
+                            scopeSlots.indicator({val: String(item.itemVal), index, active: index === activeIndex.value}, (
                                 <div
                                     {...{
                                         [props.indicatorTrigger === 'hover' ? 'onMouseenter' : 'onClick']: () => handler.onIndicator(index)

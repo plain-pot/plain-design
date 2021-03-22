@@ -1,5 +1,6 @@
 import {ref, provide, inject, onMounted, onBeforeUnmount, markRaw, getCurrentDesignInstance} from 'plain-design-composition';
 import {createCounter} from 'plain-design-composition/src/utils/createCounter'
+import {UnwrapRef} from '@vue/reactivity'
 
 type UseCollectComponent = { options: { name?: string }, use: { class: any } }
 type UseCollectSort = (() => HTMLElement) | number
@@ -53,7 +54,7 @@ export function useCollect<Parent extends UseCollectComponent, Child extends Use
     const provideString = `@@Collector_${parentName}`
 
     return {
-        parent: (): (Child['use']['class'])[] => {
+        parent: (): (UnwrapRef<Child['use']['class']>)[] => {
             const ctx = getCurrentDesignInstance()
             const {items, utils} = useCollectInParentInner()
             const data: ReturnType<typeof useCollectInParentInner> = {
