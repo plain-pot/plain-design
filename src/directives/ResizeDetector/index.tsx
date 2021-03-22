@@ -11,73 +11,69 @@ export interface ResizeDetectFuncParam {
     [key: string]: any
 }
 
-export interface ResizeDetectFunc {
-    (option: ResizeDetectFuncParam): void
-}
+export interface ResizeDetectFunc {(option: ResizeDetectFuncParam): void}
 
-export default class ResizeDetector {
+function createResizeDetector(el: HTMLElement, callback: ResizeDetectFunc) {
 
-    observer?: MutationObserver
-    width?: number
-    height?: number
-
-    constructor(public el: HTMLElement, public callback: ResizeDetectFunc) {
-
-        if (!el) {
-            console.error(`el is ${typeof el}`)
-            return
-        }
-
-        this.observer = new MutationObserver(this.detect)
-
-        this.observer.observe(el, {
-            childList: true,
-            subtree: true
-        })
-
-        // const {width, height} = el.getBoundingClientRect()
-        const {scrollHeight: height, scrollWidth: width} = el
-        this.width = width
-        this.height = height
-        this.runCallback({
-            width,
-            height,
-            el
-        })
+    const state = {
+        observer: undefined as undefined | MutationObserver,
+        width: undefined as undefined | number,
+        height: undefined as undefined | number,
+        oldWidth: undefined as undefined | number,
+        oldHeight: undefined as undefined | number,
     }
 
-    detect = () => {
-        // const {width, height} = this.el.getBoundingClientRect()
-        const {scrollHeight: height, scrollWidth: width} = this.el
-        if (width === this.width && height === this.height) return
-        const ret = {} as ResizeDetectFuncParam
-        if (width !== this.width) {
-            ret.width = width
-            ret.oldWidth = this.width
-            this.width = width
-        }
-        if (height !== this.height) {
-            ret.height = height
-            ret.oldHeight = this.height
-            this.height = height
-        }
-        this.runCallback(ret)
-    }
-
-    runCallback(data: ResizeDetectFuncParam) {
+    const runCallback = (data: ResizeDetectFuncParam) => {
         Object.keys(data).forEach(key => {
             if (data[key] != null && typeof data[key] === 'number') data[key] = Math.ceil(data[key])
         })
-        this.callback(data)
+        callback(data)
     }
 
-    destroy() {
-        if (!!this.observer) {
-            this.observer.disconnect();
-            this.observer = undefined
+    const detect = () => {
+        const {scrollHeight: height, scrollWidth: width} = el
+        if (width === state.width && height === state.height) return
+        const ret = {} as ResizeDetectFuncParam
+        if (width !== state.width) {
+            ret.width = width
+            ret.oldWidth = state.width
+            state.width = width
+        }
+        if (height !== state.height) {
+            ret.height = height
+            ret.oldHeight = state.height
+            state.height = height
+        }
+        runCallback(ret)
+    }
+
+    const destroy = () => {
+        if (!!state.observer) {
+            state.observer.disconnect();
+            state.observer = undefined
         }
     }
+
+    const init = () => {
+        if (!el) {return console.error(`el is ${typeof el}`)}
+        state.observer = new MutationObserver(detect)
+        state.observer.observe(el, {childList: true, subtree: true})
+        // const {width, height} = el.getBoundingClientRect()
+        const {scrollHeight, scrollWidth} = el
+        state.width = scrollWidth
+        state.height = scrollHeight
+        runCallback({...state, el,})
+    }
+
+    init()
+
+    return {
+        detect,
+        destroy,
+    }
 }
+
+type ResizeDetector = ReturnType<typeof createResizeDetector>
 
 export function useResizeDetector(
     {
@@ -85,23 +81,20 @@ export function useResizeDetector(
         onResize,
     }: {
         elGetter: () => HTMLElement | undefined | null,
-        onResize: (data: ResizeDetectFuncParam) => void,
+        onResize: ResizeDetectFunc,
     }) {
 
-    const state = {
-        resizeDetector: null as null | ResizeDetector,
-    }
+    const state = {resizeDetector: null as null | ResizeDetector,}
 
     watch(elGetter, async el => {
         await delay(0)
         if (!!state.resizeDetector) {state.resizeDetector.destroy()}
         state.resizeDetector = null
-        !!el && (state.resizeDetector = new ResizeDetector(el, onResize))
+        !!el && (state.resizeDetector = createResizeDetector(el, onResize))
     }, {immediate: true})
 
     !!state.resizeDetector && state.resizeDetector.detect()
 
     onBeforeUnmount(() => {!!state.resizeDetector && state.resizeDetector.destroy()})
-
 }
 

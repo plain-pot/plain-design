@@ -9,7 +9,7 @@ import {VerticalScrollbar} from "./VerticalScrollbar";
 import {HorizontalScrollbar} from "./HorizontalScrollbar";
 import {ResizeDetectFuncParam, useResizeDetector} from "../../directives/ResizeDetector";
 
-export const enum PLAIN_SCROLL_VERTICAL_POSITION {
+export enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
     center = 'center',
     bottom = 'bottom'
@@ -349,7 +349,7 @@ export const PlScroll = designComponent({
                 if (data.width != null) state.hostWidth = data.width - 16
                 if (data.height != null) state.hostHeight = data.height - 16
             },
-            wrapperMousewheel: (e: WheelEvent) => {
+            wrapperMousewheel: () => {
                 if (!!freezeState.cancelAnimate) {
                     cancelAnimationFrame(freezeState.cancelAnimate)
                     freezeState.cancelAnimate = null
@@ -438,7 +438,7 @@ export const PlScroll = designComponent({
                          className="pl-scroll-wrapper"
                          style={wrapperStyles.value as any}
                          onScroll={handler.wrapperScroll}
-                         {...{onMousewheel: handler.wrapperMousewheel}}>
+                         onWheel={handler.wrapperMousewheel}>
                         <div ref={onRef.content}
                              className="pl-scroll-content"
                              style={contentStyles.value as any}>
