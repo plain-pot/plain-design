@@ -7,7 +7,7 @@ import {throttle} from "plain-utils/utils/throttle";
 import React from 'react';
 import {VerticalScrollbar} from "./VerticalScrollbar";
 import {HorizontalScrollbar} from "./HorizontalScrollbar";
-import {ResizeDetectFuncParam} from "../../directives/ResizeDetector";
+import {ResizeDetectFuncParam, useResizeDetector} from "../../directives/ResizeDetector";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',
@@ -415,6 +415,9 @@ export const PlScroll = designComponent({
 
         watch(() => props.refreshState, methods.refresh)
 
+        useResizeDetector({elGetter: () => refs.host, onResize: handler.hostResize})
+        useResizeDetector({elGetter: () => refs.content, onResize: handler.contentResize})
+
         return {
             refer: {
                 props,
@@ -430,7 +433,6 @@ export const PlScroll = designComponent({
             render: () => (
                 <div ref={onRef.host}
                      className={classes.value}
-                     v-resize={handler.hostResize}
                      style={hostStyles.value as any}>
                     <div ref={onRef.wrapper}
                          className="pl-scroll-wrapper"
@@ -439,8 +441,7 @@ export const PlScroll = designComponent({
                          {...{onMousewheel: handler.wrapperMousewheel}}>
                         <div ref={onRef.content}
                              className="pl-scroll-content"
-                             style={contentStyles.value as any}
-                             v-resize={handler.contentResize}>
+                             style={contentStyles.value as any}>
                             {slots.default()}
                         </div>
                         {slots.content()}
