@@ -11,8 +11,6 @@ export const PlStep = designComponent({
     props: {
         icon: {type: String},
         status: {type: String},
-        title: {type: String},
-        content: {type: String},
         val: {type: String},
     },
     emits: {
@@ -92,7 +90,7 @@ export const PlStep = designComponent({
                     </span>
                         {!stepGroup.isTitleAlignBottom.value && (
                             <span className="pl-step-title">
-                            {slots.title(props.title)}
+                            {slots.title()}
                         </span>
                         )}
                         {(stepGroup.isTitleAlignBottom.value || !isLast.value) && <span className="pl-step-divider pl-step-divider-next"/>}
@@ -102,11 +100,11 @@ export const PlStep = designComponent({
                             <span className="pl-step-icon"/>
                             :
                             <span className="pl-step-title">
-                            {slots.title(props.title)}
+                            {slots.title()}
                         </span>
                         }
                         <span className="pl-step-content">
-                        {slots.content(props.content)}
+                        {slots.content()}
                     </span>
                     </div>
                 </div>

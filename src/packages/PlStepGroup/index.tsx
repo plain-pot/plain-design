@@ -4,6 +4,7 @@ import React from "react";
 import {StepUtils} from "./step.utils";
 import {useCollect} from "../../use/useCollect";
 import {PlStep} from "../PlStep";
+import './step-group.scss'
 
 export const PlStepGroup = designComponent({
     name: 'pl-step-group',
