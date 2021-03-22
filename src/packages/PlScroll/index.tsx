@@ -7,7 +7,7 @@ import {throttle} from "plain-utils/utils/throttle";
 import React from 'react';
 import {VerticalScrollbar} from "./VerticalScrollbar";
 import {HorizontalScrollbar} from "./HorizontalScrollbar";
-import {ResizeDetectFuncParam} from "../../directives/ResizeDetector/ResizeDetector";
+import {ResizeDetectFuncParam} from "../../directives/ResizeDetector";
 
 export const enum PLAIN_SCROLL_VERTICAL_POSITION {
     top = 'top',

@@ -1,3 +1,6 @@
+import {onBeforeUnmount, watch} from "plain-design-composition";
+import {delay} from "plain-utils/utils/delay";
+
 export interface ResizeDetectFuncParam {
     width?: number
     height?: number
@@ -76,13 +79,29 @@ export default class ResizeDetector {
     }
 }
 
-export const ResizeDetectorDirective = {
-    mounted(el: any, binding: any, vnode: any) {
-        el.__resizedetextor__ = new ResizeDetector(el, (data) => binding.value(data))
-    },
-    beforeUnmount(el: any) {
-        (el.__resizedetextor__ as ResizeDetector).destroy()
-        delete el.__resizedetextor__
-    },
+export function useResizeDetector(
+    {
+        elGetter,
+        onResize,
+    }: {
+        elGetter: () => HTMLElement | undefined | null,
+        onResize: (data: ResizeDetectFuncParam) => void,
+    }) {
+
+    const state = {
+        resizeDetector: null as null | ResizeDetector,
+    }
+
+    watch(elGetter, async el => {
+        await delay(0)
+        if (!!state.resizeDetector) {state.resizeDetector.destroy()}
+        state.resizeDetector = null
+        !!el && (state.resizeDetector = new ResizeDetector(el, onResize))
+    }, {immediate: true})
+
+    !!state.resizeDetector && state.resizeDetector.detect()
+
+    onBeforeUnmount(() => {!!state.resizeDetector && state.resizeDetector.destroy()})
+
 }
 
