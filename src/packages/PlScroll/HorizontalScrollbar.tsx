@@ -76,6 +76,7 @@ export const HorizontalScrollbar = designComponent({
         return {
             render: () => {
                 let content = <div className="pl-horizontal-scrollbar" style={styles.value} onMouseDown={handler.onMousedown}/> as any
+                // todo tooltip directive
                 /*if (!!props.tooltip) {
                     const TooltipDirective = resolveDirective('tooltip')
                     if (!!TooltipDirective) {

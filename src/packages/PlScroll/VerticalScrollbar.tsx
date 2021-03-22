@@ -83,6 +83,7 @@ export const VerticalScrollbar = designComponent({
             render: () => {
 
                 let content = <div className="pl-vertical-scrollbar" style={styles.value} onMouseDown={handler.onMousedown}/> as any
+                // todo tooltip directive
                 /*if (!!props.tooltip) {
                     const TooltipDirective = resolveDirective('tooltip')
                     if (!!TooltipDirective) {
