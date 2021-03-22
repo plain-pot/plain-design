@@ -155,7 +155,69 @@ export default designPage(() => {
                     </PlScroll>
                 </div>
             </DemoRow>
-
+            <DemoRow title={'滚动：横向'}>
+                <div className="demo-scroll-wrapper">
+                    <PlScroll ref={onRef.scroll2} scrollX onScroll={() => console.log('horizontal scroll')}>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                            <div>
+                                <p><PlButton size={'mini'} label={'scroll'} onClick={() => refs.scroll2!.methods.scroll({x: 100}, 1000)}/></p>
+                                <p><PlButton size={'mini'} label={'scroll(no emit)'} onClick={() => refs.scroll2!.methods.scroll({x: 100}, {time: 1000, noEmitScroll: true})}/></p>
+                                <p><PlButton size={'mini'} label={'scrollEnd'} onClick={() => refs.scroll2!.methods.scrollEnd()}/></p>
+                            </div>
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+            <DemoRow title={'自动滚动：纵向'}>
+                <div className={'demo-scroll-wrapper'} style={{display: 'inline-block', verticalAlign: 'top'}}>
+                    <PlScroll ref={onRef.autoScroll1}>
+                        <div>
+                            {state.list.map((item, index) => (
+                                <div className="demo-scroll-label" key={index}>
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </PlScroll>
+                </div>
+                <div style={{display: 'inline-block'}}>
+                    <PlButtonGroup>
+                        <PlButton label={'向下滚动'} onClick={() => refs.autoScroll1!.methods.autoScrollBottom()}/>
+                        <PlButton label={'向上滚动'} onClick={() => refs.autoScroll1!.methods.autoScrollTop()}/>
+                        <PlButton label={'停止滚动'} onClick={() => refs.autoScroll1!.methods.stopAutoScroll()}/>
+                    </PlButtonGroup>
+                </div>
+            </DemoRow>
+            <DemoRow title={'自动滚动：横向'}>
+                <div className={'demo-scroll-wrapper'} style={{display: 'inline-block', verticalAlign: 'top'}}>
+                    <PlScroll ref={onRef.autoScroll1} scrollX>
+                        <div style={{display: 'inline-block', whiteSpace: 'nowrap'}}>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item, index) => (
+                                <div className="demo-scroll-label" key={index} style={{width: '30px', display: 'inline-block', marginRight: '10px'}}>
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </PlScroll>
+                </div>
+                <div style={{display: 'inline-block'}}>
+                    <PlButtonGroup>
+                        <PlButton label={'向右滚动'} onClick={() => refs.autoScroll1!.methods.autoScrollRight()}/>
+                        <PlButton label={'向左滚动'} onClick={() => refs.autoScroll1!.methods.autoScrollLeft()}/>
+                        <PlButton label={'停止滚动'} onClick={() => refs.autoScroll1!.methods.stopAutoScroll()}/>
+                    </PlButtonGroup>
+                </div>
+            </DemoRow>
+            <DemoRow title={'拖拽结束之后滚动'}>
+                <div className={'demo-scroll-wrapper'}>
+                    <PlScroll scrollX scrollAfterDragEnd>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
         </div>
     )
 })
