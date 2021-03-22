@@ -1,4 +1,4 @@
-import {computed, designComponent, reactive} from "plain-design-composition";
+import {computed, designComponent, PropType, reactive} from "plain-design-composition";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {STATUS} from "../../utils/constant";
 import useClass from "plain-design-composition/src/use/useClasses";
@@ -14,11 +14,10 @@ export const PlAlert = designComponent({
         ...StyleProps,
 
         label: {type: String},                                      // 提示文本
-        desc: {type: String},                                       // 描述文本
         align: {type: String, default: 'left'},                     // 文本对其方式
         theme: {type: String, default: 'lite'},                     // 主题，lite轻色，deep深色
         noClose: {type: Boolean},                                   // 禁用关闭
-        icon: {type: String, default: undefined},                   // 显示的图标
+        icon: {type: String as PropType<string | null | undefined>, default: undefined},     // 显示的图标
     },
     slots: ['desc', 'close', 'default'],
     setup({props, slots}) {
@@ -43,7 +42,7 @@ export const PlAlert = designComponent({
             `pl-alert-align-${props.align}`,
             {
                 'pl-alert-has-icon': !!icon.value,
-                'pl-alert-has-desc': !!props.desc || slots.desc.isExist(),
+                'pl-alert-has-desc': slots.desc.isExist(),
                 'pl-alert-has-close': !props.noClose,
             }
         ])
@@ -70,9 +69,9 @@ export const PlAlert = designComponent({
                                     {slots.default(props.label)}
                                 </div>
                             )}
-                            {(!!props.desc || slots.desc.isExist()) && (
+                            {(slots.desc.isExist()) && (
                                 <div className="pl-alert-desc">
-                                    {slots.desc(props.desc)}
+                                    {slots.desc()}
                                 </div>
                             )}
                         </div>
