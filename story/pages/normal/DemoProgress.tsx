@@ -90,7 +90,7 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'迷你进度条'}>
                 <DemoLine title={'进度值'}>
-                    <PlSlider modelValue={state.val[2]}/>
+                    <PlSlider v-model={state.val[2]}/>
                 </DemoLine>
                 <DemoLine title={'基本用法'}>
                     <PlProgressMini modelValue={state.val[2]}/>
@@ -115,7 +115,8 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'数据绑定'}>
                 <DemoLine title={'数据绑定值'}>
-                    <PlSlider modelValue={state.val[3]}/>
+                    <PlSlider v-model={state.val[3]}/>
+                    {state.val[3]}
                 </DemoLine>
                 <DemoLine>
                     <PlProgressBar modelValue={state.val[3]}/>
