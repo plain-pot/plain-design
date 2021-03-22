@@ -1,4 +1,4 @@
-import {designPage} from "plain-design-composition";
+import {designPage, useRefs} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlScroll} from "../../../src/packages/PlScroll";
@@ -23,6 +23,13 @@ export default designPage(() => {
             return ret
         })(),
         checkboxValue: [] as string[],
+    })
+
+    const {refs, onRef} = useRefs({
+        scroll1: PlScroll,
+        scroll2: PlScroll,
+        autoScroll1: PlScroll,
+        autoScroll2: PlScroll,
     })
 
     function getClass(item: any) {
@@ -79,6 +86,76 @@ export default designPage(() => {
                 </PlButtonGroup>
                 {JSON.stringify(state.checkboxValue)}
             </DemoRow>
+            <DemoRow title={'可以横向滚动'}>
+                <div className={'demo-scroll-wrapper'}>
+                    <PlScroll scrollX scrollAfterDragEnd>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+            <DemoRow title={'只能横向滚动'}>
+                <div className={'demo-scroll-wrapper'}>
+                    <PlScroll scrollX scrollY={false}>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+            <DemoRow title={'适配内容高度'}>
+                <div className={'demo-scroll-wrapper'} style={{height: 'auto'}}>
+                    <PlScroll scrollX fitContentHeight>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+            <DemoRow title={'适配内容宽度'}>
+                <div className={'demo-scroll-wrapper'} style={{width: 'auto'}}>
+                    <PlScroll fitContentWidth>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+            <DemoRow title={'适配host高度'}>
+                <div className={'demo-scroll-wrapper'}>
+                    <PlScroll fitContentWidth scrollX>
+                        <div style={{height: '100%', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+            <DemoRow title={'适配host宽度'}>
+                <div className={'demo-scroll-wrapper'}>
+                    <PlScroll fitHostWidth>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+
+            <DemoRow title={'滚动：纵向'}>
+                <div className="demo-scroll-wrapper">
+                    <PlScroll ref={onRef.scroll1} onScroll={() => console.log('vertical scroll')}>
+                        <div style={{height: '400px', width: '400px'}} className={'demo-scroll-content'}>
+                            this is content
+                            <div>
+                                <p><PlButton size={'mini'} label={'scroll'} onClick={() => refs.scroll1!.methods.scroll({y: 100}, 1000)}/></p>
+                                <p><PlButton size={'mini'} label={'scroll(no emit)'} onClick={() => refs.scroll1!.methods.scroll({y: 100}, {time: 1000, noEmitScroll: true})}/></p>
+                                <p><PlButton size={'mini'} label={'scrollEnd'} onClick={() => refs.scroll1!.methods.scrollEnd()}/></p>
+                            </div>
+                        </div>
+                    </PlScroll>
+                </div>
+            </DemoRow>
+
         </div>
     )
 })
