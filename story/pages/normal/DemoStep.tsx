@@ -13,6 +13,7 @@ import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
 import PlArrowStepGroup from "../../../src/packages/PlArrowStepGroup";
 import PlArrowStep from "../../../src/packages/PlArrowStep";
+import PlIcon from "../../../src/packages/PlIcon";
 
 export default designPage(() => {
 
@@ -258,6 +259,41 @@ export default designPage(() => {
                         <PlArrowStep title={'创建卡券'} onClick={() => $$message('创建卡券')}/>
                         <PlArrowStep title={'创建二维码'} onClick={() => $$message('创建二维码')}/>
                         <PlArrowStep title={'显示二维码'} onClick={() => $$message('显示二维码')}/>
+                    </PlArrowStepGroup>
+                </DemoRow>
+                <DemoRow title={'箭头步骤条：状态'}>
+                    <PlArrowStepGroup>
+                        <PlArrowStep title="Finish" status="finish"/>
+                        <PlArrowStep title="Process" status="process"/>
+                        <PlArrowStep title="error" status="error"/>
+                        <PlArrowStep title="Wait" status="wait"/>
+                    </PlArrowStepGroup>
+                </DemoRow>
+                <DemoRow title={'箭头步骤条：自定义内容'}>
+                    <DemoLine title={'当前步骤索引'}>
+                        <PlNumber v-model={state.val[6].index}/>
+                    </DemoLine>
+                    <PlArrowStepGroup current={state.val[6].index} className={'custom-content-slot'}>
+                        <PlArrowStep hideIndex>
+                            <PlIcon icon={'el-icon-s-promotion'}/>
+                            <span>获取token</span>
+                        </PlArrowStep>
+                        <PlArrowStep hideIndex>
+                            <PlIcon icon={'el-icon-upload'}/>
+                            <span>上传logo</span>
+                        </PlArrowStep>
+                        <PlArrowStep hideIndex>
+                            <PlIcon icon={'el-icon-s-ticket'}/>
+                            <span>创建卡券</span>
+                        </PlArrowStep>
+                        <PlArrowStep hideIndex>
+                            <PlIcon icon={'el-icon-document'}/>
+                            <span>创建二维码</span>
+                        </PlArrowStep>
+                        <PlArrowStep hideIndex>
+                            <PlIcon icon={'el-icon-camera-solid'}/>
+                            <span>显示二维码</span>
+                        </PlArrowStep>
                     </PlArrowStepGroup>
                 </DemoRow>
             </div>
