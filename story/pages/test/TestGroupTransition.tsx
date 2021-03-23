@@ -16,10 +16,13 @@ export default designComponent({
                 <h1>测试队列动画</h1>
                 <PlButton label={state.show ? 'hide' : 'show'} onClick={() => state.show = !state.show}/>
                 <PlCollapseTransition show={state.show}>
-                    <div style={{height: '300px', color: 'white', backgroundColor: 'blueviolet'}}>
-                        this is content
+                    <div>
+                        <div style={{height: '300px', color: 'white', backgroundColor: 'blueviolet'}}>
+                            this is content
+                        </div>
                     </div>
                 </PlCollapseTransition>
+                <button>next</button>
             </div>
         )
     },
