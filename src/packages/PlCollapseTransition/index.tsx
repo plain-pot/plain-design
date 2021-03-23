@@ -1,5 +1,5 @@
 import React from "react";
-import {designComponent, onBeforeMount, onBeforeUnmount, onMounted, onUpdated, useReference, watch} from "plain-design-composition";
+import {designComponent, onBeforeMount, onUpdated, useReference, watch} from "plain-design-composition";
 import {findDOMNode} from "react-dom";
 import {unit} from "plain-utils/string/unit";
 import {addClass} from "plain-utils/dom/addClass";
