@@ -1,5 +1,5 @@
 import React from "react";
-import {designComponent, onBeforeUnmount, onMounted, onUpdated, useReference, watch} from "plain-design-composition";
+import {designComponent, onBeforeMount, onBeforeUnmount, onMounted, onUpdated, useReference, watch} from "plain-design-composition";
 import {findDOMNode} from "react-dom";
 import {unit} from "plain-utils/string/unit";
 import {addClass} from "plain-utils/dom/addClass";
@@ -36,6 +36,15 @@ export const PlCollapseTransition = designComponent({
 
         const handler = {
             onTransitionEnd: () => !!freezeState.onEnd && freezeState.onEnd(),
+            onUpdateEl: () => {
+                /*每次update之后，都检查一遍el是否发生了变化，是则重新添加事件*/
+                const {el: oldEl} = freezeState
+                const newEl = findDOMNode(wrapperRef.current) as HTMLElement
+                if (oldEl === newEl) { return}
+                !!oldEl && oldEl.removeEventListener('transitionend', handler.onTransitionEnd)
+                !!newEl && newEl.addEventListener('transitionend', handler.onTransitionEnd)
+                freezeState.el = newEl
+            },
         }
 
         const methods = {
@@ -107,18 +116,13 @@ export const PlCollapseTransition = designComponent({
             },
         }
 
-        onUpdated(() => {
-            /*每次update之后，都检查一遍el是否发生了变化，是则重新添加事件*/
-            const {el: oldEl} = freezeState
-            const newEl = findDOMNode(wrapperRef.current) as HTMLElement
-            if (oldEl === newEl) { return}
-            !!oldEl && oldEl.removeEventListener('transitionend', handler.onTransitionEnd)
-            !!newEl && newEl.addEventListener('transitionend', handler.onTransitionEnd)
-            freezeState.el = newEl
-        })
+        onUpdated(handler.onUpdateEl)
 
         watch(() => props.show, val => {val ? methods.show() : methods.hide()})
-        onMounted(() => {props.show ? methods.show(false) : methods.hide(false)})
+        onBeforeMount(() => {
+            handler.onUpdateEl()
+            props.show ? methods.show(false) : methods.hide(false)
+        })
 
         return () => (
             <Wrapper ref={wrapperRef}>

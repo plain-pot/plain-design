@@ -50,7 +50,7 @@ export default designComponent({
                 <DemoRow title={'测试底层节点设置定内边距'}>
                     <PlButton label={state.val[3] ? 'to hide' : 'to show'} onClick={() => state.val[3] = !state.val[3]}/>
                     <PlCollapseTransition show={state.val[3]}>
-                        <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet'}}>
+                        <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet', paddingTop: '20px', paddingBottom: '20px'}}>
                             this is content
                         </div>
                     </PlCollapseTransition>
