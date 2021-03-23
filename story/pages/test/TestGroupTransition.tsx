@@ -78,10 +78,8 @@ export default designComponent({
                     <PlButton label={'show'} onClick={show}/>
                 </PlButtonGroup>
                 <PlCollapseTransition show={state.show}>
-                    <div ref={onRef.el}>
-                        <div style={{height: '300px', color: 'white', backgroundColor: 'blueviolet'}}>
-                            this is content
-                        </div>
+                    <div style={{height: '300px', color: 'white', backgroundColor: 'blueviolet'}} ref={onRef.el}>
+                        this is content
                     </div>
                 </PlCollapseTransition>
                 <button>next</button>
