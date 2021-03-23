@@ -154,5 +154,5 @@ $transition: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .pl-collapse-transition {
-    transition: 1s height ease-in-out, 1s padding-top ease-in-out, 1s padding-bottom ease-in-out;
+    transition: 0.3s height linear, 0.3s padding-top linear, 0.3s padding-bottom linear;
 }

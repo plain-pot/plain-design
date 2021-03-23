@@ -1,21 +1,17 @@
-import {designComponent, reactive, useRefs, watch} from "plain-design-composition";
-import React, {useRef} from "react";
+import {designComponent, reactive} from "plain-design-composition";
+import React from "react";
 import './TestGroupTransition.scss'
 import {PlButton} from "../../../src/packages/PlButton";
 import PlCollapseTransition from "../../../src/packages/PlCollapseTransition";
-import PlButtonGroup from "../../../src/packages/PlButtonGroup";
-import {unit} from "plain-utils/string/unit";
-import {addClass} from "plain-utils/dom/addClass";
-import {delay} from "plain-utils/utils/delay";
-import {removeClass} from "plain-utils/dom/removeClass";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
 import {DemoRow} from "../../components/DemoRow";
 
 export default designComponent({
     setup() {
 
         const state = reactive({
-            val: {} as any,
+            val: {
+                3: true,
+            } as any,
         })
 
         return () => (
@@ -51,6 +47,14 @@ export default designComponent({
                     <PlButton label={state.val[3] ? 'to hide' : 'to show'} onClick={() => state.val[3] = !state.val[3]}/>
                     <PlCollapseTransition show={state.val[3]}>
                         <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet', paddingTop: '20px', paddingBottom: '20px'}}>
+                            this is content
+                        </div>
+                    </PlCollapseTransition>
+                </DemoRow>
+                <DemoRow title={'测试底层节点设置定内边距(border-box)'}>
+                    <PlButton label={state.val[4] ? 'to hide' : 'to show'} onClick={() => state.val[4] = !state.val[4]}/>
+                    <PlCollapseTransition show={state.val[4]}>
+                        <div style={{boxSizing: 'border-box', height: '180px', color: 'white', backgroundColor: 'blueviolet', paddingTop: '20px', paddingBottom: '20px'}}>
                             this is content
                         </div>
                     </PlCollapseTransition>

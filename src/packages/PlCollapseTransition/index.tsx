@@ -29,6 +29,8 @@ export const PlCollapseTransition = designComponent({
             show: null as null | boolean,
             oldData: {
                 height: '',
+                paddingTop: '',
+                paddingBottom: '',
                 overflow: '',
                 display: '',
             },
@@ -60,20 +62,26 @@ export const PlCollapseTransition = designComponent({
                     /*保存要被修改的值*/
                     freezeState.oldData = {
                         height: el.style.height,
+                        paddingTop: el.style.paddingTop,
+                        paddingBottom: el.style.paddingBottom,
                         overflow: el.style.overflow,
                         display: '',
                     }
                     const {scrollHeight} = el
                     /*动画开始的高度*/
-                    el.style.height = unit(0)!;
+                    el.style.height = '0px';
+                    el.style.paddingTop = '0px';
+                    el.style.paddingBottom = '0px';
                     el.style.overflow = 'hidden';
 
                     await delay(23)
                     addClass(el, 'pl-collapse-transition');
                     /*动画结束的高度*/
-                    el.style.height = unit(scrollHeight)!;
+                    el.style.height = unit(freezeState.oldData.height || scrollHeight)!;
+                    el.style.paddingTop = freezeState.oldData.paddingTop;
+                    el.style.paddingBottom = freezeState.oldData.paddingBottom;
 
-                    freezeState.onEnd = () => {
+                    freezeState.onEnd = async () => {
                         /*动画结束之后，将值还原*/
                         el.style.height = freezeState.oldData.height;
                         el.style.overflow = freezeState.oldData.overflow;
@@ -92,6 +100,8 @@ export const PlCollapseTransition = designComponent({
                     /*记录被修改的值*/
                     freezeState.oldData = {
                         height: el.style.height,
+                        paddingTop: el.style.paddingTop,
+                        paddingBottom: el.style.paddingBottom,
                         overflow: el.style.overflow,
                         display: '',
                     }
@@ -102,9 +112,13 @@ export const PlCollapseTransition = designComponent({
                     await delay(23)
                     /*动画结束的高度*/
                     el.style.height = "0px";
+                    el.style.paddingTop = '0px'
+                    el.style.paddingBottom = '0px'
                     freezeState.onEnd = () => {
                         /*动画结束之后，设置display：none，并且将修改过的值复原*/
                         el.style.height = freezeState.oldData.height;
+                        el.style.paddingTop = freezeState.oldData.paddingTop;
+                        el.style.paddingBottom = freezeState.oldData.paddingBottom;
                         el.style.overflow = freezeState.oldData.overflow;
                         freezeState.oldData.display = el.style.display
                         el.style.display = 'none'
