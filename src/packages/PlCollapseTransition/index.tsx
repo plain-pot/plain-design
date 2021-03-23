@@ -80,6 +80,9 @@ export const PlCollapseTransition = designComponent({
                 } else {
                     // hiding => showing
                 }
+
+                state.handleTransitionEnd = null
+
                 if (animation) {
                     state.status = CollapseStatus.showing
                     /*动画开始的高度*/
@@ -130,6 +133,8 @@ export const PlCollapseTransition = designComponent({
                 } else {
                     // hiding => showing
                 }
+                state.handleTransitionEnd = null
+
                 if (animation) {
                     state.status = CollapseStatus.hiding
                     const {height, scrollHeight, paddingTop, paddingBottom, overflow} = state.styles!
