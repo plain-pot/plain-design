@@ -9,26 +9,52 @@ import {addClass} from "plain-utils/dom/addClass";
 import {delay} from "plain-utils/utils/delay";
 import {removeClass} from "plain-utils/dom/removeClass";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {DemoRow} from "../../components/DemoRow";
 
 export default designComponent({
     setup() {
 
         const state = reactive({
-            show: true,
+            val: {} as any,
         })
 
         return () => (
             <div>
-                <h1>测试队列动画</h1>
-                <PlButton label={state.show ? 'hide' : 'show'} onClick={() => state.show = !state.show}/>
-                <PlCollapseTransition show={state.show}>
-                    <div>
-                        <div style={{height: '300px', color: 'white', backgroundColor: 'blueviolet'}}>
+                <DemoRow title={'测试自动高度的外部节点'}>
+                    <PlButton label={state.val[1] ? 'to hide' : 'to show'} onClick={() => state.val[1] = !state.val[1]}/>
+                    <PlCollapseTransition show={state.val[1]}>
+                        <div>
+                            <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet'}}>
+                                this is content
+                            </div>
+                        </div>
+                    </PlCollapseTransition>
+                </DemoRow>
+                <DemoRow title={'一开始就是显示'}>
+                    <PlCollapseTransition show={true}>
+                        <div>
+                            <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet'}}>
+                                this is content
+                            </div>
+                        </div>
+                    </PlCollapseTransition>
+                </DemoRow>
+                <DemoRow title={'测试底层节点设置定高度'}>
+                    <PlButton label={state.val[2] ? 'to hide' : 'to show'} onClick={() => state.val[2] = !state.val[2]}/>
+                    <PlCollapseTransition show={state.val[2]}>
+                        <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet'}}>
                             this is content
                         </div>
-                    </div>
-                </PlCollapseTransition>
-                <button>next</button>
+                    </PlCollapseTransition>
+                </DemoRow>
+                <DemoRow title={'测试底层节点设置定内边距'}>
+                    <PlButton label={state.val[3] ? 'to hide' : 'to show'} onClick={() => state.val[3] = !state.val[3]}/>
+                    <PlCollapseTransition show={state.val[3]}>
+                        <div style={{height: '180px', color: 'white', backgroundColor: 'blueviolet'}}>
+                            this is content
+                        </div>
+                    </PlCollapseTransition>
+                </DemoRow>
             </div>
         )
     },
