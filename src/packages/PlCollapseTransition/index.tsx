@@ -1,120 +1,105 @@
-import {designComponent} from "plain-design-composition";
 import React from "react";
-import {Transition} from 'react-transition-group'
-import {addClass} from "plain-utils/dom/addClass";
-import {removeClass} from "plain-utils/dom/removeClass";
+import {designComponent, onMounted, onUpdated, useReference, watch} from "plain-design-composition";
+import {findDOMNode} from "react-dom";
 import {unit} from "plain-utils/string/unit";
+import {addClass} from "plain-utils/dom/addClass";
+import {delay} from "plain-utils/utils/delay";
+import {removeClass} from "plain-utils/dom/removeClass";
 
-const ElDataSetManager = (() => {
-    const map = new WeakMap<HTMLElement, any>()
-    return {
-        get: (el: HTMLElement) => {
-            let dataSet = map.get(el)
-            if (!dataSet) {
-                dataSet = {}
-                map.set(el, dataSet)
-            }
-            return dataSet
-        },
-        set: (el: HTMLElement, dataSet: any) => {
-            map.set(el, dataSet)
-        }
-    }
-})();
+class Wrapper extends React.Component<any, any> {
+
+    constructor(props: any) {super(props)}
+
+    render() {return this.props.children;}
+
+}
 
 export const PlCollapseTransition = designComponent({
     props: {
-        show: {type: Boolean},
+        show: {type: Boolean, default: true},
     },
     slots: ['default'],
     setup({props, slots}) {
 
+        const wrapperRef = useReference()
+        const freezeState = {
+            el: null as null | HTMLElement,
+            onEnd: null as null | (() => void),
+
+            show: true,
+        }
+
         const handler = {
-            onEnter: (el: HTMLElement) => {
-                console.log('enter')
-                addClass(el, 'pl-collapse-transition');
-                if (!el.dataset) (el as any).dataset = {};
-                el.style.display = el.dataset.oldDisplay as string
+            onTransitionEnd: () => !!freezeState.onEnd && freezeState.onEnd(),
+        }
 
-                el.dataset.oldPaddingTop = el.style.paddingTop;
-                el.dataset.oldPaddingBottom = el.style.paddingBottom;
-                el.dataset.oldHeight = el.style.height;
-                el.dataset.oldOverflow = el.style.overflow;
-                el.dataset.scrollHeight = String(el.scrollHeight);
+        const methods = {
+            show: async () => {
+                const el = freezeState.el
+                if (!el || freezeState.show) {return}
 
-                el.style.height = '0';
-                el.style.paddingTop = '0';
-                el.style.paddingBottom = '0';
-                el.style.overflow = 'hidden'
-
-            },
-            onEntering: (el: HTMLElement) => {
-                console.log('onEntering');
-                let {oldPaddingTop, oldPaddingBottom, oldHeight, scrollHeight} = el.dataset as any
-                scrollHeight = Number(scrollHeight)
-                console.log('entering', scrollHeight)
-                if (!!scrollHeight) {
-                    el.style.height = scrollHeight + 'px';
-                    el.style.paddingTop = oldPaddingTop as string;
-                    el.style.paddingBottom = oldPaddingBottom as string;
-                } else {
-                    el.style.height = oldHeight as string;
-                    el.style.paddingTop = oldPaddingTop as string;
-                    el.style.paddingBottom = oldPaddingBottom as string;
-                }
-                // el.style.height = '100px'
-                // el.style.overflow = 'hidden';
-            },
-            onEntered: (el: HTMLElement) => {
-                console.log('entered')
-                removeClass(el, 'pl-collapse-transition');
-                el.style.height = el.dataset.oldHeight as string;
-                el.style.overflow = el.dataset.oldOverflow as string;
-            },
-            onExit: (el: HTMLElement) => {
-                console.log('onExit');
-                const {paddingTop, paddingBottom, overflow, height, display,} = el.style
-                const scrollHeight = el.scrollHeight
-                ElDataSetManager.set(el, {paddingTop, paddingBottom, overflow, height, display, scrollHeight})
-                el.style.height = unit(scrollHeight)!;
+                freezeState.show = true
+                el.style.display = ''
+                const {scrollHeight} = el
+                el.style.height = unit(0)!;
                 el.style.overflow = 'hidden';
                 addClass(el, 'pl-collapse-transition');
-            },
-            onExiting: (el: HTMLElement) => {
-                console.log('onExiting');
-                const {scrollHeight} = ElDataSetManager.get(el)
-                console.log({scrollHeight})
-                if (!scrollHeight) return
 
+                await delay(23)
+                el.style.height = unit(scrollHeight)!;
+
+                freezeState.onEnd = () => {
+                    el.style.height = "";
+                    el.style.overflow = '';
+                    removeClass(el, 'pl-collapse-transition');
+                }
+            },
+            hide: async () => {
+                const el = freezeState.el
+                if (!el || !freezeState.show) {return}
+
+                freezeState.show = false
+                el.style.height = unit(el.scrollHeight)!;
+                el.style.overflow = 'hidden';
+                addClass(el, 'pl-collapse-transition');
+
+                await delay(23)
                 el.style.height = "0px";
-                el.style.paddingTop = '0px';
-                el.style.paddingBottom = '0px';
-            },
-            onExited: (el: HTMLElement) => {
-                console.log('onExited');
-                removeClass(el, 'pl-collapse-transition');
-                const {height, overflow, paddingTop, paddingBottom} = ElDataSetManager.get(el)
-                el.style.height = height;
-                el.style.overflow = overflow;
-                el.style.paddingTop = paddingTop;
-                el.style.paddingBottom = paddingBottom;
-                el.style.display = 'none'
-                // emit.onAfterLeave()
+
+                freezeState.onEnd = () => {
+                    el.style.height = "";
+                    el.style.overflow = '';
+                    el.style.display = 'none'
+                    removeClass(el, 'pl-collapse-transition');
+                    freezeState.show = false
+                }
             },
         }
 
-        return () => {
-            return (
-                <Transition
-                    in={props.show}
-                    {...handler}
-                    addEndListener={(node, done) => {
-                        node.addEventListener('transitionend', done)
-                    }}>
-                    {slots.default()}
-                </Transition>
-            )
-        }
+        onUpdated(() => {
+            const {el: oldEl} = freezeState
+            const newEl = findDOMNode(wrapperRef.current) as HTMLElement
+            if (oldEl === newEl) { return}
+            !!oldEl && oldEl.removeEventListener('transitionend', handler.onTransitionEnd)
+            !!newEl && newEl.addEventListener('transitionend', handler.onTransitionEnd)
+            freezeState.el = newEl
+        })
+
+        onMounted(() => {
+            if (!props.show && !!freezeState.el) {
+                methods.hide()
+            }
+        })
+
+        watch(() => props.show, val => {
+            val ? methods.show() : methods.hide()
+        })
+
+        return () => (
+            <Wrapper ref={wrapperRef}>
+                {slots.default()}
+            </Wrapper>
+        )
     },
 })
 
