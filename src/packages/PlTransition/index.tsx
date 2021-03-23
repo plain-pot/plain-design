@@ -66,10 +66,10 @@ const PlDisappearTransition = designClassComponent({
         const cssRef = useReference<any>()
 
         if (!props.unmount && !props.show) {
-            useHooksOnDesign(() => useLayoutEffect(() => {
+            onMounted(() => {
                 const el = findDOMNode(cssRef.current) as HTMLElement | undefined
                 !!el && (el.style.display = 'none')
-            }, []))
+            })
         }
 
         return () => {
