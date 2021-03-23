@@ -1,5 +1,5 @@
-import {designClassComponent, designComponent, onMounted, PropType, useHooksOnDesign, useReference} from "plain-design-composition";
-import React, {useLayoutEffect} from "react";
+import {designClassComponent, designComponent, onBeforeMount, PropType, useReference} from "plain-design-composition";
+import React from "react";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
 import {createCounter} from "plain-design-composition/src/utils/createCounter";
 import {findDOMNode} from "react-dom";
@@ -66,7 +66,7 @@ const PlDisappearTransition = designClassComponent({
         const cssRef = useReference<any>()
 
         if (!props.unmount && !props.show) {
-            onMounted(() => {
+            onBeforeMount(() => {
                 const el = findDOMNode(cssRef.current) as HTMLElement | undefined
                 !!el && (el.style.display = 'none')
             })
