@@ -5,6 +5,7 @@ import React from 'react';
 
 export const PlDropdown = designComponent({
     name: 'pl-dropdown',
+    inheritPropsType: PlPopper,
     props: {
         modelValue: {type: Boolean},
         disabledHideOnClickOption: {type: Boolean},                     // 禁用点击 dropdown-option 之后关闭 dropdown
@@ -13,11 +14,11 @@ export const PlDropdown = designComponent({
     emits: {
         onUpdateModelValue: (val?: boolean) => true,
     },
-    slots:['popper','default'],
-    scopeSlots:{
-        reference:(scope:{open?:boolean})=>{},
+    slots: ['popper', 'default'],
+    scopeSlots: {
+        reference: (scope: { open?: boolean }) => {},
     },
-    setup({props,slots,scopeSlots, event: {emit}}) {
+    setup({props, slots, scopeSlots, event: {emit}}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
@@ -43,8 +44,8 @@ export const PlDropdown = designComponent({
                     noContentPadding
                     transition="pl-transition-popper-drop">
                     {{
-                        popper:slots.popper,
-                        default:scopeSlots.reference({open: model.value}, slots.default())
+                        popper: slots.popper,
+                        default: scopeSlots.reference({open: model.value}, slots.default())
                     }}
                 </PlPopper>
             )
