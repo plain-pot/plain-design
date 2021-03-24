@@ -139,6 +139,7 @@ export const PlContextMenuService = createDefaultService({
                 return (
                     <div className="pl-contextmenu-service" style={styles.value} ref={onRef.el} {...{show: String(isShow.value)} as any}>
                         <PlTransition
+                            key={state.zIndex}
                             name="pl-transition-scale"
                             show={isShow.value}
                             unmount={false}
