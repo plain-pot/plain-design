@@ -5,14 +5,8 @@ import {unit} from "plain-utils/string/unit";
 import {addClass} from "plain-utils/dom/addClass";
 import {delay} from "plain-utils/utils/delay";
 import {removeClass} from "plain-utils/dom/removeClass";
+import {ClassWrapper} from "../../utils/ClassWrapper";
 
-class Wrapper extends React.Component<any, any> {
-
-    constructor(props: any) {super(props)}
-
-    render() {return this.props.children;}
-
-}
 
 type CollapseElStyles = {
     height: string,
@@ -179,9 +173,9 @@ export const PlCollapseTransition = designComponent({
         })
 
         return () => (
-            <Wrapper ref={wrapperRef}>
+            <ClassWrapper ref={wrapperRef}>
                 {slots.default()}
-            </Wrapper>
+            </ClassWrapper>
         )
     },
 })
