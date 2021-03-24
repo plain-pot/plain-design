@@ -10,7 +10,6 @@ export const PlTooltip = designComponent({
     name: 'pl-tooltip',
     props: {
         modelValue: {type: Boolean},                        // 双向绑定控制是否显示
-        tooltip: {type: String},                            // tooltip提示文本，可以通过 tooltip插槽替换
         showWidth: {type: Number},                          // 设置宽度，当内容宽度超过这个宽度时，才会显示tooltip
         theme: {type: String, default: 'dark'},             // 主题，dark以及light
 
@@ -62,12 +61,12 @@ export const PlTooltip = designComponent({
                     {{
                         default: !!props.showWidth ? (
                             <span className="pl-tooltip-reference"
-                                  ref="reference"
+                                  ref={onRef.reference}
                                   style={{width: unit(props.showWidth)!}}>
-                                {slots.default(props.tooltip)}
+                                {slots.default()}
                             </span>
-                        ) : slots.default(props.tooltip),
-                        popper: slots.tooltip(props.tooltip)
+                        ) : slots.default(),
+                        popper: slots.tooltip()
                     }}
                 </PlPopper>
             )
