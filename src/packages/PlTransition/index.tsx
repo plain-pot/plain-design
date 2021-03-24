@@ -10,8 +10,8 @@ const PlSwitchTransition = designComponent({
         name: {type: String, required: true},
     },
     emits: {
-        onAfterEnter: () => true,
-        onAfterLeave: () => true,
+        onEntered: () => true,
+        onExited: () => true,
     },
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
@@ -39,7 +39,10 @@ const PlSwitchTransition = designComponent({
             return (
                 <SwitchTransition mode={props.mode}>
                     <CSSTransition
-                        key={state.key} classNames={props.name}
+                        onEntered={emit.onEntered}
+                        onExited={emit.onExited}
+                        key={state.key}
+                        classNames={props.name}
                         addEndListener={(node, done) => node.addEventListener("transitionend", done, false)}>
                         {children}
                     </CSSTransition>
@@ -57,7 +60,11 @@ const PlDisappearTransition = designClassComponent({
         unmount: {type: Boolean},
     },
     slots: ['default'],
-    setup({props, slots}) {
+    emits: {
+        onEntered: () => true,
+        onExited: () => true,
+    },
+    setup({props, slots, event: {emit}}) {
 
         const binding = props.unmount ? {} : {
             onEnter: (el: HTMLElement) => {el.style.display = ''},
@@ -80,7 +87,10 @@ const PlDisappearTransition = designClassComponent({
                     in={props.show}
                     timeout={props.timeout}
                     classNames={props.name}
-                    unmountOnExit={props.unmount}>
+                    unmountOnExit={props.unmount}
+                    onEntered={emit.onEntered}
+                    onExited={emit.onExited}
+                >
                     {slots.default()}
                 </CSSTransition>
             )
@@ -103,6 +113,9 @@ export const PlTransition: React.FC<{
     show?: boolean,
     timeout?: number,
     unmount?: boolean,
+
+    onEntered?: () => void,
+    onExited?: () => void,
 }> = (props) => {
     if (props.switch) return <PlSwitchTransition {...props}/>
     else return <PlDisappearTransition {...props}/>
