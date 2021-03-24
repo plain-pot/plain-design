@@ -13,6 +13,7 @@ import {PlScroll} from "../PlScroll";
 import {createPortal, findDOMNode} from 'react-dom';
 import {PlainPopper} from 'plain-popper'
 import {ClassWrapper} from "../../utils/ClassWrapper";
+import {refreshPopperReference} from './refershPopperReference';
 
 const error = createError('pl-popper')
 
@@ -361,7 +362,7 @@ export const PlPopper = designComponent({
         })
 
         onBeforeUnmount(() => utils.destroy())
-        // refreshPopperReference.provide(methods.refreshReference)
+        refreshPopperReference.provide(methods.refreshReference)
 
         /*---------------------------------------watch-------------------------------------------*/
         watch(() => props.modelValue, (val) => {
@@ -415,8 +416,6 @@ export const PlPopper = designComponent({
         watch(() => props.trigger, popperConfigChangeHandler)
 
         /*---------------------------------------render-------------------------------------------*/
-
-        // const Comment = createCommentVNode('') as any
 
         return {
             refer: {

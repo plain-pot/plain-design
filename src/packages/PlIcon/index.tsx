@@ -2,6 +2,7 @@ import {designComponent, ref, watch} from 'plain-design-composition'
 import './icon.scss'
 import React, {ReactNode} from "react";
 import useClass from 'plain-design-composition/src/use/useClasses';
+import {refreshPopperReference} from "../PlPopper/refershPopperReference";
 
 interface IconGetter {
     (icon: string): ReactNode | Promise<ReactNode>
@@ -47,6 +48,7 @@ export const PlIcon = designComponent({
     },
     setup({props}) {
         const icon = ref(null as any)
+        const {freshPopperReference} = refreshPopperReference.inject()
 
         const classes = useClass(() => [
             'pl-icon',
@@ -68,6 +70,7 @@ export const PlIcon = designComponent({
             reset: async (iconName: string) => {
                 const Icon = await utils.getIconVNode(iconName)
                 icon.value = Icon || null
+                freshPopperReference()
             }
         }
 
