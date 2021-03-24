@@ -10,6 +10,8 @@ const PlCollapseTransition = (props: any) => props.children
 
 export const PlAlert = designComponent({
     name: 'pl-alert',
+    inheritAttrs: false,
+    inheritPropsType: {} as React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
     props: {
         ...StyleProps,
 
@@ -20,7 +22,7 @@ export const PlAlert = designComponent({
         icon: {type: String as PropType<string | null | undefined>, default: undefined},     // 显示的图标
     },
     slots: ['desc', 'close', 'default'],
-    setup({props, slots}) {
+    setup({props, slots, attrs}) {
 
         const state = reactive({
             isClosed: false,
@@ -56,7 +58,7 @@ export const PlAlert = designComponent({
         return {
             render: () => (
                 <PlCollapseTransition>
-                    {!state.isClosed && <div className="pl-alert-wrapper">
+                    {!state.isClosed && <div className="pl-alert-wrapper" {...attrs}>
                         <div className={classes.value}>
                             {!!icon.value && <div className="pl-alert-icon">
                                 <PlIcon icon={icon.value}/>
