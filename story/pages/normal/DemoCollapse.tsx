@@ -92,8 +92,9 @@ export default designPage(() => {
             </DemoRow>
 
             <DemoRow title={'CollapseGroup：限制展开的个数'}>
-                <PlCollapseGroup limit={2}>
-                    <PlCollapse title={'折叠标题'}>
+                {JSON.stringify(val[2])}
+                <PlCollapseGroup v-model={val[2]} style={{marginBottom: '20px'}}>
+                    <PlCollapse title={'折叠标题1'} val={'1'}>
                         <div style={{fontSize: '12px'}}>
                             <ul>
                                 <li>折叠内容</li>
@@ -105,7 +106,7 @@ export default designPage(() => {
                             </ul>
                         </div>
                     </PlCollapse>
-                    <PlCollapse title={'折叠标题'}>
+                    <PlCollapse title={'折叠标题2'} val={'2'}>
                         <div style={{fontSize: '12px'}}>
                             <ul>
                                 <li>折叠内容</li>
@@ -117,7 +118,45 @@ export default designPage(() => {
                             </ul>
                         </div>
                     </PlCollapse>
-                    <PlCollapse title={'折叠标题'}>
+                    <PlCollapse title={'折叠标题3'} val={'3'}>
+                        <div style={{fontSize: '12px'}}>
+                            <ul>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                            </ul>
+                        </div>
+                    </PlCollapse>
+                </PlCollapseGroup>
+                <PlCollapseGroup v-model={val[2]} disabled>
+                    <PlCollapse title={'折叠标题1'} val={'1'}>
+                        <div style={{fontSize: '12px'}}>
+                            <ul>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                            </ul>
+                        </div>
+                    </PlCollapse>
+                    <PlCollapse title={'折叠标题2'} val={'2'}>
+                        <div style={{fontSize: '12px'}}>
+                            <ul>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                                <li>折叠内容</li>
+                            </ul>
+                        </div>
+                    </PlCollapse>
+                    <PlCollapse title={'折叠标题3'} val={'3'}>
                         <div style={{fontSize: '12px'}}>
                             <ul>
                                 <li>折叠内容</li>
