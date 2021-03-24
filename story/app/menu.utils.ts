@@ -40,6 +40,7 @@ const MenuData: MenuGroup[] = [
             // {name: 'useProps', page: '/use/useProps', complete: false},
             {name: 'useCollect', page: '/use/DemoUseCollect', complete: true},
             {name: 'PlTransition', page: '/normal/DemoTransition', complete: true},
+            {name: 'PlCollapseTransition', page: '/normal/DemoCollapseTransition', complete: true},
         ]
     },
     {

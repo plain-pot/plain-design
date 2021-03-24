@@ -1,28 +1,3 @@
-.test-item {
-    background-color: white;
-    align-items: center;
-    justify-content: center;
-    display: inline-flex;
-    height: 80px;
-    width: 300px;
-    margin-bottom: 8px;
-    margin-right: 8px;
-    border: solid 1px #e1d1f1;
-    cursor: pointer;
+.test-page {
 
-    & > * {
-        margin-right: 8px !important;
-    }
-}
-
-.test-app {
-    position: relative;
-
-    &.app-to-end {
-        top: 100px;
-    }
-
-    &.animate-on-transforms {
-        transition: all 3s linear;
-    }
 }
