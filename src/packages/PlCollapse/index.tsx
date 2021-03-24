@@ -81,10 +81,10 @@ export const PlCollapse = designComponent({
                             <PlIcon icon="el-icon-arrow-right"/>
                         </div>}
                     </div>}
-                    <PlCollapseTransition>
-                        {isOpen.value && (!!props.detail || slots.default.isExist()) && <div className="pl-collapse-detail">
+                    <PlCollapseTransition show={isOpen.value && (!!props.detail || slots.default.isExist())}>
+                        <div className="pl-collapse-detail">
                             {slots.default(props.detail)}
-                        </div>}
+                        </div>
                     </PlCollapseTransition>
                 </div>
             )
