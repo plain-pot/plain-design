@@ -30,6 +30,7 @@
     "autoprefixer": "^8.6.5",
     "babel-loader": "^8.2.2",
     "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.0.2",
     "file-loader": "^6.2.0",

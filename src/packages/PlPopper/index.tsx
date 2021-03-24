@@ -10,8 +10,9 @@ import {debounce} from "plain-utils/utils/debounce";
 import React from 'react';
 import useClass from "plain-design-composition/src/use/useClasses";
 import {PlScroll} from "../PlScroll";
-import {createPortal} from 'react-dom';
+import {createPortal, findDOMNode} from 'react-dom';
 import {PlainPopper} from 'plain-popper'
+import {ClassWrapper} from "../../utils/ClassWrapper";
 
 const error = createError('pl-popper')
 
@@ -22,7 +23,6 @@ export const PlPopper = designComponent({
         open: {type: Boolean},                                      // 双向绑定值，当前是否已经打开
         trigger: {type: String, default: 'hover'},                  // 触发动作， hover,click,focus,manual,always
 
-        title: {type: String},                                      // 标题文本
         message: {type: String},                                    // 内容文本
         disabled: {type: Boolean},                                  // 禁用
         transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
@@ -75,7 +75,7 @@ export const PlPopper = designComponent({
         const {emit, on, off} = event
 
         const {refs, onRef} = useRefs({
-            comment: HTMLElement,                                               // 注释节点，用来查找reference的第一个节点
+            wrapper: HTMLElement,                                               // 注释节点，用来查找reference的第一个节点
             popper: HTMLDivElement,                                             // popper div 节点
             content: HTMLDivElement,                                            // popper content 节点
         });
@@ -96,7 +96,6 @@ export const PlPopper = designComponent({
         const state = reactive({
             el: {
                 popper: null as null | HTMLElement,                             // popper 节点
-                comment: null as null | HTMLElement,                            // comment 节点
                 reference: null as null | HTMLElement,                          // comment.nextElementSibling，也就是 reference 的第一个节点
             },
             referenceEl: null as null | HTMLElement,                            // 真正的 reference 对象获取方法
@@ -108,7 +107,6 @@ export const PlPopper = designComponent({
         }) as {
             el: {
                 popper: null | HTMLElement,
-                comment: null | HTMLElement,
                 reference: null | HTMLElement,
             },
             referenceEl: null | HTMLElement,
@@ -129,10 +127,14 @@ export const PlPopper = designComponent({
             if (!slot) {
                 return null
             }
-            if (slot.length > 1) {
-                error('allows only one child node!')
+            if (Array.isArray(slot)) {
+                if (slot.length > 1) {
+                    error('allows only one child node!')
+                } else {
+                    return slot[0]
+                }
             }
-            return slot[0]
+            return slot
         })
 
         /*---------------------------------------computed-------------------------------------------*/
@@ -217,10 +219,14 @@ export const PlPopper = designComponent({
         /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {
+            getReferenceInWrapper: () => {
+                if (!refs.wrapper) return null
+                return findDOMNode(refs.wrapper) as HTMLElement
+            },
             init: (): boolean => {
-                let {comment, reference} = state.el
-                if (!!comment && !!reference) {
-                    state.referenceEl = reference
+                const referenceInWrapper = utils.getReferenceInWrapper()
+                if (!!referenceInWrapper) {
+                    state.referenceEl = referenceInWrapper
                 } else if (!!props.reference) {
                     state.referenceEl = getElement(typeof props.reference === "function" ? (props.reference as SimpleFunction)() : props.reference)
                 } else {
@@ -334,8 +340,7 @@ export const PlPopper = designComponent({
             },
             refreshReference: async () => {
                 await delay()
-                const comment = getElement(refs.comment)
-                const reference = !!comment ? comment!.nextElementSibling as HTMLElement : null
+                const reference = utils.getReferenceInWrapper()
                 // console.log(reference, state.el.reference)
                 if (!!reference && reference !== state.el.reference) {
                     await utils.destroy()
@@ -346,14 +351,9 @@ export const PlPopper = designComponent({
         }
 
         onMounted(async () => {
-
             const popper = getElement(refs.popper)
-            const comment = getElement(refs.comment)
-            const reference = !!comment ? comment!.nextElementSibling as HTMLElement : null
-            // console.log({popper, comment, reference})
-
-            state.el = markRaw({popper, comment, reference})
-
+            const reference = utils.getReferenceInWrapper()
+            state.el = markRaw({popper, reference})
             await utils.init()
             if (model.value) {
                 await methods.show(false)
@@ -430,8 +430,9 @@ export const PlPopper = designComponent({
                     <>
                         {/*如果没有reference，则不渲染comment节点*/}
                         {!!ReferenceVNode && <>
-                            {/*<Comment ref={onRef.comment}/>*/}
-                            {ReferenceVNode}
+                            <ClassWrapper ref={onRef.wrapper}>
+                                {ReferenceVNode}
+                            </ClassWrapper>
                         </>}
 
                         {state.init && createPortal(
@@ -446,13 +447,13 @@ export const PlPopper = designComponent({
                                      onTransitionEnd={handler.onPopperContentTransitionend}
                                      onMouseDown={e => emit.onMousedownPopper(e.nativeEvent)}
                                      {...(props.trigger === 'hover' ? {
-                                         onMouseenter: emit.onEnterPopper,
-                                         onMouseleave: emit.onLeavePopper,
+                                         onMouseEnter: e => emit.onEnterPopper(e.nativeEvent),
+                                         onMouseLeave: e => emit.onLeavePopper(e.nativeEvent),
                                      } : {})}
                                 >
                                     <div className="plain-popper-arrow"/>
-                                    {(props.title || slots.title.isExist()) && <div className="pl-popper-title">
-                                        {props.title || slots.title()}
+                                    {(slots.title.isExist()) && <div className="pl-popper-title">
+                                        {slots.title()}
                                     </div>}
                                     {(props.message || slots.popper.isExist()) && <div className="pl-popper-content-inner" style={sizeStyles.value}>
                                         {!!scrollAttrs.value ? (
