@@ -41,7 +41,7 @@ const TestUseReference = designComponent({
         return () => (
             <div>
                 <h2>测试 useReference</h2>
-                {!!state.show && <Child ref={refer => console.log('ref child', refer)}/>}
+                {!!state.show && <Child ref={childRef}/>}
                 <button onClick={() => console.log(childRef.current)}>log</button>
                 <button onClick={() => state.show = !state.show}>show child:{String(state.show)}</button>
                 <button onClick={() => !!childRef.current && childRef.current.focus()}>focus</button>
