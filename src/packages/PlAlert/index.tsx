@@ -5,8 +5,7 @@ import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
 import PlIcon from "../PlIcon";
 import './alert.scss'
-
-const PlCollapseTransition = (props: any) => props.children
+import PlCollapseTransition from "../PlCollapseTransition";
 
 export const PlAlert = designComponent({
     name: 'pl-alert',
@@ -57,8 +56,8 @@ export const PlAlert = designComponent({
 
         return {
             render: () => (
-                <PlCollapseTransition>
-                    {!state.isClosed && <div className="pl-alert-wrapper" {...attrs}>
+                <PlCollapseTransition show={!state.isClosed}>
+                    <div className="pl-alert-wrapper" {...attrs}>
                         <div className={classes.value}>
                             {!!icon.value && <div className="pl-alert-icon">
                                 <PlIcon icon={icon.value}/>
@@ -77,7 +76,7 @@ export const PlAlert = designComponent({
                                 </div>
                             )}
                         </div>
-                    </div>}
+                    </div>
                 </PlCollapseTransition>
             )
         }
