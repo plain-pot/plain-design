@@ -305,6 +305,89 @@ export default designPage(() => {
                     <PlCheckbox v-model={state.val.showArrow} label={'show arrow'}/>
                 </DemoLine>
             </DemoRow>
+
+            <DemoRow title={'设置宽高'}>
+                <PlPopper width={150} height={200} trigger={'click'}>
+                    {{
+                        default: <PlButton label={'150:number,200:number'}/>,
+                        popper: (
+                            <div style={{height: '55px'}}>
+                                这里是popper的内容
+                            </div>
+                        ),
+                    }}
+                </PlPopper>
+                <PlPopper width={'150px'} height={'200px'} trigger={'click'}>
+                    {{
+                        default: <PlButton label={'150px:string,200px:string'}/>,
+                        popper: (
+                            <div style={{height: '55px'}}>
+                                这里是popper的内容
+                            </div>
+                        ),
+                    }}
+                </PlPopper>
+            </DemoRow>
+
+            <DemoRow title={'配置内置的滚动条'}>
+                <i>只有设置height时才会使用Scroll容器</i>
+                <PlPopper
+                    noContentPadding
+                    height={100}
+                    trigger={'click'}>
+                    {{
+                        default: <span>CLICK(无标题)</span>,
+                        popper: (
+                            <ol style={{
+                                margin: 0,
+                                padding: '0 16px',
+                                paddingInlineStart: '28px',
+                                paddingInlineEnd: '0',
+                            }}>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                            </ol>
+                        )
+                    }}
+                </PlPopper>
+
+                <PlPopper
+                    title={'标题'}
+                    noContentPadding
+                    height={100}
+                    trigger={'click'}>
+                    {{
+                        default: <span>CLICK</span>,
+                        popper: (
+                            <ol style={{
+                                margin: 0,
+                                padding: '0 16px',
+                                paddingInlineStart: '28px',
+                                paddingInlineEnd: '0',
+                            }}>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                                <li>消息内容</li>
+                            </ol>
+                        )
+                    }}
+                </PlPopper>
+            </DemoRow>
         </div>
     )
 })
