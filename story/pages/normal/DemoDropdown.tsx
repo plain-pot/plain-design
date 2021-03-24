@@ -316,6 +316,61 @@ export default designPage(() => {
                         )
                     }}
                 </PlDropdown>
+
+                <PlButtonGroup>
+                    <PlButton label={'搭配按钮组'}/>
+                    <PlDropdown>
+                        {{
+                            reference: ({open}) => (
+                                <PlButton>
+                                    <span>下拉按钮</span>
+                                    <PlIcon icon={'el-icon-arrow-down'} style={{
+                                        transition: 'transform 200ms linear',
+                                        transform: `rotateX(${open ? 180 : 0}deg)`,
+                                    }}/>
+                                </PlButton>
+                            ),
+                            popper: (
+                                <PlDropdownMenu>
+                                    <PlDropdownOption label={'新建 Create'} onClick={() => $$message('新建 Create')}/>
+                                    <PlDropdownOption label={'编辑 Edit'} onClick={() => $$message('编辑 Edit')}/>
+                                    <PlDropdownOption label={'删除 Delete'} onClick={() => $$message('删除 Delete')}/>
+                                    <PlDropdownOption label={'导入 Import'} onClick={() => $$message('导入 Import')}/>
+                                    <PlDropdownOption label={'导出 Export'} onClick={() => $$message('导出 Export')}/>
+                                    <PlDropdownOption label={'筛选 Filter'} onClick={() => $$message('筛选 Filter')}/>
+                                    <PlDropdownOption label={'排序 Sort'} onClick={() => $$message('排序 Sort')}/>
+                                    <PlDropdownOption label={'多选 Select'} onClick={() => $$message('多选 Select')}/>
+                                </PlDropdownMenu>
+                            )
+                        }}
+                    </PlDropdown>
+                </PlButtonGroup>
+
+                <PlDropdown>
+                    {{
+                        reference: ({open}) => (
+                            <span>
+                                <span>任意内容</span>
+                                <PlIcon icon={'el-icon-arrow-down'} style={{
+                                    transition: 'transform 200ms linear',
+                                    transform: `rotateX(${open ? 180 : 0}deg)`,
+                                }}/>
+                            </span>
+                        ),
+                        popper: (
+                            <PlDropdownMenu>
+                                <PlDropdownOption label={'新建 Create'} onClick={() => $$message('新建 Create')}/>
+                                <PlDropdownOption label={'编辑 Edit'} onClick={() => $$message('编辑 Edit')}/>
+                                <PlDropdownOption label={'删除 Delete'} onClick={() => $$message('删除 Delete')}/>
+                                <PlDropdownOption label={'导入 Import'} onClick={() => $$message('导入 Import')}/>
+                                <PlDropdownOption label={'导出 Export'} onClick={() => $$message('导出 Export')}/>
+                                <PlDropdownOption label={'筛选 Filter'} onClick={() => $$message('筛选 Filter')}/>
+                                <PlDropdownOption label={'排序 Sort'} onClick={() => $$message('排序 Sort')}/>
+                                <PlDropdownOption label={'多选 Select'} onClick={() => $$message('多选 Select')}/>
+                            </PlDropdownMenu>
+                        )
+                    }}
+                </PlDropdown>
             </DemoRow>
         </div>
     )
