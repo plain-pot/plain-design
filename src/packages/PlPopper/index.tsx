@@ -469,3 +469,5 @@ export const PlPopper = designComponent({
         }
     },
 })
+
+export default PlPopper
