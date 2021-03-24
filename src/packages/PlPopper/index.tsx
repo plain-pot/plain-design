@@ -118,26 +118,6 @@ export const PlPopper = designComponent({
             trigger: null | PopperTrigger,
         }
 
-        /**
-         * 检查默认插槽中是否存在多个节点，如果是则发出警告
-         * @author  韦胜健
-         * @date    2020/11/17 9:45
-         */
-        const referenceVNode = computed(() => {
-            const slot = slots.default() as any
-            if (!slot) {
-                return null
-            }
-            if (Array.isArray(slot)) {
-                if (slot.length > 1) {
-                    error('allows only one child node!')
-                } else {
-                    return slot[0]
-                }
-            }
-            return slot
-        })
-
         /*---------------------------------------computed-------------------------------------------*/
 
         /**
@@ -424,13 +404,22 @@ export const PlPopper = designComponent({
                 ...methods,
             },
             render: () => {
-                const {value: ReferenceVNode} = referenceVNode
+
+                let children = slots.default() as any
+                if (!!children) {
+                    if (Array.isArray(children)) {
+                        if (children.length > 1) {
+                            error('allows only one child node!')
+                        }
+                        children = children[0]
+                    }
+                }
                 return (
                     <>
                         {/*如果没有reference，则不渲染comment节点*/}
-                        {!!ReferenceVNode && <>
+                        {!!children && <>
                             <ClassWrapper ref={onRef.wrapper}>
-                                {ReferenceVNode}
+                                {children}
                             </ClassWrapper>
                         </>}
 

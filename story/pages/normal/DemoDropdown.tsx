@@ -298,7 +298,7 @@ export default designPage(() => {
                                 <span>图标旋转过度</span>
                                 <PlIcon icon={'el-icon-arrow-down'} style={{
                                     transition: 'transform 200ms linear',
-                                    transform: `rotate(${open ? 180 : 0})`,
+                                    transform: `rotateX(${open ? 180 : 0}deg)`,
                                 }}/>
                             </PlButton>
                         ),
