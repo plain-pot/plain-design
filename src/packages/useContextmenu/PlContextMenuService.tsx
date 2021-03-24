@@ -5,7 +5,7 @@ import {ReactNode} from "react";
 import React from "react";
 import PlTransition from "../PlTransition";
 
-export type ContextmenuReference = MouseEvent | HTMLElement | { $el: HTMLElement } | { x: number, y: number }
+export type ContextmenuReference = MouseEvent | HTMLElement | { x: number, y: number } | Element | EventTarget | null
 export type ContextContent = (() => ReactNode) | { label: string, icon?: string, disabled?: string }[]
 
 export interface ContextmenuServiceOption {
@@ -16,12 +16,20 @@ export interface ContextmenuServiceOption {
 }
 
 export function getReferencePosition(reference: ContextmenuReference): { top: number, left: number } {
-    if ('addEventListener' in reference || '$el' in reference) {
-        let el = '$el' in reference ? reference.$el : reference
-        const {top, left, height} = el.getBoundingClientRect()
-        return {
-            top: top + height,
-            left: left,
+    if (!reference) {
+        throw new Error('reference is null')
+    }
+    if ('addEventListener' in reference) {
+        let el = reference
+        if ('getBoundingClientRect' in el) {
+            const {top, left, height} = el.getBoundingClientRect()
+            return {
+                top: top + height,
+                left: left,
+            }
+        } else {
+            console.log('reference', reference)
+            throw new Error('getBoundingClientRect not exist in reference')
         }
     } else if ('clientX' in reference) {
         const {clientX, clientY} = reference
@@ -129,11 +137,13 @@ export const PlContextMenuService = createDefaultService({
                 }
 
                 return (
-                    <div class="pl-contextmenu-service" style={styles.value} ref={onRef.el} {...{show: String(isShow.value)} as any}>
-                        <PlTransition name="pl-transition-scale"
-                                      show={isShow.value}
-                                      onEntered={handler.onTransitionEnd}
-                                      onExited={handler.onTransitionEnd}>
+                    <div className="pl-contextmenu-service" style={styles.value} ref={onRef.el} {...{show: String(isShow.value)} as any}>
+                        <PlTransition
+                            name="pl-transition-scale"
+                            show={isShow.value}
+                            unmount={false}
+                            onEntered={handler.onTransitionEnd}
+                            onExited={handler.onTransitionEnd}>
                             <div className="pl-contextmenu-service-body" style={bodyStyles.value}>
                                 {content}
                             </div>

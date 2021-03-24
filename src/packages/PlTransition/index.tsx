@@ -67,8 +67,14 @@ const PlDisappearTransition = designClassComponent({
     setup({props, slots, event: {emit}}) {
 
         const binding = props.unmount ? {} : {
-            onEnter: (el: HTMLElement) => {el.style.display = ''},
-            onExited: (el: HTMLElement) => {el.style.display = 'none'},
+            onEnter: (el: HTMLElement) => {
+                el.style.display = ''
+                emit.onEntered()
+            },
+            onExited: (el: HTMLElement) => {
+                el.style.display = 'none'
+                emit.onExited()
+            },
         }
         const cssRef = useReference<any>()
 
@@ -87,10 +93,7 @@ const PlDisappearTransition = designClassComponent({
                     in={props.show}
                     timeout={props.timeout}
                     classNames={props.name}
-                    unmountOnExit={props.unmount}
-                    onEntered={emit.onEntered}
-                    onExited={emit.onExited}
-                >
+                    unmountOnExit={props.unmount}>
                     {slots.default()}
                 </CSSTransition>
             )

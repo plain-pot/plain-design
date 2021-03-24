@@ -17,6 +17,7 @@ console.log('load button component')
 
 export const PlButton = designComponent({
     name: 'pl-button',
+    inheritPropsType: {} as React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
     props: {
         mode: {type: String, default: 'fill'},                  // fill,stroke,text
         label: {type: String},                                  // 按钮文本
