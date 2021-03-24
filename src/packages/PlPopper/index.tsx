@@ -35,7 +35,7 @@ export const PlPopper = designComponent({
         hoverCloseDelay: {type: [Number, String], default: 200},    // hover触发条件下，关闭延迟时间
         noContentPadding: {type: Boolean},                          // 去掉默认内容内边距
 
-        reference: {type: [Function, Element] as PropType<HTMLElement | (() => HTMLElement)>},// 目标dom元素
+        reference: {type: [] as PropType<HTMLElement | (() => HTMLElement)>},// 目标dom元素
         placement: {type: String, default: 'bottom-start'},         // 位置
         arrow: {type: Boolean, default: true},                      // 是否需要箭头
 
