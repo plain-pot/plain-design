@@ -9,7 +9,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 300ms linear;
 
     .pl-image-preview-service-indicator {
 
@@ -20,14 +19,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform linear 300ms;
         user-select: none;
 
         .pl-image-preview-service-indicator-item {
             width: 16px;
             height: 4px;
             background-color: rgba(white, 0.25);
-            transition: all linear 150ms;
 
             & + div {
                 margin-left: 8px;
@@ -48,7 +45,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform linear 250ms;
         user-select: none;
 
         .pl-image-preview-service-button {
@@ -92,24 +88,63 @@
     }
 }
 
-.pl-image-preview-enter-active, .pl-image-preview-leave-active {
-    opacity: 1;
-}
-
-.pl-image-preview-enter-from, .pl-image-preview-leave-to {
-    opacity: 0;
-
-    .pl-image-preview-service-img-wrapper {
-        transform: scale(0.25);
-    }
-
-    .pl-image-preview-service-button-group {
-        transform: translateY(200px);
-    }
-}
-
 @include theme {
-    .pl-image-preview-service {
+
+    .pl-image-preview-enter {
+        opacity: 0;
+
+        .pl-image-preview-service-img-wrapper {
+            transform: scale(0.25);
+        }
+
+        .pl-image-preview-service-button-group {
+            transform: translateY(200px);
+        }
+    }
+
+    .pl-image-preview-enter-active {
+        opacity: 1;
+
+        .pl-image-preview-service-img-wrapper {
+            transform: scale(1);
+        }
+
+        .pl-image-preview-service-button-group {
+            transform: translateY(0);
+        }
+    }
+
+    .pl-image-preview-exit {
+        opacity: 1;
+    }
+
+    .pl-image-preview-exit-active {
+        opacity: 0;
+
+        .pl-image-preview-service-img-wrapper {
+            transform: scale(0.25);
+        }
+
+        .pl-image-preview-service-button-group {
+            transform: translateY(200px);
+        }
+    }
+
+    .pl-image-preview-enter-active, .pl-image-preview-exit-active {
+        transition: all 300ms linear;
+
+        .pl-image-preview-service-indicator {
+            transition: transform linear 300ms;
+
+            .pl-image-preview-service-indicator-item {
+                transition: all linear 300ms;
+            }
+        }
+
+        .pl-image-preview-service-button-group {
+            transition: transform linear 300ms;
+        }
+
         .pl-image-preview-service-img-wrapper {
             transition: transform $transition 300ms;
         }
@@ -203,7 +238,7 @@
         }
 
         &, & .pl-icon, & span {
-            transition: all linear 200ms;
+            transition: all linear 300ms;
         }
 
         & > div {

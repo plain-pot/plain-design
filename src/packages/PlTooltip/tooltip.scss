@@ -8,7 +8,7 @@
             .plain-popper-content {
                 background-color: black !important;
 
-                &, & .pl-popper-content-inner {
+                &, & .pl-popper-content-inner, & .pl-popper-title {
                     color: white;
                 }
             }

@@ -219,13 +219,13 @@ const Service = createDefaultService({
                         {isMultipleImages.value && <div className="pl-image-preview-service-indicator">
                             {state.option.urls.map((item, index) => <div className={`pl-image-preview-service-indicator-item ${index === state.option.current ? 'pl-image-preview-service-indicator-item-active' : ''}`} key={index}/>)}
                         </div>}
-                        <div className="pl-image-preview-service-button-group" onClick={e => handler.stopPropagation(e.nativeEvent)}>
+                        <div className="pl-image-preview-service-button-group" onClick={e => e.stopPropagation()}>
                             {buttons.map(btn => {
                                 if (!!btn.show && !btn.show()) {
                                     return null
                                 }
                                 return (
-                                    <PlTooltip title={btn.label} key={btn.label}>
+                                    <PlTooltip tooltip={btn.label} key={btn.label} modelValue={true}>
                                         <div className="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
                                             <PlIcon icon={btn.icon}/>
                                         </div>
