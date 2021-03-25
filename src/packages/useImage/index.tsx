@@ -10,11 +10,14 @@ import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import $$file from "../$$file";
 import {imageCompress} from "./image.service.utils";
 import {createPortal} from "react-dom";
+import {createCounter} from "plain-design-composition/src/utils/createCounter";
 
 interface ImageServicePreviewOption {
     urls: (string | null | undefined)[],
     current: number,
 }
+
+const nextCount = createCounter("image_preview")
 
 const Service = createDefaultService({
     name: 'pl-image-preview-service',
@@ -26,6 +29,7 @@ const Service = createDefaultService({
 
         const state = reactive({
             option,
+            count: nextCount(),
             adjust: {
                 scale: null as null | number,           // 当前图片缩放大小
                 top: null as null | number,             // 当前图片拖拽top距离
@@ -57,6 +61,7 @@ const Service = createDefaultService({
 
         const show = async () => {
             resetAdjust()
+            state.count = nextCount()
             await state.mounted
             isShow.value = true
         }
@@ -201,7 +206,7 @@ const Service = createDefaultService({
                 createPortal(<PlTransition name="pl-image-preview" show={isShow.value}>
                         <div className="pl-image-preview-service" onClick={handler.onClickMask}>
                             <div className="pl-image-preview-service-img-wrapper">
-                                <PlTransition switch name={'pl-transition-scale'} mode={'out-in'}>
+                                <PlTransition switch name={'pl-transition-scale'} mode={'out-in'} key={state.count}>
                                     {/*不加这个div，switch动画没有效果，真是奇怪。PlButton可以，PlCard可以，就PlImage不行*/}
                                     <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]}>
                                         <PlImage src={state.option.urls[state.option.current]}/>
