@@ -12,7 +12,7 @@ import {imageCompress} from "./image.service.utils";
 import {createPortal} from "react-dom";
 
 interface ImageServicePreviewOption {
-    urls: string[],
+    urls: (string | null | undefined)[],
     current: number,
 }
 
@@ -246,9 +246,9 @@ const useImage = createUseService({
     name: 'image',
     managerComponent: createDefaultManager('pl-image-manager', Service),
     createService: (getManager) => {
-        const preview = (urls: string | string[], current?: number) => {
+        const preview = (urls: string | (string | null | undefined)[], current?: number) => {
             let option: ImageServicePreviewOption = {
-                urls: Array.isArray(urls) ? urls : [urls],
+                urls: !!urls && Array.isArray(urls) ? urls : [urls],
                 current: current == null ? 0 : current,
             };
             getManager().then(manager => manager.service(option))

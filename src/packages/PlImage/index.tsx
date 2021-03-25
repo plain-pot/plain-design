@@ -31,8 +31,8 @@ export const PlImageProps = {
 export const PlImage = designComponent({
     name: 'pl-image',
     props: {
-        src: {type: String},                                                     // 图片地址
-        status: {type: String as PropType<keyof typeof ImageStatus>},                         // 当前转股固态，fill, container, cover, none, scale-down
+        src: {type: String as PropType<string | null>},                          // 图片地址
+        status: {type: String as PropType<keyof typeof ImageStatus>},            // 当前转股固态，fill, container, cover, none, scale-down
         previewOnClick: {type: Boolean, default: true},                          // 是否点击的时候放大预览图片
         maxHeight: {type: [String, Number]},                                     // 最大高度
         minHeight: {type: [String, Number]},                                     // 最小高度
@@ -50,7 +50,7 @@ export const PlImage = designComponent({
     setup({props, event: {emit}}) {
 
         const state = reactive({
-            src: undefined as string | undefined,
+            src: undefined as string | undefined | null,
             status: ImageStatus.empty,
         })
 
@@ -121,7 +121,7 @@ export const PlImage = designComponent({
                 }
                 if (status.value === ImageStatus.success) {
                     return (
-                        <img src={state.src} className={classes.value} style={styles.value} onClick={handler.onClick}/>
+                        <img src={state.src || ''} className={classes.value} style={styles.value} onClick={handler.onClick}/>
                     )
                 }
             }
