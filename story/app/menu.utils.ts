@@ -69,7 +69,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Time', title: '时间选择', page: '/normal/Time', complete: false},
             {name: 'Date', title: '日期选择', page: '/normal/Date', complete: false},
             {name: 'Upload', title: '文件上传', page: '/normal/Upload', complete: false},
-            {name: 'Img', title: '图片上传', page: '/normal/Img', complete: false},
+            {name: 'Img', title: '图片上传', page: '/normal/DemoImage', complete: true},
         ]
     },
     {

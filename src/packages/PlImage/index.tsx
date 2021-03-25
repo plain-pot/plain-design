@@ -23,7 +23,7 @@ export enum ImageStatus {
 
 export const PlImageProps = {
     alt: {type: String},                                                        // 图片描述
-    fit: {type: String as PropType<ImageFit>, default: ImageFit.cover},         // 图片 object-fit 属性
+    fit: {type: String as PropType<keyof typeof ImageFit>, default: ImageFit.cover},         // 图片 object-fit 属性
     position: {type: String, default: 'top center'},                            // 图片 object-position 属性
 }
 
@@ -31,7 +31,7 @@ export const PlImage = designComponent({
     name: 'pl-image',
     props: {
         src: {type: String},                                                     // 图片地址
-        status: {type: String as PropType<ImageStatus>},                         // 当前转股固态，fill, container, cover, none, scale-down
+        status: {type: String as PropType<keyof typeof ImageStatus>},                         // 当前转股固态，fill, container, cover, none, scale-down
         previewOnClick: {type: Boolean, default: true},                          // 是否点击的时候放大预览图片
         maxHeight: {type: [String, Number]},                                     // 最大高度
         minHeight: {type: [String, Number]},                                     // 最小高度
