@@ -5,6 +5,7 @@ import {unit} from "plain-utils/string/unit";
 import React from 'react';
 import PlIcon from "../PlIcon";
 import {PlLoadingMask} from "../PlLoadingMask";
+import {$$image} from "../useImage";
 
 export enum ImageFit {
     fill = 'fill',
@@ -101,8 +102,7 @@ export const PlImage = designComponent({
         const handler = {
             onClick: (e: React.MouseEvent) => {
                 if (state.status === ImageStatus.success && props.previewOnClick) {
-                    // todo
-                    // $image.preview(state.src!)
+                    $$image.preview(state.src!)
                 }
                 emit.onClick(e.nativeEvent)
             }
