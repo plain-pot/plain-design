@@ -43,7 +43,7 @@ export const PlImage = designComponent({
         ...PlImageProps,
     },
     emits: {
-        onClick: (e: MouseEvent) => true,
+        onClick: (e: React.MouseEvent) => true,
         onSuccess: (val: string) => true,
         onError: (e: string | Event) => true,
     },
@@ -104,7 +104,7 @@ export const PlImage = designComponent({
                 if (state.status === ImageStatus.success && props.previewOnClick) {
                     $$image.preview(state.src!)
                 }
-                emit.onClick(e.nativeEvent)
+                emit.onClick(e)
             }
         }
 

@@ -186,7 +186,7 @@ const Service = createDefaultService({
         })();
 
         const handler = {
-            stopPropagation: (e: MouseEvent) => e.stopPropagation(),
+            stopPropagation: (e: React.MouseEvent) => e.stopPropagation(),
             onDblclickImg: hide,
             onClickMask: hide,
         }
@@ -220,7 +220,7 @@ const Service = createDefaultService({
                             {isMultipleImages.value && <div className="pl-image-preview-service-indicator">
                                 {state.option.urls.map((item, index) => <div className={`pl-image-preview-service-indicator-item ${index === state.option.current ? 'pl-image-preview-service-indicator-item-active' : ''}`} key={index}/>)}
                             </div>}
-                            <div className="pl-image-preview-service-button-group" onClick={e => e.stopPropagation()}>
+                            <div className="pl-image-preview-service-button-group" onClick={handler.stopPropagation}>
                                 {buttons.map(btn => {
                                     if (!!btn.show && !btn.show()) {
                                         return null
