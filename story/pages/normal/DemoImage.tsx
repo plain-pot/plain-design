@@ -20,7 +20,7 @@ export default designPage(() => {
         },
         val: {
             0: 'http://193.112.75.134/upload//single/1352951926693560321/技术体系.png',
-            1: 'http://193.112.75.134/upload//single/1375116127650185217/QQ浏览器截图20210222201922.png',
+            1: 'error.png',
         },
     })
 
