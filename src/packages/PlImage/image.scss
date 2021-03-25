@@ -77,7 +77,7 @@
     }
 
     & > .pl-image-preview-service-img-wrapper {
-        & > img {
+        & > div > img {
             max-height: 70vh;
             max-width: 90vw;
             cursor: grab;

@@ -201,20 +201,11 @@ const Service = createDefaultService({
                 createPortal(<PlTransition name="pl-image-preview" show={isShow.value}>
                         <div className="pl-image-preview-service" onClick={handler.onClickMask}>
                             <div className="pl-image-preview-service-img-wrapper">
-                                <PlTransition name="pl-transition-scale" mode="out-in" switch>
-                                    <PlImage
-                                        style={imgStyles.value}
-                                        previewOnClick={false}
-                                        className="pl-image-preview-service-img"
-                                        src={state.option.urls[state.option.current]}
-                                        key={state.option.urls[state.option.current]}
-                                        {...{
-                                            onClick: handler.stopPropagation,
-                                            onDoubleClick: handler.onDblclickImg,
-                                            onMouseDown: dragImg.mousedown,
-                                            onDragStart: dragImg.dragstart,
-                                        }}
-                                    />
+                                <PlTransition switch name={'pl-transition-scale'} mode={'out-in'}>
+                                    {/*不加这个div，switch动画没有效果，真是奇怪。PlButton可以，PlCard可以，就PlImage不行*/}
+                                    <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]}>
+                                        <PlImage src={state.option.urls[state.option.current]}/>
+                                    </div>
                                 </PlTransition>
                             </div>
                             {isMultipleImages.value && <div className="pl-image-preview-service-indicator">
