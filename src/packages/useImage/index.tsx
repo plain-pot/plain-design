@@ -9,6 +9,7 @@ import {createServiceWithoutContext, createUseService} from "../PlRoot/registryR
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import $$file from "../$$file";
 import {imageCompress} from "./image.service.utils";
+import {createPortal} from "react-dom";
 
 interface ImageServicePreviewOption {
     urls: string[],
@@ -197,44 +198,45 @@ const Service = createDefaultService({
                 service,
             },
             render: () => (
-                <PlTransition name="pl-image-preview" show={isShow.value}>
-                    <div className="pl-image-preview-service" onClick={handler.onClickMask}>
-                        <div className="pl-image-preview-service-img-wrapper">
-                            <PlTransition name="pl-transition-scale" mode="out-in" switch>
-                                <PlImage
-                                    style={imgStyles.value}
-                                    previewOnClick={false}
-                                    className="pl-image-preview-service-img"
-                                    src={state.option.urls[state.option.current]}
-                                    key={state.option.urls[state.option.current]}
-                                    {...{
-                                        onClick: handler.stopPropagation,
-                                        onDoubleClick: handler.onDblclickImg,
-                                        onMouseDown: dragImg.mousedown,
-                                        onDragStart: dragImg.dragstart,
-                                    }}
-                                />
-                            </PlTransition>
+                createPortal(<PlTransition name="pl-image-preview" show={isShow.value}>
+                        <div className="pl-image-preview-service" onClick={handler.onClickMask}>
+                            <div className="pl-image-preview-service-img-wrapper">
+                                <PlTransition name="pl-transition-scale" mode="out-in" switch>
+                                    <PlImage
+                                        style={imgStyles.value}
+                                        previewOnClick={false}
+                                        className="pl-image-preview-service-img"
+                                        src={state.option.urls[state.option.current]}
+                                        key={state.option.urls[state.option.current]}
+                                        {...{
+                                            onClick: handler.stopPropagation,
+                                            onDoubleClick: handler.onDblclickImg,
+                                            onMouseDown: dragImg.mousedown,
+                                            onDragStart: dragImg.dragstart,
+                                        }}
+                                    />
+                                </PlTransition>
+                            </div>
+                            {isMultipleImages.value && <div className="pl-image-preview-service-indicator">
+                                {state.option.urls.map((item, index) => <div className={`pl-image-preview-service-indicator-item ${index === state.option.current ? 'pl-image-preview-service-indicator-item-active' : ''}`} key={index}/>)}
+                            </div>}
+                            <div className="pl-image-preview-service-button-group" onClick={e => e.stopPropagation()}>
+                                {buttons.map(btn => {
+                                    if (!!btn.show && !btn.show()) {
+                                        return null
+                                    }
+                                    return (
+                                        <PlTooltip tooltip={btn.label} key={btn.label}>
+                                            <div className="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
+                                                <PlIcon icon={btn.icon}/>
+                                            </div>
+                                        </PlTooltip>
+                                    )
+                                })}
+                            </div>
                         </div>
-                        {isMultipleImages.value && <div className="pl-image-preview-service-indicator">
-                            {state.option.urls.map((item, index) => <div className={`pl-image-preview-service-indicator-item ${index === state.option.current ? 'pl-image-preview-service-indicator-item-active' : ''}`} key={index}/>)}
-                        </div>}
-                        <div className="pl-image-preview-service-button-group" onClick={e => e.stopPropagation()}>
-                            {buttons.map(btn => {
-                                if (!!btn.show && !btn.show()) {
-                                    return null
-                                }
-                                return (
-                                    <PlTooltip tooltip={btn.label} key={btn.label} modelValue={true}>
-                                        <div className="pl-image-preview-service-button" key={btn.label} onClick={() => !!btn.onClick && btn.onClick()}>
-                                            <PlIcon icon={btn.icon}/>
-                                        </div>
-                                    </PlTooltip>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </PlTransition>
+                    </PlTransition>,
+                    document.querySelector('.pl-root-service-container') as HTMLElement)
             )
         }
     }
