@@ -206,10 +206,22 @@ const Service = createDefaultService({
                 createPortal(<PlTransition name="pl-image-preview" show={isShow.value}>
                         <div className="pl-image-preview-service" onClick={handler.onClickMask}>
                             <div className="pl-image-preview-service-img-wrapper">
-                                <PlTransition switch name={'pl-transition-scale'} mode={'out-in'} key={state.count}>
+                                <PlTransition switch name={'pl-transition-scale'} key={state.count}>
                                     {/*不加这个div，switch动画没有效果，真是奇怪。PlButton可以，PlCard可以，就PlImage不行*/}
                                     <div style={{display: 'inline-block'}} key={state.option.urls[state.option.current]}>
-                                        <PlImage src={state.option.urls[state.option.current]}/>
+                                        <PlImage
+                                            style={imgStyles.value}
+                                            previewOnClick={false}
+                                            className="pl-image-preview-service-img"
+                                            src={state.option.urls[state.option.current]}
+                                            key={state.option.urls[state.option.current]}
+                                            {...{
+                                                onClick: handler.stopPropagation,
+                                                onDoubleClick: handler.onDblclickImg,
+                                                onMouseDown: dragImg.mousedown,
+                                                onDragStart: dragImg.dragstart,
+                                            }}
+                                        />
                                     </div>
                                 </PlTransition>
                             </div>
