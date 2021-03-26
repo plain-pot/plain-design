@@ -20,26 +20,26 @@ export default designPage(() => {
     }).val
 
     const {refs, onRef} = useRefs({
-        serviceBasicUsage: {} as any,
-        hexValue: {} as any,
-        rgbValue: {} as any,
-        rgbWithoutOpacity: {} as any,
-        hexWithOpacity: {} as any,
-        rgbaWithOpacity: {} as any,
-        saveValue: {} as any,
+        serviceBasicUsage: PlButton,
+        hexValue: PlButton,
+        rgbValue: PlButton,
+        rgbWithoutOpacity: PlButton,
+        hexWithOpacity: PlButton,
+        rgbaWithOpacity: PlButton,
+        saveValue: PlButton,
     })
 
     const $colorPicker = useColorPicker()
 
     const service = {
         serviceBasicUsage: $colorPicker({
-            reference: () => refs['serviceBasicUsage'],
+            reference: () => refs.serviceBasicUsage!.refs.button,
             renderAttrs: {
                 onChange: val => $$message(val)
             },
         }),
         hexValue: $colorPicker({
-            reference: () => refs['hexValue'],
+            reference: () => refs.hexValue!.refs.button,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: '#ff0000',
@@ -47,7 +47,7 @@ export default designPage(() => {
             },
         }),
         rgbValue: $colorPicker({
-            reference: () => refs['rgbValue'],
+            reference: () => refs['rgbValue']!.refs.button,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: 'rgb(134,74,212)',
@@ -55,7 +55,7 @@ export default designPage(() => {
             },
         }),
         rgbWithoutOpacity: $colorPicker({
-            reference: () => refs['rgbWithoutOpacity'],
+            reference: () => refs['rgbWithoutOpacity']!.refs.button,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: 'rgb(134,74,212,0.5)',
@@ -63,7 +63,7 @@ export default designPage(() => {
             },
         }),
         hexWithOpacity: $colorPicker({
-            reference: () => refs['hexWithOpacity'],
+            reference: () => refs['hexWithOpacity']!.refs.button,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: '#00ff00',
@@ -72,7 +72,7 @@ export default designPage(() => {
             },
         }),
         rgbaWithOpacity: $colorPicker({
-            reference: () => refs['rgbaWithOpacity'],
+            reference: () => refs['rgbaWithOpacity']!.refs.button,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: 'rgb(134,74,212,0.5)',
@@ -82,7 +82,7 @@ export default designPage(() => {
         }),
         saveValue: (() => {
             const option = {
-                reference: () => refs['saveValue'],
+                reference: () => refs['saveValue']!.refs.button,
                 renderAttrs: {
                     onChange: (val: any) => option.renderAttrs.modelValue = val,
                     modelValue: 'rgb(134,74,212,0.5)',
@@ -95,7 +95,7 @@ export default designPage(() => {
     }
 
     onMounted(() => {
-        console.log(refs.serviceBasicUsage)
+        // console.log('mounted', refs.serviceBasicUsage)
     })
 
     return () => (
@@ -132,7 +132,17 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'Service服务'}>
                 <DemoRow title={'基本用法'}>
-                    <PlButton onClick={service.serviceBasicUsage.toggle} label={'颜色选择服务基本用法'} ref={(refer) => console.log('button', refer)}/>
+                    <PlButton onClick={service.serviceBasicUsage.toggle} label={'颜色选择服务基本用法'} ref={onRef.serviceBasicUsage}/>
+                </DemoRow>
+                <DemoRow title={'不同格式的颜色值'}>
+                    <PlButton label={'hex初始值'} ref={onRef.hexValue} onClick={service.hexValue.toggle}/>
+                    <PlButton label={'rgb初始值'} ref={onRef.rgbValue} onClick={service.rgbValue.toggle}/>
+                    <PlButton label={'rgba初始值（不开启透明度）'} ref={onRef.rgbWithoutOpacity} onClick={service.rgbWithoutOpacity.toggle}/>
+                    <PlButton label={'hex（开启透明度）'} ref={onRef.hexWithOpacity} onClick={service.hexWithOpacity.toggle}/>
+                    <PlButton label={'rgba（开启透明度）'} ref={onRef.rgbaWithOpacity} onClick={service.rgbaWithOpacity.toggle}/>
+                </DemoRow>
+                <DemoRow title={'缓存值'}>
+                    <PlButton label={'缓存值'} ref={onRef.saveValue} onClick={service.saveValue.toggle}/>
                 </DemoRow>
             </DemoRow>
         </div>
