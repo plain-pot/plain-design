@@ -220,6 +220,7 @@ export const PlSlider = designComponent({
         }
 
         return {
+            refer: {refs},
             render: () => (
                 <div className={classes.value} style={styles.value} ref={onRef.el}>
                     {

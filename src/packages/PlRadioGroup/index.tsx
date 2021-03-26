@@ -1,4 +1,4 @@
-import {designComponent, inject, useModel} from "plain-design-composition"
+import {designComponent, inject, useModel, useRefs} from "plain-design-composition"
 import React from "react";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
@@ -20,6 +20,7 @@ export const PlRadioGroup = designComponent({
     provideRefer: true,
     setup({props, slots, event: {emit}}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const formItem = inject('@@pl-form-item', null)
 
         useEdit()
@@ -38,12 +39,13 @@ export const PlRadioGroup = designComponent({
         }
         return {
             refer: {
+                refs,
                 props,
                 handler,
                 utils,
             },
             render: () => !formItem ? slots.default() : (
-                <div className="pl-radio-group">
+                <div className="pl-radio-group" ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

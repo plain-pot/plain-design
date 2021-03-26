@@ -1,4 +1,4 @@
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent, useRefs} from "plain-design-composition";
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
 import {StepUtils} from "./step.utils";
@@ -20,6 +20,7 @@ export const PlStepGroup = designComponent({
     slots: ['default'],
     setup({props, slots}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const items = StepCollector.parent() as any[]
 
         /*---------------------------------------computer-------------------------------------------*/
@@ -44,9 +45,10 @@ export const PlStepGroup = designComponent({
                 currentIndex,
                 props,
                 isTitleAlignBottom,
+                refs,
             },
             render: () => (
-                <div className={classes.value}>
+                <div className={classes.value} ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

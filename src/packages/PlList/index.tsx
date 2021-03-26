@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, useRefs} from "plain-design-composition";
 import React, {ReactElement} from "react";
 import FlipMove from "react-flip-move";
 import './list.scss'
@@ -19,23 +19,29 @@ export const PlList = designComponent({
     },
     slots: ['default'],
     setup({props, slots}) {
-        return () => (
-            <div className="pl-list">
-                <FlipMove
-                    typeName={null}
-                    easing={props.easing}
-                    duration={props.duration}
-                    enterAnimation={props.enterAnimation || props.animation}
-                    leaveAnimation={props.leaveAnimation || props.animation}
-                    onStart={props.onStart}
-                    onFinish={props.onFinish}
-                    onStartAll={props.onStartAll}
-                    onFinishAll={props.onFinishAll}
-                    disableAllAnimations={props.disableAllAnimations}
-                    {...{children: slots.default()} as any}
-                />
-            </div>
-        )
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
+        return {
+            refer: {
+                refs,
+            },
+            render: () => (
+                <div className="pl-list" ref={onRef.el}>
+                    <FlipMove
+                        typeName={null}
+                        easing={props.easing}
+                        duration={props.duration}
+                        enterAnimation={props.enterAnimation || props.animation}
+                        leaveAnimation={props.leaveAnimation || props.animation}
+                        onStart={props.onStart}
+                        onFinish={props.onFinish}
+                        onStartAll={props.onStartAll}
+                        onFinishAll={props.onFinishAll}
+                        disableAllAnimations={props.disableAllAnimations}
+                        {...{children: slots.default()} as any}
+                    />
+                </div>
+            )
+        }
     },
 })
 

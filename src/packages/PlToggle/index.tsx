@@ -90,6 +90,7 @@ export const PlToggle = designComponent({
         useClickWave({elGetter: () => refs.el, optionsGetter: () => ({size: 'large', disabled: !editComputed.value.editable})})
 
         return {
+            refer: {refs},
             render: () => (
                 <div
                     ref={onRef.el}

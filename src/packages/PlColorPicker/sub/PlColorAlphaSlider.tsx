@@ -90,6 +90,9 @@ export const PlColorAlphaSlider = designComponent({
         }, {immediate: true})
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
                 <div className="pl-color-alpha-slider" style={styles.value} onMouseDown={handler.mousedown} ref={onRef.el}>
                     <div className="pl-color-alpha-shadow" style={shadowStyles.value}/>

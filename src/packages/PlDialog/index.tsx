@@ -68,6 +68,7 @@ export const PlDialog = designComponent({
     setup({props, slots, event: {emit}}) {
         const {refs, onRef} = useRefs({
             body: HTMLDivElement,
+            el: HTMLDivElement,
         })
         const state = reactive({
             zIndex: nextIndex(),
@@ -232,17 +233,18 @@ export const PlDialog = designComponent({
                 return (
                     createPortal(
                         <PlTransition name={props.transition} show={model.value} unmount={props.destroyOnClose}>
-                            {<div onClick={handler.clickWrapper} style={wrapperStyles.value as any} className={wrapperClasses.value}>
+                            {<div onClick={handler.clickWrapper} style={wrapperStyles.value as any} className={wrapperClasses.value} ref={onRef.el}>
                                 <div className={bodyClasses.value} ref={onRef.body}>
                                     {hasHead.value && <div className="pl-dialog-head">
                                         {slots.head(<span className="pl-dialog-head-title">{slots.title() || '提示'}</span>)}
                                         {!!props.showClose && (
                                             <div className="pl-dialog-head-close">
-                                                <PlButton icon="el-icon-close"
-                                                          shape={StyleShape.round}
-                                                          mode="text"
-                                                          size={StyleSize.large}
-                                                          onClick={handler.clickClose}/>
+                                                <PlButton
+                                                    icon="el-icon-close"
+                                                    shape={StyleShape.round}
+                                                    mode="text"
+                                                    size={StyleSize.large}
+                                                    onClick={handler.clickClose}/>
                                             </div>
                                         )}
                                     </div>}

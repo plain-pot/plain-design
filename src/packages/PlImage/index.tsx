@@ -1,4 +1,4 @@
-import {reactive, computed, designComponent, PropType, watch, useStyles} from 'plain-design-composition'
+import {reactive, computed, designComponent, PropType, watch, useStyles, useRefs} from 'plain-design-composition'
 import './image.scss'
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
@@ -48,6 +48,11 @@ export const PlImage = designComponent({
         onError: (e: string | Event) => true,
     },
     setup({props, event: {emit}}) {
+
+        const {refs, onRef} = useRefs({
+            el: HTMLDivElement,
+            img: HTMLImageElement,
+        })
 
         const state = reactive({
             src: undefined as string | undefined | null,
@@ -109,10 +114,13 @@ export const PlImage = designComponent({
         }
 
         return {
+            refer: {
+                refs,
+            },
             render: () => {
                 if (status.value === ImageStatus.empty || status.value === ImageStatus.pending || status.value === ImageStatus.error) {
                     return (
-                        <div className={classes.value} style={styles.value} onClick={handler.onClick}>
+                        <div className={classes.value} style={styles.value} onClick={handler.onClick} ref={onRef.el}>
                             <PlIcon icon="el-icon-picture"/>
                             <span>{tip[status.value]}</span>
                             {status.value === ImageStatus.pending && (<PlLoadingMask modelValue={true} background="rgba(255,255,255,0.5)"/>)}
@@ -121,7 +129,7 @@ export const PlImage = designComponent({
                 }
                 if (status.value === ImageStatus.success) {
                     return (
-                        <img src={state.src || ''} className={classes.value} style={styles.value} onClick={handler.onClick}/>
+                        <img src={state.src || ''} className={classes.value} style={styles.value} onClick={handler.onClick} ref={onRef.img}/>
                     )
                 }
             }

@@ -1,5 +1,5 @@
 import './dropdown.scss'
-import {designComponent, reactive, useModel} from "plain-design-composition";
+import {designComponent, reactive, useModel, useRefs} from "plain-design-composition";
 import {PlPopper} from "../PlPopper";
 import React from 'react';
 
@@ -20,6 +20,9 @@ export const PlDropdown = designComponent({
     },
     setup({props, slots, scopeSlots, event: {emit}}) {
 
+        const {refs, onRef} = useRefs({
+            popper: PlPopper,
+        })
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
         const state = reactive({})
@@ -36,9 +39,11 @@ export const PlDropdown = designComponent({
             refer: {
                 state,
                 handler,
+                refs,
             },
             render: () => (
                 <PlPopper
+                    ref={onRef.popper}
                     trigger="click"
                     v-model={model.value}
                     noContentPadding

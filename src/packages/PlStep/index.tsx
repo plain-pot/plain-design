@@ -60,6 +60,7 @@ export const PlStep = designComponent({
         return {
             refer: {
                 props,
+                refs,
             },
             render: () => (
                 <div className={classes.value} onClick={emit.onClick} ref={onRef.el}>

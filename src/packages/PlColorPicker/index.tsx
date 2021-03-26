@@ -139,15 +139,16 @@ export const PlColorPicker = designComponent({
                     onClick: scopedSlotsOnClick.onClick,
                 }, (
                     props.type === ColorPickerType.input ? (
-                        <PlInput ref={onRef.input}
-                                 className="pl-color-picker"
-                                 modelValue={state.inputValue}
-                                 suffixIcon={suffixIcon}
-                                 isFocus={agentState.state.focusCounter > 0}
-                                 {...{
-                                     ...agentState.inputHandler,
-                                     ...inputHandler,
-                                 }}/>
+                        <PlInput
+                            ref={onRef.input}
+                            className="pl-color-picker"
+                            modelValue={state.inputValue}
+                            suffixIcon={suffixIcon}
+                            isFocus={agentState.state.focusCounter > 0}
+                            {...{
+                                ...agentState.inputHandler,
+                                ...inputHandler,
+                            }}/>
                     ) : suffixIcon()
                 ))
             }

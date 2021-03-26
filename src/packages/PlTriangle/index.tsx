@@ -74,6 +74,7 @@ export const PlTriangle = designComponent({
         }
 
         return {
+            refer: {refs},
             render: () => (
                 size.value == null ? <span ref={onRef.el} style={{display: 'none'}}/> : (
                     <div className={classes.value} style={styles.value} ref={onRef.el}>

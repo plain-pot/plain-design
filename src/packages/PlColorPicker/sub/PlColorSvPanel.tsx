@@ -1,5 +1,5 @@
 import './color-sv-panel.scss'
-import {computed, designComponent, reactive, useNumber, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
 import {hsv2rgb} from "../utils/ColorUtils";
 import {unit} from "plain-utils/string/unit";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
@@ -23,6 +23,7 @@ export const PlColorSvPanel = designComponent({
     },
     setup({props, event: {emit}}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {numberState} = useNumber(props, ['height', 'width'])
 
         const state = reactive({
@@ -109,8 +110,11 @@ export const PlColorSvPanel = designComponent({
         })
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className="pl-color-sv-panel" style={styles.value} onMouseDown={handler.mousedown} onDoubleClick={handler.dblclick}>
+                <div className="pl-color-sv-panel" style={styles.value} onMouseDown={handler.mousedown} onDoubleClick={handler.dblclick} ref={onRef.el}>
                     <span className="pl-color-sv-thumb" style={thumbStyles.value}/>
                 </div>
             )

@@ -1,4 +1,4 @@
-import {designComponent, useReference, watch} from "plain-design-composition";
+import {designComponent, useRefs, watch} from "plain-design-composition";
 import {PlainLoading} from "plain-loading";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
@@ -12,7 +12,7 @@ export const PlLoading = designComponent({
         },
         setup({props}) {
 
-            const el = useReference<HTMLElement>()
+            const {refs, onRef} = useRefs({el: HTMLElement})
 
             const classes = useClass(() => [
                 'pl-loading',
@@ -21,18 +21,21 @@ export const PlLoading = designComponent({
 
             watch(() => props.type, async val => {
                 if (!val) {
-                    return !!el.current && (el.current.innerHTML = '')
+                    return !!refs.el && (refs.el.innerHTML = '')
                 }
                 await delay(23)
                 if (!(PlainLoading as any)[val]) {
                     throw new Error(`pl-loading: un recognise type:${val}`)
                 }
-                !!el.current && (el.current.innerHTML = (PlainLoading as any)[val]().outerHTML)
+                !!refs.el && (refs.el!.innerHTML = (PlainLoading as any)[val]().outerHTML)
             }, {immediate: true})
 
             return {
+                refer: {
+                    refs,
+                },
                 render: () => {
-                    return <i className={classes.value} ref={el}/>
+                    return <i className={classes.value} ref={onRef.el}/>
                 }
             }
         },

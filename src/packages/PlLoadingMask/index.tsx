@@ -88,6 +88,7 @@ export const PlLoadingMask = designComponent({
         })
 
         return {
+            refer: {refs},
             render: () => (
                 <PlTransition name={'pl-transition-fade'} unmount show={!!modelValue.value && state.isMounted}>
                     <div style={styles.value} className={classes.value} ref={onRef.el}>

@@ -399,6 +399,7 @@ export const PlPopper = designComponent({
 
         return {
             refer: {
+                refs,
                 event,
                 state,
                 ...methods,

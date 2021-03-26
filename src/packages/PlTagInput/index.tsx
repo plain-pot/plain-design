@@ -33,6 +33,7 @@ export const PlTagInput = designComponent({
 
         const {refs, onRef} = useRefs({
             input: PlInput,
+            el: HTMLDivElement,
         })
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
@@ -116,9 +117,10 @@ export const PlTagInput = designComponent({
         }
 
         return {
+            refer: {refs},
             render: () => {
                 return (
-                    <div className={classes.value}>
+                    <div className={classes.value} ref={onRef.el}>
                         {
                             (model.value || []).map((item: any, index) => (
                                 scopeSlots.default({item, index}, (

@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, useRefs} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import useClass from "plain-design-composition/src/use/useClasses";
@@ -22,6 +22,7 @@ export const PlTag = designComponent({
     },
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const classes = useClass(() => ([
@@ -52,8 +53,9 @@ export const PlTag = designComponent({
         }
 
         return {
+            refer: {refs},
             render: () => (
-                <div className={classes.value} onClick={handler.click}>
+                <div className={classes.value} onClick={handler.click} ref={onRef.el}>
                     {slots.default(props.label)}
                     {!!props.close && <PlIcon icon="el-icon-close" className="pl-tag-close" {...createEventListener({onClick: handler.clickClose})}/>}
                 </div>

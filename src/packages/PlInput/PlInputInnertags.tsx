@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, useRefs} from "plain-design-composition";
 import React from "react";
 
 export const PlInputInnerTags = designComponent({
@@ -11,9 +11,13 @@ export const PlInputInnerTags = designComponent({
         default: (scope: { item: any, index: number }) => {},
     },
     setup({props, scopeSlots}) {
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className="pl-input-inner-tags">
+                <div className="pl-input-inner-tags" ref={onRef.el}>
                     <span className="pl-input-inner-tag-item pl-input-inner-tag-item-takeover">&nbsp;</span>
                     {
                         (props.collapseTags ? props.data!.slice(0, 3) : props.data!).map((item: any, index) => (

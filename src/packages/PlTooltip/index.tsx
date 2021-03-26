@@ -28,7 +28,8 @@ export const PlTooltip = designComponent({
             offsetWidth: 0,
         })
         const {refs, onRef} = useRefs({
-            reference: HTMLSpanElement
+            reference: HTMLSpanElement,
+            popper: PlPopper,
         })
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
@@ -54,6 +55,7 @@ export const PlTooltip = designComponent({
         return {
             render: () => (
                 <PlPopper
+                    ref={onRef.popper}
                     disabled={!!props.showWidth ? state.offsetWidth === state.scrollWidth : false}
                     popperClass={popperClasses.value}
                     placement={props.placement}

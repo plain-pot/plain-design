@@ -77,6 +77,9 @@ export const PlColorHueSlider = designComponent({
         }, {immediate: true})
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
                 <div className="pl-color-hue-slider" onMouseDown={handler.mousedown} style={styles.value} ref={onRef.el}>
                     <div className="pl-color-hue-slider-thumb" style={thumbStyles.value}/>

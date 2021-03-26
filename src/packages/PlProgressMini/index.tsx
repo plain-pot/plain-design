@@ -1,5 +1,5 @@
 import './progress-mini.scss'
-import {computed, designComponent, useModel, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, useModel, useRefs, useStyles, watch} from "plain-design-composition";
 import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
@@ -16,6 +16,7 @@ export const PlProgressMini = designComponent({
     },
     setup({props}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const model = useModel(() => 0, () => undefined, {autoWatch: false})
 
         const animate = createAnimate({
@@ -73,8 +74,9 @@ export const PlProgressMini = designComponent({
         watch(() => props.modelValue, val => animate.start(val), {immediate: true})
 
         return {
+            refer: {refs},
             render: () => (
-                <div className={classes.value} style={styles.value}>
+                <div className={classes.value} style={styles.value} ref={onRef.el}>
                     <svg viewBox="0 0 100 100">
                         {model.value == 0 ? (
                             <circle cx="50" cy="50" r={radius.value} fill={pathStroke.value}/>

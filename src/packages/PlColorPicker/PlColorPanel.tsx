@@ -39,7 +39,11 @@ export const PlColorPanel = designComponent({
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({
+            el: HTMLElement,
             input: PlInput,
+            svPanel: PlColorSvPanel,
+            husSlider: PlColorHueSlider,
+            alphaSlider: PlColorAlphaSlider,
         })
 
         const defaultColor = () => getDefaultColor(props.format as ColorFormat, props.enableAlpha as boolean)
@@ -136,17 +140,20 @@ export const PlColorPanel = designComponent({
 
         return {
             render: () => (
-                <div className="pl-color-panel">
+                <div className="pl-color-panel" ref={onRef.el}>
                     <div>
-                        <PlColorSvPanel height="180"
-                                        width="240"
-                                        hue={state.color.hue}
-                                        modelValue={state.color.val}
-                                        saturation={state.color.saturation}
-                                        onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
+                        <PlColorSvPanel
+                            ref={onRef.svPanel}
+                            height="180"
+                            width="240"
+                            hue={state.color.hue}
+                            modelValue={state.color.val}
+                            saturation={state.color.saturation}
+                            onChange={handler.svChange} onDblclick={handler.dblclickSvPanel}/>
 
                         {state.color.enableAlpha && (
                             <PlColorAlphaSlider
+                                ref={onRef.alphaSlider}
                                 size="180"
                                 color={state.color.hex}
                                 modelValue={state.color.alpha}
@@ -156,9 +163,11 @@ export const PlColorPanel = designComponent({
                     </div>
 
 
-                    <PlColorHueSlider size="240"
-                                      v-model={state.color.hue}
-                                      {...{onChange: handler.hueChange}}/>
+                    <PlColorHueSlider
+                        ref={onRef.husSlider}
+                        size="240"
+                        v-model={state.color.hue}
+                        {...{onChange: handler.hueChange}}/>
                     <div className="pl-color-panel-input-group">
                         <PlInput ref={onRef.input}
                                  size={StyleSize.mini}

@@ -1,4 +1,4 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, useRefs} from "plain-design-composition";
 import PlDropdownMenu from "../PlDropdownMenu";
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from "react";
@@ -19,6 +19,7 @@ export const PlDropdownOption = designComponent({
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const menu = PlDropdownMenu.use.inject()
 
         const onClick = (e: React.MouseEvent) => {
@@ -38,8 +39,11 @@ export const PlDropdownOption = designComponent({
         ])
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className={classes.value} onClick={onClick}>
+                <div className={classes.value} onClick={onClick} ref={onRef.el}>
                     {!!props.icon && <PlIcon icon={props.icon} className="pl-dropdown-option-icon"/>}
                     {slots.default(props.label)}
                 </div>

@@ -134,6 +134,7 @@ export const PlRate = designComponent({
         }
 
         return {
+            refer: {refs},
             render: () => (
                 <div className={classes.value} onMouseDown={handler.mousedown} ref={onRef.el}>
                     <div className="pl-rate-active" style={activeStyles.value}>

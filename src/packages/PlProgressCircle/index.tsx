@@ -27,7 +27,7 @@ A rx ry x-axis-rotation large-arc-flag sweep-flag x y
 - y：结束点y坐标
 
 */
-import {computed, designComponent, reactive, useModel, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, reactive, useModel, useRefs, useStyles, watch} from "plain-design-composition";
 import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
@@ -53,6 +53,7 @@ export const PlProgressCircle = designComponent({
     slots: ['default'],
     setup({props, slots, event}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const model = useModel(() => 0, event.emit.onUpdateModelValue, {autoWatch: false})
 
         const animate = createAnimate({
@@ -137,9 +138,10 @@ export const PlProgressCircle = designComponent({
         return {
             refer: {
                 animate,
+                refs,
             },
             render: () => (
-                <div className={`pl-progress-circle ${loading.isLoading ? 'pl-progress-circle-loading' : ''}`} style={styles.value}>
+                <div className={`pl-progress-circle ${loading.isLoading ? 'pl-progress-circle-loading' : ''}`} style={styles.value} ref={onRef.el}>
                     <svg viewBox="0 0 100 100">
 
                         <circle

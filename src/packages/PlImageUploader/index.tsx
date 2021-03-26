@@ -1,4 +1,4 @@
-import {designComponent, PropType, reactive, useModel, useStyles, watch} from "plain-design-composition"
+import {designComponent, PropType, reactive, useModel, useRefs, useStyles, watch} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlImage, {PlImageProps} from "../PlImage";
 import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$file";
@@ -46,6 +46,7 @@ export const PlImageUploader = designComponent({
     },
     setup({props, event: {emit}}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoWatch: false})
 
         const {editComputed} = useEdit()
@@ -161,8 +162,11 @@ export const PlImageUploader = designComponent({
         }
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className={classes.value} style={styles.value}>
+                <div className={classes.value} style={styles.value} ref={onRef.el}>
                     {(!!model.value || !!state.chooseBase64) && (
                         <PlImage
                             src={model.value || state.chooseBase64}

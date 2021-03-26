@@ -1,7 +1,7 @@
 import './upload.scss'
 import {createCounter} from "plain-design-composition/src/utils/createCounter";
 import $$file, {FileServiceDefaultAccept, FileServiceSingleFile, FileServiceValidator} from "../$$file";
-import {computed, designComponent, PropType, useModel} from 'plain-design-composition';
+import {computed, designComponent, PropType, useModel, useRefs} from 'plain-design-composition';
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
@@ -82,6 +82,7 @@ export const PlUpload = designComponent({
     },
     setup({props, slots, scopeSlots, event: {emit}}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {editComputed} = useEdit()
         const singleModel = useModel(() => props.modelValue as undefined | UploadFile, emit.onUpdateModelValue)
         const multipleModel = useModel(() => props.modelValue as undefined | UploadFile[], emit.onUpdateModelValue)
@@ -372,9 +373,10 @@ export const PlUpload = designComponent({
         </>)
 
         return {
+            refer: {refs},
             render: () => {
                 return (
-                    <div className={classes.value}>
+                    <div className={classes.value} ref={onRef.el}>
                         {props.multiple ? multipleRender.value : singleRender.value}
                     </div>
                 )

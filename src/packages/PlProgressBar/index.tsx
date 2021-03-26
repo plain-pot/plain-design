@@ -1,5 +1,5 @@
 import './progress-bar.scss'
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent, useRefs} from "plain-design-composition";
 import {PROGRESS_DEFAULT_PROPS} from "./progress.utils";
 import React from 'react';
 import PlIcon from "../PlIcon";
@@ -14,6 +14,9 @@ export const PlProgressBar = designComponent({
         inlineText: {type: Boolean},
     },
     setup({props}) {
+
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
+
         const iconColor = computed(() => {
             switch (props.status) {
                 case 'success':
@@ -39,8 +42,9 @@ export const PlProgressBar = designComponent({
         }))
 
         return {
+            refer: {refs},
             render: () => (
-                <div className="pl-progress-bar">
+                <div className="pl-progress-bar" ref={onRef.el}>
                     <div className="pl-progress-bar-outer" style={outerStyles.value}>
                         <div className="pl-progress-bar-inner" style={innerStyles.value}>
                             {props.inlineText && props.modelValue > 20 && (

@@ -1,4 +1,4 @@
-import {designComponent, PropType, useStyles} from 'plain-design-composition'
+import {designComponent, PropType, useRefs, useStyles} from 'plain-design-composition'
 import './grid.scss'
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
@@ -33,6 +33,7 @@ export const PlRow = designComponent({
     provideRefer: true,
     setup({props, slots}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const classes = useClass(() => [
             'pl-row',
             {
@@ -55,9 +56,10 @@ export const PlRow = designComponent({
         return {
             refer: {
                 props,
+                refs,
             },
             render: () => (
-                <div className={classes.value} style={styles.value}>
+                <div className={classes.value} style={styles.value} ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

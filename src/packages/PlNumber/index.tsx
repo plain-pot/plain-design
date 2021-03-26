@@ -39,6 +39,8 @@ export const PlNumber = designComponent({
         const {refs, onRef} = useRefs({
             add: HTMLDivElement,
             sub: HTMLDivElement,
+            input: PlInput,
+            innerInput: HTMLInputElement,
         })
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {autoEmit: false})
@@ -215,24 +217,28 @@ export const PlNumber = designComponent({
                 ...methods,
             },
             render: () => (
-                <PlInput className={classes.value}
-                         isFocus={state.isFocus}
-                         inputInnerTabindex={null as any}
-                         {...(props.inputProps || {})}
+                <PlInput
+                    ref={onRef.input}
+                    className={classes.value}
+                    isFocus={state.isFocus}
+                    inputInnerTabindex={null as any}
+                    {...(props.inputProps || {})}
                 >
                     {!props.hideButton && (
                         <div className="pl-number-prepend-button plain-click-node" onMouseDown={handler.intervalMinus} ref={onRef.sub}>
                             <PlIcon icon="el-icon-minus"/>
                         </div>
                     )}
-                    <input type="text"
-                           value={model.value || ''}
-                           disabled={editComputed.value.disabled!}
-                           readOnly={editComputed.value.readonly!}
-                           onFocus={handler.focus}
-                           onBlur={handler.blur}
-                           onInput={handler.input}
-                           onKeyDown={handler.keydown}/>
+                    <input
+                        ref={onRef.innerInput}
+                        type="text"
+                        value={model.value || ''}
+                        disabled={editComputed.value.disabled!}
+                        readOnly={editComputed.value.readonly!}
+                        onFocus={handler.focus}
+                        onBlur={handler.blur}
+                        onInput={handler.input}
+                        onKeyDown={handler.keydown}/>
                     {!props.hideButton && (
                         <div className="pl-number-append-button plain-click-node" onMouseDown={handler.intervalAdd} ref={onRef.add}>
                             <PlIcon icon="el-icon-plus"/>

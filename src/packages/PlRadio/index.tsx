@@ -109,6 +109,7 @@ export const PlRadio = designComponent({
         useClickWave({elGetter: () => refs.el, optionsGetter: () => ({size: 'normal', disabled: !editComputed.value.editable})})
 
         return {
+            refer: {refs},
             render: () => {
                 return scopeSlots.default({
                     checked: checkStatus.value === CheckboxStatus.check,
