@@ -1,8 +1,8 @@
 import {$$message} from "../$$message"
 import {defer} from "../../utils/defer";
 
-export type FileServiceSingleFile = File & { calcSize: number }
-export type FileServiceValidator = (file: FileServiceSingleFile) => boolean
+export type FileServiceSingleFile = File & { calcSize: number, data?: any }
+export type FileServiceValidator = (file: FileServiceSingleFile) => boolean | undefined
 
 export type FileServiceChooseFileConfig = {
     multiple?: boolean,                 // 是否多选

@@ -26,7 +26,7 @@ export enum UploadStatus {
     empty = 'empty',                        // 无文件
 }
 
-type UploadFile = {
+export type UploadFile = {
     status?: UploadStatus,
     id: string,
     name: string,
@@ -37,7 +37,7 @@ type UploadFile = {
 
 type BeforeRemove = (file: UploadFile) => boolean
 type BeforeUpload = (file: UploadFile) => void | Promise<void>
-type HandleRemove = (file: UploadFile) => Promise<void>
+type HandleRemove = (file: UploadFile) => void | Promise<void>
 type HandleUpload = (files: UploadFile | UploadFile[]) => Promise<void>
 type HandlePreview = (file: UploadFile) => void
 
@@ -74,7 +74,7 @@ export const PlUpload = designComponent({
         handlePreview: {type: Function as PropType<HandlePreview>},     // 处理预览文件逻辑
     },
     emits: {
-        updateModelValue: (val?: UploadModelValue) => true,
+        onUpdateModelValue: (val?: UploadModelValue) => true,
     },
     slots: ['button'],
     scopeSlots: {
@@ -83,8 +83,8 @@ export const PlUpload = designComponent({
     setup({props, slots, scopeSlots, event: {emit}}) {
 
         const {editComputed} = useEdit()
-        const singleModel = useModel(() => props.modelValue as undefined | UploadFile, emit.updateModelValue)
-        const multipleModel = useModel(() => props.modelValue as undefined | UploadFile[], emit.updateModelValue)
+        const singleModel = useModel(() => props.modelValue as undefined | UploadFile, emit.onUpdateModelValue)
+        const multipleModel = useModel(() => props.modelValue as undefined | UploadFile[], emit.onUpdateModelValue)
 
         const renderIcon = {
             [UploadStatus.success]: <PlIcon icon="el-icon-check-bold"/>,
@@ -167,7 +167,7 @@ export const PlUpload = designComponent({
         }
 
         const dropHandler = {
-            onDragover: (e: React.DragEvent) => {
+            onDragOver: (e: React.DragEvent) => {
                 e.preventDefault()
             },
             onDragLeave: (e: React.DragEvent) => {
