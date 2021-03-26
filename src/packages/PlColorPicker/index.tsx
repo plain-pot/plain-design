@@ -26,7 +26,7 @@ export const PlColorPicker = designComponent({
         modelValue: {type: String},                             // 当前颜色值
         enableAlpha: {type: Boolean, default: true},            // 是否启用透明度
         format: {type: String, default: 'hex'},                 // 颜色格式
-        type: {type: String as PropType<ColorPickerType>, default: ColorPickerType.input}
+        type: {type: String as PropType<keyof typeof ColorPickerType>, default: ColorPickerType.input}
     },
     scopeSlots: {
         default: (scope: { color: string, onClick: SimpleFunction }) => {},

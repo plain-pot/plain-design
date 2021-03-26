@@ -7,7 +7,7 @@ import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {delay} from "plain-utils/utils/delay";
 import React from 'react';
 
-const bg = require('../../PlColorButton/opacity.png')
+const bg = require('../../PlColorButton/opacity.png').default
 
 export const PlColorAlphaSlider = designComponent({
     name: 'pl-color-alpha-slider',

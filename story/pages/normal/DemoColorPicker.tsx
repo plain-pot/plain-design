@@ -146,9 +146,12 @@ export default designPage(() => {
                     <PlButton label={'缓存值'} ref={onRef.saveValue} onClick={service.saveValue.toggle}/>
                 </DemoRow>
             </DemoRow>
-            <DemoRow title={'ColorPicker'}>
+            <DemoRow title={'PlColorPicker'}>
                 <PlColorPicker v-model={val[3]}/>
                 <PlColorPicker v-model={val[3]} onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}/>
+            </DemoRow>
+            <DemoRow title={'PlColorPicker按钮形式'}>
+                <PlColorPicker v-model={val[3]} type={'button'}/>
             </DemoRow>
         </div>
     )

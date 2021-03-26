@@ -2,7 +2,7 @@ import {designComponent, useRefs} from 'plain-design-composition'
 import React from 'react'
 import './color-button.scss'
 
-const opacityBg = require('./opacity.png')
+const opacityBg = require('./opacity.png').default
 
 export const PlColorButton = designComponent({
     name: 'pl-color-button',
