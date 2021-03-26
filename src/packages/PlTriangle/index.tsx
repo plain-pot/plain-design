@@ -23,6 +23,7 @@ export const PlTriangle = designComponent({
         half: {type: String},
         size: {type: [Number], default: 20},
     },
+    inheritPropsType: HTMLElement,
     setup({props}) {
         const {refs, onRef} = useRefs({
             el: HTMLElement,

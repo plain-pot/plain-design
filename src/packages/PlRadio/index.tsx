@@ -31,6 +31,7 @@ export const PlRadio = designComponent({
     scopeSlots: {
         default: (scope: { checked: boolean, status: 'check' | 'uncheck', click: SimpleFunction }) => {},
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any) => true,
         onClick: (e?: React.MouseEvent) => true,

@@ -31,6 +31,7 @@ export const PlColorPicker = designComponent({
     scopeSlots: {
         default: (scope: { color: string, onClick: SimpleFunction }) => {},
     },
+    inheritPropsType: PlInput,
     emits: {
         onUpdateModelValue: (val: string | undefined) => true,
         onBlur: (e: React.FocusEvent) => true,

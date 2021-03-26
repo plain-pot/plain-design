@@ -10,6 +10,7 @@ export const PlCheckboxInner = designComponent({
         disabled: {type: Boolean},
         checkStatus: {type: String},
     },
+    inheritPropsType: SVGElement,
     setup({props}) {
 
         const classes = useClass(() => [

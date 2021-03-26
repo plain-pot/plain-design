@@ -16,6 +16,7 @@ export const PlColorHueSlider = designComponent({
     emits: {
         onUpdateModelValue: (val: any) => true,
     },
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
         const {refs, onRef} = useRefs({
             el: HTMLDivElement,

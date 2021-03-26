@@ -12,6 +12,7 @@ export const PlCollapseGroup = designComponent({
     emits: {
         onUpdateModelValue: (val: string | string[] | undefined) => true
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})

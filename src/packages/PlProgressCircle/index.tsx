@@ -50,6 +50,7 @@ export const PlProgressCircle = designComponent({
     emits: {
         onUpdateModelValue: (val?: number) => true,
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots, event}) {
 

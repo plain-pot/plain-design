@@ -22,6 +22,7 @@ export const PlCarousel = designComponent({
         card: {type: Boolean},                                      // 卡片形式的切换
         cardScale: {type: Number, default: 0.64},                   // 卡片形式轮播的时候，缩小比例
     },
+    inheritPropsType: HTMLDivElement,
     scopeSlots: {
         indicator: (scope: { val: string, index: number, active: Boolean }) => {},
     },

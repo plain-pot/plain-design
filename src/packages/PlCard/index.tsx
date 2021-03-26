@@ -20,6 +20,7 @@ export const PlCard = designComponent({
         'poster',
         'foot',
     ],
+    inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

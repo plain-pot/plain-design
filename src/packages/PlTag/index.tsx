@@ -20,6 +20,7 @@ export const PlTag = designComponent({
         onClick: (e: React.MouseEvent) => true,
         onClose: (e: React.MouseEvent) => true,
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})

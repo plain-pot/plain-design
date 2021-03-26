@@ -28,6 +28,7 @@ export const PlNumber = designComponent({
         /*---------------------------------------input-------------------------------------------*/
         inputProps: {type: Object},                                 // pl-input属性配置对象
     },
+    inheritPropsType: PlInput,
     emits: {
         onFocus: (e: React.FocusEvent) => true,
         onBlur: (e: React.FocusEvent) => true,

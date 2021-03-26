@@ -76,6 +76,7 @@ export const PlUpload = designComponent({
     emits: {
         onUpdateModelValue: (val?: UploadModelValue) => true,
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['button'],
     scopeSlots: {
         default: (scope: { item: UploadFile, index: number }) => {},

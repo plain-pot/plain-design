@@ -6,6 +6,7 @@ import PlIcon from "../PlIcon";
 export const PlDropdownGroup = designComponent({
     name: 'pl-dropdown-group',
     slots: ['default', 'title'],
+    inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

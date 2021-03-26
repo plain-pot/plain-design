@@ -23,6 +23,7 @@ export const PlTagInput = designComponent({
         formatValue: Function,                                                  // 格式化输入值，返回一个值，或者对象
         noInput: Function,                                                      // 是否显示输入框
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any[] | undefined) => true
     },

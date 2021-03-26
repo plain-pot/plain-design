@@ -17,6 +17,7 @@ export const PlList = designComponent({
         onFinishAll: {type: Function as PropType<(childElements: Array<ReactElement<any>>, domNodes: Array<HTMLElement>) => void>},
         disableAllAnimations: {type: Boolean, default: false},
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})

@@ -17,6 +17,7 @@ export const PlColorSvPanel = designComponent({
         height: {type: [String, Number], default: 180},         // 面板高度
         width: {type: [String, Number], default: 240},          // 面板宽度
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onChange: (val: any) => true,
         onDblclick: (e: React.MouseEvent) => true,

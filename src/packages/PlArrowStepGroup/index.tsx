@@ -11,6 +11,7 @@ export const PlArrowStepGroup = designComponent({
         current: {},
         currentStatus: {type: String},
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots}) {
         const {refs, onRef} = useRefs({

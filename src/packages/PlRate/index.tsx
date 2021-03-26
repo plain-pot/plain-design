@@ -25,6 +25,7 @@ export const PlRate = designComponent({
     emits: {
         onUpdateModelValue: (val: number) => true,
     },
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

@@ -44,6 +44,8 @@ export const PlPopper = designComponent({
         scrollAttrs: {type: Object},                                // pl-scroll 属性配置
         popperAttrs: {type: Object},                                // 给popper dom节点传递的属性
     },
+    inheritPropsType: HTMLDivElement,
+    inheritAttrs: false,
     emits: {
         onUpdateModelValue: (val?: boolean) => true,
         onUpdateOpen: (val?: boolean) => true,
@@ -71,7 +73,7 @@ export const PlPopper = designComponent({
         'title',
         'default',
     ],
-    setup({props, slots, event}) {
+    setup({props, slots, event, attrs}) {
 
         const {emit, on, off} = event
 
@@ -427,6 +429,7 @@ export const PlPopper = designComponent({
                         {state.init && createPortal(
                             <div className={popperClasses.value}
                                  style={popperStyles.value}
+                                 {...attrs}
                                  {...(props.popperAttrs || {})}
                                  ref={onRef.popper}>
                                 <div className="plain-popper-content"

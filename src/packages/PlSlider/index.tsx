@@ -33,6 +33,7 @@ export const PlSlider = designComponent({
         tooltipFormatter: Function as PropType<(val: number) => string | undefined>,//tooltip显示格式化函数
         range: {type: Boolean},                                     //是否为范围选择
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: number) => true,
         onUpdateStart: (val: number) => true,

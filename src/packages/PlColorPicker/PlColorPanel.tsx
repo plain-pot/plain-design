@@ -36,6 +36,7 @@ export const PlColorPanel = designComponent({
         onUpdateModelValue: (val: any) => true,
         onDblclickSvPanel: (e: React.MouseEvent) => true,
     },
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

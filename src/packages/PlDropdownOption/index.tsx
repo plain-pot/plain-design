@@ -16,6 +16,7 @@ export const PlDropdownOption = designComponent({
     emits: {
         onClick: (e: React.MouseEvent) => true,
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
 

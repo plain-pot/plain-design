@@ -45,6 +45,7 @@ export const PlInput = designComponent({
         placeholder: {type: String},
         nativeAttrs: {type: Object},
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any) => true,
         onFocus: (e: React.FocusEvent) => true,

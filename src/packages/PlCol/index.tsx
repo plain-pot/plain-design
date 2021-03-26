@@ -23,6 +23,7 @@ export const PlCol = designComponent({
         md: {type: [Number, Object] as PropType<GridColSize>},
         lg: {type: [Number, Object] as PropType<GridColSize>},
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots}) {
 

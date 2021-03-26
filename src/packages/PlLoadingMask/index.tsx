@@ -21,7 +21,9 @@ export const PlLoadingMask = designComponent({
     emits: {
         onUpdateModelValue: (val: boolean | undefined) => true,
     },
-    setup({props, event}) {
+    inheritPropsType: HTMLDivElement,
+    inheritAttrs: false,
+    setup({props, event, attrs}) {
 
         const {refs, onRef} = useRefs({
             el: HTMLElement
@@ -91,7 +93,7 @@ export const PlLoadingMask = designComponent({
             refer: {refs},
             render: () => (
                 <PlTransition name={'pl-transition-fade'} unmount show={!!modelValue.value && state.isMounted}>
-                    <div style={styles.value} className={classes.value} ref={onRef.el}>
+                    <div style={styles.value} className={classes.value} ref={onRef.el} {...attrs}>
                         <PlLoading type={props.loadingType}/>
                         {!!props.message && <span>{props.message}</span>}
                     </div>

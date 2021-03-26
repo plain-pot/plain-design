@@ -10,7 +10,7 @@ import PlCollapseTransition from "../PlCollapseTransition";
 export const PlAlert = designComponent({
     name: 'pl-alert',
     inheritAttrs: false,
-    inheritPropsType: {} as React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+    inheritPropsType: HTMLDivElement,
     props: {
         ...StyleProps,
 

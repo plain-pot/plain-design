@@ -16,6 +16,7 @@ export const PlStep = designComponent({
     emits: {
         onClick: (e: React.MouseEvent) => true,
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['title', 'content', 'default'],
     setup({props, event: {emit}, slots}) {
         const {refs, onRef} = useRefs({

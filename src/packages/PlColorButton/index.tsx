@@ -12,6 +12,7 @@ export const PlColorButton = designComponent({
     emits: {
         onClick: (e: React.MouseEvent) => true,
     },
+    inheritPropsType: HTMLDivElement,
     setup({props, event: {emit}}) {
 
         const {refs, onRef} = useRefs({

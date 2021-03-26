@@ -43,6 +43,7 @@ export const PlScroll = designComponent({
         onVerticalScrollBottom: (e: Event) => true,
         onVerticalScrollCenter: (e: Event) => true,
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['content', 'default'],
     provideRefer: true,
     setup({props, event: {emit, on, off}, slots}) {

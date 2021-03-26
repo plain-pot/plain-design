@@ -29,6 +29,7 @@ export const PlRow = designComponent({
         justify: {type: String as PropType<keyof typeof GridJustify>},      //内容弹性布局方式,start,end,center,space-around,space-between
         gutter: {type: [Number, String], default: 0},                       //间隔
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     provideRefer: true,
     setup({props, slots}) {

@@ -13,6 +13,7 @@ export const PlProgressBar = designComponent({
         height: {type: String, default: '6px'},
         inlineText: {type: Boolean},
     },
+    inheritPropsType: HTMLDivElement,
     setup({props}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

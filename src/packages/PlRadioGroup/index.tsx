@@ -17,6 +17,7 @@ export const PlRadioGroup = designComponent({
     emits: {
         onUpdateModelValue: (val: any) => true
     },
+    inheritPropsType: HTMLDivElement,
     provideRefer: true,
     setup({props, slots, event: {emit}}) {
 

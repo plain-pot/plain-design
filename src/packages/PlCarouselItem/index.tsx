@@ -11,6 +11,7 @@ export const PlCarouselItem = designComponent({
     props: {
         val: {type: [String, Number]},
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, slots}) {
 

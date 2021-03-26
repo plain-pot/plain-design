@@ -8,6 +8,7 @@ export const PlRadioInner = designComponent({
     props: {
         checkStatus: {type: String},                // check,uncheck
     },
+    inheritPropsType: SVGElement,
     setup({props}) {
 
         const {refs, onRef} = useRefs({el: SVGElement})

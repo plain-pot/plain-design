@@ -21,6 +21,7 @@ export const PlCollapse = designComponent({
     emits: {
         onUpdateModelValue: (val: boolean) => true
     },
+    inheritPropsType: HTMLDivElement,
     slots: [
         'default',
         'title',

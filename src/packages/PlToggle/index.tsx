@@ -17,6 +17,7 @@ export const PlToggle = designComponent({
         trueValue: {default: true as any},                                           // 选中时绑定的值
         falseValue: {default: false as any},                                         // 未选中时绑定的值
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val: any) => true,
         onMousedown: (e: React.MouseEvent) => true,

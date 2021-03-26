@@ -18,6 +18,7 @@ export const PlStepGroup = designComponent({
         dotIcon: {type: Boolean},                                       // 图标是否采用小圆点替代
     },
     slots: ['default'],
+    inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

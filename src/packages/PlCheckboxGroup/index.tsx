@@ -19,6 +19,7 @@ export const PlCheckboxGroup = designComponent({
         max: {type: Number},                                        // 最小勾选个数
         itemWidth: {type: [String, Number]},                        // 文本宽度
     },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     emits: {
         onUpdateModelValue: (val: (string | number)[] | undefined) => true,

@@ -2,7 +2,6 @@ import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watc
 import './button.scss'
 import {PropType} from "plain-design-composition/src/composition/prop-type";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {SimpleFunction} from 'plain-design-composition/src/composition/event';
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 import React from 'react';

@@ -10,6 +10,7 @@ export const PlInputInnerTags = designComponent({
     scopeSlots: {
         default: (scope: { item: any, index: number }) => {},
     },
+    inheritPropsType: HTMLDivElement,
     setup({props, scopeSlots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         return {

@@ -36,6 +36,7 @@ export const PlImageUploader = designComponent({
         handleUpload: {type: Function as PropType<(file: File) => void | Promise<void>>},       // 自定义上传图片逻辑
         handlePreview: {type: Function as PropType<(url?: string) => void>},                    // 自定义预览逻辑
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onUpdateModelValue: (val?: string) => true,
         onLoadSuccess: (url: string) => true,

@@ -14,6 +14,7 @@ export const PlProgressMini = designComponent({
         innerColor: {type: String, default: 'rgba(0,0,0,0.25)'},
         round: {type: Boolean},
     },
+    inheritPropsType: HTMLDivElement,
     setup({props}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})

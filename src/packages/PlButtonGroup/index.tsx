@@ -32,6 +32,7 @@ export const PlButtonGroup = designComponent({
         ...StyleProps,
     },
     slots: ['default'],
+    inheritPropsType: HTMLDivElement,
     setup({props, slots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
