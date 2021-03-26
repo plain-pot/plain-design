@@ -9,6 +9,7 @@ import {DemoLine} from "../../components/DemoLine";
 import useColorPicker from "../../../src/packages/useColorPicker";
 import $$message from "../../../src/packages/$$message";
 import PlButton from "../../../src/packages/PlButton";
+import PlColorPicker from "../../../src/packages/PlColorPicker";
 
 export default designPage(() => {
 
@@ -144,6 +145,10 @@ export default designPage(() => {
                 <DemoRow title={'缓存值'}>
                     <PlButton label={'缓存值'} ref={onRef.saveValue} onClick={service.saveValue.toggle}/>
                 </DemoRow>
+            </DemoRow>
+            <DemoRow title={'ColorPicker'}>
+                <PlColorPicker v-model={val[3]}/>
+                <PlColorPicker v-model={val[3]} onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}/>
             </DemoRow>
         </div>
     )
