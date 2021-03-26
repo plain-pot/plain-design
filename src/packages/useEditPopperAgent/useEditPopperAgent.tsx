@@ -7,7 +7,7 @@ export type EditPopperAgent = ReturnType<typeof useEditPopperAgent>
 export function useEditPopperAgent(
     {
         event: {emit},
-        serviceGetter,
+        serviceGetter: useService,
         option,
     }: {
         event: { emit: { onBlur: (e: Event) => void, onFocus: (e: Event) => void } },
@@ -15,6 +15,7 @@ export function useEditPopperAgent(
         option: SpecificPopperServiceOption,
     }) {
 
+    const service = useService()
     const {editComputed} = useEdit()
 
     const state = reactive({
@@ -30,7 +31,7 @@ export function useEditPopperAgent(
             if (!editComputed.value.editable) return
             if (isShow.value) return;
             if (!state.agent) {
-                state.agent = await serviceGetter()(option)
+                state.agent = await service(option)
             }
             await state.agent.show()
         },

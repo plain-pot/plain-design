@@ -54,7 +54,7 @@ export const PlColorPicker = designComponent({
             event,
             serviceGetter: useColorPicker,
             option: {
-                reference: () => refs.input as any || refs.button || scopedSlotsOnClick.el,
+                reference: () => refs.input?.refs.input || refs.button?.refs.el || scopedSlotsOnClick.el,
                 renderAttrs: () => ({
                     modelValue: state.val,
                     enableAlpha: props.enableAlpha,

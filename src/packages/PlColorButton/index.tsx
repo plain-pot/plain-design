@@ -1,4 +1,4 @@
-import {designComponent} from 'plain-design-composition'
+import {designComponent, useRefs} from 'plain-design-composition'
 import React from 'react'
 import './color-button.scss'
 
@@ -13,9 +13,17 @@ export const PlColorButton = designComponent({
         onClick: (e: React.MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
+
+        const {refs, onRef} = useRefs({
+            el: HTMLDivElement,
+        })
+
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className="pl-color-button" onClick={emit.onClick}>
+                <div className="pl-color-button" onClick={emit.onClick} ref={onRef.el}>
                     <div className="pl-color-button-background" style={{backgroundImage: `url(${opacityBg})`}}>
                         <div className="pl-color-button-color" style={{backgroundColor: props.color}}/>
                     </div>
