@@ -206,11 +206,11 @@ export const PlCarousel = designComponent({
             onPrev: throttle(() => {
                 utils.resetAutoplayTimer(props.autoplay)
                 methods.prev()
-            }, 800, {trailing: true, leading: true}),
+            }, 500, {trailing: true, leading: true}),
             onNext: throttle(() => {
                 utils.resetAutoplayTimer(props.autoplay)
                 methods.next()
-            }, 800, {trailing: true, leading: true}),
+            }, 500, {trailing: true, leading: true}),
             onIndicator: (index: number) => {
                 methods.show(vals.value[index])
             },
