@@ -17,7 +17,6 @@ console.log('load button component')
 
 export const PlButton = designComponent({
     name: 'pl-button',
-    inheritPropsType: {} as React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,
     props: {
         mode: {type: String, default: 'fill'},                  // fill,stroke,text
         label: {type: String},                                  // 按钮文本
@@ -27,7 +26,7 @@ export const PlButton = designComponent({
         noPadding: {type: Boolean},                             // 按钮是否无边距
         block: {type: Boolean},                                 // 块级元素
         throttleClick: {type: [Boolean, Number]},               // click节流
-        asyncHandler: {type: Function as PropType<(e: MouseEvent) => void>},    // 异步处理函数，会自动开启关闭loading状态
+        asyncHandler: {type: Function as PropType<(e: React.MouseEvent) => void>},    // 异步处理函数，会自动开启关闭loading状态
 
         ...EditProps,
         ...StyleProps,
@@ -36,8 +35,9 @@ export const PlButton = designComponent({
         type: {type: String, default: 'button'},
         nativeAttrs: {type: Object},
     },
+    inheritPropsType: HTMLButtonElement,
     emits: {
-        onClick: (e: MouseEvent) => true,
+        onClick: (e: React.MouseEvent) => true,
     },
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
@@ -55,8 +55,8 @@ export const PlButton = designComponent({
             // mode: 'fill',
         }))
         const state = reactive({
-            handleClick: null as SimpleFunction | null,
-            handleClickInner: async (e: MouseEvent) => {
+            handleClick: null as ((e: React.MouseEvent) => void) | null,
+            handleClickInner: async (e: React.MouseEvent) => {
                 e.stopPropagation()
                 if (!editComputed.value.editable) {
                     return

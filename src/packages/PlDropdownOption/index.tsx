@@ -14,7 +14,7 @@ export const PlDropdownOption = designComponent({
         align: {type: String, default: 'left'},
     },
     emits: {
-        onClick: (e: MouseEvent) => true,
+        onClick: (e: React.MouseEvent) => true,
     },
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
@@ -25,8 +25,8 @@ export const PlDropdownOption = designComponent({
             if (props.disabled) {
                 return
             }
-            emit.onClick(e.nativeEvent)
-            menu.handler.clickOption(e.nativeEvent, props.val)
+            emit.onClick(e)
+            menu.handler.clickOption(e, props.val)
         }
 
         const classes = useClass(() => [

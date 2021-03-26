@@ -17,8 +17,8 @@ export const PlTag = designComponent({
         close: {type: Boolean},
     },
     emits: {
-        onClick: (e: MouseEvent) => true,
-        onClose: (e: MouseEvent) => true,
+        onClick: (e: React.MouseEvent) => true,
+        onClose: (e: React.MouseEvent) => true,
     },
     slots: ['default'],
     setup({props, slots, event: {emit}}) {
@@ -40,14 +40,14 @@ export const PlTag = designComponent({
                 if (!editComputed.value.editable) {
                     return
                 }
-                emit.onClick(e.nativeEvent)
+                emit.onClick(e)
             },
             clickClose: (e: React.MouseEvent) => {
                 e.stopPropagation()
                 if (!editComputed.value.editable) {
                     return
                 }
-                emit.onClose(e.nativeEvent)
+                emit.onClose(e)
             }
         }
 

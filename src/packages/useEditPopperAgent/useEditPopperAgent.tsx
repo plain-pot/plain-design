@@ -1,6 +1,7 @@
 import {computed, onBeforeUnmount, reactive} from "plain-design-composition";
 import {useEdit} from "../../use/useEdit";
 import {PopperAgent, SpecificPopperServiceOption} from "./useEditPopperAgent.utils";
+import React from "react";
 
 export type EditPopperAgent = ReturnType<typeof useEditPopperAgent>
 
@@ -10,7 +11,7 @@ export function useEditPopperAgent(
         serviceGetter: useService,
         option,
     }: {
-        event: { emit: { onBlur: (e: Event) => void, onFocus: (e: Event) => void } },
+        event: { emit: { onBlur: (e: React.FocusEvent) => void, onFocus: (e: React.FocusEvent) => void } },
         serviceGetter: () => ((o: SpecificPopperServiceOption) => PopperAgent),
         option: SpecificPopperServiceOption,
     }) {
@@ -46,14 +47,14 @@ export function useEditPopperAgent(
 
     const inputHandler = {
         onClickInput: async () => await methods.toggle(),
-        onBlur: async (e: Event) => {
+        onBlur: async (e: React.FocusEvent) => {
             state.focusCounter--
             if (state.focusCounter === 0) {
                 emit.onBlur(e)
                 await methods.hide()
             }
         },
-        onFocus: (e: Event) => {
+        onFocus: (e: React.FocusEvent) => {
             if (state.focusCounter === 0) {
                 emit.onFocus(e)
             }
@@ -62,7 +63,7 @@ export function useEditPopperAgent(
         onEsc: async () => {
             await methods.hide()
         },
-        onEnter: async (e: KeyboardEvent) => {
+        onEnter: async (e: React.KeyboardEvent) => {
             e.stopPropagation()
             e.preventDefault()
             await methods.show()

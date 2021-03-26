@@ -14,7 +14,7 @@ export const PlStep = designComponent({
         val: {type: String},
     },
     emits: {
-        onClick: (e: MouseEvent) => true,
+        onClick: (e: React.MouseEvent) => true,
     },
     slots: ['title', 'content', 'default'],
     setup({props, event: {emit}, slots}) {
@@ -62,7 +62,7 @@ export const PlStep = designComponent({
                 props,
             },
             render: () => (
-                <div className={classes.value} onClick={e => emit.onClick(e.nativeEvent)} ref={onRef.el}>
+                <div className={classes.value} onClick={emit.onClick} ref={onRef.el}>
                     <div className="pl-step-head">
                         {!stepGroup.props.vertical && (stepGroup.isTitleAlignBottom.value || isLast.value) && <span className="pl-step-divider pl-step-divider-prev"/>}
                         <span className="pl-step-icon">

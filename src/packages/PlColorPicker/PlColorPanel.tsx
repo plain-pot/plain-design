@@ -34,7 +34,7 @@ export const PlColorPanel = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: any) => true,
-        onDblclickSvPanel: (e: MouseEvent) => true,
+        onDblclickSvPanel: (e: React.MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -79,7 +79,7 @@ export const PlColorPanel = designComponent({
             confirm: () => {
                 emit.onUpdateModelValue(state.val)
             },
-            dblclickSvPanel: (e: MouseEvent) => {
+            dblclickSvPanel: (e: React.MouseEvent) => {
                 handler.confirm()
                 emit.onDblclickSvPanel(e)
             },

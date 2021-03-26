@@ -30,7 +30,7 @@ export default designComponent({
             onClick: (e: React.MouseEvent<HTMLDivElement>) => {
                 !!props.option.onClick && props.option.onClick(e.nativeEvent)
             },
-            onClickCloseIcon: (e: MouseEvent) => {
+            onClickCloseIcon: (e: React.MouseEvent) => {
                 close()
             },
             onMouseenter: () => {

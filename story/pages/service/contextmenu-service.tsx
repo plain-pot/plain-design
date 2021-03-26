@@ -13,11 +13,11 @@ export default designPage(() => {
 
     const useByContextmenu = (e: React.MouseEvent) => {
         e.preventDefault()
-        useByClick(e.nativeEvent)
+        useByClick(e)
     }
 
-    const useByClick = (e: MouseEvent) => {
-        $contextmenu(e, () => (
+    const useByClick = (e: React.MouseEvent) => {
+        $contextmenu(e.nativeEvent, () => (
             <PlDropdownMenu>
                 <PlDropdownOption>第一个选项</PlDropdownOption>
                 <PlDropdownOption>第二个选项</PlDropdownOption>
@@ -26,7 +26,7 @@ export default designPage(() => {
         ))
     }
 
-    const useByReference = (e: MouseEvent) => {
+    const useByReference = (e: React.MouseEvent) => {
         $contextmenu(e.currentTarget, () => (
             <PlDropdownMenu>
                 <PlDropdownOption>第一个选项</PlDropdownOption>
@@ -36,7 +36,7 @@ export default designPage(() => {
         ))
     }
 
-    const useWithIcon = (e: MouseEvent) => {
+    const useWithIcon = (e: React.MouseEvent) => {
         $contextmenu(e.currentTarget, () => (
             <PlDropdownMenu>
                 <PlDropdownOption label={'新建 Create'} onClick={() => $$message('新建 Create')} icon="el-icon-document-add"/>

@@ -33,8 +33,8 @@ export const PlColorPicker = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: string | undefined) => true,
-        onBlur: (e: Event) => true,
-        onFocus: (e: Event) => true,
+        onBlur: (e: React.FocusEvent) => true,
+        onFocus: (e: React.FocusEvent) => true,
     },
     setup({props, scopeSlots, event}) {
 
@@ -108,14 +108,14 @@ export const PlColorPicker = designComponent({
             },
             /*---------------------------------------override-------------------------------------------*/
 
-            onEnter: (e: KeyboardEvent) => {
+            onEnter: (e: React.KeyboardEvent) => {
                 if (!!state.inputValue && state.inputValue !== state.val) {
                     $$notice.warn('请输入有效的颜色值')
                     state.inputValue = state.val
                 }
                 agentState.inputHandler.onEnter(e)
             },
-            onBlur: (e: Event) => {
+            onBlur: (e: React.FocusEvent) => {
                 agentState.state.focusCounter--
                 if (agentState.state.focusCounter === 0) {
                     event.emit.onBlur(e)

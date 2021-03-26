@@ -30,9 +30,10 @@ export const PlCheckbox = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: any) => true,
-        onClick: (e?: MouseEvent) => true,
+        onClick: (e?: React.MouseEvent) => true,
     },
     slots: ['label'],
+    inheritPropsType: HTMLDivElement,
     scopeSlots: {
         default: (scope: { checked: boolean, status: keyof typeof CheckboxStatus, click: SimpleFunction }) => {},
     },
@@ -88,7 +89,7 @@ export const PlCheckbox = designComponent({
                 if (!!e) {
                     e.stopPropagation()
                 }
-                emit.onClick(e?.nativeEvent)
+                emit.onClick(e)
                 if (!editComputed.value.editable || props.customReadonly) {
                     return
                 }

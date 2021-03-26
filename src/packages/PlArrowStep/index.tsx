@@ -13,9 +13,7 @@ export const PlArrowStep = designComponent({
         val: {type: String},
         hideIndex: {type: Boolean},
     },
-    emits: {
-        onClick: (e: MouseEvent) => true,
-    },
+    inheritPropsType: HTMLDivElement,
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
         const ctx = getCurrentDesignInstance()
@@ -54,7 +52,7 @@ export const PlArrowStep = designComponent({
             refer: {},
             render: () => (
                 index.value != null ? (
-                    <div className={classes.value} onClick={e => emit.onClick(e.nativeEvent)} ref={onRef.el}>
+                    <div className={classes.value} ref={onRef.el}>
                         <div className="pl-arrow-step-content">
                             {!props.hideIndex && <span className="pl-arrow-step-sequence">{index.value + 1}. &nbsp;</span>}
                             <span>{slots.default() || props.title}</span>

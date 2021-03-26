@@ -33,7 +33,7 @@ export const PlRadio = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: any) => true,
-        onClick: (e?: MouseEvent) => true,
+        onClick: (e?: React.MouseEvent) => true,
     },
     setup({props, slots, scopeSlots, event: {emit}}) {
 
@@ -82,7 +82,7 @@ export const PlRadio = designComponent({
                 if (!!e) {
                     e.stopPropagation()
                 }
-                emit.onClick(e?.nativeEvent)
+                emit.onClick(e)
                 if (!editComputed.value.editable || props.customReadonly) {
                     return
                 }

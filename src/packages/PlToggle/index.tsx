@@ -19,11 +19,11 @@ export const PlToggle = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: any) => true,
-        onMousedown: (e: MouseEvent) => true,
+        onMousedown: (e: React.MouseEvent) => true,
         onMouseup: (e: MouseEvent) => true,
-        onClick: (e: MouseEvent) => true,
-        onFocus: (e: Event) => true,
-        onBlur: (e: Event) => true,
+        onClick: (e: React.MouseEvent) => true,
+        onFocus: (e: React.FocusEvent) => true,
+        onBlur: (e: React.FocusEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -61,7 +61,7 @@ export const PlToggle = designComponent({
             mousedown: (e: React.MouseEvent) => {
                 state.isActive = true
                 window.addEventListener('mouseup', handler.mouseup)
-                emit.onMousedown(e.nativeEvent)
+                emit.onMousedown(e)
             },
             mouseup: (e: MouseEvent) => {
                 state.isActive = false
@@ -73,7 +73,7 @@ export const PlToggle = designComponent({
                     return
                 }
                 model.value = isChecked.value ? props.falseValue : props.trueValue
-                emit.onClick(e.nativeEvent)
+                emit.onClick(e)
             },
             keydown: (e: React.KeyboardEvent) => {
                 const key = getKey(e.nativeEvent)
@@ -98,8 +98,8 @@ export const PlToggle = designComponent({
                     onMouseDown={handler.mousedown}
                     onClick={handler.click}
                     onKeyDown={handler.keydown}
-                    onFocus={e => handler.focus(e.nativeEvent)}
-                    onBlur={e => handler.blur(e.nativeEvent)}>
+                    onFocus={handler.focus}
+                    onBlur={handler.blur}>
                     <div className="pl-toggle-inner"/>
                 </div>
             )

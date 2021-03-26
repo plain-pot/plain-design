@@ -47,16 +47,16 @@ export const PlInput = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: any) => true,
-        onFocus: (e: FocusEvent) => true,
-        onBlur: (e: Event) => true,
-        onKeydown: (e: KeyboardEvent) => true,
-        onEnter: (e: KeyboardEvent) => true,
-        onEsc: (e: KeyboardEvent) => true,
+        onFocus: (e: React.FocusEvent) => true,
+        onBlur: (e: React.FocusEvent) => true,
+        onKeydown: (e: React.KeyboardEvent) => true,
+        onEnter: (e: React.KeyboardEvent) => true,
+        onEsc: (e: React.KeyboardEvent) => true,
 
-        onClickInput: (e: MouseEvent) => true,
-        onClickPrefixIcon: (e: MouseEvent) => true,
-        onClickSuffixIcon: (e: MouseEvent) => true,
-        onClickClearIcon: (e: MouseEvent) => true,
+        onClickInput: (e: React.MouseEvent) => true,
+        onClickPrefixIcon: (e: React.MouseEvent) => true,
+        onClickSuffixIcon: (e: React.MouseEvent) => true,
+        onClickClearIcon: (e: React.MouseEvent) => true,
     },
     slots: ['default', 'prepend', 'append', 'hidden'],
     setup({props, event: {emit}, slots}) {
@@ -69,8 +69,8 @@ export const PlInput = designComponent({
         const {editComputed, editState} = useEdit()
         const state = reactive({
             autoHeight: null as null | number,
-            handlerEnter: null as null | Function,
-            handleEnterInner: async (e: KeyboardEvent) => {
+            handlerEnter: null as null | ((e: React.KeyboardEvent) => void),
+            handleEnterInner: async (e: React.KeyboardEvent) => {
                 if (editComputed.value.editable) {
                     if (!!props.asyncHandler) {
                         editState.loading = true
@@ -97,7 +97,7 @@ export const PlInput = designComponent({
                 if (nativeEvent.inputType === 'insertCompositionText') {return}
                 model.value = nativeEvent.target.value
             },
-            enter: (e: KeyboardEvent) => {
+            enter: (e: React.KeyboardEvent) => {
                 state.handlerEnter!(e)
             },
             clickPrefixIcon: (e: React.MouseEvent) => {
@@ -106,7 +106,7 @@ export const PlInput = designComponent({
                 }
                 e.stopPropagation()
                 e.preventDefault()
-                emit.onClickPrefixIcon(e.nativeEvent)
+                emit.onClickPrefixIcon(e)
             },
             clickSuffixIcon: (e: React.MouseEvent<any>) => {
                 if (!editComputed.value.editable) {
@@ -114,7 +114,7 @@ export const PlInput = designComponent({
                 }
                 e.stopPropagation()
                 e.preventDefault()
-                emit.onClickSuffixIcon(e.nativeEvent)
+                emit.onClickSuffixIcon(e)
             },
             clickClearIcon: (e: React.MouseEvent<any>) => {
                 if (!editComputed.value.editable) {
@@ -122,7 +122,7 @@ export const PlInput = designComponent({
                 }
                 e.stopPropagation()
                 e.preventDefault()
-                emit.onClickClearIcon(e.nativeEvent)
+                emit.onClickClearIcon(e)
                 if (!!props.clearHandler) {
                     props.clearHandler(e)
                 } else {
@@ -194,9 +194,9 @@ export const PlInput = designComponent({
             onClick: emit.onClickInput,
             onFocus: emit.onFocus,
             onBlur: emit.onBlur,
-            onKeyDown: (e: KeyboardEvent) => {
+            onKeyDown: (e: React.KeyboardEvent) => {
                 emit.onKeydown(e)
-                switch (getKey(e)) {
+                switch (getKey(e.nativeEvent)) {
                     case KEY.enter:
                         return handler.enter(e)
                     case KEY.esc:

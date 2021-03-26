@@ -55,16 +55,16 @@ export const PlPopper = designComponent({
         onHide: () => true,
 
         onClickReference: (e: MouseEvent) => true,
-        onClickPopper: (e: MouseEvent) => true,
+        onClickPopper: (e: React.MouseEvent) => true,
         onClickBody: (e: MouseEvent) => true,
-        onMousedownPopper: (e: MouseEvent) => true,
+        onMousedownPopper: (e: React.MouseEvent) => true,
 
-        onEnterReference: (e: MouseEvent) => true,
-        onLeaveReference: (e: MouseEvent) => true,
-        onEnterPopper: (e: MouseEvent) => true,
-        onLeavePopper: (e: MouseEvent) => true,
-        onReferenceFocus: (e: FocusEvent) => true,
-        onReferenceBlur: (e: Event) => true,
+        onEnterReference: (e: React.MouseEvent) => true,
+        onLeaveReference: (e: React.MouseEvent) => true,
+        onEnterPopper: (e: React.MouseEvent) => true,
+        onLeavePopper: (e: React.MouseEvent) => true,
+        onReferenceFocus: (e: React.FocusEvent) => true,
+        onReferenceBlur: (e: React.FocusEvent) => true,
     },
     slots: [
         'popper',
@@ -178,7 +178,7 @@ export const PlPopper = designComponent({
             onClickReference: (e: MouseEvent) => {
                 emit.onClickReference(e)
             },
-            onClickPopper: (e: MouseEvent) => {
+            onClickPopper: (e: React.MouseEvent) => {
                 emit.onClickPopper(e)
             },
             onClickBody: (e: MouseEvent) => {
@@ -431,12 +431,12 @@ export const PlPopper = designComponent({
                                 <div className="plain-popper-content"
                                      ref={onRef.content}
 
-                                     onClick={e => emit.onClickPopper(e.nativeEvent)}
+                                     onClick={e => emit.onClickPopper(e)}
                                      onTransitionEnd={handler.onPopperContentTransitionend}
-                                     onMouseDown={e => emit.onMousedownPopper(e.nativeEvent)}
+                                     onMouseDown={e => emit.onMousedownPopper(e)}
                                      {...(props.trigger === 'hover' ? {
-                                         onMouseEnter: e => emit.onEnterPopper(e.nativeEvent),
-                                         onMouseLeave: e => emit.onLeavePopper(e.nativeEvent),
+                                         onMouseEnter: e => emit.onEnterPopper(e),
+                                         onMouseLeave: e => emit.onLeavePopper(e),
                                      } : {})}
                                 >
                                     <div className="plain-popper-arrow"/>

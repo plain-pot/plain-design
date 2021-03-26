@@ -25,7 +25,7 @@ export const PlDropdown = designComponent({
         const state = reactive({})
 
         const handler = {
-            clickDropdownOption: (e: MouseEvent) => {
+            clickDropdownOption: (e: React.MouseEvent) => {
                 if (!props.disabledHideOnClickOption) {
                     model.value = false
                 }

@@ -29,8 +29,8 @@ export const PlNumber = designComponent({
         inputProps: {type: Object},                                 // pl-input属性配置对象
     },
     emits: {
-        onFocus: (e: Event) => true,
-        onBlur: (e: Event) => true,
+        onFocus: (e: React.FocusEvent) => true,
+        onBlur: (e: React.FocusEvent) => true,
         onUpdateModelValue: (val: string | number | undefined) => true,
         onEnter: (e: KeyboardEvent) => true,
     },
@@ -156,13 +156,13 @@ export const PlNumber = designComponent({
         const handler = {
             focus: (e: React.FocusEvent) => {
                 state.isFocus = true
-                emit.onFocus(e.nativeEvent)
+                emit.onFocus(e)
             },
             blur: (e: React.FocusEvent) => {
                 model.value = utils.checkValue(utils.getEffectiveValue())
                 emit.onUpdateModelValue(model.value)
                 state.isFocus = false
-                emit.onBlur(e.nativeEvent)
+                emit.onBlur(e)
             },
             input: (e: React.ChangeEvent<HTMLInputElement>) => {
                 if ((e.nativeEvent as any).inputType === 'insertCompositionText') {return}
