@@ -225,6 +225,7 @@ export const PlCarousel = designComponent({
 
         return {
             refer: {
+                refs,
                 utils,
                 methods,
             },

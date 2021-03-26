@@ -1,6 +1,6 @@
 import './collapse.scss'
 import {createCounter} from "plain-design-composition/src/utils/createCounter";
-import {computed, designComponent, useModel} from "plain-design-composition";
+import {computed, designComponent, useModel, useRefs} from "plain-design-composition";
 import PlCollapseGroup from "../PlCollapseGroup";
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from 'react';
@@ -27,6 +27,7 @@ export const PlCollapse = designComponent({
     ],
     setup({props, event: {emit}, slots}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const group = PlCollapseGroup.use.inject(null)
 
@@ -72,8 +73,9 @@ export const PlCollapse = designComponent({
         }
 
         return {
+            refer: {refs},
             render: () => (
-                <div className={classes.value}>
+                <div className={classes.value} ref={onRef.el}>
                     {(slots.title.isExist()) && <div className="pl-collapse-title" onClick={handler.onClickTitle}>
                         {slots.title()}
 

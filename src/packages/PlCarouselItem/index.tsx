@@ -29,6 +29,7 @@ export const PlCarouselItem = designComponent({
         return {
             refer: {
                 itemVal,
+                refs,
             },
             render: () => {
                 return (

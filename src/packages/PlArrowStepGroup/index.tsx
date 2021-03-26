@@ -1,7 +1,7 @@
 import './arrow-step.scss'
 import {useCollect} from "../../use/useCollect";
 import {PlArrowStep} from "../PlArrowStep";
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent, useRefs} from "plain-design-composition";
 import {StepUtils} from "../PlStepGroup/step.utils";
 import React from 'react';
 
@@ -13,6 +13,9 @@ export const PlArrowStepGroup = designComponent({
     },
     slots: ['default'],
     setup({props, slots}) {
+        const {refs, onRef} = useRefs({
+            el: HTMLDivElement,
+        })
         const items = ArrowStepCollector.parent() as any[]
         const currentIndex = computed(() => StepUtils.getCurrentIndex(props.current, items)) as { value: number }
         return {
@@ -20,9 +23,10 @@ export const PlArrowStepGroup = designComponent({
                 props,
                 currentIndex,
                 items,
+                refs,
             },
             render: () => (
-                <div className="pl-arrow-step-group">
+                <div className="pl-arrow-step-group" ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

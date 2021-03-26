@@ -1,4 +1,4 @@
-import {computed, designComponent, inject, provide} from 'plain-design-composition'
+import {computed, designComponent, inject, provide, useRefs} from 'plain-design-composition'
 import './button-group.scss'
 import {DEFAULT_STATUS, StyleMode, StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -33,6 +33,7 @@ export const PlButtonGroup = designComponent({
     },
     slots: ['default'],
     setup({props, slots}) {
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         const {editComputed} = useEdit()
 
@@ -53,8 +54,9 @@ export const PlButtonGroup = designComponent({
         ]))
 
         return {
+            refer: {refs,},
             render: () => (
-                <div className={classes.value}>
+                <div className={classes.value} ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

@@ -1,4 +1,4 @@
-import {designComponent, PropType, useStyles} from "plain-design-composition"
+import {designComponent, PropType, useRefs, useStyles} from "plain-design-composition"
 import {PlRow} from "../PlRow";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {SingleClass} from "plain-design-composition/src/lib/classNames";
@@ -25,6 +25,8 @@ export const PlCol = designComponent({
     },
     slots: ['default'],
     setup({props, slots}) {
+
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const row = PlRow.use.inject()
         const classes = useClass(() => {
             let classList = [
@@ -61,8 +63,11 @@ export const PlCol = designComponent({
         })
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className={classes.value} style={styles.value}>
+                <div className={classes.value} style={styles.value} ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

@@ -1,5 +1,5 @@
 import './card.scss'
-import {designComponent, useStyles} from "plain-design-composition";
+import {designComponent, useRefs, useStyles} from "plain-design-composition";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
@@ -20,7 +20,9 @@ export const PlCard = designComponent({
         'poster',
         'foot',
     ],
-    setup({props, event: {emit}, slots}) {
+    setup({props, slots}) {
+
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
 
         const classes = useClass(() => [
             'pl-card',
@@ -35,10 +37,10 @@ export const PlCard = designComponent({
             !!props.width && (style.width = unit(props.width))
         })
 
-        console.log(slots.title())
         return {
+            refer: {refs,},
             render: () => (
-                <div className={classes.value} style={styles.value}>
+                <div className={classes.value} style={styles.value} ref={onRef.el}>
                     {slots.poster.isExist() && <div className="pl-card-poster">
                         {slots.poster()}
                     </div>}

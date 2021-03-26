@@ -36,13 +36,13 @@ export default designPage(() => {
 
     const service = {
         serviceBasicUsage: $colorPicker({
-            reference: () => refs.serviceBasicUsage!.refs.button,
+            reference: () => refs.serviceBasicUsage!.refs.el,
             renderAttrs: {
                 onChange: val => $$message(val)
             },
         }),
         hexValue: $colorPicker({
-            reference: () => refs.hexValue!.refs.button,
+            reference: () => refs.hexValue!.refs.el,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: '#ff0000',
@@ -50,7 +50,7 @@ export default designPage(() => {
             },
         }),
         rgbValue: $colorPicker({
-            reference: () => refs['rgbValue']!.refs.button,
+            reference: () => refs['rgbValue']!.refs.el,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: 'rgb(134,74,212)',
@@ -58,7 +58,7 @@ export default designPage(() => {
             },
         }),
         rgbWithoutOpacity: $colorPicker({
-            reference: () => refs['rgbWithoutOpacity']!.refs.button,
+            reference: () => refs['rgbWithoutOpacity']!.refs.el,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: 'rgb(134,74,212,0.5)',
@@ -66,7 +66,7 @@ export default designPage(() => {
             },
         }),
         hexWithOpacity: $colorPicker({
-            reference: () => refs['hexWithOpacity']!.refs.button,
+            reference: () => refs['hexWithOpacity']!.refs.el,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: '#00ff00',
@@ -75,7 +75,7 @@ export default designPage(() => {
             },
         }),
         rgbaWithOpacity: $colorPicker({
-            reference: () => refs['rgbaWithOpacity']!.refs.button,
+            reference: () => refs['rgbaWithOpacity']!.refs.el,
             renderAttrs: {
                 onChange: val => $$message(val),
                 modelValue: 'rgb(134,74,212,0.5)',
@@ -85,7 +85,7 @@ export default designPage(() => {
         }),
         saveValue: (() => {
             const option = {
-                reference: () => refs['saveValue']!.refs.button,
+                reference: () => refs['saveValue']!.refs.el,
                 renderAttrs: {
                     onChange: (val: any) => option.renderAttrs.modelValue = val,
                     modelValue: 'rgb(134,74,212,0.5)',

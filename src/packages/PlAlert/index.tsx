@@ -1,4 +1,4 @@
-import {computed, designComponent, PropType, reactive} from "plain-design-composition";
+import {computed, designComponent, PropType, reactive, useRefs} from "plain-design-composition";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {STATUS} from "../../utils/constant";
 import useClass from "plain-design-composition/src/use/useClasses";
@@ -22,6 +22,10 @@ export const PlAlert = designComponent({
     },
     slots: ['desc', 'close', 'default'],
     setup({props, slots, attrs}) {
+
+        const {refs, onRef} = useRefs({
+            el: HTMLDivElement,
+        })
 
         const state = reactive({
             isClosed: false,
@@ -55,9 +59,12 @@ export const PlAlert = designComponent({
         }
 
         return {
+            refer: {
+                refs,
+            },
             render: () => (
                 <PlCollapseTransition show={!state.isClosed}>
-                    <div className="pl-alert-wrapper" {...attrs}>
+                    <div className="pl-alert-wrapper" {...attrs} ref={onRef.el}>
                         <div className={classes.value}>
                             {!!icon.value && <div className="pl-alert-icon">
                                 <PlIcon icon={icon.value}/>

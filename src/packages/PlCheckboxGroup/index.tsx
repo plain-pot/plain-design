@@ -1,4 +1,4 @@
-import {computed, designComponent, inject, PropType, useModel, useNumber} from "plain-design-composition"
+import {computed, designComponent, inject, PropType, useModel, useNumber, useRefs} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {CheckboxStatus} from "../../utils/constant";
@@ -24,6 +24,8 @@ export const PlCheckboxGroup = designComponent({
         onUpdateModelValue: (val: (string | number)[] | undefined) => true,
     },
     setup({props, slots, event: {emit}}) {
+
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const formItem = inject('@@pl-form-item', null)
         /*可编辑控制*/
         const {editComputed} = useEdit()
@@ -178,9 +180,10 @@ export const PlCheckboxGroup = designComponent({
                 handler,
                 numberState,
                 props,
+                refs,
             },
             render: () => !formItem ? slots.default() : (
-                <div className="pl-checkbox-group">
+                <div className="pl-checkbox-group" ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

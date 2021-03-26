@@ -15,7 +15,7 @@ export const PlArrowStep = designComponent({
     },
     inheritPropsType: HTMLDivElement,
     slots: ['default'],
-    setup({props, event: {emit}, slots}) {
+    setup({props, slots}) {
         const ctx = getCurrentDesignInstance()
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         const stepGroup = ArrowStepCollector.child({sort: () => refs.el!})
@@ -49,7 +49,9 @@ export const PlArrowStep = designComponent({
         ])
 
         return {
-            refer: {},
+            refer: {
+                refs,
+            },
             render: () => (
                 index.value != null ? (
                     <div className={classes.value} ref={onRef.el}>

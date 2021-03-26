@@ -52,7 +52,7 @@ export const PlCheckbox = designComponent({
         /*样式控制*/
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
         /*当前组件内部变量引用*/
-        const refer = {innerState: {props, editComputed}}
+        const refer = {refs, innerState: {props, editComputed}}
         /*当前选中状态*/
         const checkStatus = computed((): CheckboxStatus => {
             if (!!props.checkStatus) {

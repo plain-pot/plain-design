@@ -1,5 +1,5 @@
 import './badge.scss'
-import {computed, designComponent} from "plain-design-composition";
+import {computed, designComponent, useRefs} from "plain-design-composition";
 import useClass from "plain-design-composition/src/use/useClasses";
 import React from 'react';
 
@@ -29,9 +29,13 @@ export const PlBadge = designComponent({
             if (props.max != null && (Number(props.data)) > props.max) return props.max + '+'
             return props.data
         })
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         return {
+            refer: {
+                refs,
+            },
             render: () => (
-                <div className="pl-badge">
+                <div className="pl-badge" ref={onRef.el}>
                     {slots.default()}
                     <div className={contentClass.value}>
                         {!props.dot && slots.badge(props.data != null ? <span>{showValue.value as any}</span> : null)}

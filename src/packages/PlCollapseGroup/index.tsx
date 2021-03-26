@@ -1,4 +1,4 @@
-import {designComponent, useModel} from "plain-design-composition";
+import {designComponent, useModel, useRefs} from "plain-design-composition";
 import React from "react";
 
 export const PlCollapseGroup = designComponent({
@@ -14,6 +14,7 @@ export const PlCollapseGroup = designComponent({
     },
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const model = useModel(() => props.modelValue as string | string[] | undefined, emit.onUpdateModelValue)
 
         const utils = {
@@ -55,9 +56,10 @@ export const PlCollapseGroup = designComponent({
                 handler,
                 props,
                 model,
+                refs,
             },
             render: () => (
-                <div className="pl-collapse-group">
+                <div className="pl-collapse-group" ref={onRef.el}>
                     {slots.default()}
                 </div>
             )

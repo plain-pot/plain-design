@@ -43,7 +43,7 @@ export const PlButton = designComponent({
     setup({props, event: {emit}, slots}) {
 
         const {refs, onRef} = useRefs({
-            button: HTMLButtonElement,
+            el: HTMLButtonElement,
         })
         const {numberState} = useNumber(props, ['width'])
 
@@ -115,7 +115,7 @@ export const PlButton = designComponent({
             style.width = unit(numberState.width)
         })
 
-        useClickWave({elGetter: () => refs.button, optionsGetter: () => ({size: 'large', disabled: !editComputed.value.editable}),})
+        useClickWave({elGetter: () => refs.el, optionsGetter: () => ({size: 'large', disabled: !editComputed.value.editable}),})
 
         return {
             refer: {
@@ -124,7 +124,7 @@ export const PlButton = designComponent({
             render: () => {
                 return (
                     <button
-                        ref={onRef.button}
+                        ref={onRef.el}
                         style={styles.value}
                         className={classes.value}
                         type={props.type as any}
