@@ -275,7 +275,7 @@ export const PlCascadePanel = designComponent({
                 const cascadeList = cascadeData.value.map((list, listIndex) => (
                     <div className="pl-cascade-list" key={listIndex}>
                         <PlScroll>
-                            <PlList>
+                            <PlList animation={'accordionHorizontal'}>
                                 {list.map((node, nodeIndex) => (
                                     <div
                                         className={classnames([

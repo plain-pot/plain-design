@@ -65,7 +65,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Rate', title: '评分', page: '/normal/DemoRate', complete: true},
             {name: 'ColorPicker', title: '颜色选择', page: '/normal/DemoColorPicker', complete: true},
 
-            {name: 'Cascade', title: '级联选择', page: '/normal/Cascade', complete: false},
+            {name: 'Cascade', title: '级联选择', page: '/normal/DemoCascade', complete: true},
             {name: 'Time', title: '时间选择', page: '/normal/Time', complete: false},
             {name: 'Date', title: '日期选择', page: '/normal/Date', complete: false},
             {name: 'Upload', title: '文件上传', page: '/normal/DemoUpload', complete: true},
