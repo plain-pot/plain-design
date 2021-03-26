@@ -88,7 +88,8 @@ export const PlColorSvPanel = designComponent({
                 enableUserSelect()
             },
             dblclick: async (e: React.MouseEvent) => {
-                delay().then(() => emit.onDblclick(e.nativeEvent))
+                const {nativeEvent} = e
+                delay().then(() => emit.onDblclick(nativeEvent))
             },
         }
 
