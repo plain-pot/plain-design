@@ -40,6 +40,9 @@ export const PlCollapseGroup = designComponent({
                         value.splice(index, 1)
                     } else {
                         value.push(val)
+                        if (value.length > props.limit) {
+                            value.shift()
+                        }
                     }
                     model.value = [...value]
                 }

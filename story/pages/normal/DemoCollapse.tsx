@@ -93,7 +93,7 @@ export default designPage(() => {
 
             <DemoRow title={'CollapseGroup：限制展开的个数'}>
                 {JSON.stringify(val[2])}
-                <PlCollapseGroup v-model={val[2]} style={{marginBottom: '20px'}}>
+                <PlCollapseGroup v-model={val[2]} style={{marginBottom: '20px'}} limit={2}>
                     <PlCollapse title={'折叠标题1'} val={'1'}>
                         <div style={{fontSize: '12px'}}>
                             <ul>
