@@ -10,6 +10,8 @@ import useColorPicker from "../../../src/packages/useColorPicker";
 import $$message from "../../../src/packages/$$message";
 import PlButton from "../../../src/packages/PlButton";
 import PlColorPicker from "../../../src/packages/PlColorPicker";
+import PlIcon from "../../../src/packages/PlIcon";
+import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 
 export default designPage(() => {
 
@@ -152,6 +154,28 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'PlColorPicker按钮形式'}>
                 <PlColorPicker v-model={val[3]} type={'button'}/>
+            </DemoRow>
+            <DemoRow title={'自定义内容'}>
+                <PlColorPicker v-model={val[3]}>
+                    {({color, onClick}) => (
+                        <div style={{display: 'inline-flex', height: '30px', width: '30px', alignItems: 'center', justifyContent: 'center', backgroundColor: color || 'gray', color: 'white'}} onClick={onClick}>
+                            <PlIcon icon={'el-icon-folder-s'}/>
+                        </div>
+                    )}
+                </PlColorPicker>
+            </DemoRow>
+            <DemoRow title={'ColorPicker；禁用透明度，使用十六进制颜色值'}>
+                <PlColorPicker enableAlpha={false} v-model={val[4]}/>
+                <PlColorPicker enableAlpha={false} v-model={val[4]}/>
+            </DemoRow>
+            <DemoRow title={'禁用以及只读'}>
+                <DemoLine>
+                    <PlCheckbox label={'禁用/只读'} v-model={val[5]}/>
+                </DemoLine>
+                <DemoLine>
+                    <PlColorPicker disabled={val[5]}/>
+                    <PlColorPicker readonly={val[5]}/>
+                </DemoLine>
             </DemoRow>
         </div>
     )
