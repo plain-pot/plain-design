@@ -1,6 +1,6 @@
 import './color-panel.scss'
 import {Color, ColorFormat} from "./utils/Color";
-import {designComponent, reactive, useRefs, watch} from "plain-design-composition";
+import {designComponent, PropType, reactive, useRefs, watch} from "plain-design-composition";
 import {PlInput} from "../PlInput";
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import $$notice from "../$$notice";
@@ -28,13 +28,13 @@ function getDefaultColor(format: ColorFormat, enableAlpha: boolean) {
 export const PlColorPanel = designComponent({
     name: 'pl-color-panel',
     props: {
-        modelValue: {type: String},                      // 当前颜色值
-        enableAlpha: {type: Boolean},               // 是否启用透明度
-        format: {type: String},                     // 格式类型：hex、rgb
+        modelValue: {type: String},                                 // 当前颜色值
+        enableAlpha: {type: Boolean},                               // 是否启用透明度
+        format: {type: String as PropType<'hex' | 'rgb'>},          // 格式类型：hex、rgb
     },
     emits: {
         onUpdateModelValue: (val: any) => true,
-        onBblclickSvPanel: (e: MouseEvent) => true,
+        onDblclickSvPanel: (e: MouseEvent) => true,
     },
     setup({props, event: {emit}}) {
 
@@ -81,7 +81,7 @@ export const PlColorPanel = designComponent({
             },
             dblclickSvPanel: (e: MouseEvent) => {
                 handler.confirm()
-                emit.onBblclickSvPanel(e)
+                emit.onDblclickSvPanel(e)
             },
             inputChange: (val: string) => {
                 if (!val) {
