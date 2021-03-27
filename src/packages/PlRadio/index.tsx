@@ -99,7 +99,7 @@ export const PlRadio = designComponent({
                 }
             },
             keydown: (e: React.KeyboardEvent) => {
-                if (getKey(e.nativeEvent) === KEY.space) {
+                if (getKey(e) === KEY.space) {
                     e.preventDefault()
                     e.stopPropagation()
                     handler.click(e as any)

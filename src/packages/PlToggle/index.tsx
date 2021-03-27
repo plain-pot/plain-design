@@ -77,7 +77,7 @@ export const PlToggle = designComponent({
                 emit.onClick(e)
             },
             keydown: (e: React.KeyboardEvent) => {
-                const key = getKey(e.nativeEvent)
+                const key = getKey(e)
                 if (key === KEY.space || key === KEY.enter) {
                     e.preventDefault()
                     e.stopPropagation()

@@ -197,7 +197,7 @@ export const PlInput = designComponent({
             onBlur: emit.onBlur,
             onKeyDown: (e: React.KeyboardEvent) => {
                 emit.onKeydown(e)
-                switch (getKey(e.nativeEvent)) {
+                switch (getKey(e)) {
                     case KEY.enter:
                         return handler.enter(e)
                     case KEY.esc:

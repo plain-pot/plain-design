@@ -191,7 +191,7 @@ export const PlNumber = designComponent({
                 emit.onUpdateModelValue(model.value)
             },
             keydown: (e: React.KeyboardEvent) => {
-                const key = getKey(e.nativeEvent)
+                const key = getKey(e)
                 switch (key) {
                     case KEY.up:
                         e.preventDefault()

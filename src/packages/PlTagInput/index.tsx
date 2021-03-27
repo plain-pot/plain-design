@@ -111,7 +111,7 @@ export const PlTagInput = designComponent({
                 model.value = [...model.value!]
             },
             keydown: (e: React.KeyboardEvent) => {
-                if (getKey(e.nativeEvent) === KEY.enter) {
+                if (getKey(e) === KEY.enter) {
                     handler.inputEnter()
                 }
             }
