@@ -292,7 +292,7 @@ export const PlCascadePanel = designComponent({
                                         {...{
                                             onClick: () => handler.clickItem(node, nodeIndex),
                                             ...(props.trigger === 'hover' ? {
-                                                onMouseenter: () => handler.mouseenterItem(node),
+                                                onMouseEnter: () => handler.mouseenterItem(node),
                                             } : {})
                                         }}>
                                         <div className="pl-cascade-content">
