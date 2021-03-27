@@ -28,6 +28,7 @@ export const PlTime = designComponent({
         onFocus: (e: React.FocusEvent) => true,
     },
     slots: ['foot'],
+    expose: {plainDate},
     setup({props, slots, event: {emit}}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
@@ -74,7 +75,7 @@ export const PlTime = designComponent({
             event: {emit},
             serviceGetter: useTime,
             option: {
-                reference: () => refs.plInput,
+                reference: () => refs.plInput?.refs.input,
                 renderAttrs: () => ({
                     ...(Object.keys(TimePanelProps).reduce((ret: any, key) => {
                         ret[key] = (props as any)[key]
@@ -155,7 +156,7 @@ export const PlTime = designComponent({
                     clearHandler={handler.clearHandler}
                     onClickInput={handler.clickInput}
                     onKeydown={handler.keydown}>
-                    <div{...{class: 'pl-input-custom-inner', range: String(props.range)}}>
+                    <div className='pl-input-custom-inner' {...{range: String(props.range)}}>
                         {!props.range ? (
                             <PlDateTimeInput
                                 ref={onRef.valueInput}

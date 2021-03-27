@@ -78,13 +78,13 @@ export const PlTimeRangePanel = designComponent({
                     ...publicBinding,
                     modelValue: start.value,
                     onChange: handler.onStartChange,
-                    onMousedown: emit.onMousedownStartPanel,
+                    onMouseDown: emit.onMousedownStartPanel,
                 },
                 end: {
                     ...publicBinding,
                     modelValue: end.value,
                     onChange: handler.onEndChange,
-                    onMousedown: emit.onMousedownEndPanel,
+                    onMouseDown: emit.onMousedownEndPanel,
                 },
             }
         })

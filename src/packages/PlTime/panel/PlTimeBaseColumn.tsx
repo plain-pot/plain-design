@@ -6,6 +6,7 @@ import {zeroize} from "plain-utils/string/zeroize";
 import {delay} from "plain-utils/utils/delay";
 import {findOne} from "plain-utils/object/findOne";
 import React from 'react';
+import classnames from "plain-design-composition/src/lib/classNames";
 
 const size = 24;
 
@@ -48,7 +49,7 @@ export const PlTimeBaseColumn = designComponent({
         })
 
         const methods = {
-            resetPosition: () => {
+            resetPosition: async () => {
                 let value = model.value || 0
                 let start = 0
                 let find = findOne(options.value, item => Number(item) == value, true) as { item: string, index: number }
@@ -108,19 +109,17 @@ export const PlTimeBaseColumn = designComponent({
                             )}
 
                             {options.value.map((item, index) => (
-                                <li{...{
-                                    class: [
-                                        'pl-time-base-column-item',
-                                        'pl-time-base-column-option-item',
-                                        {
-                                            'pl-time-base-column-item-current': model.value != null && model.value == Number(item),
-                                            'pl-time-base-column-item-disabled': utils.checkDisabled(item),
-                                        }
-                                    ],
-                                    key: item,
-                                    onClick: () => handler.clickItem(item),
-                                    ref: val => liList[index + 3] = val as any
-                                }}>
+                                <li className={classnames([
+                                    'pl-time-base-column-item',
+                                    'pl-time-base-column-option-item',
+                                    {
+                                        'pl-time-base-column-item-current': model.value != null && model.value == Number(item),
+                                        'pl-time-base-column-item-disabled': utils.checkDisabled(item),
+                                    }
+                                ])}
+                                    key={item}
+                                    onClick={() => handler.clickItem(item)}
+                                    ref={val => liList[index + 3] = val as any}>
                                     {item}
                                 </li>
                             ))}

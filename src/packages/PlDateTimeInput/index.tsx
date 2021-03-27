@@ -18,7 +18,7 @@ export const PlDateTimeInput = designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const {refs} = useRefs({
+        const {refs, onRef} = useRefs({
             input: HTMLInputElement,
         })
 
@@ -62,10 +62,10 @@ export const PlDateTimeInput = designComponent({
             },
             render: () => (
                 <input type="text"
-                       ref="input"
+                       ref={onRef.input}
                        className="pl-date-time-inner-input pl-input-custom-inner-input"
                        style={styles.value}
-                       value={model.value}
+                       value={model.value || ''}
                        onInput={handler.input}
                        onBlur={handler.blur}
                        onFocus={handler.focus}

@@ -64,7 +64,7 @@ export const PlTimePanel = designComponent({
                     ...publicProps,
                     modelValue: model.value,
                     onChange: handler.onBaseChange,
-                    onMousedown: emit.onMousedownBasePanel,
+                    onMouseDown: emit.onMousedownBasePanel,
                 },
                 range: {
                     ...publicProps,
