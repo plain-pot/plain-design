@@ -63,7 +63,7 @@ export function useEditPopperAgent(
         onEsc: async () => {
             await methods.hide()
         },
-        onEnter: async (e: React.KeyboardEvent) => {
+        onEnter: async (e: KeyboardEvent | React.KeyboardEvent) => {
             e.stopPropagation()
             e.preventDefault()
             await methods.show()

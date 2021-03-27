@@ -1,3 +1,5 @@
+import React from "react";
+
 export enum KEY {
     'shift' = 'shift',
     'ctrl' = 'ctrl',
@@ -137,7 +139,7 @@ export const KeyBoardMap = {
     123: 'F12',
 }
 
-export function getKey(e: KeyboardEvent): KEY | null {
+export function getKey(e: React.KeyboardEvent): KEY | null {
     // @ts-ignore
     let key = KeyBoardMap[e.keyCode] as KEY
     if (!!KEY[key]) {
@@ -197,8 +199,8 @@ export const KeyboardService = {
     },
 }
 
-export function handleKeyboard(option: { [key in KEY]?: (e: KeyboardEvent) => any }) {
-    return (e: KeyboardEvent) => {
+export function handleKeyboard(option: { [key in KEY]?: (e: React.KeyboardEvent) => any }) {
+    return (e: React.KeyboardEvent) => {
         const key = getKey(e)
         if (!!key && !!option[key]) {
             return option[key]!(e)
