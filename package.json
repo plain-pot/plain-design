@@ -12,7 +12,7 @@
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",
     "dayjs": "^1.10.4",
-    "plain-design-composition": "0.0.51",
+    "plain-design-composition": "0.0.52",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
     "plain-utils": "^0.1.18",
