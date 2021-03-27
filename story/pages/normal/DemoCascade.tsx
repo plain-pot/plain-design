@@ -5,6 +5,7 @@ import {reactive} from "@vue/reactivity";
 import {DemoLine} from "../../components/DemoLine";
 import {PlCascadePanel} from "../../../src/packages/PlCascadePanel/PlCascadePanel";
 import {CascadeNode} from "../../../src/packages/PlCascade/utils/CascadeNode";
+import {PlInput} from "../../../src/packages/PlInput";
 
 export default designPage(() => {
 
@@ -67,6 +68,7 @@ export default designPage(() => {
 
     const state = reactive({
         labelFlag: true,
+        filterText: '',
     })
 
     const lazyDemo = {
@@ -117,6 +119,12 @@ export default designPage(() => {
             })
         },
     }
+
+    const renderContent = ({node, index}: { node: CascadeNode, index: number }) => (<div>
+        {index + 1}、{node.label}
+    </div>)
+
+    const filterMethod = (nodes: CascadeNode[], text: string) => nodes.some(node => node.label.indexOf(text) > -1)
 
     return () => (
         <div>
@@ -192,6 +200,41 @@ export default designPage(() => {
                             </div>
                         )}
                     </PlCascadePanel>
+                </DemoRow>
+                <DemoRow title={'自定义内容-渲染函数'}>
+                    <DemoLine>{val[5]}</DemoLine>
+                    <PlCascadePanel
+                        v-model={val[5]}
+                        data={treeData}
+                        labelField="name"
+                        keyField="id"
+                        childrenField="subs"
+                        renderContent={renderContent}
+                    />
+                </DemoRow>
+                <DemoRow title={'点击分支的时候也能触发change'}>
+                    <DemoLine>{val[6]}</DemoLine>
+                    <PlCascadePanel
+                        v-model={val[6]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        selectBranch
+                    />
+                </DemoRow>
+                <DemoRow title={'筛选文本以及自定义筛选函数'}>
+                    <DemoLine><PlInput v-model={state.filterText}/></DemoLine>
+                    <DemoLine>{val[6]}</DemoLine>
+                    <PlCascadePanel
+                        v-model={val[6]}
+                        data={treeData}
+                        labelField={state.labelFlag ? 'id' : 'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        filterText={state.filterText}
+                        filterMethod={filterMethod}
+                    />
                 </DemoRow>
             </DemoRow>
         </div>
