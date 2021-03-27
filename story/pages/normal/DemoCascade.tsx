@@ -7,6 +7,7 @@ import {PlCascadePanel} from "../../../src/packages/PlCascadePanel";
 import {CascadeNode} from "../../../src/packages/PlCascade/utils/CascadeNode";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlCascade from "../../../src/packages/PlCascade";
+import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 
 export default designPage(() => {
 
@@ -70,6 +71,15 @@ export default designPage(() => {
     const state = reactive({
         labelFlag: true,
         filterText: '',
+
+        formData: {
+            level1Name: '广东省',
+            level1Key: '1',
+            level2Name: '深圳市',
+            level2Key: '3',
+            level3Name: '南山区',
+            level3Key: '5',
+        } as any,
     })
 
     const lazyDemo = {
@@ -127,11 +137,30 @@ export default designPage(() => {
 
     const filterMethod = (nodes: CascadeNode[], text: string) => nodes.some(node => node.label.indexOf(text) > -1)
 
+    const onCascadeChange = (value: string[] | undefined, nodes?: CascadeNode[]) => {
+        console.log('onCascadeChange', value, nodes)
+        if (!value || !nodes) {
+            state.formData.level1Name = null
+            state.formData.level1Key = null
+            state.formData.level2Name = null
+            state.formData.level2Key = null
+            state.formData.level3Name = null
+            state.formData.level3Key = null
+        } else {
+            state.formData.level1Name = nodes[0].data.name
+            state.formData.level1Key = value[0]
+            state.formData.level2Name = nodes[1].data.name
+            state.formData.level2Key = value[1]
+            state.formData.level3Name = nodes[2].data.name
+            state.formData.level3Key = value[2]
+        }
+    }
+
     return () => (
         <div>
             <DemoRow title={'PlCascadePanel'}>
                 <DemoRow title={'基本用法'}>
-                    <DemoLine>{val[0]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[0])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[0]}
                         data={treeData}
@@ -141,7 +170,7 @@ export default designPage(() => {
                     />
                 </DemoRow>
                 <DemoRow title={'懒加载'}>
-                    <DemoLine>{val[1]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[1])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[1]}
                         labelField={'name'}
@@ -153,7 +182,7 @@ export default designPage(() => {
                     />
                 </DemoRow>
                 <DemoRow title={'懒加载，有默认值'}>
-                    <DemoLine>{val[11]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[11])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[11]}
                         labelField={'name'}
@@ -165,7 +194,7 @@ export default designPage(() => {
                     />
                 </DemoRow>
                 <DemoRow title={'hover 触发器'}>
-                    <DemoLine>{val[3]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[3])}</DemoLine>
                     <PlCascadePanel
                         trigger={'hover'}
                         v-model={val[3]}
@@ -177,7 +206,7 @@ export default designPage(() => {
                 </DemoRow>
                 <DemoRow title={'禁用部分选项'}>
                     <DemoLine>禁用掉叶子节点，并且节点名称中含有[2]的节点</DemoLine>
-                    <DemoLine>{val[4]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[4])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[4]}
                         data={treeData}
@@ -188,7 +217,7 @@ export default designPage(() => {
                     />
                 </DemoRow>
                 <DemoRow title={'自定义内容-作用域插槽'}>
-                    <DemoLine>{val[5]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[5])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[5]}
                         data={treeData}
@@ -203,7 +232,7 @@ export default designPage(() => {
                     </PlCascadePanel>
                 </DemoRow>
                 <DemoRow title={'自定义内容-渲染函数'}>
-                    <DemoLine>{val[5]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[5])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[5]}
                         data={treeData}
@@ -214,7 +243,7 @@ export default designPage(() => {
                     />
                 </DemoRow>
                 <DemoRow title={'点击分支的时候也能触发change'}>
-                    <DemoLine>{val[6]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[6])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[6]}
                         data={treeData}
@@ -226,7 +255,7 @@ export default designPage(() => {
                 </DemoRow>
                 <DemoRow title={'筛选文本以及自定义筛选函数'}>
                     <DemoLine><PlInput v-model={state.filterText}/></DemoLine>
-                    <DemoLine>{val[6]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[6])}</DemoLine>
                     <PlCascadePanel
                         v-model={val[6]}
                         data={treeData}
@@ -241,7 +270,7 @@ export default designPage(() => {
 
             <DemoRow title={'PlCascade'}>
                 <DemoRow title={'基本用法'}>
-                    <DemoLine>{val[7]}</DemoLine>
+                    <DemoLine>{JSON.stringify(val[7])}</DemoLine>
                     <PlCascade
                         v-model={val[7]}
                         data={treeData}
@@ -258,6 +287,98 @@ export default designPage(() => {
                         onFocus={() => console.log('focus')}
                         onBlur={() => console.log('blue')}
                     />
+                </DemoRow>
+                <DemoRow title={'禁用选项'}>
+                    <DemoLine>{JSON.stringify(val[7])}</DemoLine>
+                    <PlCascade
+                        v-model={val[7]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        nodeDisabled={node => node.isLeaf && node.label.indexOf('2') > 0}
+                    />
+                </DemoRow>
+                <DemoRow title={'只显示最后一级文本'}>
+                    <DemoLine>{JSON.stringify(val[8])}</DemoLine>
+                    <PlCascade
+                        v-model={val[8]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        showLast
+                    />
+                </DemoRow>
+                <DemoRow title={'可以选择分支（可以选择非叶子节点）'}>
+                    <DemoLine>{JSON.stringify(val[9])}</DemoLine>
+                    <PlCascade
+                        v-model={val[9]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        selectBranch
+                    />
+                </DemoRow>
+                <DemoRow title={'动态加载'}>
+                    <DemoLine>{JSON.stringify(state.formData)}</DemoLine>
+                    <DemoLine>{[state.formData.level1Name, state.formData.level2Name, state.formData.level3Name].filter(item => !!item).join(' / ')}</DemoLine>
+                    <PlCascade
+                        modelValue={[state.formData.level1Key, state.formData.level2Key, state.formData.level3Key]}
+                        onChange={onCascadeChange}
+                        showFormat={() => [state.formData.level1Name, state.formData.level2Name, state.formData.level3Name].filter(item => !!item).join(' / ')}
+
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        lazy
+                        isLeaf={lazyDemo.isLeaf}
+                        getChildren={lazyDemo.getChildren}
+                    />
+                </DemoRow>
+                <DemoRow title={'输入筛选'}>
+                    <DemoLine>{JSON.stringify(val[10])}</DemoLine>
+                    <PlCascade
+                        v-model={val[10]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        filterable
+                    />
+                </DemoRow>
+                <DemoRow title={'自定义节点内容'}>
+                    <DemoLine>{JSON.stringify(val[12])}</DemoLine>
+                    <PlCascade
+                        v-model={val[12]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}>
+                        {({node, index}) => (<span>{index + 1}、{node.label}</span>)}
+                    </PlCascade>
+                </DemoRow>
+                <DemoRow title={'禁用以及只读'}>
+                    <DemoLine>
+                        <PlCheckbox label={'禁用/只读'} v-model={val[13]}/>
+                    </DemoLine>
+                    <DemoLine>
+                        <PlCascade
+                            data={treeData}
+                            labelField={'name'}
+                            keyField={'id'}
+                            childrenField={'subs'}
+                            placeholder={'禁用'}
+                            disabled={val[13]}/>
+                        <PlCascade
+                            data={treeData}
+                            labelField={'name'}
+                            keyField={'id'}
+                            childrenField={'subs'}
+                            placeholder={'只读'}
+                            readonly={val[13]}/>
+                    </DemoLine>
                 </DemoRow>
             </DemoRow>
         </div>

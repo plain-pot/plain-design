@@ -245,29 +245,27 @@ export const PlCascadePanel = designComponent({
                 const filterList = (
                     <div className="pl-item pl-cascade-list pl-cascade-filter-list" key={0}>
                         <PlScroll>
-                            <PlList>
-                                {(!filterData.value || filterData.value.length === 0) && empty}
-                                {filterData.value.map((nodes) => (
-                                    <div
-                                        className={classnames([
-                                            'pl-cascade-item',
-                                            {
-                                                'pl-cascade-item-active': !!model.value && model.value.toString() === nodes.map(node => node.key).toString(),
-                                                'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
-                                            }
-                                        ])}
-                                        key={nodes.map(node => node.key).join(' ')}
-                                        {...{
-                                            onClick: () => {
-                                                handler.clickItem(nodes[nodes.length - 1], -1)
-                                            },
-                                        }}>
-                                        <div className="pl-cascade-content">
-                                            {nodes.map(node => node.label).join(' / ')}
-                                        </div>
+                            {(!filterData.value || filterData.value.length === 0) && empty}
+                            {!!filterData.value && filterData.value.map((nodes) => (
+                                <div
+                                    className={classnames([
+                                        'pl-cascade-item',
+                                        {
+                                            'pl-cascade-item-active': !!model.value && model.value.toString() === nodes.map(node => node.key).toString(),
+                                            'pl-cascade-item-disabled': nodes.some(node => node.nodeDisabled),
+                                        }
+                                    ])}
+                                    key={nodes.map(node => node.key).join(' ')}
+                                    {...{
+                                        onClick: () => {
+                                            handler.clickItem(nodes[nodes.length - 1], -1)
+                                        },
+                                    }}>
+                                    <div className="pl-cascade-content">
+                                        {nodes.map(node => node.label).join(' / ')}
                                     </div>
-                                ))}
-                            </PlList>
+                                </div>
+                            ))}
                         </PlScroll>
                     </div>
                 )
@@ -275,45 +273,43 @@ export const PlCascadePanel = designComponent({
                 const cascadeList = cascadeData.value.map((list, listIndex) => (
                     <div className="pl-cascade-list" key={listIndex}>
                         <PlScroll>
-                            <PlList animation={'accordionHorizontal'}>
-                                {list.map((node, nodeIndex) => (
-                                    <div
-                                        className={classnames([
-                                            'pl-item',
-                                            'pl-cascade-item',
-                                            {
-                                                'pl-cascade-item-expand': node.key === state.expandKeys[listIndex],
-                                                'pl-cascade-item-active': !!model.value && model.value[listIndex] === node.key,
-                                                'pl-cascade-item-disabled': node.nodeDisabled,
-                                            }
-                                        ])}
-                                        key={node.key}
+                            {list.map((node, nodeIndex) => (
+                                <div
+                                    className={classnames([
+                                        'pl-item',
+                                        'pl-cascade-item',
+                                        {
+                                            'pl-cascade-item-expand': node.key === state.expandKeys[listIndex],
+                                            'pl-cascade-item-active': !!model.value && model.value[listIndex] === node.key,
+                                            'pl-cascade-item-disabled': node.nodeDisabled,
+                                        }
+                                    ])}
+                                    key={node.key}
 
-                                        {...{
-                                            onClick: () => handler.clickItem(node, nodeIndex),
-                                            ...(props.trigger === 'hover' ? {
-                                                onMouseEnter: () => handler.mouseenterItem(node),
-                                            } : {})
-                                        }}>
-                                        <div className="pl-cascade-content">
-                                            {scopeSlots.default({node, index: nodeIndex}, (
-                                                !!props.renderContent ? props.renderContent({node, index: nodeIndex}) : node.label
-                                            ))}
-                                            {!node.isLeaf && (
-                                                <div className="pl-cascade-arrow">
-                                                    {node.isLoading ? <PlLoading type="gamma" status="primary"/> : <PlIcon icon="el-icon-arrow-right"/>}
-                                                </div>
-                                            )}
-                                        </div>
+                                    {...{
+                                        onClick: () => handler.clickItem(node, nodeIndex),
+                                        ...(props.trigger === 'hover' ? {
+                                            onMouseEnter: () => handler.mouseenterItem(node),
+                                        } : {})
+                                    }}>
+                                    <div className="pl-cascade-content">
+                                        {scopeSlots.default({node, index: nodeIndex}, (
+                                            !!props.renderContent ? props.renderContent({node, index: nodeIndex}) : node.label
+                                        ))}
+                                        {!node.isLeaf && (
+                                            <div className="pl-cascade-arrow">
+                                                {node.isLoading ? <PlLoading type="gamma" status="primary"/> : <PlIcon icon="el-icon-arrow-right"/>}
+                                            </div>
+                                        )}
                                     </div>
-                                ))}
-                                {list.length === 0 && (
-                                    <div className="pl-item pl-cascade-item pl-cascade-empty" key="empty">
-                                        <PlIcon icon="el-icon-nodata"/>
-                                        {props.emptyText}
-                                    </div>
-                                )}
-                            </PlList>
+                                </div>
+                            ))}
+                            {list.length === 0 && (
+                                <div className="pl-item pl-cascade-item pl-cascade-empty" key="empty">
+                                    <PlIcon icon="el-icon-nodata"/>
+                                    {props.emptyText}
+                                </div>
+                            )}
                         </PlScroll>
                         <PlLoadingMask modelValue={listIndex > 0 && state.cascadeMark.loading.get(state.expandKeys[listIndex - 1])}/>
                     </div>
@@ -324,13 +320,11 @@ export const PlCascadePanel = designComponent({
                 return (
                     <div className="pl-cascade-panel">
                         {!!props.filterText ? filterList : (
-                            <PlList>
-                                {isEmpty ? (
-                                    <div className="pl-cascade-list" key="empty">
-                                        {empty}
-                                    </div>
-                                ) : cascadeList}
-                            </PlList>
+                            isEmpty ? (
+                                <div className="pl-cascade-list" key="empty">
+                                    {empty}
+                                </div>
+                            ) : cascadeList
                         )}
                         <PlLoadingMask modelValue={state.loading}/>
                     </div>

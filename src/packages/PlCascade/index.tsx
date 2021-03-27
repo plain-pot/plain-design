@@ -27,6 +27,7 @@ export const PlCascade = designComponent({
         ...StyleProps,
         ...EditProps,
     },
+    inheritPropsType: PlInput,
     emits: {
         onUpdateModelValue: (val: any, expandNodes?: CascadeNode[]) => true,
         onClickItem: (data: { node: CascadeNode, index: number }) => true,
@@ -212,7 +213,7 @@ export const PlCascade = designComponent({
                     suffixIcon="el-icon-d-arrow-right"
                     modelValue={((agentState.isShow.value && props.filterable) ? state.inputValue : showValue.value) || undefined}
                     placeValue={showValue.value || undefined}
-                    placeholder={((agentState.isShow.value && props.filterable) ? showValue.value : (!!props.inputAttrs ? props.inputAttrs!.placeholder : null)) || ''}
+                    placeholder={(agentState.isShow.value && props.filterable) ? showValue.value! : props.placeholder || ''}
                     clearHandler={handler.clear}
                     inputReadonly={!props.filterable}
                     isFocus={agentState.state.focusCounter > 0}
