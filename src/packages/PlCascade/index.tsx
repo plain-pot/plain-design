@@ -77,19 +77,22 @@ export const PlCascade = designComponent({
             event,
             serviceGetter: useCascade,
             option: {
-                reference: () => refs.input as any,
-                renderAttrs: () => ({
-                    ...props,
-                    modelValue: model.value,
-                    filterText: state.inputValue,
-                    getChildren: utils.getChildren,
-                    renderContent: utils.renderContent,
+                reference: () => refs.input?.refs.input,
+                renderAttrs: () => {
+                    const {showLast, showFormat, filterable, separator, disabled, readonly, customReadonly, ...leftProps} = props
+                    return ({
+                        ...leftProps,
+                        modelValue: model.value,
+                        filterText: state.inputValue,
+                        getChildren: utils.getChildren,
+                        renderContent: utils.renderContent,
 
-                    onChange: handler.onServiceChange,
-                    onClickItem: event.emit.onClickItem,
-                    onGetChildren: event.emit.onGetChildren,
-                    onUpdateData: event.emit.onUpdateData,
-                }),
+                        onChange: handler.onServiceChange,
+                        onClickItem: event.emit.onClickItem,
+                        onGetChildren: event.emit.onGetChildren,
+                        onUpdateData: event.emit.onUpdateData,
+                    })
+                },
                 popperAttrs: {
                     onMousedownPopper: () => agentState.state.focusCounter++,
                     onClickPopper: () => refs.input!.methods.focus(),

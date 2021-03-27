@@ -6,6 +6,7 @@ import {DemoLine} from "../../components/DemoLine";
 import {PlCascadePanel} from "../../../src/packages/PlCascadePanel";
 import {CascadeNode} from "../../../src/packages/PlCascade/utils/CascadeNode";
 import {PlInput} from "../../../src/packages/PlInput";
+import PlCascade from "../../../src/packages/PlCascade";
 
 export default designPage(() => {
 
@@ -234,6 +235,28 @@ export default designPage(() => {
                         childrenField={'subs'}
                         filterText={state.filterText}
                         filterMethod={filterMethod}
+                    />
+                </DemoRow>
+            </DemoRow>
+
+            <DemoRow title={'PlCascade'}>
+                <DemoRow title={'基本用法'}>
+                    <DemoLine>{val[7]}</DemoLine>
+                    <PlCascade
+                        v-model={val[7]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                    />
+                    <PlCascade
+                        v-model={val[7]}
+                        data={treeData}
+                        labelField={'name'}
+                        keyField={'id'}
+                        childrenField={'subs'}
+                        onFocus={() => console.log('focus')}
+                        onBlur={() => console.log('blue')}
                     />
                 </DemoRow>
             </DemoRow>
