@@ -3,7 +3,7 @@ import {designPage} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import {reactive} from "@vue/reactivity";
 import {DemoLine} from "../../components/DemoLine";
-import {PlCascadePanel} from "../../../src/packages/PlCascadePanel/PlCascadePanel";
+import {PlCascadePanel} from "../../../src/packages/PlCascadePanel";
 import {CascadeNode} from "../../../src/packages/PlCascade/utils/CascadeNode";
 import {PlInput} from "../../../src/packages/PlInput";
 
@@ -14,12 +14,12 @@ export default designPage(() => {
             id: '1',
             name: '一级 1',
             subs: [
-                ...([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
-                    id: '1-' + index,
-                    name: '二级 1-' + index,
+                ...([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(PlCascadePanel => ({
+                    id: '1-' + PlCascadePanel,
+                    name: '二级 1-' + PlCascadePanel,
                     subs: [{
-                        id: `1-${index}-1`,
-                        name: `三级 1-${index}-1`
+                        id: `1-${PlCascadePanel}-1`,
+                        name: `三级 1-${PlCascadePanel}-1`
                     }]
                 })))
             ]
@@ -27,12 +27,12 @@ export default designPage(() => {
             id: '2',
             name: '一级 2',
             subs: [
-                ...([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index => ({
-                    id: '2-' + index,
-                    name: '二级 2-' + index,
+                ...([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(PlCascadePanel => ({
+                    id: '2-' + PlCascadePanel,
+                    name: '二级 2-' + PlCascadePanel,
                     subs: [{
-                        id: `2-${index}-1`,
-                        name: `三级 2-${index}-1`
+                        id: `2-${PlCascadePanel}-1`,
+                        name: `三级 2-${PlCascadePanel}-1`
                     }]
                 })))
             ]

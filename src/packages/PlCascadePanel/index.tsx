@@ -339,3 +339,5 @@ export const PlCascadePanel = designComponent({
         }
     },
 })
+
+export default PlCascadePanel
