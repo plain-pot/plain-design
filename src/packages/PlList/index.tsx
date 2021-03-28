@@ -6,6 +6,7 @@ import {PropType} from "plain-design-composition/src/composition/prop-type";
 
 export const PlList = designComponent({
     props: {
+        tag: {type: String, default: 'div'},
         easing: {type: String, default: 'cubic-bezier(0.23, 1, 0.32, 1)'},
         duration: {type: [String, Number], default: '300ms'},
         animation: {type: String as PropType<FlipMove.AnimationProp>, default: 'accordionVertical'},
@@ -25,23 +26,26 @@ export const PlList = designComponent({
             refer: {
                 refs,
             },
-            render: () => (
-                <div className="pl-list" ref={onRef.el}>
-                    <FlipMove
-                        typeName={null}
-                        easing={props.easing}
-                        duration={props.duration}
-                        enterAnimation={props.enterAnimation || props.animation}
-                        leaveAnimation={props.leaveAnimation || props.animation}
-                        onStart={props.onStart}
-                        onFinish={props.onFinish}
-                        onStartAll={props.onStartAll}
-                        onFinishAll={props.onFinishAll}
-                        disableAllAnimations={props.disableAllAnimations}
-                        {...{children: slots.default()} as any}
-                    />
-                </div>
-            )
+            render: () => {
+                const Tag = props.tag as any
+                return (
+                    <Tag className="pl-list" ref={onRef.el}>
+                        <FlipMove
+                            typeName={null}
+                            easing={props.easing}
+                            duration={props.duration}
+                            enterAnimation={props.enterAnimation || props.animation}
+                            leaveAnimation={props.leaveAnimation || props.animation}
+                            onStart={props.onStart}
+                            onFinish={props.onFinish}
+                            onStartAll={props.onStartAll}
+                            onFinishAll={props.onFinishAll}
+                            disableAllAnimations={props.disableAllAnimations}
+                            {...{children: slots.default()} as any}
+                        />
+                    </Tag>
+                )
+            }
         }
     },
 })
