@@ -118,7 +118,7 @@ export const PlDatePanelMonth = designComponent({
                     content: (<>
                         {props.showQuarter && (
                             <ul {...{
-                                class: 'pl-date-base-panel-month-quarter-list',
+                                className: 'pl-date-base-panel-month-quarter-list',
                                 key: state.selectDate.year!,
                                 direction: 'vertical'
                             }}>

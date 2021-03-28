@@ -60,7 +60,7 @@ export const PlDatePanel = designComponent({
                 attrs: {
                     ...publicProps,
                     onChange: handler.onChange,
-                    onMousedown: emit.onMousedown,
+                    onMouseDown: emit.onMousedown,
                     displayFormat: displayFormat || DefaultDateFormatString[panel],
                     valueFormat: valueFormat || DefaultDateFormatString[panel],
                 },

@@ -13,6 +13,7 @@ import {PlDateTimeInput} from "../PlDateTimeInput";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
 import {PlInput} from "../PlInput";
+import classnames from "plain-design-composition/src/lib/classNames";
 
 export const PlDate = designComponent({
     name: 'pl-date',
@@ -74,7 +75,7 @@ export const PlDate = designComponent({
             event: {emit},
             serviceGetter: useDate,
             option: {
-                reference: () => refs.plInput,
+                reference: () => refs.plInput?.refs.input,
                 renderAttrs: () => ({
                     ...(Object.keys(DatePublicProps).reduce((ret: any, key) => {
                         ret[key] = (props as any)[key]
@@ -147,13 +148,13 @@ export const PlDate = designComponent({
         const inputAttrs = computed(() => {
             const isDates = props.multiple
             return {
-                class: [
+                className: classnames([
                     'pl-date',
                     {
                         'pl-input-custom': !isDates,
                         'pl-input-tags': isDates,
                     },
-                ],
+                ]),
                 modelValue: Array.isArray(inputValue.value) ? inputValue.value.join('') : inputValue.value,
                 suffixIcon: 'el-icon-date',
                 clearIcon: true,
@@ -215,7 +216,7 @@ export const PlDate = designComponent({
             render: () => {
                 return (
                     <PlInput ref={onRef.plInput} {...inputAttrs.value as any}>
-                        <div {...{class: 'pl-input-custom-inner', range: props.range}}>
+                        <div {...{className: 'pl-input-custom-inner', range: String(props.range)}}>
                             {props.multiple && (<PlInputInnerTags
                                 data={formatData.value.vpds || []}
                                 collapseTags={props.collapseTags}

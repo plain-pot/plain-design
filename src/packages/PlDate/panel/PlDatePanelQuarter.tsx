@@ -30,7 +30,7 @@ export const PlDatePanelQuarter = designComponent({
         })
 
         const monthAttrs = computed(() => ({
-            class: 'pl-date-panel-quarter',
+            className: 'pl-date-panel-quarter',
             selectDate: useDateData.state.selectDate,
             onMouseenter: externalHandler.onMouseenter,
             onClick: externalHandler.onClick,

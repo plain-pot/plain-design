@@ -32,7 +32,7 @@ export const PlDatePanelWeek = designComponent({
         })
 
         const dateAttrs = computed(() => ({
-            class: 'pl-date-panel-week',
+            className: 'pl-date-panel-week',
             firstWeekDay: props.firstWeekDay,
             selectDate: useDateData.state.selectDate,
             onMouseenter: externalHandler.onMouseenter,
