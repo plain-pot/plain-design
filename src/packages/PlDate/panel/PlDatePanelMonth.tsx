@@ -7,7 +7,6 @@ import {StyleSize} from "../../../use/useStyle";
 import React from "react";
 import {PlDatePanelYear} from "./PlDatePanelYear";
 import {mergeProps} from "plain-design-composition/src/composition/prop";
-import PlTransition from "../../PlTransition";
 
 export const PlDatePanelMonth = designComponent({
     name: 'pl-date-panel-month',
@@ -65,7 +64,7 @@ export const PlDatePanelMonth = designComponent({
             let list: DateItemData[] = [];
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(i => {
                 const pd = today.useYMD([selectDate.year, i, 1]);
-                const item = {label: months.value[i], pd, ...getStatus(pd)}
+                const item = {label: /*selectDate.year + '-' +*/ months.value[i], pd, ...getStatus(pd)}
                 list.push(item)
             })
             return list
@@ -118,35 +117,31 @@ export const PlDatePanelMonth = designComponent({
                     bodyAttrs: {onMouseLeave: emit.onMouseleaveList},
                     content: (<>
                         {props.showQuarter && (
-                            <PlTransition name={`pl-transition-slide-${state.slide}`} switch>
-                                <ul {...{
-                                    class: 'pl-date-base-panel-month-quarter-list',
-                                    key: state.selectDate.year!,
-                                    direction: 'vertical'
-                                }}>
-                                    {quarterList.value.map(item => (DatePanelItemWrapper({
-                                        item,
-                                        onClick: externalHandler.onClick,
-                                        onMouseenter: externalHandler.onMouseenter,
-                                        Node: <li className="pl-date-base-panel-month-item" key={item.label}/>,
-                                    })))}
-                                </ul>
-                            </PlTransition>
-                        )}
-                        <PlTransition name={`pl-transition-slide-${state.slide}`} switch>
                             <ul {...{
-                                className: listClasses.value,
+                                class: 'pl-date-base-panel-month-quarter-list',
                                 key: state.selectDate.year!,
                                 direction: 'vertical'
                             }}>
-                                {monthList.value.map(item => (DatePanelItemWrapper({
+                                {quarterList.value.map(item => (DatePanelItemWrapper({
                                     item,
                                     onClick: externalHandler.onClick,
                                     onMouseenter: externalHandler.onMouseenter,
                                     Node: <li className="pl-date-base-panel-month-item" key={item.label}/>,
                                 })))}
                             </ul>
-                        </PlTransition>
+                        )}
+                        <ul {...{
+                            className: listClasses.value,
+                            key: String(state.selectDate.year!),
+                            direction: 'vertical'
+                        }}>
+                            {monthList.value.map(item => (DatePanelItemWrapper({
+                                item,
+                                onClick: externalHandler.onClick,
+                                onMouseenter: externalHandler.onMouseenter,
+                                Node: <li className="pl-date-base-panel-month-item" key={item.label}/>,
+                            })))}
+                        </ul>
                     </>)
                 }) as any
 
@@ -155,15 +150,13 @@ export const PlDatePanelMonth = designComponent({
                         className: 'pl-date-base-panel pl-date-base-panel-month-wrapper',
                         direction: props.direction,
                     }}>
-                        <PlTransition name={`pl-transition-slide-${viewModel.value === DateView.year ? 'prev' : 'next'}`} switch>
-                            {viewModel.value === DateView.month ?
-                                mergeProps({child: Month, attrs: {key: 'month_' + state.selectDate.year, className: 'pl-date-base-panel-month', direction: 'horizontal'}}) :
-                                (<PlDatePanelYear
-                                    key={'year_' + state.selectDate.year}
-                                    modelValue={String(state.selectDate.year)}
-                                    onUpdateModelValue={externalHandler.onSelectYearChange}
-                                    direction="horizontal"/>)}
-                        </PlTransition>
+                        {viewModel.value === DateView.month ?
+                            mergeProps({child: Month, attrs: {key: 'month_' + state.selectDate.year, className: 'pl-date-base-panel-month', direction: 'horizontal'}}) :
+                            (<PlDatePanelYear
+                                key={'year_' + state.selectDate.year}
+                                modelValue={String(state.selectDate.year)}
+                                onUpdateModelValue={externalHandler.onSelectYearChange}
+                                direction="horizontal"/>)}
                     </div>
                 ) as any
 

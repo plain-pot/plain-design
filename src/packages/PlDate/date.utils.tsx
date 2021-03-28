@@ -202,13 +202,7 @@ export function DatePanelItemWrapper(
     }) {
 
     let listener = {} as any;
-
-    console.log({...item})
-
-    item.clickable && (listener.onClick = () => {
-        console.log({...item})
-        onClick(item)
-    });
+    item.clickable && (listener.onClick = () => onClick(item));
     !item.disabled && (listener.onMouseEnter = () => onMouseenter(item));
 
     return {
