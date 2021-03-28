@@ -1,4 +1,4 @@
-import {designComponent, reactive} from "plain-design-composition";
+import {designComponent, onMounted, reactive, useRefs} from "plain-design-composition";
 import React from "react";
 import './TestGroupTransition.scss'
 import 'antd/dist/antd.css'
@@ -11,13 +11,28 @@ const DesignPage = designComponent({
             text: 'hello world' as string | undefined
         })
 
+        const {refs, onRef} = useRefs({
+            input1: HTMLInputElement,
+            input2: HTMLInputElement,
+        })
+
         return () => (
             <div className={'test-page'}>
                 <div>
                     {state.text || 'nothing'}
                 </div>
-                <NativeInput v-change={state.text}/>
-                <NativeInput v-change={state.text}/>
+                <NativeInput v-change={state.text} ref={val => {
+                    console.log('ref input1', val)
+                    onRef.input1(val)
+                }}/>
+                <NativeInput v-change={state.text} ref={onRef.input2}/>
+                <div>
+                    <button onClick={() => {
+                        console.log(refs)
+                        refs.input1!.focus()
+                    }}>focus
+                    </button>
+                </div>
             </div>
         )
     },

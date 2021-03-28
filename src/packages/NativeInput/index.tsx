@@ -5,11 +5,10 @@ export const NativeInput: React.FC<React.DetailedHTMLProps<React.InputHTMLAttrib
     let [text, setText] = useState(value)
     useMemo(() => {text = value}, [value])
     const input = useRef<HTMLInputElement>()
-    useImperativeHandle(ref, () => input.current)
-
+    useImperativeHandle(ref, () => input.current, [])
     return (
         <input
-            ref={ref}
+            ref={input}
             {...leftProps}
             value={text || ''}
             onChange={e => {
