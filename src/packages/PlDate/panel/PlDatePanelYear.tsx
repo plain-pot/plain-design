@@ -2,10 +2,10 @@ import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, D
 import {computed, designComponent} from "plain-design-composition";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
-import {Transition} from "react-transition-group";
 import PlTransition from "../../PlTransition";
 import React from "react";
 import {useDate, UseDateJudgementView} from "../useDate";
+import {mergeProps} from "plain-design-composition/src/composition/prop";
 
 export const PlDatePanelYear = designComponent({
     name: 'pl-date-panel-year',
@@ -76,9 +76,9 @@ export const PlDatePanelYear = designComponent({
                     left: <PlButton icon="el-icon-d-arrow-left" mode="text" size={StyleSize.mini} onClick={methods.prevYearList}/>,
                     center: <span className="pl-date-base-panel-header-static-label">{data.value.title}</span>,
                     right: <PlButton icon="el-icon-d-arrow-right" mode="text" size={StyleSize.mini} onClick={methods.nextYearList}/>,
-                    content: (<PlTransition name={`pl-transition-slide-${state.slide}`}>
+                    content: (<PlTransition name={`pl-transition-slide-${state.slide}`} switch>
                         <ul{...{
-                            class: 'pl-date-base-panel-year-list',
+                            className: 'pl-date-base-panel-year-list',
                             key: data.value.selectYear,
                             direction: "vertical"
                         }}>
@@ -91,7 +91,7 @@ export const PlDatePanelYear = designComponent({
                         </ul>
                     </PlTransition>)
                 })
-                return <Wrapper {...{class: 'pl-date-base-panel-year', direction: props.direction,}}/>
+                return mergeProps({child: Wrapper, attrs: {className: 'pl-date-base-panel-year', direction: props.direction,}})
             }
         }
     },

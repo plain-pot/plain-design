@@ -7,6 +7,7 @@ import {ExtractPropTypes, PropType} from "plain-design-composition";
 import {PDate} from "../../utils/plainDate";
 import {ReactNode} from "react";
 import React from "react";
+import classnames from "plain-design-composition/src/lib/classNames";
 
 export enum DateView {
     year = 'year',
@@ -38,7 +39,7 @@ export enum SlideTransitionDirection {
  * @author  韦胜健
  * @date    2021/1/18 10:44
  */
-export const enum DateEmitRangeType {
+export enum DateEmitRangeType {
     start = 'start',
     end = 'end',
 }
@@ -202,12 +203,13 @@ export function DatePanelItemWrapper(
 
     let listener = {} as any;
     item.clickable && (listener.onClick = () => onClick(item));
-    !item.disabled && (listener.onMouseenter = () => onMouseenter(item));
+    !item.disabled && (listener.onMouseEnter = () => onMouseenter(item));
 
-    return (
-        <Node
-            {...listener}
-            className={[
+    return {
+        ...Node,
+        props: {
+            ...Node.props,
+            className: `${Node.props.className} ${classnames([
                 'pl-date-base-panel-item',
                 {
                     'pl-date-base-panel-item-active': item.active,
@@ -217,10 +219,13 @@ export function DatePanelItemWrapper(
                     'pl-date-base-panel-item-hover': item.hover,
                     'pl-date-base-panel-item-hover-end': item.end,
                 }
-            ]}>
-            <div>
-                <span>{item.label}</span>
-            </div>
-        </Node>
-    )
+            ])}`,
+            ...listener,
+            children: (
+                <div>
+                    <span>{item.label}</span>
+                </div>
+            )
+        },
+    }
 }
