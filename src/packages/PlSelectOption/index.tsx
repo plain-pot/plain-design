@@ -63,7 +63,7 @@ export const PlSelectOption = designComponent({
                             label: props.label,
                             val: props.val,
                             icon: props.icon,
-                            class: classes.value,
+                            className: classes.value,
                             onClick: handler.click,
                         }}>
                         {!!panel && isShow.value && <>

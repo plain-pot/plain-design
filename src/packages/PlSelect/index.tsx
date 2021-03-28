@@ -14,6 +14,7 @@ import PlIcon from "../PlIcon";
 import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
+import classnames from "plain-design-composition/src/lib/classNames";
 
 const Props = {
     ...EditProps,
@@ -68,13 +69,16 @@ export const PlSelect = designComponent({
             event,
             serviceGetter: useSelect,
             option: {
-                reference: () => refs.input as any,
+                reference: () => refs.input?.refs.input,
                 renderAttrs: () => ({
                     ref: r => panel = r,
-                    ...(Object.keys(Props).reduce((ret: any, key) => {
-                        ret[key] = (props as any)[key]
-                        return ret
-                    }, {})),
+                    ...(() => {
+                        const {readonly, customReadonly, collapseTags, inputProps, filterable, ...leftProps} = Props
+                        return Object.keys(leftProps).reduce((ret: any, key) => {
+                            ret[key] = (props as any)[key]
+                            return ret
+                        }, {})
+                    })(),
                     modelValue: model.value,
                     height: popperHeight.value,
                     content: slots.default,
@@ -180,13 +184,13 @@ export const PlSelect = designComponent({
 
             return {
                 ref: onRef.input,
-                class: [
+                className: classnames([
                     'pl-select',
                     {
                         'pl-input-tags': !!props.multiple,
                         'pl-select-input-show': agentState.isShow.value,
                     }
-                ],
+                ]),
 
                 modelValue: (props.filterable && agentState.isShow.value) ? filterText.value! : displayValue.value as string,
                 placeValue: displayValue.value as string,
@@ -288,12 +292,10 @@ export const PlSelect = designComponent({
                                 data={multipleTags.value}
                                 collapseTags={props.collapseTags}
                                 placeholder={inputBinding.value.placeholder}
-                                v-slots={{
-                                    default: ({item, index}: { item: SelectOption, index: number }) => [
-                                        <span>{item.props.label}</span>,
-                                        <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
-                                    ]
-                                }}
+                                default={({item, index}: { item: SelectOption, index: number }) => [
+                                    <span>{item.props.label}</span>,
+                                    <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
+                                ]}
                             />
                         )
                     }}

@@ -220,21 +220,21 @@ export const PlSelectPanel = designComponent({
             },
             render: () => {
 
-                const inner = [
-                    (options.value.length === 0 || showOptions.value.length === 0) ? (
+                const inner = <>
+                    {(options.value.length === 0 || showOptions.value.length === 0) ? (
                         <div className="pl-select-panel-empty-text">
                             <PlIcon icon="el-icon-nodata"/>
                             {options.value.length === 0 ? props.noDataText : props.noMatchText}
                         </div>
-                    ) : null,
-                    slots.default(),
-                    !!props.content ? ((typeof props.content === "function" ? props.content() : props.content)) : null,
-                    !!props.showDebug ? (
+                    ) : null}
+                    {slots.default()}
+                    {!!props.content ? ((typeof props.content === "function" ? props.content() : props.content)) : null}
+                    {!!props.showDebug ? (
                         <div className="pl-select-panel-debug">
-                            {options.value.map(option => <div>{option.props.label}__{option.props.val}__{option.props.disabled}</div>)}
+                            {options.value.map(option => <div key={option.props.val}>{option.props.label}__{option.props.val}__{option.props.disabled}</div>)}
                         </div>
-                    ) : null,
-                ].filter(Boolean)
+                    ) : null}
+                </>
 
                 const content: any = !!props.height ? (
                     <PlScroll fitHostWidth ref={onRef.scroll}>
