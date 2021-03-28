@@ -45,8 +45,8 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'PlDate'}>
                 <DemoRow title={'额外内容'}>
-                    <DemoLine>{val[4]}</DemoLine>
-                    <PlDate v-model={val[4]} foot={<>
+                    <DemoLine>{val[24]}</DemoLine>
+                    <PlDate v-model={val[24]} foot={<>
                         <PlButton size={'mini'} label={'昨天'} onClick={() => setDate('yesterday')}/>
                         <PlButton size={'mini'} label={'今天'} onClick={() => setDate('today')}/>
                         <PlButton size={'mini'} label={'明天'} onClick={() => setDate('tomorrow')}/>

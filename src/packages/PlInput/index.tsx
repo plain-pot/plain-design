@@ -195,8 +195,14 @@ export const PlInput = designComponent({
             } : {}),
 
             onClick: emit.onClickInput,
-            onFocus: emit.onFocus,
-            onBlur: emit.onBlur,
+            onFocus: (e: React.FocusEvent) => {
+                if (e.target !== e.currentTarget) {return}
+                emit.onFocus(e)
+            },
+            onBlur: (e: React.FocusEvent) => {
+                if (e.target !== e.currentTarget) {return}
+                emit.onBlur(e)
+            },
             onKeyDown: (e: React.KeyboardEvent) => {
                 emit.onKeydown(e)
                 switch (getKey(e)) {
