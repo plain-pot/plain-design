@@ -132,7 +132,7 @@ export const PlSelect = designComponent({
             if (!props.multiple) {
                 for (let i = 0; i < formatData.value.length; i++) {
                     const item = formatData.value[i];
-                    if (item.props.val === model.value) {
+                    if (item.props.val == model.value) {
                         return item.props.label
                     }
                 }
@@ -181,7 +181,6 @@ export const PlSelect = designComponent({
         const inputBinding = computed(() => {
             /*onEnter不要了，只要剩余的时间监听器*/
             const {onEnter, ...inputHandler} = agentState.inputHandler
-
             return {
                 ref: onRef.input,
                 className: classnames([
