@@ -13,6 +13,7 @@ const DesignPage = designComponent({
         })
 
         const {refs, onRef} = useRefs({
+            input0: HTMLInputElement,
             input1: HTMLInputElement,
             input2: HTMLInputElement,
             input3: HTMLTextAreaElement,
@@ -23,6 +24,9 @@ const DesignPage = designComponent({
                 <div>
                     {state.text || 'nothing'}
                 </div>
+                {/*这个不嫩用，是坏的*/}
+                <input v-change={state.text} ref={onRef.input0}/>
+
                 <NativeInput v-change={state.text} ref={onRef.input1}/>
                 <NativeInput v-change={state.text} ref={onRef.input2}/>
                 <NativeTextarea v-change={state.text} ref={onRef.input3}/>
