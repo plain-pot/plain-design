@@ -12,6 +12,7 @@ import PlLoading from "../PlLoading";
 import './input.scss'
 import {noop} from "../../utils/constant";
 import {NativeInput} from "../NativeInput";
+import {NativeTextarea} from "../NativeTextarea";
 
 console.log('load input component')
 
@@ -267,8 +268,8 @@ export const PlInput = designComponent({
                     /*渲染文本域*/
                     return (
                         <div className={'pl-textarea ' + classes.value}>
-                            <textarea className="pl-textarea-inner" {...publicProps.value}/>
-                            <textarea className="pl-textarea-inner pl-textarea-hidden" ref={onRef.hiddenInput} value={model.value!} onChange={noop}/>
+                            <NativeTextarea className="pl-textarea-inner" {...publicProps.value}/>
+                            <NativeTextarea className="pl-textarea-inner pl-textarea-hidden" ref={onRef.hiddenInput} value={model.value!} onChange={noop}/>
                         </div>
                     )
                 } else {
