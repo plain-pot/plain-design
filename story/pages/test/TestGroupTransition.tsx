@@ -1,16 +1,27 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, reactive} from "plain-design-composition";
 import React from "react";
 import './TestGroupTransition.scss'
-import {DemoRow} from "../../components/DemoRow";
+import 'antd/dist/antd.css'
+import {NativeInput} from "../../../src/packages/NativeInput";
 
-export default designComponent({
+const DesignPage = designComponent({
     setup() {
+
+        const state = reactive({
+            text: 'hello world' as string | undefined
+        })
+
         return () => (
             <div className={'test-page'}>
-                <DemoRow>
-                    demo
-                </DemoRow>
+                <div>
+                    {state.text || 'nothing'}
+                </div>
+                <NativeInput v-change={state.text}/>
+                <NativeInput v-change={state.text}/>
             </div>
         )
     },
 })
+
+// export default FcPage
+export default DesignPage
