@@ -11,7 +11,7 @@ import {isDom} from "plain-design-composition/src/composition/utils";
 export function fixInputCursor<Component>(component: Component): Component {
     return (React.forwardRef((props: any, ref) => {
         const {value, onChange, ...leftProps} = props
-        let [setText] = useState(value)
+        let [, setText] = useState(value)
         const valRef = useRef(value)
         useMemo(() => {valRef.current = value}, [value])
 

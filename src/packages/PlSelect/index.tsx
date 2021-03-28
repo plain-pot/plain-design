@@ -73,7 +73,7 @@ export const PlSelect = designComponent({
                 renderAttrs: () => ({
                     ref: r => panel = r,
                     ...(() => {
-                        const {readonly, customReadonly, collapseTags, inputProps, filterable, ...leftProps} = Props
+                        const {loading, readonly, customReadonly, collapseTags, inputProps, filterable, ...leftProps} = Props
                         return Object.keys(leftProps).reduce((ret: any, key) => {
                             ret[key] = (props as any)[key]
                             return ret
@@ -292,10 +292,12 @@ export const PlSelect = designComponent({
                                 data={multipleTags.value}
                                 collapseTags={props.collapseTags}
                                 placeholder={inputBinding.value.placeholder}
-                                default={({item, index}: { item: SelectOption, index: number }) => [
-                                    <span>{item.props.label}</span>,
-                                    <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
-                                ]}
+                                default={({item, index}: { item: SelectOption, index: number }) => (
+                                    <React.Fragment key={index}>
+                                        <span>{item.props.label}</span>,
+                                        <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
+                                    </React.Fragment>
+                                )}
                             />
                         )
                     }}

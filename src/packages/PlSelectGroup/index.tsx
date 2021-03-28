@@ -7,9 +7,6 @@ import {useCollect} from "../../use/useCollect";
 
 export const PlSelectGroup = designComponent({
     name: 'pl-select-group',
-    props: {
-        label: {type: String},
-    },
     slots: ['label', 'default'],
     setup({props, slots}) {
 
@@ -21,10 +18,10 @@ export const PlSelectGroup = designComponent({
             render: () => {
                 return (
                     <>
-                        {isShow.value && (slots.label.isExist() || !!props.label) && (
+                        {isShow.value && (slots.label.isExist()) && (
                             <PlSelectOption className="pl-select-group" group label="" val="">
                                 <PlIcon icon="el-icon-list"/>
-                                {slots.label(props.label)}
+                                {slots.label()}
                             </PlSelectOption>
                         )}
                         {slots.default()}
