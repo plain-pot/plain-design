@@ -3,6 +3,7 @@ import React from "react";
 import './TestGroupTransition.scss'
 import 'antd/dist/antd.css'
 import {NativeInput} from "../../../src/packages/NativeInput";
+import {NativeTextarea} from "../../../src/packages/NativeTextarea";
 
 const DesignPage = designComponent({
     setup() {
@@ -14,6 +15,7 @@ const DesignPage = designComponent({
         const {refs, onRef} = useRefs({
             input1: HTMLInputElement,
             input2: HTMLInputElement,
+            input3: HTMLTextAreaElement,
         })
 
         return () => (
@@ -23,10 +25,11 @@ const DesignPage = designComponent({
                 </div>
                 <NativeInput v-change={state.text} ref={onRef.input1}/>
                 <NativeInput v-change={state.text} ref={onRef.input2}/>
+                <NativeTextarea v-change={state.text} ref={onRef.input3}/>
                 <div>
                     <button onClick={() => {
                         console.log(refs)
-                        refs.input1!.focus()
+                        refs.input3!.focus()
                     }}>focus
                     </button>
                 </div>

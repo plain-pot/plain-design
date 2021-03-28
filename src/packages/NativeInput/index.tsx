@@ -1,6 +1,7 @@
+import {isDom} from "plain-design-composition/src/composition/utils";
 import React, {useImperativeHandle, useMemo, useRef, useState} from "react";
 
-function fixInputCursor<Component>(component: Component): Component {
+export function fixInputCursor<Component>(component: Component): Component {
     return (React.forwardRef((props: any, ref) => {
         const {value, onChange, ...leftProps} = props
         let [text, setText] = useState(value)
@@ -24,8 +25,7 @@ function fixInputCursor<Component>(component: Component): Component {
 
 export const NativeInput = fixInputCursor<React.FC<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>>>('input' as any)
 
-/*
-export const NativeInput: React.FC<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>> = (React.forwardRef((props: any, ref) => {
+/*export const NativeInput: React.FC<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>> = (React.forwardRef((props: any, ref) => {
     const {value, onChange, ...leftProps} = props
     let [text, setText] = useState(value)
     useMemo(() => {text = value}, [value])
