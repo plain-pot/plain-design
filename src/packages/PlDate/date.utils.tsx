@@ -60,7 +60,7 @@ export const DefaultDateFormatString = {
 }
 
 export const getDefaultDateFormatter = (() => {
-    function getDefaultDateValueFormat(panel: DatePanel, datetime?: boolean) {
+    function getDefaultDateValueFormat(panel: keyof typeof DatePanel, datetime?: boolean) {
         switch (panel) {
             case DatePanel.year:
                 return DefaultDateFormatString.year
@@ -73,9 +73,10 @@ export const getDefaultDateFormatter = (() => {
             case DatePanel.quarter:
                 return DefaultDateFormatString.month
         }
+        throw new Error(`can't recognise date panel:` + panel)
     }
 
-    function getDefaultDateDisplayFormat(panel: DatePanel, datetime?: boolean) {
+    function getDefaultDateDisplayFormat(panel: keyof typeof DatePanel, datetime?: boolean) {
         switch (panel) {
             case DatePanel.year:
                 return DefaultDateFormatString.year
@@ -88,9 +89,10 @@ export const getDefaultDateFormatter = (() => {
             case DatePanel.quarter:
                 return 'YYYY年第Q季度'
         }
+        throw new Error(`can't recognise date panel:` + panel)
     }
 
-    return (panel: DatePanel, datetime?: boolean) => ({
+    return (panel: keyof typeof DatePanel, datetime?: boolean) => ({
         displayFormat: getDefaultDateDisplayFormat(panel, datetime),
         valueFormat: getDefaultDateValueFormat(panel, datetime),
     })

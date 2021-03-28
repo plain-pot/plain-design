@@ -21,7 +21,7 @@ export const PlDate = designComponent({
         ...StyleProps,
         ...EditProps,
         ...DatePublicProps,
-        panel: {type: String as PropType<DatePanel>, default: DatePanel.date},
+        panel: {type: String as PropType<keyof typeof DatePanel>, default: DatePanel.date},
         collapseTags: {type: Boolean, default: true},
     },
     emits: {

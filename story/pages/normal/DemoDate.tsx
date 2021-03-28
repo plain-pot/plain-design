@@ -108,6 +108,33 @@ export default designPage(() => {
                         </PlAlert>
                     </DemoRow>
                 </DemoRow>
+                <DemoRow title={'年份'}>
+                    <DemoRow title="基本单选">
+                        <PlDate v-model={val[35]} panel="year"/>
+                        <PlDate v-model={val[35]} panel="year" displayFormat="YYYY年"/>
+                        <div>value:{val[35]}</div>
+                    </DemoRow>
+                    <DemoRow title="多选">
+                        <PlDate v-model={val[36]} panel="year" multiple/>
+                        <PlDate v-model={val[36]} panel="year" multiple displayFormat="YYYY年" collapseTags={false}/>
+                        <div>value:{val[36]}</div>
+                    </DemoRow>
+                    <DemoRow title="范围选择">
+                        <PlDate v-model-start={val[37]} v-model-end={val[38]} range panel="year"/>
+                        <PlDate v-model-start={val[37]} v-model-end={val[38]} range panel="year" displayFormat="YYYY年"/>
+                        <div>start:{val[37]}</div>
+                        <div>end:{val[38]}</div>
+                    </DemoRow>
+                    <DemoRow title="最大最小值限制">
+                        <div>max:2050</div>
+                        <div>min:2019</div>
+                        <PlDate v-model={val[39]} panel="year" max="2050" min="2019"/>
+                        <div>value:{val[39]}</div>
+                        <PlDate v-model-start={val[40]} v-model-end={val[41]} range panel="year" max="2050" min="2019"/>
+                        <div>start{val[40]}</div>
+                        <div>end:{val[41]}</div>
+                    </DemoRow>
+                </DemoRow>
             </DemoRow>
         </div>
     )
