@@ -29,6 +29,7 @@ export const PlTime = designComponent({
     },
     slots: ['foot'],
     expose: {plainDate},
+    inheritPropsType: PlInput,
     setup({props, slots, event: {emit}}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
@@ -152,6 +153,7 @@ export const PlTime = designComponent({
                     ref={onRef.plInput}
                     className="pl-time pl-input-custom"
                     modelValue={inputValue.value}
+                    placeholder={props.placeholder}
                     suffixIcon="el-icon-time"
                     clearIcon
                     isFocus={agentState.state.focusCounter > 0}
