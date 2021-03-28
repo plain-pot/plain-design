@@ -11,6 +11,7 @@ import {createEventListener} from "plain-design-composition/src/utils/createEven
 import PlLoading from "../PlLoading";
 import './input.scss'
 import {noop} from "../../utils/constant";
+import {NativeInput} from "../NativeInput";
 
 console.log('load input component')
 
@@ -281,7 +282,7 @@ export const PlInput = designComponent({
                                     {slots.default()}
                                 </div>
                                 :
-                                <input className="pl-input-inner" {...publicProps.value}/>}
+                                <NativeInput className="pl-input-inner" {...publicProps.value}/>}
 
                             {!!props.suffixIcon && <span className="pl-input-suffix-icon">
                                 {typeof props.suffixIcon === 'function' ? (props.suffixIcon as any)() : <PlIcon {...createEventListener({onMouseDown: handler.clickSuffixIcon})} icon={props.suffixIcon}/>}

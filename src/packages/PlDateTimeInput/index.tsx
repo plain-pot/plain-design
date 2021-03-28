@@ -2,6 +2,7 @@ import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from
 import {EditProps, useEdit} from "../../use/useEdit";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
+import {NativeInput} from "../NativeInput";
 
 export const PlDateTimeInput = designComponent({
     name: 'pl-date-time-input',
@@ -61,16 +62,17 @@ export const PlDateTimeInput = designComponent({
                 methods,
             },
             render: () => (
-                <input type="text"
-                       ref={onRef.input}
-                       className="pl-date-time-inner-input pl-input-custom-inner-input"
-                       style={styles.value}
-                       value={model.value || ''}
-                       onInput={handler.input}
-                       onBlur={handler.blur}
-                       onFocus={handler.focus}
-                       disabled={editComputed.value.disabled as any}
-                       readOnly={editComputed.value.readonly as any}
+                <NativeInput
+                    type="text"
+                    ref={onRef.input}
+                    className="pl-date-time-inner-input pl-input-custom-inner-input"
+                    style={styles.value}
+                    value={model.value || ''}
+                    onInput={handler.input}
+                    onBlur={handler.blur}
+                    onFocus={handler.focus}
+                    disabled={editComputed.value.disabled as any}
+                    readOnly={editComputed.value.readonly as any}
                 />
             )
         }

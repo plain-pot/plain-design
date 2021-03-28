@@ -8,6 +8,7 @@ import useClass from "plain-design-composition/src/use/useClasses";
 import PlIcon from "../PlIcon";
 import {useClickWave} from "../../directives/ClickWave";
 import './number.scss'
+import {NativeInput} from "../NativeInput";
 
 const NAN = 'NAN'
 
@@ -230,7 +231,7 @@ export const PlNumber = designComponent({
                             <PlIcon icon="el-icon-minus"/>
                         </div>
                     )}
-                    <input
+                    <NativeInput
                         ref={onRef.innerInput}
                         type="text"
                         value={model.value || ''}
