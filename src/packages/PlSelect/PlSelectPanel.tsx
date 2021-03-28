@@ -124,7 +124,7 @@ export const PlSelectPanel = designComponent({
 
                     // 滚动到高亮的选项
                     if (!!refs.scroll) {
-                        const el = (current.value as any).$el
+                        const el = current.value.refs.el!
                         refs.scroll.methods.scrollTop(el.offsetTop, 200)
                     }
                 } else {
@@ -135,7 +135,7 @@ export const PlSelectPanel = designComponent({
 
                         // 滚动到高亮的选项
                         if (!!refs.scroll) {
-                            const el = (current.value as any).$el
+                            const el = current.value.refs.el!
                             refs.scroll.methods.scrollTop(el.offsetTop, 200)
                         }
                     } else {
@@ -144,7 +144,7 @@ export const PlSelectPanel = designComponent({
 
                         // 滚动到高亮的选项
                         if (!!refs.scroll) {
-                            const el = (current.value as any).$el
+                            const el = current.value.refs.el!
                             const {wrapperScrollTop} = refs.scroll.freezeState
                             if (wrapperScrollTop > el.offsetTop) {
                                 refs.scroll.methods.scrollTop(el.offsetTop, 200)
@@ -180,7 +180,7 @@ export const PlSelectPanel = designComponent({
 
                         // 滚动到高亮的选项
                         if (!!refs.scroll) {
-                            const el = (current.value as any).$el
+                            const el = current.value.refs.el!
                             const {state: {hostHeight}, freezeState: {wrapperScrollTop}} = refs.scroll
                             const scrollTop = el.offsetTop + el.offsetHeight - hostHeight
                             if (scrollTop > 0 && scrollTop > wrapperScrollTop) {
