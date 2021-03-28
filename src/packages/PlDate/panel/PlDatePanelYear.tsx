@@ -76,18 +76,20 @@ export const PlDatePanelYear = designComponent({
                     left: <PlButton icon="el-icon-d-arrow-left" mode="text" size={StyleSize.mini} onClick={methods.prevYearList}/>,
                     center: <span className="pl-date-base-panel-header-static-label">{data.value.title}</span>,
                     right: <PlButton icon="el-icon-d-arrow-right" mode="text" size={StyleSize.mini} onClick={methods.nextYearList}/>,
-                    content: (<ul{...{
-                        className: 'pl-date-base-panel-year-list',
-                        key: data.value.selectYear,
-                        direction: "vertical"
-                    }}>
-                        {data.value.list.map(item => DatePanelItemWrapper({
-                            item,
-                            Node: (<li key={item.label} className="pl-date-base-panel-year-item"/>),
-                            onClick: handler.onClick,
-                            onMouseenter: handler.onMouseenter,
-                        }))}
-                    </ul>)
+                    content: (<PlTransition name={`pl-transition-slide-${state.slide}`} switch mode={'in-out'}>
+                        <ul{...{
+                            className: 'pl-date-base-panel-year-list',
+                            key: data.value.selectYear,
+                            direction: "vertical"
+                        }}>
+                            {data.value.list.map(item => DatePanelItemWrapper({
+                                item,
+                                Node: (<li key={item.label} className="pl-date-base-panel-year-item"/>),
+                                onClick: handler.onClick,
+                                onMouseenter: handler.onMouseenter,
+                            }))}
+                        </ul>
+                    </PlTransition>)
                 })
                 return mergeProps({child: Wrapper, attrs: {className: 'pl-date-base-panel-year', direction: props.direction,}})
             }
