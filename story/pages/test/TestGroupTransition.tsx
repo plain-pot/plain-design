@@ -21,10 +21,7 @@ const DesignPage = designComponent({
                 <div>
                     {state.text || 'nothing'}
                 </div>
-                <NativeInput v-change={state.text} ref={val => {
-                    console.log('ref input1', val)
-                    onRef.input1(val)
-                }}/>
+                <NativeInput v-change={state.text} ref={onRef.input1}/>
                 <NativeInput v-change={state.text} ref={onRef.input2}/>
                 <div>
                     <button onClick={() => {
