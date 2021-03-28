@@ -135,6 +135,87 @@ export default designPage(() => {
                         <div>end:{val[41]}</div>
                     </DemoRow>
                 </DemoRow>
+                <DemoRow title="年月">
+                    <DemoRow title="基本单选">
+                        <PlDate v-model={val[42]} panel="month"/>
+                        <PlDate v-model={val[42]} panel="month" displayFormat="YYYY年MM月"/>
+                        <div>value:{val[42]}</div>
+                    </DemoRow>
+                    <DemoRow title="多选">
+                        <PlDate v-model={val[43]} panel="month" multiple/>
+                        <PlDate v-model={val[43]} panel="month" multiple displayFormat="YYYY年MM月"/>
+                        <div>value:{val[43]}</div>
+                    </DemoRow>
+                    <DemoRow title="范围选择">
+                        <PlDate v-model-start={val[44]} v-model-end={val[45]} range panel="month"/>
+                        <PlDate v-model-start={val[44]} v-model-end={val[45]} range panel="month" displayFormat="YYYY年MM月"/>
+                        <div>start:{val[44]}</div>
+                        <div>end:{val[45]}</div>
+                    </DemoRow>
+                    <DemoRow title="最大最小值限制">
+                        <div>max:2050-05</div>
+                        <div>min:2019-03</div>
+                        <PlDate v-model={val[46]} panel="month" max="2050-05" min="2019-03"/>
+                        <div>value:{val[46]}</div>
+                        <PlDate v-model-start={val[47]} v-model-end={val[48]} range panel="month" max="2050-05" min="2019-03"/>
+                        <div>start:{val[47]}</div>
+                        <div>end:{val[48]}</div>
+                    </DemoRow>
+                </DemoRow>
+                <DemoRow title="周">
+                    <DemoRow title="基本单选">
+                        <PlDate v-model={val[49]} panel="week"/>
+                        <PlDate v-model={val[49]} panel="week" displayFormat="年：gggg, 周：ww"/>
+                        <div>value:{val[49]}</div>
+                    </DemoRow>
+                    <DemoRow title="多选">
+                        <PlDate v-model={val[50]} panel="week" multiple/>
+                        <PlDate v-model={val[50]} panel="week" multiple displayFormat="年：gggg, 周：ww"/>
+                        <div>value:{val[50]}</div>
+                    </DemoRow>
+                    <DemoRow title="范围选择">
+                        <PlDate v-model-start={val[51]} v-model-end={val[52]} range panel="week"/>
+                        <PlDate v-model-start={val[51]} v-model-end={val[52]} range panel="week" displayFormat="年：gggg, 周：ww"/>
+                        <div>start:{val[51]}</div>
+                        <div>end:{val[52]}</div>
+                    </DemoRow>
+                    <DemoRow title="最大最小值限制">
+                        <div>max:2050-05-05</div>
+                        <div>min:2019-03-03</div>
+                        <PlDate v-model={val[53]} panel="week" max="2050-05-05" min="2019-03-03"/>
+                        <div>value:{val[53]}</div>
+                        <PlDate v-model-start={val[54]} v-model-end={val[55]} range panel="week" max="2050-05-05" min="2019-03-03"/>
+                        <div>start:{val[54]}</div>
+                        <div>end:{val[55]}</div>
+                    </DemoRow>
+                </DemoRow>
+                <DemoRow title="季度">
+                    <DemoRow title="基本单选">
+                        <PlDate v-model={val[56]} panel="quarter"/>
+                        <PlDate v-model={val[56]} panel="quarter" displayFormat="年：YYYY, 季度：Q"/>
+                        <div>value:{val[56]}</div>
+                    </DemoRow>
+                    <DemoRow title="多选">
+                        <PlDate v-model={val[57]} panel="quarter" multiple/>
+                        <PlDate v-model={val[57]} panel="quarter" multiple displayFormat="年：YYYY, 季度：Q"/>
+                        <div>value:{val[57]}</div>
+                    </DemoRow>
+                    <DemoRow title="范围选择">
+                        <PlDate v-model-start={val[58]} v-model-end={val[59]} range panel="quarter"/>
+                        <PlDate v-model-start={val[58]} v-model-end={val[59]} range panel="quarter" displayFormat="年：YYYY, 季度：Q"/>
+                        <div>start:{val[58]}</div>
+                        <div>end:{val[59]}</div>
+                    </DemoRow>
+                    <DemoRow title="最大最小值限制">
+                        <div>max:2050-05</div>
+                        <div>min:2019-04</div>
+                        <PlDate v-model={val[60]} panel="quarter" max="2050-05" min="2019-04"/>
+                        <div>value:{val[60]}</div>
+                        <PlDate v-model-start={val[61]} v-model-end={val[62]} range panel="quarter" max="2050-05" min="2019-04"/>
+                        <div>start:{val[61]}</div>
+                        <div>end:{val[62]}</div>
+                    </DemoRow>
+                </DemoRow>
             </DemoRow>
         </div>
     )
