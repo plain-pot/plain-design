@@ -49,7 +49,7 @@ export const PlPagination = designComponent({
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle()
 
-        const jumperValue = ref(null as number | null)
+        const jumperValue = ref(undefined as number | undefined)
         watch(() => props.currentPage, (val) => jumperValue.value = val == null ? 1 : Number(val), {immediate: true})
 
         const classes = useClass(() => [
@@ -232,6 +232,7 @@ export const PlPagination = designComponent({
             render: () => {
                 const sizes = (
                     <PlSelect
+                        key="size"
                         className="pl-pagination-sizes"
                         modelValue={numberState.pageSize}
 
@@ -248,13 +249,13 @@ export const PlPagination = designComponent({
                 )
 
                 const jumper = (
-                    <div className="pl-pagination-jumper">
+                    <div className="pl-pagination-jumper" key="jumper">
                         <span>前往</span>
                         <PlNumber inputProps={{width: jumperNumberWidth.value}}
                                   readonly={editComputed.value.readonly || editComputed.value.loading!}
                                   hideButton
                                   loading={false}
-                                  v-model={jumperValue.value!}
+                                  v-model={jumperValue.value}
                                   min={0}
                                   onEnter={handler.onJump}/>
                         <span>页</span>
@@ -262,35 +263,35 @@ export const PlPagination = designComponent({
                 )
 
                 const prev = (
-                    <div className="pl-pagination-prev pl-pagination-pager-button" onClick={handler.onPrev}>
+                    <div className="pl-pagination-prev pl-pagination-pager-button" onClick={handler.onPrev} key="prev">
                         {!!props.prevText ? props.prevText : <PlIcon icon="el-icon-arrow-left"/>}
                     </div>
                 )
                 const next = (
-                    <div className="pl-pagination-next pl-pagination-pager-button" onClick={handler.onNext}>
+                    <div className="pl-pagination-next pl-pagination-pager-button" onClick={handler.onNext} key="next">
                         {!!props.nextText ? props.nextText : <PlIcon icon="el-icon-arrow-right"/>}
                     </div>
                 )
 
                 const pager = (
-                    <ul className="pl-pagination-pager">
+                    <ul className="pl-pagination-pager" key="pager">
                         {pageInfo.value.totalPage > 0 && <li key="first" className={utils.getPagerButtonClass(1)} onClick={() => utils.changeCurrent(1)}>1</li>}
                         {pageInfo.value.showPrevMore && <li key="prev-more" className={utils.getPagerButtonClass('prev')}>
                             <PlIcon icon="el-icon-more"/>
                         </li>}
                         {pagers.value.map((page, index) => <li className={utils.getPagerButtonClass(page)} key={index} onClick={() => utils.changeCurrent(page)}>{page}</li>)}
-                        {pageInfo.value.showNextMore && <li key="prev-more" className={utils.getPagerButtonClass('next')}>
+                        {pageInfo.value.showNextMore && <li key="next-more" className={utils.getPagerButtonClass('next')}>
                             <PlIcon icon="el-icon-more"/>
                         </li>}
                         {pageInfo.value.totalPage > 1 && <li key="last" className={utils.getPagerButtonClass(pageInfo.value.totalPage)} onClick={() => utils.changeCurrent(pageInfo.value.totalPage)}>{pageInfo.value.totalPage}</li>}
                     </ul>
                 )
 
-                const blank = (<div className="pl-pagination-blank"/>)
-                const total = props.total == null ? null : (<div className="pl-pagination-total"><span>总共 {props.total} 条记录</span></div>)
-                const slot = !slots.default.isExist() ? null : (<div className="pl-pagination-slot">{slots.default()}</div>)
+                const blank = (<div className="pl-pagination-blank" key="blank"/>)
+                const total = props.total == null ? null : (<div className="pl-pagination-total" key="total"><span>总共 {props.total} 条记录</span></div>)
+                const slot = !slots.default.isExist() ? null : (<div className="pl-pagination-slot" key="slot">{slots.default()}</div>)
                 const loading = !editComputed.value.loading ? null : (
-                    <div className="pl-pagination-loading">
+                    <div className="pl-pagination-loading" key="loading">
                         <PlLoading type="beta"/>
                     </div>
                 )
@@ -314,3 +315,5 @@ export const PlPagination = designComponent({
         }
     },
 })
+
+export default PlPagination
