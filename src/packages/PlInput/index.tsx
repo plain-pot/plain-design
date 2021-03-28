@@ -96,9 +96,7 @@ export const PlInput = designComponent({
 
         const handler = {
             input: (e: React.ChangeEvent<HTMLInputElement>) => {
-                const nativeEvent = e.nativeEvent as any
-                if (nativeEvent.inputType === 'insertCompositionText') {return}
-                model.value = nativeEvent.target.value
+                model.value = e.target.value
             },
             enter: (e: React.KeyboardEvent) => {
                 state.handlerEnter!(e)

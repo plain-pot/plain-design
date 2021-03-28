@@ -169,7 +169,6 @@ export const PlNumber = designComponent({
                 emit.onBlur(e)
             },
             input: (e: React.ChangeEvent<HTMLInputElement>) => {
-                if ((e.nativeEvent as any).inputType === 'insertCompositionText') {return}
                 model.value = e.target.value
             },
             enter: (e: KeyboardEvent) => {
