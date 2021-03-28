@@ -234,7 +234,7 @@ export const PlPagination = designComponent({
                     <PlSelect
                         key="size"
                         className="pl-pagination-sizes"
-                        modelValue={numberState.pageSize}
+                        modelValue={String(numberState.pageSize)}
 
                         loading={false}
                         readonly={editComputed.value.readonly || editComputed.value.loading!}
