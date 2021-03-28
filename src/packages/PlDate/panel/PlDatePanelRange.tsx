@@ -1,6 +1,6 @@
 import {computed, designComponent, PropType} from "plain-design-composition";
 import {DateEmitRangeType, DatePublicEmits, DatePublicProps, DateView, DefaultDateFormatString} from "../date.utils";
-import {useDate, UseDateJudgementView} from "../useDate";
+import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
 import {PDate, plainDate} from "../../../utils/plainDate";
 import React from "react";
 import {PlDatePanelDate} from "./PlDatePanelDate";
@@ -32,7 +32,7 @@ export const PlDatePanelRange = designComponent({
             handler,
             setSelectDate,
             today,
-        } = useDate({
+        } = useDatePanel({
             props,
             emit,
             jdView: UseDateJudgementView.YMD,

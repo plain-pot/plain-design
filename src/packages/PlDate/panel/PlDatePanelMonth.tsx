@@ -1,6 +1,6 @@
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, SlideTransitionDirection} from "../date.utils";
 import {computed, designComponent, PropType} from "plain-design-composition";
-import {useDate, UseDateJudgementView} from "../useDate";
+import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
 import useClass from "plain-design-composition/src/use/useClasses";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
@@ -31,7 +31,7 @@ export const PlDatePanelMonth = designComponent({
             getStatus,
             handler,
             viewModel,
-        } = useDate({
+        } = useDatePanel({
             props,
             emit,
             jdView: UseDateJudgementView.YM,

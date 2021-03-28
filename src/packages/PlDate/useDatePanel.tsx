@@ -102,7 +102,7 @@ export type UseDateType = {
     },
 }
 
-export function useDate(
+export function useDatePanel(
     {
         props,
         jdView,

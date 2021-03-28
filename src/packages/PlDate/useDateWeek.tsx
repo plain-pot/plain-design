@@ -1,5 +1,5 @@
 import {DateItemData, DatePublicPropsType} from "./date.utils";
-import {useDate, UseDateEmit, UseDateJudgementView} from "./useDate";
+import {useDatePanel, UseDateEmit, UseDateJudgementView} from "./useDatePanel";
 import {PDate} from "../../utils/plainDate";
 import {computed, reactive} from "plain-design-composition";
 import {toArray} from "../../utils/toArray";
@@ -17,7 +17,7 @@ export function useDateWeek(
         jdView: UseDateJudgementView,
     }) {
 
-    const useDateData = useDate({
+    const useDateData = useDatePanel({
         props,
         emit,
         jdView,

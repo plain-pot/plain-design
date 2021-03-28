@@ -3,7 +3,7 @@ import {computed, designComponent} from "plain-design-composition";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import React from "react";
-import {useDate, UseDateJudgementView} from "../useDate";
+import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
 import {mergeProps} from "plain-design-composition/src/composition/prop";
 
 export const PlDatePanelYear = designComponent({
@@ -22,7 +22,7 @@ export const PlDatePanelYear = designComponent({
             today,
             getStatus,
             handler,
-        } = useDate({
+        } = useDatePanel({
             props,
             emit,
             jdView: UseDateJudgementView.Y,

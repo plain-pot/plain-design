@@ -1,7 +1,7 @@
 import {computed, designComponent} from "plain-design-composition";
 import {DatePublicEmits, DatePublicProps} from "../date.utils";
 import {useDateWeek} from "../useDateWeek";
-import {UseDateJudgementView} from "../useDate";
+import {UseDateJudgementView} from "../useDatePanel";
 import {PDate} from "../../../utils/plainDate";
 import {PlDatePanelMonth} from "./PlDatePanelMonth";
 import React from "react";

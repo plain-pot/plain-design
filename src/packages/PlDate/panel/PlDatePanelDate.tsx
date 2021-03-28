@@ -1,7 +1,7 @@
 import {computed, designComponent, PropType} from "plain-design-composition";
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, DateViewSeq, DefaultDateFormatString, SlideTransitionDirection} from "../date.utils";
 import {PDate, plainDate} from "../../../utils/plainDate";
-import {useDate, UseDateJudgementView} from "../useDate";
+import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import {prefix} from "../../../utils/prefix";
@@ -42,7 +42,7 @@ export const PlDatePanelDate = designComponent({
             setSelectDate,
             handler,
             parent,
-        } = useDate({
+        } = useDatePanel({
             props,
             emit,
             jdView: UseDateJudgementView.YMD,
