@@ -220,12 +220,10 @@ export const PlDate = designComponent({
                             {props.multiple && (<PlInputInnerTags
                                 data={formatData.value.vpds || []}
                                 collapseTags={props.collapseTags}
-                                v-slots={{
-                                    default: ({item, index}: { item: PDate, index: number }) => (<>
-                                        <span>{item.getDisplay()}</span>
-                                        <PlIcon icon="el-icon-close" {...{onClick: (e: MouseEvent) => customHandler.onClickItemCloseIcon(index, e)}}/>
-                                    </>)
-                                }}
+                                default={({item, index}: { item: PDate, index: number }) => (<>
+                                    <span>{item.getDisplay()}</span>
+                                    <PlIcon icon="el-icon-close" {...{onClick: (e: MouseEvent) => customHandler.onClickItemCloseIcon(index, e)}}/>
+                                </>)}
                             />)}
 
                             {!props.multiple && (
