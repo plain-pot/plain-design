@@ -217,7 +217,7 @@ export const PlDatePanelDate = designComponent({
                                 </li>
                             ))}
                         </ul>
-                        <PlList className="pl-date-base-panel-date-list" tag="ul" {...createEventListener({onMouseLeave: emit.onMouseleaveDateList})}>
+                        <ul className={'pl-date-base-panel-date-list'} {...createEventListener({onMouseLeave: emit.onMouseleaveDateList})}>
                             {dateList.value.map((item, index) => (
                                 DatePanelItemWrapper({
                                     item,
@@ -229,7 +229,7 @@ export const PlDatePanelDate = designComponent({
                                     />,
                                 })
                             ))}
-                        </PlList>
+                        </ul>
                     </>),
                 })
                 return mergeProps({child: Wrapper, attrs: {className: 'pl-date-base-panel-date', direction: 'horizontal', key: 'date'}})
