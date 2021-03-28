@@ -11,8 +11,10 @@ import {isDom} from "plain-design-composition/src/composition/utils";
 export function fixInputCursor<Component>(component: Component): Component {
     return (React.forwardRef((props: any, ref) => {
         const {value, onChange, ...leftProps} = props
-        let [text, setText] = useState(value)
-        useMemo(() => {text = value}, [value])
+        let [setText] = useState(value)
+        const valRef = useRef(value)
+        useMemo(() => {valRef.current = value}, [value])
+
         const input = useRef<HTMLInputElement>()
         useImperativeHandle(ref, () => input.current, [])
         const Comp = component as any
@@ -20,7 +22,7 @@ export function fixInputCursor<Component>(component: Component): Component {
             <Comp
                 ref={input}
                 {...leftProps}
-                value={text || ''}
+                value={valRef.current || ''}
                 onChange={(event: any) => {
                     let value;
                     if (event == null) {
@@ -33,8 +35,8 @@ export function fixInputCursor<Component>(component: Component): Component {
                     } else {
                         value = event;
                     }
-
                     setText(value)
+                    valRef.current = value
                     !!onChange && onChange(event)
                 }}/>
         )
