@@ -14,6 +14,7 @@ import {TreeNode} from "../../../src/packages/PlTree/utils/type";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
 import {nextTick} from "../../../src/utils/nextTick";
 import {PlInput} from "../../../src/packages/PlInput";
+import PlCard from "../../../src/packages/PlCard";
 
 export default designPage(() => {
 
@@ -446,6 +447,103 @@ export default designPage(() => {
                     showCheckbox
                     onClickNode={(node) => $$message(node.data.name)}
                 />
+            </DemoRow>
+            <DemoRow title={'拖拽节点'}>
+                <DemoLine>
+                    <PlButtonGroup>
+                        <PlButton label={'展开所有节点'} onClick={() => refs.dragTree!.expandAll()}/>
+                        <PlButton label={'打印数据'} onClick={() => console.log(treeData)}/>
+                    </PlButtonGroup>
+                </DemoLine>
+                <PlTree
+                    ref={onRef.dragTree}
+                    height="360px"
+                    defaultExpandAll
+                    data={treeData}
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    draggable
+                    default={({node: {data}}) => (
+                        <span style={{
+                            color: ({
+                                1: '#12b4a5',
+                                2: '#00CC00',
+                                3: '#F38585',
+                            } as any)[data.id.charAt(0)]
+                        }}>
+                            {data.name}
+                        </span>
+                    )}
+                />
+            </DemoRow>
+
+            <DemoRow title={'拖拽节点+可勾选'}>
+                <PlCard width={'100%'} title={'勾选行为说明'} style={{margin: '10px 0'}}>
+                    <li>父子关联模式下，拖拽节点可能会引起 选中/取消选中 事件</li>
+                    <li>拖拽节点会刷新节点的状态，每个节点会先判断子节点是否全都选中，全部选中并且自身未选中的情况下，会选中自身</li>
+                    <li>自身选中，但是存在子节点未选中的情况下，会取消选中自身</li>
+                    <li>非父子关联模式下，拖拽节点不会导致节点选中状态变化</li>
+                </PlCard>
+                <DemoLine>
+                    <PlButtonGroup>
+                        <PlButton label={'展开所有节点'} onClick={() => refs.dragAndCheckTree!.expandAll()}/>
+                        <PlButton label={'打印数据'} onClick={() => console.log(treeData)}/>
+                        <PlButton label={'获取选中的数据'} onClick={() => $$message(refs.dragAndCheckTree!.getCheckedData().map(node => node.data.name).join('____'), {time: null})}/>
+                    </PlButtonGroup>
+                </DemoLine>
+                <PlTree
+                    ref={onRef.dragAndCheckTree}
+                    height="360px"
+                    data={treeData}
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    showCheckbox
+                    draggable
+                />
+            </DemoRow>
+            <DemoRow title={'拖拽节点：可拖拽allowDrag以及可放置allowDrop'}>
+                <PlCard title="控制说明">
+                    <li>2-2开头的id不能被拖拽</li>
+                    <li>3开头的id不能放置任何节点</li>
+                </PlCard>
+                <PlTree
+                    height="360px"
+                    data={treeData}
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    draggable
+                    allowDrag={(dragNode) => !dragNode.data.id.startsWith('2-2')}
+                    allowDrop={(dragNode, dropNode) => !dropNode.data.id.startsWith('3')}
+                />
+            </DemoRow>
+            <DemoRow title={'可拖拽+虚拟滚动'}>
+                <DemoLine>
+                    <PlButtonGroup>
+                        <PlButton label="全部展开" onClick={() => refs.virtualTreeWithDrag!.expandAll()}/>
+                        <PlButton label="全部收起" onClick={() => refs.virtualTreeWithDrag!.collapseAll()}/>
+                        <PlButton label="当前选中节点" onClick={() => $$message(!!refs.virtualTreeWithDrag!.getCurrent() ? refs.virtualTreeWithDrag!.getCurrent()!.data.name : '未选中任何节点！')}/>
+                        <PlButton label="获取选中的数据" onClick={() => $$message(refs.virtualTreeWithDrag!.getCheckedData().map(node => node.data.name).join(','), {time: null})}/>
+                        <PlButton label="打印数据" onClick={() => console.log(treeData)}/>
+                    </PlButtonGroup>
+                </DemoLine>
+                <PlTree
+                    ref={onRef.virtualTreeWithDrag}
+                    data={addressData}
+                    defaultExpandAll
+                    keyField="id"
+                    labelField="name"
+                    childrenField="children"
+                    height="360px"
+                    width="500px"
+                    virtual
+                    draggable
+                    showCheckbox
+                    onClickNode={val => console.log(val.data.name)}/>
             </DemoRow>
         </div>
     )
