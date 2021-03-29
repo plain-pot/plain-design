@@ -74,16 +74,16 @@ const MenuData: MenuGroup[] = [
     },
     {
         name: '表单示例', children: [
-            {name: 'Form', title: '表单基础', page: '/form/form-basic', complete: false},
-            {name: 'Form', title: '表单多列', page: '/form/form-grid', complete: false},
-            {name: 'Form', title: '表单尺寸', page: '/form/form-size', complete: false},
-            {name: 'Form', title: '表单控制', page: '/form/form-edit-control', complete: false},
-            {name: 'Form', title: '校验blur', page: '/form/form-blur', complete: false},
-            {name: 'Form', title: '表单组件', page: '/form/form-elements', complete: false},
-            {name: 'Form', title: '表单校验', page: '/form/form-validate', complete: false},
-            {name: 'Form', title: '关联字段', page: '/form/form-associate-fields', complete: false},
-            {name: 'Form', title: '校验模式', page: '/form/form-validate-mode', complete: false},
-            {name: 'Form', title: '动态表单项', page: '/form/form-dynamic-items', complete: false},
+            {name: 'Form', title: '表单基础', page: '/form/DemoFormBasic', complete: true},
+            {name: 'Form', title: '表单多列', page: '/form/DemoFormGrid', complete: false},
+            {name: 'Form', title: '表单尺寸', page: '/form/DemoFormSize', complete: false},
+            {name: 'Form', title: '表单控制', page: '/form/DemoFormEditControl', complete: false},
+            {name: 'Form', title: '校验blur', page: '/form/DemoFormBlur', complete: false},
+            {name: 'Form', title: '表单组件', page: '/form/DemoFormElement', complete: false},
+            {name: 'Form', title: '表单校验', page: '/form/DemoFormValidate', complete: false},
+            {name: 'Form', title: '关联字段', page: '/form/DemoFormAssociateFields', complete: false},
+            {name: 'Form', title: '校验模式', page: '/form/DemoFormValidMode', complete: false},
+            {name: 'Form', title: '动态表单项', page: '/form/DemoFormDynamicFields', complete: false},
         ]
     },
     {
