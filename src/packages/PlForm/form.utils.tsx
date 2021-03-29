@@ -1,10 +1,10 @@
-export const enum FormLabelAlign {
+export enum FormLabelAlign {
     left = 'left',
     center = 'center',
     right = 'right',
 }
 
-export const enum FormContentAlign {
+export enum FormContentAlign {
     'flex-start' = 'flex-start',
     'flex-end' = 'flex-end',
     'center' = 'center',
@@ -13,7 +13,7 @@ export const enum FormContentAlign {
     'space-evenly' = 'space-evenly',
 }
 
-export const enum FormValidateMode {
+export enum FormValidateMode {
     form = 'form',
     table = 'table',
 }

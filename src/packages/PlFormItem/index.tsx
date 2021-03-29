@@ -32,12 +32,12 @@ export const PlFormItem = designComponent({
         onChange: () => true,
     },
     provideRefer: true,
-    slots: ['label', 'suffix', 'default'],
+    slots: ['labelContent', 'suffix', 'default'],
     inheritPropsType: HTMLDivElement,
     setup({props, slots, event: {emit}}) {
 
         const form = FormCollector.child()
-        const {refs} = useRefs({label: HTMLDivElement,})
+        const {refs, onRef} = useRefs({label: HTMLDivElement,})
         const {styleComputed} = useStyle({adjust: ret => {!!invalidate.value && (ret.status = StyleStatus.error)}})
 
         const handler = {
@@ -81,7 +81,7 @@ export const PlFormItem = designComponent({
         /*是否设置了label宽度*/
         const staticWidth = computed(() => !!labelWidth.value)
         /*是否存在label节点*/
-        const hasLabel = computed(() => !!props.label || slots.label.isExist())
+        const hasLabel = computed(() => !!props.label || slots.labelContent.isExist())
 
         const classes = useClass(() => [
             'pl-form-item',
@@ -195,9 +195,9 @@ export const PlFormItem = designComponent({
             },
             render: () => (
                 <div className={classes.value} style={styles.value}>
-                    {(!!props.label || slots.label.isExist()) && (
-                        <div className="pl-form-item-label" style={labelStyles.value} ref="label">
-                            {slots.label(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ':'}
+                    {(!!props.label || slots.labelContent.isExist()) && (
+                        <div className="pl-form-item-label" style={labelStyles.value} ref={onRef.label}>
+                            {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ':'}
                         </div>
                     )}
                     <div className="pl-form-item-body" style={bodyStyles.value}>

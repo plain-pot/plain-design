@@ -11,6 +11,7 @@ import {debounce} from "plain-utils/utils/debounce";
 import React from 'react';
 import {useCollect} from "../../use/useCollect";
 import {PlFormItem} from "../PlFormItem";
+import {PlLoadingMask} from "../PlLoadingMask";
 
 export const PlForm = designComponent({
     name: 'pl-form',
@@ -262,11 +263,14 @@ export const PlForm = designComponent({
                 ...validateMethods,
             },
             render: () => {
-                return (<div className={classes.value} style={styles.value} v-loading={childState.loading || !!props.loading}>
-                    <div className="pl-form-body" style={bodyStyles.value}>
-                        {slots.default()}
+                return (
+                    <div className={classes.value} style={styles.value}>
+                        <div className="pl-form-body" style={bodyStyles.value}>
+                            {slots.default()}
+                        </div>
+                        <PlLoadingMask modelValue={childState.loading || !!props.loading}/>
                     </div>
-                </div>)
+                )
             }
         }
     },
