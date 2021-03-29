@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, designComponent, onMounted, PropType, reactive, useNumber, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, onMounted, PropType, reactive, ref, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormAssociateFields, formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
@@ -12,6 +12,7 @@ import React from 'react';
 import {useCollect} from "../../use/useCollect";
 import {PlFormItem} from "../PlFormItem";
 import {PlLoadingMask} from "../PlLoadingMask";
+import {delay} from "plain-utils/utils/delay";
 
 export const PlForm = designComponent({
     name: 'pl-form',
@@ -59,6 +60,15 @@ export const PlForm = designComponent({
         useStyle();
         useEdit({adjust: data => {data.loading = false}});
         const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width', 'columnGutter'])
+
+        const delayMount = (() => {
+            const isMounted = ref(false)
+            onMounted(async () => {
+                await delay(23)
+                isMounted.value = true
+            })
+            return isMounted
+        })();
 
         /*---------------------------------------compute-------------------------------------------*/
 
@@ -114,6 +124,9 @@ export const PlForm = designComponent({
 
         /*body节点宽度。如果是单列，则左偏移 label/2 个像素，确保content在屏幕中间*/
         const bodyStyles = useStyles(style => {
+            if (!delayMount.value) {
+                style.opacity = '0'
+            }
             if (props.inline) {
                 return style
             }
