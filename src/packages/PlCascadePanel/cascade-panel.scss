@@ -20,6 +20,7 @@
             display: inline-block;
             vertical-align: top;
             overflow: hidden;
+            box-sizing: border-box;
 
             &:not(:last-child) {
                 border-right: solid 1px $ibc;
