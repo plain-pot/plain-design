@@ -25,8 +25,8 @@ export const PlFormItem = designComponent({
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
         colon: {type: Boolean, default: null},                              // label的冒号
-        labelAlign: {type: String as PropType<FormLabelAlign>},             // label 对齐方式
-        contentAlign: {type: String as PropType<FormContentAlign>},         // content 对齐方式
+        labelAlign: {type: String as PropType<keyof typeof FormLabelAlign>},             // label 对齐方式
+        contentAlign: {type: String as PropType<keyof typeof FormContentAlign>},         // content 对齐方式
     },
     emits: {
         onBlur: () => true,
