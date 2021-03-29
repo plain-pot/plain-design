@@ -31,6 +31,8 @@ export default designPage(() => {
         virtualTreeWithDrag: PlTree,
     })
 
+    const state = reactive({state: {} as any}).state
+
     const tree1 = (() => ({
         ...useRefs({tree: PlTree}),
         showCurrent: () => {
@@ -392,8 +394,59 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'绑定currentKey'}>
                 <DemoLine>
-
+                    <PlButton label="全部展开" onClick={() => refs.currentTree!.expandAll()}/>
+                    <PlButton label="设置currentKey" onClick={() => state.currentKey = '3-1-1'}/>
+                    {state.currentKey}
                 </DemoLine>
+                <PlTree
+                    ref={onRef.currentTree}
+                    v-model-currentKey={state.currentKey}
+                    data={treeData}
+                    height="330px"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                />
+            </DemoRow>
+            <DemoRow title={'展开图标'}>
+                <PlTree
+                    data={treeData}
+                    height="330px"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    folderExpandIcon="el-icon-caret-bottom"
+                    folderCollapseIcon="el-icon-caret-right"
+                    leafIcon="el-icon-paperclip"
+                />
+            </DemoRow>
+            <DemoRow title={'虚拟滚动'}>
+                <DemoLine>
+                    <PlButtonGroup>
+                        <PlButton label={'展开所有节点'} onClick={() => refs.virtualTree!.expandAll()}/>
+                        <PlButton label={'全部收起'} onClick={() => refs.virtualTree!.collapseAll()}/>
+                        <PlButton label={'全部选中'} onClick={() => refs.virtualTree!.checkAll()}/>
+                        <PlButton label={'全部取消'} onClick={() => refs.virtualTree!.uncheckAll()}/>
+                        <PlButton label={'选中部分数据'} onClick={() => refs.virtualTree!.check(['1-1-1', '2-2-2'])}/>
+                        <PlButton label={'获取选中的数据'} onClick={() => {
+                            $$message(refs.virtualTree!.getCheckedData().map(node => node.data.name).join('____'), {time: null})
+                        }}/>
+                        <PlButton label={'打印数据表'} onClick={() => console.log(addressData)}/>
+                    </PlButtonGroup>
+                </DemoLine>
+                <PlTree
+                    ref={onRef.virtualTree}
+                    data={addressData}
+                    keyField="id"
+                    labelField="name"
+                    childrenField="children"
+                    height="360px"
+                    width="500px"
+                    virtual
+                    showCheckbox
+                    expandOnClickNode
+                    onClickNode={(node) => $$message(node.data.name)}
+                />
             </DemoRow>
         </div>
     )

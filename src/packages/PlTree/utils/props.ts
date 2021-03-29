@@ -9,6 +9,7 @@ export const TreeProps = {
     nodeIcon: {type: Function as PropType<TreePropsType.nodeIcon>},             // 节点图标
     nodeHeight: {type: Number, default: 40},                                    // 节点高度
     height: {type: String, default: '100%'},                                    // 容器高度
+    width: {type: String, default: '100%'},                                     // 容器高度
     /*普通属性*/
     renderContent: {type: Function as PropType<TreePropsType.renderContent>},   // 树节点内容渲染函数
     /*展开相关属性*/

@@ -158,7 +158,7 @@ export const PlTree = designComponent({
             },
             render: () => {
                 return (
-                    <div className="pl-tree" style={{height: props.height}}>
+                    <div className="pl-tree" style={{height: props.height, width: props.width}}>
                         {flatList.value.length === 0 ? (
                             <div className="pl-tree-placeholder" key="placeholder">
                                 <PlIcon icon="el-icon-folder-opened"/>
