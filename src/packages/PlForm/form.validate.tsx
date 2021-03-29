@@ -47,7 +47,7 @@ export interface FormRule {
     required?: boolean,                                                                     // 是否必填
     transform?: (val?: any) => any,                                                         // 将字段值转换成目标值之后校验
     type?: keyof typeof FormValueType,                                                      // 数据的类型
-    trigger?: keyof typeof FormValidateTrigger,                                             // 触发器
+    trigger?: string,                                                                       // 触发器
     validator?: (rule: FormRule, value: any, formData: object) => void | string | Promise<void | string>,// 自定义校验器
 
 }
