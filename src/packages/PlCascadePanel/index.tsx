@@ -274,47 +274,45 @@ export const PlCascadePanel = designComponent({
                 const cascadeList = cascadeData.value.map((list, listIndex) => {
                     return (
                         <div className="pl-cascade-list" key={listIndex}>
-                            <PlTransition switch name={'pl-transition-slide-prev'}>
-                                <PlScroll key={!list[0] ? '_' : list[0].key} {...{direction: 'horizontal'} as any}>
-                                    {list.map((node, nodeIndex) => (
-                                        <div
-                                            className={classnames([
-                                                'pl-item',
-                                                'pl-cascade-item',
-                                                {
-                                                    'pl-cascade-item-expand': node.key === state.expandKeys[listIndex],
-                                                    'pl-cascade-item-active': !!model.value && model.value[listIndex] === node.key,
-                                                    'pl-cascade-item-disabled': node.nodeDisabled,
-                                                }
-                                            ])}
-                                            key={node.key}
+                            <PlScroll key={!list[0] ? '_' : list[0].key} {...{direction: 'horizontal'} as any}>
+                                {list.map((node, nodeIndex) => (
+                                    <div
+                                        className={classnames([
+                                            'pl-item',
+                                            'pl-cascade-item',
+                                            {
+                                                'pl-cascade-item-expand': node.key === state.expandKeys[listIndex],
+                                                'pl-cascade-item-active': !!model.value && model.value[listIndex] === node.key,
+                                                'pl-cascade-item-disabled': node.nodeDisabled,
+                                            }
+                                        ])}
+                                        key={node.key}
 
-                                            {...{
-                                                onClick: () => handler.clickItem(node, nodeIndex),
-                                                ...(props.trigger === 'hover' ? {
-                                                    onMouseEnter: () => handler.mouseenterItem(node),
-                                                } : {})
-                                            }}>
-                                            <div className="pl-cascade-content">
-                                                {scopeSlots.default({node, index: nodeIndex}, (
-                                                    !!props.renderContent ? props.renderContent({node, index: nodeIndex}) : node.label
-                                                ))}
-                                                {!node.isLeaf && (
-                                                    <div className="pl-cascade-arrow">
-                                                        {node.isLoading ? <PlLoading type="gamma" status="primary"/> : <PlIcon icon="el-icon-arrow-right"/>}
-                                                    </div>
-                                                )}
-                                            </div>
+                                        {...{
+                                            onClick: () => handler.clickItem(node, nodeIndex),
+                                            ...(props.trigger === 'hover' ? {
+                                                onMouseEnter: () => handler.mouseenterItem(node),
+                                            } : {})
+                                        }}>
+                                        <div className="pl-cascade-content">
+                                            {scopeSlots.default({node, index: nodeIndex}, (
+                                                !!props.renderContent ? props.renderContent({node, index: nodeIndex}) : node.label
+                                            ))}
+                                            {!node.isLeaf && (
+                                                <div className="pl-cascade-arrow">
+                                                    {node.isLoading ? <PlLoading type="gamma" status="primary"/> : <PlIcon icon="el-icon-arrow-right"/>}
+                                                </div>
+                                            )}
                                         </div>
-                                    ))}
-                                    {list.length === 0 && (
-                                        <div className="pl-item pl-cascade-item pl-cascade-empty" key="empty">
-                                            <PlIcon icon="el-icon-nodata"/>
-                                            {props.emptyText}
-                                        </div>
-                                    )}
-                                </PlScroll>
-                            </PlTransition>
+                                    </div>
+                                ))}
+                                {list.length === 0 && (
+                                    <div className="pl-item pl-cascade-item pl-cascade-empty" key="empty">
+                                        <PlIcon icon="el-icon-nodata"/>
+                                        {props.emptyText}
+                                    </div>
+                                )}
+                            </PlScroll>
                             <PlLoadingMask modelValue={listIndex > 0 && state.cascadeMark.loading.get(state.expandKeys[listIndex - 1])}/>
                         </div>
                     )

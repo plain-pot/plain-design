@@ -46,8 +46,8 @@ export interface FormRule {
     pattern?: RegExp,                                                                       // 校验的正则表达式
     required?: boolean,                                                                     // 是否必填
     transform?: (val?: any) => any,                                                         // 将字段值转换成目标值之后校验
-    type?: FormValueType,                                                                   // 数据的类型
-    trigger?: FormValidateTrigger,                                                          // 触发器
+    type?: keyof typeof FormValueType,                                                      // 数据的类型
+    trigger?: keyof typeof FormValidateTrigger,                                             // 触发器
     validator?: (rule: FormRule, value: any, formData: object) => void | string | Promise<void | string>,// 自定义校验器
 
 }
@@ -127,7 +127,7 @@ export const FormValidateUtils = {
      * @author  韦胜健
      * @date    2020/12/13 14:54
      */
-    getMaxMessage({value, max, type,}: { value: any, max: number, type?: FormValueType, }) {
+    getMaxMessage({value, max, type,}: { value: any, max: number, type?: keyof typeof FormValueType, }) {
         if (Array.isArray(value)) {
             return `最多选择 ${max} 个选项`
         }
@@ -141,7 +141,7 @@ export const FormValidateUtils = {
      * @author  韦胜健
      * @date    2020/12/13 14:54
      */
-    getMinMessage({value, min, type,}: { value: any, min: number, type?: FormValueType, }) {
+    getMinMessage({value, min, type,}: { value: any, min: number, type?: keyof typeof FormValueType, }) {
         if (Array.isArray(value)) {
             return `最少选择 ${min} 个选项`
         }
