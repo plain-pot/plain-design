@@ -1,4 +1,4 @@
-import {designPage, useRefs} from "plain-design-composition";
+import {designPage, reactive, useRefs} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 
@@ -12,6 +12,8 @@ import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
 import {TreeNode} from "../../../src/packages/PlTree/utils/type";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {nextTick} from "../../../src/utils/nextTick";
+import {PlInput} from "../../../src/packages/PlInput";
 
 export default designPage(() => {
 
@@ -122,6 +124,50 @@ export default designPage(() => {
             treeNode.data.subs = []
         },
     }
+
+    const renderDemo = {
+        treeData: deepcopy(treeData),
+        renderContent: ({node}: { node: TreeNode }) => {
+            return (
+                <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                    <span>{node.data.name}</span>
+                    <PlButtonGroup mode="text">
+                        <PlButton label="Add" onClick={e => renderDemo.addItem(e, node)} size="mini"/>
+                        <PlButton label="Del" onClick={e => renderDemo.deleteItem(e, node)} size="mini" status="error"/>
+                    </PlButtonGroup>
+                </div>
+            )
+        },
+        addItem: (e: React.MouseEvent, treeNode: TreeNode) => {
+            e.stopPropagation()
+            const {data} = treeNode
+            const subs = data.subs || []
+            const name = `n-${data.id}-${subs.length + 1}`
+            const id = name + Date.now().toString()
+            subs.push({id, name: `new item ${name}`,})
+            data.subs = subs
+            refs.renderDemo!.refreshCheckStatus(treeNode)
+            nextTick().then(() => refs.renderDemo!.expand(id))
+        },
+        deleteItem: (e: React.MouseEvent, treeNode: TreeNode) => {
+            e.stopPropagation()
+            let {data, parentRef} = treeNode
+            const parent = parentRef()!
+            const subs = parent.data.subs as any[]
+            const ids = subs.map(item => item.id)
+            subs.splice(ids.indexOf(data.id), 1)
+            refs.renderDemo!.refreshCheckStatus(treeNode.parentRef()!)
+        },
+    }
+
+    const filterDemo = reactive({
+        filterText: '',
+        filterNodeMethod: (treeNode: TreeNode) => {
+            const data = treeNode.data
+            if (!filterDemo.filterText) return true;
+            return data.name.indexOf(filterDemo.filterText) !== -1;
+        },
+    })
 
     return () => (
         <div>
@@ -254,7 +300,7 @@ export default designPage(() => {
                         <PlButton label={'获取选中的数据'} onClick={() => {
                             $$message(refs.scopedSlotDemo!.getCheckedData().map(node => node.data.name).join('____'), {time: null})
                         }}/>
-                        <PlButton label={'打印数据'} onClick={() => console.log(treeData)}/>
+                        <PlButton label={'打印数据'} onClick={() => console.log(scopedSlotDemo.treeData)}/>
                     </PlButtonGroup>
                 </DemoLine>
                 <div style={{height: '500px'}}>
@@ -280,6 +326,74 @@ export default designPage(() => {
                         )}
                     </PlTree>
                 </div>
+            </DemoRow>
+
+            <DemoRow title={'自定义内容：渲染函数'}>
+                <DemoLine>
+                    <PlButtonGroup>
+                        <PlButton label={'展开所有节点'} onClick={() => refs.renderDemo!.expandAll()}/>
+                        <PlButton label={'全部收起'} onClick={() => refs.renderDemo!.collapseAll()}/>
+                        <PlButton label={'全部选中'} onClick={() => refs.renderDemo!.checkAll()}/>
+                        <PlButton label={'全部取消'} onClick={() => refs.renderDemo!.uncheckAll()}/>
+                        <PlButton label={'选中部分数据'} onClick={() => refs.renderDemo!.check(['1-1-1', '2-2-2'])}/>
+                        <PlButton label={'获取选中的数据'} onClick={() => {
+                            $$message(refs.renderDemo!.getCheckedData().map(node => node.data.name).join('____'), {time: null})
+                        }}/>
+                        <PlButton label={'打印数据'} onClick={() => console.log(renderDemo.treeData)}/>
+                    </PlButtonGroup>
+                </DemoLine>
+                <div style={{height: '500px'}}>
+                    <PlTree
+                        ref={onRef.renderDemo}
+                        height="330px"
+                        showCheckbox
+                        data={renderDemo.treeData}
+                        keyField="id"
+                        labelField="name"
+                        childrenField="subs"
+                        style={{width: '500px'}}
+                        renderContent={renderDemo.renderContent}
+                    />
+                </div>
+            </DemoRow>
+            <DemoRow title={'节点图标'}>
+                <PlTree
+                    height="330px"
+                    data={treeData}
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    nodeIcon={node => node.isLeaf ? 'el-icon-male' : 'el-icon-female'}
+                />
+            </DemoRow>
+            <DemoRow title={'手风琴模式，展开节点的时候关闭兄弟节点'}>
+                <PlTree
+                    according
+                    height="330px"
+                    data={treeData}
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                />
+            </DemoRow>
+            <DemoRow title={'自定义过滤函数'}>
+                <DemoLine>
+                    <PlInput v-model={filterDemo.filterText} suffixIcon="el-icon-search" clearIcon/>
+                </DemoLine>
+                <PlTree
+                    defaultExpandAll
+                    data={treeData}
+                    height="330px"
+                    keyField="id"
+                    labelField="name"
+                    childrenField="subs"
+                    filterNodeMethod={filterDemo.filterNodeMethod}
+                />
+            </DemoRow>
+            <DemoRow title={'绑定currentKey'}>
+                <DemoLine>
+
+                </DemoLine>
             </DemoRow>
         </div>
     )
