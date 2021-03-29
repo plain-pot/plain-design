@@ -78,7 +78,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Form', title: '表单多列', page: '/form/DemoFormGrid', complete: true},
             {name: 'Form', title: '表单尺寸', page: '/form/DemoFormSize', complete: true},
             {name: 'Form', title: '表单控制', page: '/form/DemoFormEditControl', complete: true},
-            {name: 'Form', title: '校验blur', page: '/form/DemoFormBlur', complete: false},
+            {name: 'Form', title: '校验blur', page: '/form/DemoFormBlur', complete: true},
             {name: 'Form', title: '表单组件', page: '/form/DemoFormElement', complete: false},
             {name: 'Form', title: '表单校验', page: '/form/DemoFormValidate', complete: false},
             {name: 'Form', title: '关联字段', page: '/form/DemoFormAssociateFields', complete: false},
