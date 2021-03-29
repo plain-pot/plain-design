@@ -145,6 +145,7 @@ export const PlColorPicker = designComponent({
                             className="pl-color-picker"
                             modelValue={state.inputValue}
                             suffixIcon={suffixIcon}
+                            placeholder={agentState.editComputed.value.placeholder!}
                             isFocus={agentState.state.focusCounter > 0}
                             {...{
                                 ...agentState.inputHandler,

@@ -6,6 +6,7 @@ export const PlInputInnerTags = designComponent({
     props: {
         data: {type: Array},
         collapseTags: {type: Boolean, default: true},
+        placeholder: {type: String}
     },
     scopeSlots: {
         default: (scope: { item: any, index: number }) => {},
@@ -20,6 +21,9 @@ export const PlInputInnerTags = designComponent({
             render: () => (
                 <div className="pl-input-inner-tags" ref={onRef.el}>
                     <span className="pl-input-inner-tag-item pl-input-inner-tag-item-takeover">&nbsp;</span>
+                    {(!props.data || props.data.length === 0) && (
+                        <span className="pl-input-custom-placeholder">{props.placeholder}</span>
+                    )}
                     {
                         (props.collapseTags ? props.data!.slice(0, 3) : props.data!).map((item: any, index) => (
                             <span key={index} className="pl-input-inner-tag-item">
