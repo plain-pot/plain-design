@@ -14,6 +14,7 @@ import {PlSelect} from "../../../src/packages/PlSelect";
 import {PlSelectOption} from "../../../src/packages/PlSelectOption";
 import PlButton from "../../../src/packages/PlButton";
 import {DemoRow} from "../../components/DemoRow";
+import PlDate from "../../../src/packages/PlDate";
 
 export default designPage(() => {
 
@@ -136,6 +137,19 @@ export default designPage(() => {
                     <PlFormItem label={' '}>
                         <PlButton mode={'stroke'} label={'取消'}/>
                         <PlButton label={'提交'}/>
+                    </PlFormItem>
+                </PlForm>
+            </DemoRow>
+            <DemoRow title={'内联表单'}>
+                <PlForm inline>
+                    <PlFormItem label={'用户名称'}>
+                        <PlInput v-model={formData.username}/>
+                    </PlFormItem>
+                    <PlFormItem label={'生日'}>
+                        <PlDate v-model={formData.birthday}/>
+                    </PlFormItem>
+                    <PlFormItem>
+                        <PlButton icon={'el-icon-search'} label={'查询'}/>
                     </PlFormItem>
                 </PlForm>
             </DemoRow>
