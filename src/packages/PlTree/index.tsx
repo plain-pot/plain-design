@@ -170,14 +170,11 @@ export const PlTree = designComponent({
                                     ref={onRef.list}
                                     data={flatList.value}
                                     size={props.nodeHeight}
-                                    v-slots={{
-                                        // default: ({item, index}: { item: TreeNode, index: number }) => render.node(item, index),
-                                        content: ({data}: { data: { item: TreeNode, index: number }[] }) => (
-                                            <div className="pl-tree-node-list">
-                                                {data.map(({item, index}) => render.node(item, index))}
-                                            </div>
-                                        )
-                                    }}
+                                    content={({data}: { data: { item: TreeNode, index: number }[] }) => (
+                                        <div className="pl-tree-node-list">
+                                            {data.map(({item, index}) => render.node(item, index))}
+                                        </div>
+                                    )}
                                 />) : (
                                     <PlScroll ref={onRef.scroll}>
                                         <div className="pl-tree-node-list">

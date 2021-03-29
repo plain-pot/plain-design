@@ -444,7 +444,6 @@ export default designPage(() => {
                     width="500px"
                     virtual
                     showCheckbox
-                    expandOnClickNode
                     onClickNode={(node) => $$message(node.data.name)}
                 />
             </DemoRow>
