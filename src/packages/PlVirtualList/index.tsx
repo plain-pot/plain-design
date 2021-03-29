@@ -41,7 +41,7 @@ export const PlVirtualList = designComponent({
                 return (
                     <PlScroll onScroll={virtual.handler.onScroll} ref={onRef.scroll} className={virtual.classes.value} disableListTransition>
                         <div className="pl-virtual-list-strut" style={virtual.strutStyles.value}>
-                            <div className="pl-virtual-list-content" style={virtual.contentStyles.value} ref="content">
+                            <div className="pl-virtual-list-content" style={virtual.contentStyles.value} ref={onRef.content}>
                                 {scopeSlots.content({data: list}, list.map((node, virtualIndex) =>
                                     scopeSlots.default({item: node.item, index: node.index, virtualIndex})
                                 ))}
