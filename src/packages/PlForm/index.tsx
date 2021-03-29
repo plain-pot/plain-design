@@ -125,7 +125,7 @@ export const PlForm = designComponent({
         })
         /*---------------------------------------validate-------------------------------------------*/
 
-        const formValidate = computed(() => formatFormRules(props.rules, items.map(item => item.formItemComponentRules.value))) as { value: FormValidate }
+        const formValidate = computed(() => formatFormRules(props.rules, items.map(item => item.formItemComponentRules))) as { value: FormValidate }
 
         const loading = (() => {
             let time: null | number;

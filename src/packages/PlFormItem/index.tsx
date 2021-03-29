@@ -1,4 +1,4 @@
-import {computed, designComponent, onMounted, PropType, useNumber, useRefs, useStyles} from "plain-design-composition";
+import {computed, designComponent, onBeforeMount, onMounted, PropType, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
@@ -8,6 +8,7 @@ import {reactive} from "@vue/reactivity";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
+import {ComputedRef} from '@vue/runtime-core'
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -153,7 +154,7 @@ export const PlFormItem = designComponent({
          * @date    2020/12/11 21:32
          */
         if (!staticWidth.value && hasLabel.value) {
-            onMounted(() => {
+            onBeforeMount(() => {
                 state.labelWidth = refs.label!.scrollWidth
             })
         }
@@ -165,7 +166,7 @@ export const PlFormItem = designComponent({
             field: props.field,
             required: props.required,
             rules: props.rules,
-        })) as { value: FormComponentItemRules }
+        })) as ComputedRef<FormComponentItemRules>
 
         /*当前是否必填校验*/
         const isRequired = computed(() => {
@@ -175,7 +176,7 @@ export const PlFormItem = designComponent({
                 return false
             }
             return !!fields.find(f => !!fieldToRequired[f])
-        }) as { value: boolean }
+        }) as ComputedRef<boolean>
 
         /*当前是否校验不通过*/
         const invalidate = computed(() => {
