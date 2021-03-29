@@ -13,6 +13,20 @@ import PlButton from "../../../src/packages/PlButton";
 
 export default designPage(() => {
 
+    const {refs, onRef} = useRefs({
+        checkTree: PlTree,
+        lazyTree: PlTree,
+        checkStrictlyTree: PlTree,
+        checkableTree: PlTree,
+        scopedSlotDemo: PlTree,
+        renderDemo: PlTree,
+        currentTree: PlTree,
+        virtualTree: PlTree,
+        dragTree: PlTree,
+        dragAndCheckTree: PlTree,
+        virtualTreeWithDrag: PlTree,
+    })
+
     const tree1 = (() => ({
         ...useRefs({tree: PlTree}),
         showCurrent: () => {
@@ -51,6 +65,33 @@ export default designPage(() => {
                         labelField="name"
                         childrenField="subs"
                         expandOnClickNode
+                    />
+                </div>
+            </DemoRow>
+
+            <DemoRow title={'多选'}>
+                <DemoLine>
+                    <PlButtonGroup>
+                        <PlButton label={'展开所有节点'} onClick={() => refs.checkTree!.expandAll()}/>
+                        <PlButton label={'全部收起'} onClick={() => refs.checkTree!.collapseAll()}/>
+                        <PlButton label={'全部选中'} onClick={() => refs.checkTree!.checkAll()}/>
+                        <PlButton label={'全部取消'} onClick={() => refs.checkTree!.uncheckAll()}/>
+                        <PlButton label={'选中部分数据'} onClick={() => refs.checkTree!.check(['1-1-1', '2-2-2'])}/>
+                        <PlButton label={'获取选中的数据'} onClick={() => {
+                            $$message(refs.checkTree!.getCheckedData().map(node => node.data.name).join('____'), {time: null})
+                        }}/>
+                    </PlButtonGroup>
+                </DemoLine>
+                <div style={{height: '500px'}}>
+                    <PlTree
+                        ref={onRef.checkTree}
+                        height="330px"
+                        showCheckbox
+                        expandOnClickNode
+                        data={treeData}
+                        keyField="id"
+                        labelField="name"
+                        childrenField="subs"
                     />
                 </div>
             </DemoRow>
