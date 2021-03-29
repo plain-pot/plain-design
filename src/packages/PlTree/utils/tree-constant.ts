@@ -10,7 +10,7 @@ export enum TreeDropType {
     null = 'null',
 }
 
-export const enum TreeNodeCheckStatus {
+export enum TreeNodeCheckStatus {
     check = 'check',
     uncheck = 'uncheck',
     minus = 'minus',

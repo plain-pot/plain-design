@@ -15,6 +15,7 @@ import {PlCheckbox} from '../PlCheckbox';
 import PlLoading from "../PlLoading";
 import PlIcon from "../PlIcon";
 import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {PlLoadingMask} from "../PlLoadingMask";
 
 export const PlTree = designComponent({
     name: 'pl-tree',
@@ -157,7 +158,7 @@ export const PlTree = designComponent({
             },
             render: () => {
                 return (
-                    <div className="pl-tree" style={{height: props.height}} v-loading={props.loading || (!!state.root && state.root.loading)}>
+                    <div className="pl-tree" style={{height: props.height}}>
                         {flatList.value.length === 0 ? (
                             <div className="pl-tree-placeholder" key="placeholder">
                                 <PlIcon icon="el-icon-folder-opened"/>
@@ -185,6 +186,7 @@ export const PlTree = designComponent({
                                     </PlScroll>
                                 )
                         )}
+                        <PlLoadingMask modelValue={props.loading || (!!state.root && state.root.loading)}/>
                     </div>
                 )
             }
