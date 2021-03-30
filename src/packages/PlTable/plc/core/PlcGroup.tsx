@@ -1,6 +1,6 @@
 import {PlcGroupProps, PlcPublicAttrs} from "./plc.utils";
 import {PlcGroup} from "./plc.type";
-import {reactive, computed, designComponent, PropType, useNumber} from "plain-design-composition";
+import {reactive, computed, designComponent, PropType, useNumber, useRefs} from "plain-design-composition";
 import React from "react";
 import {usePlcCollector} from "./PlcCollector";
 
@@ -11,6 +11,8 @@ export default designComponent({
     },
     slots: ['default'],
     setup({props, slots}) {
+
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         /*collector收集列信息*/
         usePlcCollector.useChild()
         /*子列信息*/
@@ -30,6 +32,7 @@ export default designComponent({
 
         /*核心暴露对象*/
         const group: PlcGroup = reactive({
+            refs,
             /*PlcPublicAttrs 在 copyPlc中会深度复制一遍，这里适配类型即可*/
             ...PlcPublicAttrs,
             group: true,
@@ -46,7 +49,7 @@ export default designComponent({
         return {
             refer: group,
             render: () => (
-                <div>
+                <div ref={onRef.el}>
                     {slots.default()}
                 </div>
             )
