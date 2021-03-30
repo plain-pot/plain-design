@@ -122,7 +122,8 @@ export default designPage(() => {
                     summaryData={state.other.hasSummaryData ? state.summaryData : undefined}
                     onDblclickCell={state.onDblclickCell}
                     {...state.props}
-                    key={state.other.groupHead ? '1' : '2'}
+                    /*不加这个key，没有问题，还很流畅*/
+                    // key={state.other.groupHead ? '1' : '2'}
                     stripe>
 
                     {!!state.other.groupHead && <>
