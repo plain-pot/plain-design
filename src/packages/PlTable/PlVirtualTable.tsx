@@ -20,6 +20,7 @@ export const PlVirtualTable = designComponent({
         width: {type: Number},                                      // 宽度
         height: {type: Number},                                     // 高度
     },
+    inheritPropsType: HTMLDivElement,
     emits: {
         onScroll: (e: Event) => true
     },

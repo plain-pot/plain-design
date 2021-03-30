@@ -21,6 +21,8 @@ export const PlcGroupProps = {
     noPadding: {type: Boolean},                                             // 是否不兼容表格的虚拟滚动功能
     colDraggable: {type: Boolean, default: null},                           // 列是否可以拖拽排序
 
+    head: {type: Function as PropType<PlcPropsHead>},                       // 列标题渲染函数
+
     hide: {type: Boolean},                                                  // 是否隐藏
     order: {type: [String, Number]},                                        // 列排序
     fixed: {type: String as PropType<TablePlcFixedType>, default: TablePlcFixedType.center},// 冻结列位置：left、right、undefined
