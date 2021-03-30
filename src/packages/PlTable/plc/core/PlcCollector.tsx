@@ -8,12 +8,12 @@ export const usePlcCollector = (() => {
         const children = ref([] as TablePlc[])
         const refer = {
             children: children.value,
-            add: (refer: any) => {
-                const el = refer.proxy.refs.el
+            add: (proxy: any) => {
+                const el = proxy.refs.el
                 const index = Array.from(el.parentElement!.childNodes)
                     .filter((item: any) => item.nodeName !== '#comment' && item.nodeName !== '#text' && (!item.style || item.style.display !== 'none'))
                     .indexOf(el)
-                children.value.splice(index, 0, refer)
+                children.value.splice(index, 0, proxy)
             },
             remove: (refer: any) => {
                 const index = children.value.indexOf(refer)
@@ -28,8 +28,8 @@ export const usePlcCollector = (() => {
     const useChild = () => {
         const {add, remove} = inject(ProvideString) as ReturnType<typeof useParent>
         const ctx = getCurrentDesignInstance()!
-        onMounted(() => add(ctx))
-        onBeforeUnmount(() => remove(ctx))
+        onMounted(() => add(ctx.proxy))
+        onBeforeUnmount(() => remove(ctx.proxy))
         return ctx
     }
     return {

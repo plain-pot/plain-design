@@ -1,4 +1,4 @@
-import {designComponent, useRefs} from "plain-design-composition";
+import {designComponent, onMounted, useRefs} from "plain-design-composition";
 import {TableHoverPart, TableProps} from "./core/table.utils";
 import {useTree} from "../PlTree/core/useTree";
 import {TableNode} from "./core/useTableNode";
@@ -6,6 +6,7 @@ import {PlainScroll} from "../PlScroll";
 import React from "react";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {PlcCollector} from "./plc/core/PlcCollector";
+import {usePlcList} from "./plc/format/usePlcList";
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -26,7 +27,8 @@ export const PlTable = designComponent({
     slots: ['default'],
     setup({props, slots, event}) {
 
-        const {refs, onRef} = useRefs({el: HTMLDivElement,})
+        const {refs, onRef, numberState, plcData} = usePlcList({props})
+
         const {styleComputed} = useStyle({
             adjust: config => {
                 config.shape = props.shape as any || StyleShape.square
@@ -36,12 +38,16 @@ export const PlTable = designComponent({
         })
         const {emit} = event
 
+        onMounted(() => {
+            console.log(plcData.value)
+        })
+
         return {
             refer: {},
             render: () => {
                 return (
-                    <div>
-                        <PlcCollector default={slots.default()}/>
+                    <div ref={onRef.el}>
+                        <PlcCollector default={slots.default()} ref={onRef.collector}/>
                     </div>
                 )
             }
