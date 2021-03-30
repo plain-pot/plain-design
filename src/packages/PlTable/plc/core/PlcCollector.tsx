@@ -9,7 +9,7 @@ export const usePlcCollector = (() => {
         const refer = {
             children: children.value,
             add: (refer: any) => {
-                const el = refer.refs.el
+                const el = refer.proxy.refs.el
                 const index = Array.from(el.parentElement!.childNodes)
                     .filter((item: any) => item.nodeName !== '#comment' && item.nodeName !== '#text' && (!item.style || item.style.display !== 'none'))
                     .indexOf(el)

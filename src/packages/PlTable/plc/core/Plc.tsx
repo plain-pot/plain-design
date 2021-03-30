@@ -1,4 +1,4 @@
-import {computed, designComponent, ExtractPropTypes, useNumber} from "plain-design-composition";
+import {computed, designComponent, ExtractPropTypes, useNumber, useRefs} from "plain-design-composition";
 import {PlcProps, PlcPublicAttrs} from "./plc.utils";
 import {Plc, TablePlc} from "./plc.type";
 import {TableNode} from "../../core/useTableNode";
@@ -21,6 +21,8 @@ export function usePlc({props, scopeSlots}: {
     props: ExtractPropTypes<typeof PlcProps>,
     scopeSlots: PlcScopeSlotType,
 }) {
+    const {refs, onRef} = useRefs({el: HTMLElement})
+
     /*collector收集列信息*/
     usePlcCollector.useChild()
     /*格式化props*/
@@ -43,13 +45,14 @@ export function usePlc({props, scopeSlots}: {
         props: formatProps,
         state: propsState,
         refer: () => plc,
+        refs,
         setDurWidth: (durWidth: number) => propsState.width = Number((formatProps.value.width)) + durWidth,
         scopeSlots,
     })
 
     return {
         refer: plc,
-        render: () => (<i {...{title: props.title, field: props.field}}/>)
+        render: () => (<i ref={onRef.el} {...{title: props.title, field: props.field}}/>)
     }
 }
 
