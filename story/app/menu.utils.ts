@@ -136,7 +136,7 @@ const MenuData: MenuGroup[] = [
     },
     {
         name: '表格', children: [
-            {name: 'Virtual', title: 'pl-virtual-table', page: '/table/virtual-table', complete: false},
+            {name: 'Virtual', title: 'pl-virtual-table', page: '/table/DemoVirtualTable', complete: true},
             {name: 'Basic', title: '基础表格', page: '/table/table-basic', complete: false},
             {name: 'Test', title: '基础测试', page: '/table/table-base-test', complete: false},
             {name: 'Config', title: '自定义配置', page: '/table/table-config', complete: false},
