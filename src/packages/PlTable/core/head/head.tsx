@@ -18,7 +18,6 @@ export const PltHead = designComponent({
         })
         /*Scroll的父节点需要固定高度*/
         const styles = useStyles(style => {
-            console.log(props.table.plcData)
             style.height = `${props.table.plcData.value!.headPlcListArray.length * (props.table.numberState.headRowHeight + 1)}px`
         })
         /*当总的列宽度大于表格宽度时，设置宽度*/

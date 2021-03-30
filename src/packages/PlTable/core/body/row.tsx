@@ -35,15 +35,14 @@ export const PltRow = designComponent({
 
         return {
             render: () => {
-                const content = [
-                    (<tr className={classes.value} style={{height: `${props.table.numberState.bodyRowHeight}px`}} {...handler}>
+                return <>
+                    <tr className={classes.value} style={{height: `${props.table.numberState.bodyRowHeight}px`}} {...handler}>
                         {props.table.plcData.value!.flatPlcList.map((plc, index) => <PltCell key={index} table={props.table} node={props.node} plc={plc}/>)}
-                    </tr>),
-                ]
-                if (props.table.plcData.value!.plcListHasRenderAfterRow) {
-                    content.push(...props.table.plcData.value!.plcListHasRenderAfterRow.map(plc => plc.props.renderAfterRow!({node: props.node, plc, row: props.node.data,}) as JSX.Element))
-                }
-                return content.filter(Boolean)
+                    </tr>
+                    {props.table.plcData.value!.plcListHasRenderAfterRow && (
+                        props.table.plcData.value!.plcListHasRenderAfterRow.map(plc => plc.props.renderAfterRow!({node: props.node, plc, row: props.node.data,}) as JSX.Element)
+                    )}
+                </>
             }
         }
     },
