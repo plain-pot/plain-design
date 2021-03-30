@@ -79,11 +79,11 @@ export const PlVirtualTable = designComponent({
                             onScroll={handler.onScroll}
                             scrollX
                             className={virtual.classes.value}
-                            horizontalScrollbarTooltip={'推荐【表头使用鼠标滚轮】，或者【表体Alt键+鼠标滚轮】横向滚动'}
-                            v-slots={{
+                            horizontalScrollbarTooltip={'推荐【表头使用鼠标滚轮】，或者【表体Alt键+鼠标滚轮】横向滚动'}>
+                            {{
                                 default: () => (<div className="pl-virtual-list-strut" style={strutStyles.value}>
                                     <div className="pl-virtual-list-content" ref={onRef.content} style={virtual.contentStyles.value}>
-                                        <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
+                                        <table {...{cellPadding: 0, cellSpacing: 0, border: 0, style: tableStyles.value}}>
                                             {slots.colgroup()}
                                             {list.map((node) => scopeSlots.default(node))}
                                         </table>
@@ -92,14 +92,15 @@ export const PlVirtualTable = designComponent({
                                 content: () => (
                                     !props.summaryData || props.summaryData.length === 0 ? null :
                                         <div className="pl-virtual-table-summary-table-wrapper" ref={onRef.summary}>
-                                            <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: summaryTableStyles.value}}
+                                            <table {...{cellPadding: 0, cellSpacing: 0, border: 0, style: summaryTableStyles.value}}
                                                    className="pl-virtual-table-summary-table">
                                                 {slots.colgroup()}
                                                 {!props.summaryData ? null : props.summaryData.map((item, index) => scopeSlots.default({item, index}))}
                                             </table>
                                         </div>
                                 ),
-                            }}/>
+                            }}
+                        </PlScroll>
                     </div>
                 )
             }
