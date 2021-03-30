@@ -16,7 +16,7 @@ export const PltRow = designComponent({
 
         const handler = {
             onClick: (e: React.MouseEvent) => props.table.handler.onClickRow(e, props.node),
-            onDblclick: (e: React.MouseEvent) => props.table.handler.onDblclickRow(e, props.node),
+            onDoubleClick: (e: React.MouseEvent) => props.table.handler.onDblclickRow(e, props.node),
             vid: props.vid,
         }
 
@@ -37,7 +37,7 @@ export const PltRow = designComponent({
             render: () => {
                 const content = [
                     (<tr className={classes.value} style={{height: `${props.table.numberState.bodyRowHeight}px`}} {...handler}>
-                        {props.table.plcData.value!.flatPlcList.map(plc => <PltCell table={props.table} node={props.node} plc={plc}/>)}
+                        {props.table.plcData.value!.flatPlcList.map((plc, index) => <PltCell key={index} table={props.table} node={props.node} plc={plc}/>)}
                     </tr>),
                 ]
                 if (props.table.plcData.value!.plcListHasRenderAfterRow) {

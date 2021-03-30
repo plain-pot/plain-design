@@ -96,7 +96,7 @@ export const PltCell = designComponent({
                 })
 
                 return (
-                    <td{...span} className={classes.value} style={styles.value}>
+                    <td rowSpan={span.rowspan} colSpan={span.colspan} className={classes.value} style={styles.value}>
                         {body}
                     </td>
                 )

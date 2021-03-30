@@ -34,7 +34,7 @@ export const PltHead = designComponent({
             (scrollLeft, part) => part !== TableHoverPart.head && refs.scroll!.methods.scroll({x: scrollLeft}, {noEmitScroll: true})
         )
         /*表头支持鼠标滚动横向滚动*/
-        const onMousewheel = (e: WheelEvent) => {
+        const onWheel = (e: React.WheelEvent) => {
             const {deltaX, deltaY} = e
             if (Math.abs(deltaY) > Math.abs(deltaX)) {
                 e.preventDefault()
@@ -46,22 +46,24 @@ export const PltHead = designComponent({
 
         return {
             render: () => (
-                <div className="plt-head" style={styles.value} onMouseEnter={bindScroll.onMouseenter}>
+                <div className="plt-head" style={styles.value} onMouseEnter={bindScroll.onMouseEnter}>
                     <PlScroll hideScrollbar scrollX refreshState={props.table.plcData.value!.targetTableWidth} onScroll={bindScroll.onScroll} ref={onRef.scroll}>
                         <table {...{
-                            cellspacing: 0,
-                            cellpadding: 0,
+                            cellSpacing: 0,
+                            cellPadding: 0,
                             border: 0,
                             style: tableStyles.value,
-                            onMousewheel: onMousewheel,
+                            onWheel,
                             key: props.table.plcData.value!.plcKeyString,
                         }}>
                             {renderColgroup(props.table.plcData.value!.flatPlcList)}
+                            <thead>
                             {props.table.plcData.value!.headPlcListArray.map((array, arrayIndex) => (
                                 <tr style={{height: `${props.table.numberState.headRowHeight}px`}} key={arrayIndex}>
-                                    {array.map((plc) => <PltHeadCell table={props.table} tablePlc={plc} scroll={scrollRef}/>)}
+                                    {array.map((plc, index) => <PltHeadCell key={index} table={props.table} tablePlc={plc} scroll={scrollRef}/>)}
                                 </tr>
                             ))}
+                            </thead>
                         </table>
                     </PlScroll>
                 </div>
