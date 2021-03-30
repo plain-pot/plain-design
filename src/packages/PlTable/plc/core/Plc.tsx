@@ -1,26 +1,11 @@
 import {computed, designComponent, ExtractPropTypes, useNumber, useRefs} from "plain-design-composition";
 import {PlcProps, PlcPublicAttrs} from "./plc.utils";
-import {Plc, TablePlc} from "./plc.type";
-import {TableNode} from "../../core/useTableNode";
+import {Plc} from "./plc.type";
 import {reactive} from "@vue/reactivity";
 import {usePlcCollector} from "./PlcCollector";
-import React, {ReactNode} from "react";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import React from "react";
 
-const PlcScopeSlotsOption = {
-    head: (scope: { plc: TablePlc }) => {},
-    default: (scope: { plc: TablePlc, node: TableNode }) => {},
-    edit: (scope: { plc: TablePlc, node: TableNode }) => {},
-    summary: (scope: { plc: TablePlc, node: TableNode }) => {},
-}
-
-type ScopeSlotOptionType<Option extends { [k: string]: SimpleFunction }> = { [k in keyof Option]: ((scope: Parameters<Option[k]>[0], defaultNode?: ReactNode) => ReactNode) & { isExist: () => boolean } }
-type PlcScopeSlotType = ScopeSlotOptionType<typeof PlcScopeSlotsOption>
-
-export function usePlc({props, scopeSlots}: {
-    props: ExtractPropTypes<typeof PlcProps>,
-    scopeSlots: PlcScopeSlotType,
-}) {
+export function usePlc(props: ExtractPropTypes<typeof PlcProps>,) {
     const {refs, onRef} = useRefs({el: HTMLElement})
 
     /*collector收集列信息*/
@@ -47,7 +32,6 @@ export function usePlc({props, scopeSlots}: {
         refer: () => plc,
         refs,
         setDurWidth: (durWidth: number) => propsState.width = Number((formatProps.value.width)) + durWidth,
-        scopeSlots,
     })
 
     return {
@@ -61,8 +45,7 @@ export default designComponent({
     props: {
         ...PlcProps,
     },
-    scopeSlots: PlcScopeSlotsOption,
-    setup({props, scopeSlots}) {
-        return usePlc({props, scopeSlots})
+    setup({props}) {
+        return usePlc(props)
     },
 })

@@ -39,10 +39,10 @@ export const PlcProps = {
     notFitVirtual: {type: Boolean},                                         // 是否不兼容表格的虚拟滚动功能
 
     // 渲染函数
-    /*head: {type: Function as PropType<PlcPropsHead>},                       // 列标题渲染函数
+    head: {type: Function as PropType<PlcPropsHead>},                       // 列标题渲染函数
     default: {type: Function as PropType<PlcPropsDefault>},                 // 列内容默认渲染函数
     summary: {type: Function as PropType<PlcPropsSummary>},                 // 列内容在合计行上的渲染函数
-    edit: {type: Function as PropType<PlcPropsEdit>},                       // 列内容在编辑状态下的渲染函数*/
+    edit: {type: Function as PropType<PlcPropsEdit>},                       // 列内容在编辑状态下的渲染函数
     renderAfterRow: {type: Function as PropType<PlcPropsRenderAfterRow>},   // 行之后需要额外渲染的内容
 
     // 编辑相关

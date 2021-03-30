@@ -1,4 +1,4 @@
-import {SimpleObject, VNodeChild} from "../../../../shims";
+import {SimpleObject} from "../../../../shims";
 import {ExtractPropTypes} from "plain-design-composition";
 import {TableNode} from "../../core/useTableNode";
 import {PlcGroupProps, PlcProps, PlcPublicAttrsType} from "./plc.utils";
@@ -11,8 +11,6 @@ type PlcStateType = { [k in keyof PlcPropsType]: PlcPropsType[k] | null }
 type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupProps>, 'order'> & { order: number | undefined }
 type PlcGroupStateType = { [k in keyof PlcGroupPropsType]: PlcGroupPropsType[k] | null }
 
-type ScopedSlotFunc<T> = T & { isExist: () => boolean }
-
 export type PlcGroup = PlcPublicAttrsType & {
     group: true,
     children: TablePlc[],
@@ -20,9 +18,6 @@ export type PlcGroup = PlcPublicAttrsType & {
     state: PlcGroupStateType,
     refer: () => PlcGroup,
     setDurWidth: (width: number) => void,
-    scopeSlots: {
-        head: ScopedSlotFunc<(scope: { plc: PlcGroup }, vnode?: VNodeChild) => VNodeChild>,
-    },
 }
 
 export type Plc = PlcPublicAttrsType & {
@@ -31,12 +26,6 @@ export type Plc = PlcPublicAttrsType & {
     state: PlcStateType,
     refer: () => Plc,
     setDurWidth: (width: number) => void,
-    scopeSlots: {
-        head: ScopedSlotFunc<((scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild)>,
-        default: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
-        edit: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
-        summary: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
-    },
 }
 
 export type TablePlc = PlcGroup | Plc
