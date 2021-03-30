@@ -3,6 +3,7 @@ import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import React from "react";
 import {PlScroll} from "./index";
+import PlTooltip from "../PlTooltip";
 
 export const HorizontalScrollbar = designComponent({
     props: {
@@ -75,14 +76,8 @@ export const HorizontalScrollbar = designComponent({
 
         return {
             render: () => {
-                let content = <div className="pl-horizontal-scrollbar" style={styles.value} onMouseDown={handler.onMousedown}/> as any
-                // todo tooltip directive
-                /*if (!!props.tooltip) {
-                    const TooltipDirective = resolveDirective('tooltip')
-                    if (!!TooltipDirective) {
-                        content = withDirectives(content, [[TooltipDirective, props.tooltip]])
-                    }
-                }*/
+                let content = <div className="pl-horizontal-scrollbar" style={styles.value} onMouseDown={handler.onMousedown}/>
+                if (!!props.tooltip) {content = (<PlTooltip message={props.tooltip}>{content}</PlTooltip>)}
                 return (
                     <div className="pl-horizontal-scrollbar-wrapper">
                         {content}
