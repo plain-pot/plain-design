@@ -1,9 +1,9 @@
 import {TableNode} from "../../../core/useTableNode";
-import {TreeDropType} from "../../../../tree/utils/tree-constant";
-import {useAutoScroll} from "../../../../../use/useAutoScroll";
-import {PlainScroll} from "../../../../scroll/scroll";
-import {StyleProperties} from "../../../../../shims";
 import {getRowEl, getScrollParent} from '../draggier/core/utils';
+import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
+import {PlainScroll} from "../../../../PlScroll";
+import {useAutoScroll} from "../../../../PlScroll/useAutoScroll";
+import {StyleProperties} from "plain-design-composition/src/use/useStyles";
 
 const indicatorSize = 3;
 
@@ -123,10 +123,10 @@ export function usePlcTreeDraggier(
     }
 
     const handler = {
-        mousedown: (e: MouseEvent) => {
+        mousedown: (e: React.MouseEvent) => {
             state.startClientY = state.moveClientY = e.clientY
 
-            state.rowEl = getRowEl(e, rowClass)
+            state.rowEl = getRowEl(e.nativeEvent, rowClass)
             state.rowHeight = state.rowEl.offsetHeight
             const vid = Number(state.rowEl.getAttribute('vid'))
             state.moveNode = state.startNode = flatDataList.value[vid]

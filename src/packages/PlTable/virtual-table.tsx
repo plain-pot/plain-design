@@ -1,13 +1,9 @@
-import {designComponent} from "../../use/designComponent";
-import {useSlots} from "../../use/useSlots";
-import {useRefs} from "../../use/useRefs";
-import {PropType} from 'vue';
 import {SimpleObject} from "../../shims";
-import {useScopedSlots} from "../../use/useScopedSlots";
-import {useVirtualList} from "../virtual-list/useVirtualList";
-import {useStyles} from "../../use/useStyles";
 import {unit} from "plain-utils/string/unit";
-import {PlScroll} from "../scroll/scroll";
+import {designComponent, PropType, useRefs, useStyles} from "plain-design-composition";
+import {PlScroll} from "../PlScroll";
+import {useVirtualList} from "../PlVirtualList/useVirtualList";
+import React from "react";
 
 // const scrollbarSize = 12;
 
@@ -72,18 +68,18 @@ export const PlVirtualTable = designComponent({
             render: () => {
                 const {list} = virtual.offsetData.value
                 return (
-                    <div style={styles.value} class="pl-virtual-table">
+                    <div style={styles.value} className="pl-virtual-table">
                         <PlScroll
                             refreshState={props.width}
                             ref="scroll"
                             disableListTransition
                             onScroll={handler.onScroll}
                             scrollX
-                            class={virtual.classes.value}
+                            className={virtual.classes.value}
                             horizontalScrollbarTooltip={'推荐【表头使用鼠标滚轮】，或者【表体Alt键+鼠标滚轮】横向滚动'}
                             v-slots={{
-                                default: () => (<div class="pl-virtual-list-strut" style={strutStyles.value}>
-                                    <div class="pl-virtual-list-content" ref="content" style={virtual.contentStyles.value}>
+                                default: () => (<div className="pl-virtual-list-strut" style={strutStyles.value}>
+                                    <div className="pl-virtual-list-content" ref="content" style={virtual.contentStyles.value}>
                                         <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: tableStyles.value}}>
                                             {slots.colgroup()}
                                             {list.map((node) => scopedSlots.default(node))}
@@ -92,9 +88,9 @@ export const PlVirtualTable = designComponent({
                                 </div>),
                                 content: () => (
                                     !props.summaryData || props.summaryData.length === 0 ? null :
-                                        <div class="pl-virtual-table-summary-table-wrapper" ref="summary">
+                                        <div className="pl-virtual-table-summary-table-wrapper" ref="summary">
                                             <table {...{cellpadding: 0, cellspacing: 0, border: 0, style: summaryTableStyles.value}}
-                                                   class="pl-virtual-table-summary-table">
+                                                   className="pl-virtual-table-summary-table">
                                                 {slots.colgroup()}
                                                 {!props.summaryData ? null : props.summaryData.map((item, index) => scopedSlots.default({item, index}))}
                                             </table>

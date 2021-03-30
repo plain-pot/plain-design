@@ -6,9 +6,9 @@
 import {UseListDraggierType} from "./index";
 import {getRowEl, getRowElList, getScrollParent} from "./utils";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
-import {nextTick} from 'vue';
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
-import {useAutoScroll} from "../../../../../../use/useAutoScroll";
+import {useAutoScroll} from "../../../../../PlScroll/useAutoScroll";
+import {nextTick} from "../../../../../../utils/nextTick";
 
 export const useListDraggierNotVirtual: UseListDraggierType = ({rowClass, onChange, getScroll}) => {
 

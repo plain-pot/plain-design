@@ -1,3 +1,4 @@
+import React from "react";
 import {designPlc} from "../core/designPlc";
 
 export default designPlc({
@@ -15,5 +16,5 @@ export default designPlc({
 }, {
     head: () => '#',
     default: ({node}) => node.index + 1,
-    summary: ({props}) => <span class="plc-index-summary-text">{props.summaryText}</span>,
+    summary: ({props}) => <span className="plc-index-summary-text">{props.summaryText}</span>,
 })

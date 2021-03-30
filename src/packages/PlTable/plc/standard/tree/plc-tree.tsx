@@ -1,22 +1,23 @@
 import {designPlc} from "../../core/designPlc";
-import {computed, onBeforeUnmount, onMounted, PropType, watch} from 'vue';
 import {TableNode} from "../../../core/useTableNode";
-import {TreeDropType} from "../../../../tree/utils/tree-constant";
-import {useScopedSlots} from "../../../../../use/useScopedSlots";
 import {Plc} from "../../core/plc.type";
-import {SimpleFunction, SimpleObject} from "../../../../../shims";
-import {injectPlainTable} from "../../../table";
 import {unit} from "plain-utils/string/unit";
 import {useTableGetScroll} from "../../../core/useTableGetScroll";
 import {usePlcTreeDraggier} from "./plc-tree.draggier";
 import {delay} from "plain-utils/utils/delay";
-import {PlButton} from "../../../../button/button";
 import {StyleSize} from "../../../../../use/useStyle";
-import {createEventListener} from "../../../../../utils/createEventListener";
-import {PlDropdown} from "../../../../dropdown/dropdown";
-import {PlDropdownMenu} from "../../../../dropdown/dropdown-menu";
-import {PlDropdownOption} from "../../../../dropdown/dropdown-option";
-import {PlCheckbox} from "../../../../checkbox/checkbox";
+import {computed, onBeforeUnmount, onMounted, PropType, watch} from "plain-design-composition";
+import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
+import {injectPlainTable} from "../../../index";
+import {SimpleObject} from "../../../../../shims";
+import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import PlDropdown from "../../../../PlDropdown";
+import PlButton from "../../../../PlButton";
+import PlDropdownMenu from "../../../../PlDropdownMenu";
+import PlDropdownOption from "../../../../PlDropdownOption";
+import React from "react";
+import {PlCheckbox} from "../../../../PlCheckbox";
+import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
@@ -159,21 +160,21 @@ export default designPlc({
                 </PlDropdownMenu>
             }}
         />
-        <div class="plc-tree-node-content">{plc.props.title}</div>
+        <div className="plc-tree-node-content">{plc.props.title}</div>
     </>),
     default: ({refer, node, plc, row}) => {
         return (
             <>
-                <div class="plc-tree-node-expander" {...refer.utils.getExpanderAttrs(node)}>
+                <div className="plc-tree-node-expander" {...refer.utils.getExpanderAttrs(node)}>
                     <PlButton
                         loading={node.loading}
                         mode="text"
                         size={StyleSize.normal}
                         icon={node.isLeaf ? refer.props.leafIcon : node.expand ? refer.props.folderExpandIcon : refer.props.folderCollapseIcon}
-                        onClick={(e: MouseEvent) => !node.isLeaf && refer.handler.onClickExpandIcon(e, node)}/>
+                        onClick={(e: React.MouseEvent) => !node.isLeaf && refer.handler.onClickExpandIcon(e, node)}/>
                 </div>
                 {refer.tableProps.showCheckbox && (
-                    <div class="plc-tree-node-check">
+                    <div className="plc-tree-node-check">
                         <PlCheckbox
                             key={node.key}
                             size={StyleSize.normal}
@@ -181,19 +182,19 @@ export default designPlc({
                             customReadonly={true}
                             checkStatus={node.checkStatus}
                             disabled={!node.isCheckable}
-                            {...{onClick: (e?: MouseEvent) => refer.handler.onClickCheckbox(e, node)}}
+                            {...{onClick: (e?: React.MouseEvent) => refer.handler.onClickCheckbox(e, node)}}
                         />
                     </div>
                 )}
                 {refer.props.rowDraggable && (
                     <PlButton mode="text"
                               icon="el-icon-list"
-                              class="plc-tree-node-drag-btn"
+                              className="plc-tree-node-drag-btn"
                               disabled={!refer.draggier.utils.allowDrag(node)}
-                              {...createEventListener({onMousedown: refer.draggier.handler.onMousedown})}/>
+                              {...createEventListener({onMouseDown: refer.draggier.handler.onMousedown})}/>
                 )}
                 {refer.scopedSlots.content.isExist() && (
-                    <div class="plc-tree-node-content" style={`width:${unit(refer.props.contentWidth)}`}>
+                    <div className="plc-tree-node-content" style={{width: unit(refer.props.contentWidth)!}}>
                         {refer.scopedSlots.content({node, row, plc}, !plc.props.field ? null : row[plc.props.field])}
                     </div>
                 )}

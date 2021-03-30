@@ -1,3 +1,4 @@
+import React from "react";
 import {Plc} from "./plc.type";
 
 export function renderColgroup(flatPlcList: Plc[]) {

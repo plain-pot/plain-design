@@ -1,12 +1,12 @@
 import {Plc, TablePlc} from "../core/plc.type";
 import {copyPlcList} from "./process/copyPlcList";
 import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
-import {ExtractPropTypes} from 'vue';
 import {TableProps} from "../../core/table.utils";
 import {processPlcSort} from "./process/processPlcSort";
 import {processHeadPlcList} from "./process/processHeadPlcList";
 import {processPlcFixed} from "./process/processPlcFixed";
 import {processPlcClassAndStyle} from "./process/processPlcClassAndStyle";
+import {ExtractPropTypes} from "plain-design-composition";
 
 export function formatPlcList(
     {

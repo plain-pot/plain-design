@@ -1,14 +1,14 @@
 import {designPlc} from "../core/designPlc";
 import {reactive, computed, ComputedRef, PropType, onBeforeUnmount} from 'vue';
-import {injectPlainTable} from "../../table";
 import {TableNode} from "../../core/useTableNode";
 import {SimpleObject, VNodeChild} from "../../../../shims";
 import {Plc, TableRenderScope} from "../core/plc.type";
-import {useScopedSlots} from "../../../../use/useScopedSlots";
-import {PlButton} from "../../../button/button";
-import {PlDropdown} from "../../../dropdown/dropdown";
-import {PlDropdownMenu} from "../../../dropdown/dropdown-menu";
-import {PlDropdownOption} from "../../../dropdown/dropdown-option";
+import React from "react";
+import {injectPlainTable} from "../../index";
+import PlDropdown from "../../../PlDropdown";
+import PlButton from "../../../PlButton";
+import PlDropdownMenu from "../../../PlDropdownMenu";
+import PlDropdownOption from "../../../PlDropdownOption";
 
 interface ExpandRefer {
     isExpand: (node: TableNode) => boolean,
@@ -40,9 +40,9 @@ export default designPlc(
                     const refer = plc.externalRefer()
                     if (!refer.isExpand(node)) {return null}
                     return (
-                        <tr class="plt-row plt-expand-row">
-                            <td class="plt-cell" rowspan={1} colspan={refer.totalSpan.value}>
-                                <div class="plt-expand-body" style={`width:${refer.width() - 20}px`}>
+                        <tr className="plt-row plt-expand-row">
+                            <td className="plt-cell" rowSpan={1} colSpan={refer.totalSpan.value}>
+                                <div className="plt-expand-body" style={{width: `${refer.width() - 20}px`}}>
                                     {refer.scopedSlots.expand({node, plc, row})}
                                 </div>
                             </td>
@@ -114,7 +114,7 @@ export default designPlc(
                     'plc-expand-icon',
                     {'plc-expand-icon-active': refer.isExpand(node)},
                 ],
-                onClick: (e: MouseEvent) => refer.toggle(node)
+                onClick: (e: React.MouseEvent) => refer.toggle(node)
             }}/>)
         }
     },

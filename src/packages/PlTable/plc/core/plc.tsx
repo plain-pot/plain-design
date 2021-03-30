@@ -1,11 +1,10 @@
-import {designComponent} from "../../../../use/designComponent";
 import {PlcProps, PlcPublicAttrs} from "./plc.utils";
 import {TablePlcCollector} from './plc-collector';
 import {Plc, TablePlc} from "./plc.type";
-import {useNumber} from "../../../../use/useNumber";
-import {computed, ExtractPropTypes, PropType, reactive} from 'vue';
-import {useScopedSlots} from "../../../../use/useScopedSlots";
 import {TableNode} from "../../core/useTableNode";
+import {computed, designComponent, ExtractPropTypes, PropType, useNumber} from "plain-design-composition";
+import {reactive} from "@vue/reactivity";
+import React from "react";
 
 export function usePlc(props: ExtractPropTypes<typeof PlcProps>) {
 

@@ -5,7 +5,7 @@
  */
 import {useListDraggierNotVirtual} from "./use-list-draggier";
 import {useListDraggierWithVirtual} from "./use-list-draggier.virtual";
-import {PlainScroll} from "../../../../../scroll/scroll";
+import {PlainScroll} from "../../../../../PlScroll";
 
 export interface UseListDraggierType {
     (option: {

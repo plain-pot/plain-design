@@ -1,5 +1,6 @@
 import {designPlc} from "../core/designPlc";
-import {PlToggle} from "../../../toggle/toggle";
+import PlToggle from "../../../PlToggle";
+import React from "react";
 
 export default designPlc({
     name: 'plc-toggle',

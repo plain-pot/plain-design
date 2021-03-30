@@ -1,5 +1,6 @@
 import {designPlc} from "../core/designPlc";
-import {PlRate} from "../../../rate/rate";
+import {PlRate} from "../../../PlRate";
+import React from "react";
 
 export default designPlc({
     name: 'plc-rate',

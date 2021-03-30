@@ -1,9 +1,7 @@
-import {computed, ExtractPropTypes, onMounted, reactive} from 'vue';
-import {useRefs} from "../../../../use/useRefs";
 import {TableProps} from "../../core/table.utils";
-import {useNumber} from "../../../../use/useNumber";
 import PlcCollector from "../core/plc-collector";
 import {formatPlcList} from "./formatPlcList";
+import {computed, ExtractPropTypes, onMounted, reactive, useNumber, useRefs} from "plain-design-composition";
 
 export function usePlcList(
     {
@@ -41,7 +39,7 @@ export function usePlcList(
     })
 
     onMounted(() => {
-        state.tableWidth = refs.el.offsetWidth
+        state.tableWidth = refs.el!.offsetWidth
     })
 
     return {

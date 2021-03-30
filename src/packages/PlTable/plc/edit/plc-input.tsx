@@ -1,5 +1,6 @@
 import {designPlc} from "../core/designPlc";
-import {PlInput} from "../../../input/input";
+import React from "react";
+import {PlInput} from "../../../PlInput";
 
 export default designPlc({
     name: 'plc-input',

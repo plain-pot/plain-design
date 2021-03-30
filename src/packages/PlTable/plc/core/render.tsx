@@ -4,8 +4,8 @@ import {VNodeChild} from "../../../../shims";
 
 export function renderHeadCell(plc: TablePlc) {
     // 如果存在 head作用域插槽，渲染head作用域插槽
-    if (plc.scopedSlots.head.isExist()) {
-        return plc.scopedSlots.head({plc: plc as any})
+    if (plc.scopeSlots.head.isExist()) {
+        return plc.scopeSlots.head({plc: plc as any})
     }
     // 如果存在 props.head 渲染函数，则渲染 props.head
     if (!plc.group && !!plc.props.head) {
@@ -48,7 +48,7 @@ function getEditable(plc: Plc, node: TableNode) {
         return false
     }
     // 如果没有edit渲染函数以及作用域插槽，那么直接定性为不可编辑
-    if (!plc.props.edit && !plc.scopedSlots.edit.isExist()) {
+    if (!plc.props.edit && !plc.scopeSlots.edit.isExist()) {
         return false
     }
     return typeof plc.props.editable === "function" ? plc.props.editable(node) : (plc.props.editable !== false)
@@ -71,14 +71,14 @@ function getBodyCell(
         renderScope = {node, plc, row: node.data}
         // 合计行，使用作用域插槽 summary渲染，没有则使用渲染函数summary渲染，么有则使用 default作用域插槽渲染，没有
         // 则使用渲染函数default渲染，没有则直接渲染field对应的值
-        if (plc.scopedSlots.summary.isExist()) {
-            return plc.scopedSlots.summary(renderScope)
+        if (plc.scopeSlots.summary.isExist()) {
+            return plc.scopeSlots.summary(renderScope)
         }
         if (!!plc.props.summary) {
             return plc.props.summary(renderScope)
         }
-        if (plc.scopedSlots.default.isExist()) {
-            return plc.scopedSlots.default(renderScope)
+        if (plc.scopeSlots.default.isExist()) {
+            return plc.scopeSlots.default(renderScope)
         }
         if (!!plc.props.default) {
             return plc.props.default(renderScope)
@@ -90,9 +90,9 @@ function getBodyCell(
         renderScope = {node, plc, row}
 
         if (editable) {
-            // 当前一定存在 plc.scopedSlots.edit 或者 plc.props.edit，否则 editable不可能为true
-            if (plc.scopedSlots.edit.isExist()) {
-                return plc.scopedSlots.edit(renderScope)
+            // 当前一定存在 plc.scopeSlots.edit 或者 plc.props.edit，否则 editable不可能为true
+            if (plc.scopeSlots.edit.isExist()) {
+                return plc.scopeSlots.edit(renderScope)
             }
             if (!!plc.props.edit) {
                 return plc.props.edit(renderScope)
@@ -100,8 +100,8 @@ function getBodyCell(
         } else {
             // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
             // 使用作用域插槽default渲染，没有则使用渲染函数default渲染，没有则直接显示field对应的值
-            if (plc.scopedSlots.default.isExist()) {
-                return plc.scopedSlots.default(renderScope)
+            if (plc.scopeSlots.default.isExist()) {
+                return plc.scopeSlots.default(renderScope)
             }
             if (!!plc.props.default) {
                 return plc.props.default(renderScope)

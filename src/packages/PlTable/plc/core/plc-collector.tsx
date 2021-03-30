@@ -1,7 +1,6 @@
-import {designComponent} from "../../../../use/designComponent";
-import {useSlots} from "../../../../use/useSlots";
-import {ComponentPublicInstance, getCurrentInstance, inject, onBeforeUnmount, onMounted, provide, ref} from 'vue';
 import {TablePlc} from "./plc.type";
+import {designComponent, inject, onBeforeUnmount, onMounted, provide, ref} from "plain-design-composition";
+import React from 'react';
 
 export const TablePlcCollector = (() => {
     const ProvideString = '@@TablePlcCollector'
@@ -41,15 +40,15 @@ export const TablePlcCollector = (() => {
 
 export default designComponent({
     name: 'plc-collector',
-    setup() {
-        const {slots} = useSlots()
+    slots: ['default'],
+    setup({slots}) {
         const {children} = TablePlcCollector.useParent()
         return {
             refer: {
                 children
             },
             render: () => (
-                <div class="plc-collector">
+                <div className="plc-collector">
                     {slots.default()}
                 </div>
             )

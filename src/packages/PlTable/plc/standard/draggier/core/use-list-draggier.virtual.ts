@@ -5,7 +5,7 @@
  */
 import {UseListDraggierType} from "./index";
 import {getRowEl, getScrollParent} from "./utils";
-import {useAutoScroll} from "../../../../../../use/useAutoScroll";
+import {useAutoScroll} from "../../../../../PlScroll/useAutoScroll";
 
 export const useListDraggierWithVirtual: UseListDraggierType = (
     {

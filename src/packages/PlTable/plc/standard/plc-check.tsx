@@ -1,13 +1,15 @@
 import {designPlc} from "../core/designPlc";
-import {computed, onBeforeUnmount, PropType, reactive} from 'vue';
 import {TableNode} from "../../core/useTableNode";
-import {injectPlainTable} from "../../table";
 import {CheckboxStatus} from "../../../../utils/constant";
 import {toArray} from "../../../../utils/toArray";
-import {PlCheckbox} from "../../../checkbox/checkbox";
-import {PlDropdown} from "../../../dropdown/dropdown";
-import {PlDropdownMenu} from "../../../dropdown/dropdown-menu";
-import {PlDropdownOption} from "../../../dropdown/dropdown-option";
+import {computed, onBeforeUnmount, PropType} from "plain-design-composition";
+import {injectPlainTable} from "../../index";
+import {reactive} from "@vue/reactivity";
+import React from "react";
+import {PlCheckbox} from "../../../PlCheckbox";
+import PlDropdown from "../../../PlDropdown";
+import PlDropdownMenu from "../../../PlDropdownMenu";
+import PlDropdownOption from "../../../PlDropdownOption";
 
 export default designPlc({
     name: 'plc-check',

@@ -1,10 +1,11 @@
 import {designPlc} from "../../core/designPlc";
-import {injectPlainTable} from "../../../table";
-import {computed} from 'vue';
 import {useListDraggier} from "./core";
 import {ie} from "plain-utils/utils/ie";
 import {useTableGetScroll} from "../../../core/useTableGetScroll";
-import {PlButton} from "../../../../button/button";
+import {injectPlainTable} from "../../../index";
+import PlButton from "../../../../PlButton";
+import React from "react";
+import {computed} from "plain-design-composition";
 
 export default designPlc({
     name: 'plc-draggier',
@@ -39,7 +40,7 @@ export default designPlc({
     default: ({refer}) => <PlButton
         icon="el-icon-list"
         mode="text"
-        class="plc-draggier-handler"
+        className="plc-draggier-handler"
         {...refer}
     />
 })

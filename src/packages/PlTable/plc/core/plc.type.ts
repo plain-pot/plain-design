@@ -1,7 +1,7 @@
-import {ExtractPropTypes} from 'vue'
 import {PlcGroupProps, PlcProps, PlcPublicAttrsType} from "./plc.utils";
 import {SimpleObject, VNodeChild} from "../../../../shims";
 import {TableNode} from "../../core/useTableNode";
+import {ExtractPropTypes} from "plain-design-composition";
 
 export type TableRenderScope = { plc: Plc, node: TableNode, row: SimpleObject }
 
@@ -20,7 +20,7 @@ export type PlcGroup = PlcPublicAttrsType & {
     state: PlcGroupStateType,
     refer: () => PlcGroup,
     setDurWidth: (width: number) => void,
-    scopedSlots: {
+    scopeSlots: {
         head: ScopedSlotFunc<(scope: { plc: PlcGroup }, vnode?: VNodeChild) => VNodeChild>,
     },
 }
@@ -31,7 +31,7 @@ export type Plc = PlcPublicAttrsType & {
     state: PlcStateType,
     refer: () => Plc,
     setDurWidth: (width: number) => void,
-    scopedSlots: {
+    scopeSlots: {
         head: ScopedSlotFunc<((scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild)>,
         default: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
         edit: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,

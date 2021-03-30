@@ -1,21 +1,21 @@
-import {designComponent} from "../../use/designComponent";
-import {useSlots} from "../../use/useSlots";
 import PlcCollector from './plc/core/plc-collector'
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
 import './table.scss'
 import {TableHoverPart, TableProps} from './core/table.utils';
 import {usePlcList} from "./plc/format/usePlcList";
-import {computed, ComputedRef, inject, onMounted, PropType} from 'vue';
 import {useBindScroll} from "./core/useBindScroll";
 import {TableNode, useTableNode} from "./core/useTableNode";
-import {useRefs} from "../../use/useRefs";
-import {PlainScroll} from "../scroll/scroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
-import {formatFormRules, FormValidate} from "../form/form.validate";
-import {useTree} from "../tree/core/useTree";
 import {hasClass} from "plain-utils/dom/hasClass";
+import {computed, designComponent, inject, onMounted, PropType, useRefs} from "plain-design-composition";
+import {useTree} from "../PlTree/core/useTree";
+import {PlainScroll} from "../PlScroll";
+import {formatFormRules, FormValidate} from "../PlForm/form.validate";
+import {ComputedRef} from "@vue/runtime-core";
+import useClass from "plain-design-composition/src/use/useClasses";
+import React from 'react';
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -64,7 +64,7 @@ export const PlTable = designComponent({
         /*是否可以启用虚拟滚动*/
         const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
 
-        const classes = computed(() => [
+        const classes = useClass(() => [
             'pl-table',
             `pl-table-size-${styleComputed.value.size}`,
             `pl-table-shape-${styleComputed.value.shape}`,
@@ -112,7 +112,7 @@ export const PlTable = designComponent({
         return {
             refer,
             render: () => (
-                <div class={classes.value} ref="el" v-loading={props.loading || state.root.loading}>
+                <div className={classes.value} ref="el" v-loading={props.loading || state.root.loading}>
                     <PlcCollector ref="collector">{slots.default()}</PlcCollector>
                     {!!plcData.value && <>
                         {!props.hideHeader && <PltHead table={refer}/>}
