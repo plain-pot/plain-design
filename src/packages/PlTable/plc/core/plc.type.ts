@@ -20,7 +20,7 @@ export type PlcGroup = PlcPublicAttrsType & {
     state: PlcGroupStateType,
     refer: () => PlcGroup,
     setDurWidth: (width: number) => void,
-    scopedSlots: {
+    scopeSlots: {
         head: ScopedSlotFunc<(scope: { plc: PlcGroup }, vnode?: VNodeChild) => VNodeChild>,
     },
 }
@@ -31,7 +31,7 @@ export type Plc = PlcPublicAttrsType & {
     state: PlcStateType,
     refer: () => Plc,
     setDurWidth: (width: number) => void,
-    scopedSlots: {
+    scopeSlots: {
         head: ScopedSlotFunc<((scope: { plc: TablePlc }, vnode?: VNodeChild) => VNodeChild)>,
         default: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,
         edit: ScopedSlotFunc<((scope: TableRenderScope, vnode?: VNodeChild) => VNodeChild)>,

@@ -5,6 +5,7 @@ import {TableNode} from "./core/useTableNode";
 import {PlainScroll} from "../PlScroll";
 import React from "react";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
+import {PlcCollector} from "./plc/core/PlcCollector";
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -40,7 +41,7 @@ export const PlTable = designComponent({
             render: () => {
                 return (
                     <div>
-                        this is table
+                        <PlcCollector default={slots.default()}/>
                     </div>
                 )
             }
