@@ -1,5 +1,4 @@
 import {designComponent, useRefs} from 'plain-design-composition'
-import './virtual-list.scss'
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "./useVirtualList";
 import React from 'react';

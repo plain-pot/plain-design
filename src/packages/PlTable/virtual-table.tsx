@@ -85,7 +85,7 @@ export const PlVirtualTable = designComponent({
                                     <div className="pl-virtual-list-content" ref={onRef.content} style={virtual.contentStyles.value}>
                                         <table {...{cellPadding: 0, cellSpacing: 0, border: 0, style: tableStyles.value}}>
                                             {slots.colgroup()}
-                                            {list.map((node) => scopeSlots.default(node))}
+                                            <tbody>{list.map((node) => scopeSlots.default(node))}</tbody>
                                         </table>
                                     </div>
                                 </div>),
@@ -95,7 +95,7 @@ export const PlVirtualTable = designComponent({
                                             <table {...{cellPadding: 0, cellSpacing: 0, border: 0, style: summaryTableStyles.value}}
                                                    className="pl-virtual-table-summary-table">
                                                 {slots.colgroup()}
-                                                {!props.summaryData ? null : props.summaryData.map((item, index) => scopeSlots.default({item, index}))}
+                                                <tbody>{!props.summaryData ? null : props.summaryData.map((item, index) => scopeSlots.default({item, index}))}</tbody>
                                             </table>
                                         </div>
                                 ),

@@ -2,6 +2,7 @@ import {computed, onMounted, onUpdated, reactive, useStyles, watch} from "plain-
 import {PlScroll} from "../PlScroll";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {delay} from "plain-utils/utils/delay";
+import './virtual-list.scss'
 
 interface DataNode {
     top: number
