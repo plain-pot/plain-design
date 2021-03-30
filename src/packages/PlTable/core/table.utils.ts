@@ -30,7 +30,7 @@ export enum TablePlcFixedType {
     right = 'right',
 }
 
-export const enum TableHoverPart {
+export enum TableHoverPart {
     body = 'body',
     head = 'head'
 }
