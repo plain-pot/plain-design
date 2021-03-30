@@ -63,7 +63,7 @@ export function getPlcFixedStyle(plc: TablePlc) {
     styles.zIndex = 3
 
     if (!plc.group) {
-        styles[fixed] = plc.fixedPosition[fixed] + 'px'
+        (styles as any)[fixed] = (plc.fixedPosition as any)[fixed] + 'px'
     } else {
         let count = 10
         const isFixedLeft = fixed === TablePlcFixedType.left
@@ -75,7 +75,7 @@ export function getPlcFixedStyle(plc: TablePlc) {
             throw new Error('解析异常')
         }
         if (!!plc) {
-            styles[fixed] = plc.fixedPosition[fixed] + 'px'
+            (styles as any)[fixed] = (plc.fixedPosition as any)[fixed] + 'px'
         }
     }
     return styles
