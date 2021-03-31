@@ -9,7 +9,9 @@ const outputDir = 'dist'
 
 module.exports = {
     mode: 'production',
-    entry: resolve('src/index.ts'),
+    entry: {
+        index: resolve('src/index.ts'),
+    },
     externals: {
         react: {
             root: 'React',
@@ -24,7 +26,7 @@ module.exports = {
     },
     output: {
         path: resolve(outputDir),
-        filename: '[name].js',
+        filename: 'plain-design.min.js',
         libraryTarget: 'umd',
         // libraryExport: 'default',
         library: 'PlainDesign',
@@ -39,6 +41,13 @@ module.exports = {
         //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
         extensions: [".ts", ".tsx", ".js", ".json"]
     },
+    plugins: [
+        new webpack.ProgressPlugin(),
+        new MiniCssExtractPlugin({filename: 'plain-design.min.css'}),
+        new ForkTsCheckerWebpackPlugin(),
+        new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
+        new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+    ],
     module: {
         rules: [
             {
@@ -48,28 +57,32 @@ module.exports = {
             },
             {
                 test: /\.css$/,//css处理顺口
-                use: ['style-loader', {//style-loader是把CSS当作一个style标签插入到HTML中
-                    loader: 'css-loader',//css-loader是处理CSS中的import 和url
-                    options: {importLoaders: 0}
-                }, {
-                    loader: 'postcss-loader',
-                    options: {
-                        postcssOptions: {
-                            plugins: [
-                                [
-                                    require('autoprefixer')
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {importLoaders: 0}
+                    }, {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        require('autoprefixer')
+                                    ],
                                 ],
-                            ],
-                        },
-                    }
-                }]
+                            },
+                        }
+                    }]
             },
             {
                 test: /\.scss$/,//处理less
-                use: ['style-loader', {
-                    loader: 'css-loader',
-                    options: {importLoaders: 0}
-                },
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {importLoaders: 0}
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
@@ -100,23 +113,7 @@ module.exports = {
                 test: /\.md$/,
                 use: ['text-loader'],
             },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: '[path][name].[ext]',//path为相对于context的路径
-                        publicPath,
-                    }
-                }]
-            }
         ]
     },
-    plugins: [
-        new webpack.ProgressPlugin(),
-        new MiniCssExtractPlugin({filename: 'index.css'}),
-        new ForkTsCheckerWebpackPlugin(),
-        new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
-        new BundleAnalyzerPlugin({analyzerMode: 'static'}),
-    ],
+
 }

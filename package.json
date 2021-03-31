@@ -2,10 +2,17 @@
   "name": "plain-design",
   "version": "0.0.5",
   "description": "",
+  "main": "dist/plain-design.min.js",
+  "typings": "src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.js --progress",
-    "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js --progress"
+    "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js --progress",
+    "release": "cross-env NODE_ENV=production webpack --config ./build/webpack.release.js --progress"
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +44,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^4.5.2",
+    "mini-css-extract-plugin": "^1.4.0",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
     "react": "^17.0.1",
