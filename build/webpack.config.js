@@ -6,7 +6,7 @@ const webpack = require("webpack")
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const outputDir = 'docs'
-const publicPath = '/plain-design-composition/'
+const publicPath = '/plain-design/'
 const env = {
     publicPath
 }
