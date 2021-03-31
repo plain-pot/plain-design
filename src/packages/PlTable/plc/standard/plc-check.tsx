@@ -66,12 +66,12 @@ export default designPlc({
                 state.selected = table.flatNodes.value
                     .filter(node => isCheckable(node) && selectedKeys.value.indexOf(node.key) === -1)
             },
-            addSelected: (key: string | string[]) => {
+            addSelected: (key: string | number | (string | number)[]) => {
                 const keys = toArray(key)
                 const nodes = keys.map(k => table.state.nodeMap[k]).filter(Boolean)
                 state.selected = [...state.selected, ...nodes]
             },
-            removeSelected: (key: string | string[]) => {
+            removeSelected: (key: string | number | (string | number)[]) => {
                 const keys = toArray(key)
                 state.selected = state.selected.filter(node => keys.indexOf(node.key) === -1)
             },
@@ -89,6 +89,7 @@ export default designPlc({
             isCheck,
             isCheckable,
             methods,
+            ...methods,
         }
     },
 }, {

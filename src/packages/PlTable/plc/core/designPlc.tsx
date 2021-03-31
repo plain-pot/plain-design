@@ -6,6 +6,7 @@ import {TableNode} from "../../core/useTableNode";
 import {designComponent, ExtractPropTypes} from "plain-design-composition";
 import {ComponentPropsOptions} from "plain-design-composition/src/composition/prop-type";
 import {usePlc} from "./Plc";
+import React from "react";
 
 export function designPlc<_,
     ExternalProps extends Readonly<ComponentPropsOptions> = {},
@@ -54,13 +55,16 @@ export function designPlc<_,
             ...(externalProps!),
         },
         setup({props}) {
-            const {render, refer} = usePlc(props)
+            const {render, refer: plcRefer} = usePlc(props)
             if (!!setup) {
                 const externalRefer = setup(props as any)
-                Object.assign(refer, {externalRefer: () => externalRefer})
+                Object.assign(plcRefer, {externalRefer: () => externalRefer})
             }
             return {
-                refer,
+                refer: {
+                    ...plcRefer,
+                    ...{} as ExternalRefer,
+                },
                 render,
             }
         },

@@ -16,7 +16,7 @@ import PlButton from "../../../src/packages/PlButton";
 export default designPage(() => {
 
     const {refs, onRef} = useRefs({
-        check: Plc.PlcCheck as any,
+        check: Plc.PlcCheck,
     })
 
     const state = reactive({
@@ -61,7 +61,7 @@ export default designPage(() => {
                         <PlButtonGroup disabled={state.editNodes.length === 0}>
                             <PlButton label={'打印数据'} disabled={false} onClick={() => console.log(data.map((item: any) => item.name).join(','))}/>
                             <PlButton label={'获取选中行'} disabled={false} onClick={() => {
-                                $$message(refs.check.getSelected().map((item: any) => item.data.name).join(','))
+                                $$message(refs.check!.getSelected().map((item: any) => item.data.name).join(','))
                             }}/>
                             <PlButton onClick={state.saveEdit} label={'保存编辑'}/>
                             <PlButton onClick={state.cancelEdit} label={'取消编辑'}/>

@@ -3,7 +3,7 @@ import React from "react";
 import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
 import {reactive} from "@vue/reactivity";
-import {PlcIndex, PlcTree} from "../../../src/packages/PlTable/plc/standard";
+import {PlcCheck, PlcIndex, PlcTree} from "../../../src/packages/PlTable/plc/standard";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
@@ -20,7 +20,7 @@ import PlIcon from "../../../src/packages/PlIcon";
 const DemoVirtualTreeTable = designPage(() => {
 
     const {refs, onRef} = useRefs({
-        tree: PlcTree as any,
+        tree: PlcTree,
     })
 
     const state = reactive({
@@ -35,10 +35,10 @@ const DemoVirtualTreeTable = designPage(() => {
         <div>
             <DemoLine>
                 <PlButtonGroup>
-                    <PlButton label={'全部展开'} onClick={() => refs.tree.expandAll()}/>
-                    <PlButton label={'全部收起'} onClick={() => refs.tree.collapseAll()}/>
+                    <PlButton label={'全部展开'} onClick={() => refs.tree!.expandAll()}/>
+                    <PlButton label={'全部收起'} onClick={() => refs.tree!.collapseAll()}/>
                     <PlButton label={'获取选中数据'} onClick={() => {
-                        $$message(refs.tree.getCheckedData().map(({data}: any) => data.name).join(','))
+                        $$message(refs.tree!.getCheckedData().map(({data}) => data.name).join(','))
                     }}/>
                 </PlButtonGroup>
             </DemoLine>
@@ -59,7 +59,7 @@ const DemoVirtualTreeTable = designPage(() => {
 const DemoVirtualDraggableTreeTable = designPage(() => {
 
     const {refs, onRef} = useRefs({
-        tree: PlcTree as any,
+        tree: PlcTree,
     })
 
     const state = reactive({
@@ -74,10 +74,10 @@ const DemoVirtualDraggableTreeTable = designPage(() => {
         <div>
             <DemoLine>
                 <PlButtonGroup>
-                    <PlButton label={'全部展开'} onClick={() => refs.tree.expandAll()}/>
-                    <PlButton label={'全部收起'} onClick={() => refs.tree.collapseAll()}/>
+                    <PlButton label={'全部展开'} onClick={() => refs.tree!.expandAll()}/>
+                    <PlButton label={'全部收起'} onClick={() => refs.tree!.collapseAll()}/>
                     <PlButton label={'获取选中数据'} onClick={() => {
-                        $$message(refs.tree.getCheckedData().map(({data}: any) => data.name).join(','))
+                        $$message(refs.tree!.getCheckedData().map(({data}: any) => data.name).join(','))
                     }}/>
                 </PlButtonGroup>
             </DemoLine>
@@ -99,12 +99,12 @@ const DemoVirtualDraggableTreeTable = designPage(() => {
 export default designPage(() => {
 
     const {refs, onRef} = useRefs({
-        tree1: PlcTree as any,
-        tree2: PlcTree as any,
-        strictCheck: PlcTree as any,
-        strictTree: PlcTree as any,
-        disabledCheck: PlcTree as any,
-        disabledCheckTree: PlcTree as any,
+        tree1: PlcTree,
+        tree2: PlcTree,
+        strictCheck: PlcCheck,
+        strictTree: PlcTree,
+        disabledCheck: PlcCheck,
+        disabledCheckTree: PlcTree,
 
         table1: PlTable,
     })
@@ -187,7 +187,7 @@ export default designPage(() => {
 
     async function expandSome() {
         const keys = ['2-2-2', '3-1-2']
-        await refs.tree1.expand(keys)
+        await refs.tree1!.expand(keys)
     }
 
     function expandAndSelect() {
@@ -213,9 +213,9 @@ export default designPage(() => {
             <DemoRow title={'基本用法'}>
                 <DemoLine>
                     <PlButtonGroup>
-                        <PlButton label={'全部展开'} onClick={() => refs.tree1.expandAll()}/>
-                        <PlButton label={'全部收起'} onClick={() => refs.tree1.collapseAll()}/>
-                        <PlButton label={'展开特定节点'} onClick={() => refs.tree1.expand('2-2-2')}/>
+                        <PlButton label={'全部展开'} onClick={() => refs.tree1!.expandAll()}/>
+                        <PlButton label={'全部收起'} onClick={() => refs.tree1!.collapseAll()}/>
+                        <PlButton label={'展开特定节点'} onClick={() => refs.tree1!.expand('2-2-2')}/>
                         <PlButton label={'展开部分节点'} onClick={expandSome}/>
                         <PlButton label={'展开并且设置当前选中节点'} onClick={expandAndSelect}/>
                     </PlButtonGroup>
@@ -234,10 +234,10 @@ export default designPage(() => {
             <DemoRow title={'可选树形表格'}>
                 <DemoLine>
                     <PlButtonGroup>
-                        <PlButton label={'全部展开'} onClick={() => refs.tree2.expandAll()}/>
-                        <PlButton label={'全部收起'} onClick={() => refs.tree2.collapseAll()}/>
+                        <PlButton label={'全部展开'} onClick={() => refs.tree2!.expandAll()}/>
+                        <PlButton label={'全部收起'} onClick={() => refs.tree2!.collapseAll()}/>
                         <PlButton label={'获取选中数据'} onClick={() => {
-                            $$message(refs.tree2.getCheckedData().map(({data}: any) => data.name).join(','))
+                            $$message(refs.tree2!.getCheckedData().map(({data}: any) => data.name).join(','))
                         }}/>
                     </PlButtonGroup>
                 </DemoLine>
@@ -267,8 +267,8 @@ export default designPage(() => {
             <DemoRow title={'多选，父子互不关联'}>
                 <DemoLine>
                     <PlButtonGroup>
-                        <PlButton label={'获取多选列的选中数据'} onClick={() => $$message(refs.strictCheck.getSelected().map((node: any) => node.data.name).join(','))}/>
-                        <PlButton label={'获取树列的选中数据'} onClick={() => $$message(refs.strictTree.getCheckedData().map(({data}: any) => data.name).join(','))}/>
+                        <PlButton label={'获取多选列的选中数据'} onClick={() => $$message(refs.strictCheck!.getSelected().map((node: any) => node.data.name).join(','))}/>
+                        <PlButton label={'获取树列的选中数据'} onClick={() => $$message(refs.strictTree!.getCheckedData().map(({data}: any) => data.name).join(','))}/>
                     </PlButtonGroup>
                 </DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs" checkStrictly showCheckbox>
@@ -286,8 +286,8 @@ export default designPage(() => {
             <DemoRow title={'多选，禁用部分选项：名称带字符【2】的记录不能选中'}>
                 <DemoLine>
                     <PlButtonGroup>
-                        <PlButton label={'获取多选列的选中数据'} onClick={() => $$message(refs.disabledCheck.getSelected().map((node: any) => node.data.name).join(','))}/>
-                        <PlButton label={'获取树列的选中数据'} onClick={() => $$message(refs.disabledCheckTree.getCheckedData().map(({data}: any) => data.name).join(','))}/>
+                        <PlButton label={'获取多选列的选中数据'} onClick={() => $$message(refs.disabledCheck!.getSelected().map((node: any) => node.data.name).join(','))}/>
+                        <PlButton label={'获取树列的选中数据'} onClick={() => $$message(refs.disabledCheckTree!.getCheckedData().map(({data}: any) => data.name).join(','))}/>
                     </PlButtonGroup>
                 </DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs" checkStrictly showCheckbox isCheckable={customIsCheckable}>

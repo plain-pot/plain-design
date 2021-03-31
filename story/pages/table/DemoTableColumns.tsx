@@ -12,11 +12,12 @@ import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
 import $$message from "../../../src/packages/$$message";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
+import {PlcCheck} from "../../../src/packages/PlTable/plc/standard";
 
 export default designPage(() => {
 
     const {refs, onRef} = useRefs({
-        check: Object as any,
+        check: PlcCheck,
     })
 
     const state = reactive({

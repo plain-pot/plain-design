@@ -142,6 +142,7 @@ export default designPlc({
             utils,
             draggier,
             methods,
+            ...methods,
         }
     },
 }, {
