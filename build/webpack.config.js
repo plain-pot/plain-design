@@ -15,7 +15,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
     mode: isProduction ? 'production' : 'development',
-    entry: resolve('story/main.tsx'),
+    entry: resolve('src/main.tsx'),
     output: {
         path: resolve(outputDir),
         publicPath,
