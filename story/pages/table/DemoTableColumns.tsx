@@ -9,7 +9,6 @@ import PlFormItem from "../../../src/packages/PlFormItem";
 import PlToggle from "../../../src/packages/PlToggle";
 import Plc from "../../../src/packages/Plc";
 import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
-import {FormRule} from "../../../src/packages/PlForm/form.validate";
 import $$message from "../../../src/packages/$$message";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";

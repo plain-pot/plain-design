@@ -41,7 +41,7 @@ export default designPlc(
                     const refer = plc.externalRefer()
                     if (!refer.isExpand(node)) {return null}
                     return (
-                        <tr className="plt-row plt-expand-row">
+                        <tr className="plt-row plt-expand-row" key={`expand_${node.key}`}>
                             <td className="plt-cell" rowSpan={1} colSpan={refer.totalSpan.value}>
                                 <div className="plt-expand-body" style={{width: `${refer.width() - 20}px`}}>
                                     {!!refer.props.expand && refer.props.expand({node, plc, row})}
