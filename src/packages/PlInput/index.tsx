@@ -22,7 +22,7 @@ export const PlInput = designComponent({
         ...EditProps,
         ...StyleProps,
 
-        modelValue: {type: String as PropType<string | null>},
+        modelValue: {type: [String, Number] as PropType<string | number | null>},
         placeValue: {type: [String, Number]},
 
         width: {type: [Number, String, Object, Function] as PropType<string | number>, default: null,},        // 输入框默认宽度

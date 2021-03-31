@@ -143,7 +143,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Fixed', title: '固定列', page: '/table/DemoTableFixed', complete: true},
             {name: 'Slots', title: '列作用域插槽', page: '/table/DemoTableSlots', complete: true},
 
-            {name: 'Edit Control', title: '编辑控制', page: '/table/DemoTableEdit', complete: false},
+            {name: 'Edit Control', title: '编辑控制', page: '/table/DemoTableEdit', complete: true},
             {name: 'Plc', title: '列组件', page: '/table/DemoTableColumns', complete: false},
             {name: 'Expand', title: '展开列', page: '/table/DemoTableExpand', complete: false},
             {name: 'Span', title: '合并单元格', page: '/table/span/DemoTableSpan', complete: false},
