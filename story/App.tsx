@@ -1,20 +1,13 @@
 import React from "react";
-import {AppMenu} from "./app/AppMenu";
 import './app.scss'
-import {AppNavigator} from "./app/AppNavigator";
-import {PlRoot} from "../src/packages/PlRoot/PlRoot";
-import {DemoRowController} from "./components/DemoRowController";
+import {PlRoot} from 'plain-design'
 
 export const App = () => {
     return (
         <PlRoot>
-            <DemoRowController>
-                <div className="app-head">
-                    <div>plain-ui</div>
-                </div>
-                <AppMenu/>
-                <AppNavigator/>
-            </DemoRowController>
+            <div>
+                this is app
+            </div>
         </PlRoot>
     )
 }

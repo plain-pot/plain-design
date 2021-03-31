@@ -87,11 +87,6 @@ module.exports = {
                     },
                     {
                         loader: 'sass-loader',
-                        options: {
-                            additionalData: `
-                                @import "@/styles/global-import.scss";
-                            `
-                        }
                     }
                 ]
             },

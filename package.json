@@ -1,5 +1,5 @@
 {
-  "name": "plain-design",
+  "name": "plain-design-doc",
   "version": "0.0.6",
   "description": "",
   "main": "dist/plain-design.min.js",
@@ -17,14 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/react-transition-group": "^4.4.1",
-    "dayjs": "^1.10.4",
+    "plain-design": "0.0.8",
     "plain-design-composition": "0.0.66",
-    "plain-loading": "^0.1.5",
-    "plain-popper": "0.0.6",
-    "plain-utils": "^0.1.18",
-    "react-flip-move": "^3.0.4",
-    "react-transition-group": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
