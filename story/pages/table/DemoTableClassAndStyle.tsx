@@ -3,6 +3,7 @@ import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import PlTable from "../../../src/packages/PlTable";
+import './DemoTableClassAndStyle.scss'
 
 import data from '../data/data-1.json'
 import Plc from "../../../src/packages/Plc";
