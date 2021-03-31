@@ -469,3 +469,5 @@ export const PlScroll = designComponent({
 })
 
 export type PlainScroll = typeof PlScroll.use.class
+
+export default PlScroll

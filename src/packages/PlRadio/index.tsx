@@ -137,3 +137,5 @@ export const PlRadio = designComponent({
         }
     },
 })
+
+export default PlRadio

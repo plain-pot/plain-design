@@ -5,3 +5,5 @@ export const $$loading = {
     bar: $$loadingBar,
     full: $$loadingMask,
 }
+
+export default $$loading

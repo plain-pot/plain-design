@@ -116,3 +116,5 @@ export const PlStep = designComponent({
         }
     },
 })
+
+export default PlStep

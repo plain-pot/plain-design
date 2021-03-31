@@ -315,3 +315,5 @@ export const PlInput = designComponent({
         }
     },
 })
+
+export default PlInput

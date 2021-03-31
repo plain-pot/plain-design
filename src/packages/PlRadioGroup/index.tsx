@@ -53,3 +53,5 @@ export const PlRadioGroup = designComponent({
         }
     },
 })
+
+export default PlRadioGroup

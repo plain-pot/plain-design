@@ -67,3 +67,5 @@ export const PlRow = designComponent({
         }
     },
 })
+
+export default PlRow

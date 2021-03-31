@@ -385,3 +385,5 @@ export const PlUpload = designComponent({
         }
     },
 })
+
+export default PlUpload

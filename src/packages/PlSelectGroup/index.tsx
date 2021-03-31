@@ -36,3 +36,5 @@ export const SelectGroupCollector = useCollect(() => ({
     parent: PlSelectGroup,
     child: PlSelectOption,
 }))
+
+export default PlSelectGroup

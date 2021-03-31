@@ -267,3 +267,5 @@ export const PlDialog = designComponent({
         }
     }
 })
+
+export default PlDialog

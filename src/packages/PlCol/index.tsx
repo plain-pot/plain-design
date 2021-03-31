@@ -75,3 +75,5 @@ export const PlCol = designComponent({
         }
     },
 })
+
+export default PlCol

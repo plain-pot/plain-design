@@ -62,3 +62,5 @@ export const StepCollector = useCollect(() => ({
     parent: PlStepGroup,
     child: PlStep,
 }))
+
+export default PlStepGroup

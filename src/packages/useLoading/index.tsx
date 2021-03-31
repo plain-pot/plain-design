@@ -9,3 +9,5 @@ export function useLoading() {
         bar: bar,
     }
 }
+
+export default useLoading

@@ -149,3 +149,5 @@ export const PlRate = designComponent({
         }
     },
 })
+
+export default PlRate

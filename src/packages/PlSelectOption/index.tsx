@@ -79,3 +79,5 @@ export const PlSelectOption = designComponent({
 })
 
 export type SelectOption = typeof PlSelectOption.use.class
+
+export default PlSelectOption

@@ -102,3 +102,5 @@ export const PlLoadingMask = designComponent({
         }
     },
 })
+
+export default PlLoadingMask

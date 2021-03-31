@@ -251,3 +251,5 @@ export const PlNumber = designComponent({
         }
     },
 })
+
+export default PlNumber

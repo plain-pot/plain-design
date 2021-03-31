@@ -79,3 +79,5 @@ export const PlDateTimeInput = designComponent({
         }
     },
 })
+
+export default PlDateTimeInput

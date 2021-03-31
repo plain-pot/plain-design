@@ -196,3 +196,5 @@ export const CheckboxGroupCollector = useCollect(() => ({
     parent: PlCheckboxGroup,
     child: PlCheckbox,
 }))
+
+export default PlCheckboxGroup
