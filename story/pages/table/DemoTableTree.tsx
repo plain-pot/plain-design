@@ -1,4 +1,4 @@
-import {designPage, useRefs} from "plain-design-composition";
+import {designPage, onMounted, useRefs} from "plain-design-composition";
 import React from "react";
 import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
@@ -16,6 +16,85 @@ import PlAlert from "../../../src/packages/PlAlert";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlTooltip from "../../../src/packages/PlTooltip";
 import PlIcon from "../../../src/packages/PlIcon";
+
+const DemoVirtualTreeTable = designPage(() => {
+
+    const {refs, onRef} = useRefs({
+        tree: PlcTree as any,
+    })
+
+    const state = reactive({
+        data: [] as any[],
+    })
+
+    onMounted(async () => {
+        state.data = (await import('../data/address.json')).default
+    })
+
+    return () => (
+        <div>
+            <DemoLine>
+                <PlButtonGroup>
+                    <PlButton label={'全部展开'} onClick={() => refs.tree.expandAll()}/>
+                    <PlButton label={'全部收起'} onClick={() => refs.tree.collapseAll()}/>
+                    <PlButton label={'获取选中数据'} onClick={() => {
+                        $$message(refs.tree.getCheckedData().map(({data}: any) => data.name).join(','))
+                    }}/>
+                </PlButtonGroup>
+            </DemoLine>
+            <PlTable data={state.data} keyField="code" childrenField="children" virtual showCheckbox>
+                <PlcIndex/>
+                <Plc.PlcTree
+                    ref={onRef.tree} title={'标题'}
+                    content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
+                />
+                <Plc title={'编号'} field={'id'}/>
+                <Plc title={'名称'} field={'name'}/>
+            </PlTable>
+        </div>
+    )
+
+})
+
+const DemoVirtualDraggableTreeTable = designPage(() => {
+
+    const {refs, onRef} = useRefs({
+        tree: PlcTree as any,
+    })
+
+    const state = reactive({
+        data: [] as any[],
+    })
+
+    onMounted(async () => {
+        state.data = (await import('../data/address.json')).default
+    })
+
+    return () => (
+        <div>
+            <DemoLine>
+                <PlButtonGroup>
+                    <PlButton label={'全部展开'} onClick={() => refs.tree.expandAll()}/>
+                    <PlButton label={'全部收起'} onClick={() => refs.tree.collapseAll()}/>
+                    <PlButton label={'获取选中数据'} onClick={() => {
+                        $$message(refs.tree.getCheckedData().map(({data}: any) => data.name).join(','))
+                    }}/>
+                </PlButtonGroup>
+            </DemoLine>
+            <PlTable data={state.data} keyField="code" childrenField="children" virtual showCheckbox>
+                <PlcIndex/>
+                <Plc.PlcTree
+                    rowDraggable
+                    ref={onRef.tree} title={'标题'}
+                    content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
+                />
+                <Plc title={'编号'} field={'id'}/>
+                <Plc title={'名称'} field={'name'}/>
+            </PlTable>
+        </div>
+    )
+
+})
 
 export default designPage(() => {
 
@@ -102,6 +181,7 @@ export default designPage(() => {
                 case 'inner':
                     return true
             }
+            return true
         }
     }
 
@@ -244,6 +324,43 @@ export default designPage(() => {
                     <PlcIndex/>
                     <Plc.PlcTree
                         title={'标题'}
+                        content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
+                    />
+                    <Plc title={'编号'} field={'id'}/>
+                    <Plc title={'名称'} field={'name'}/>
+                </PlTable>
+            </DemoRow>
+
+            <DemoRow title={'虚拟树表格'}>
+                <DemoVirtualTreeTable/>
+            </DemoRow>
+            <DemoRow title={'可拖拽树形表格'}>
+                <PlTable data={data} keyField="id" childrenField="subs">
+                    <PlcIndex/>
+                    <Plc.PlcTree
+                        rowDraggable
+                        ref={onRef.tree2} title={'标题'}
+                        content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
+                    />
+                    <Plc title={'编号'} field={'id'}/>
+                    <Plc title={'名称'} field={'name'}/>
+                </PlTable>
+            </DemoRow>
+
+            <DemoRow title={'可拖拽树形虚拟表格'}>
+                <DemoVirtualDraggableTreeTable/>
+            </DemoRow>
+
+            <DemoRow title={'可拖拽，可放置控制'}>
+                <DemoLine><PlAlert>默认情况下，一个节点不能放置在他的子节点中</PlAlert></DemoLine>
+                <DemoLine>这里示例，第一层节点不能被拖拽，不能放置在第一层节点前后，只能放置在其子节点中（相当于控制第一层节点数量不变）</DemoLine>
+                <PlTable data={data} keyField="id" childrenField="subs">
+                    <PlcIndex/>
+                    <Plc.PlcTree
+                        rowDraggable
+                        ref={onRef.tree2} title={'标题'}
+                        allowRowDraggable={allow.rowDraggable}
+                        allowRowDroppable={allow.rowDroppable}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
                     <Plc title={'编号'} field={'id'}/>
