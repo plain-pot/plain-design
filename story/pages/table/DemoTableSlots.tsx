@@ -16,6 +16,7 @@ export default designPage(() => {
 
     const state = reactive({
         data,
+        destroy: false,
         summaryData: [
             {
                 "id": 0,
@@ -56,6 +57,9 @@ export default designPage(() => {
         <div>
             <DemoRow title={'基本用法'}>
                 <PlForm column={1}>
+                    <PlFormItem>
+                        <PlCheckbox v-model={state.destroy} label={'销毁表格'}/>
+                    </PlFormItem>
                     <PlFormItem label={'列宽度响应测试'}>
                         <PlNumber v-model={state.plc.width} step={100}/>
                     </PlFormItem>
@@ -88,7 +92,9 @@ export default designPage(() => {
                 </PlForm>
             </DemoRow>
             <DemoRow title={'作用域插槽'}>
+                {!state.destroy &&
                 <PlTable
+                    key={state.other.groupHead ? '1' : '2'}
                     data={data}
                     summaryData={state.other.hasSummaryData ? state.summaryData : undefined}
                     {...state.props}>
@@ -143,7 +149,7 @@ export default designPage(() => {
                         <Plc field="email" title="邮箱"/>
                         <Plc field="ip" title="ip"/>
                     </>}
-                </PlTable>
+                </PlTable>}
             </DemoRow>
         </div>
     )
