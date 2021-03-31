@@ -7,6 +7,7 @@ import {PlainScroll} from "../../../PlScroll";
 import {useAutoScroll} from "../../../PlScroll/useAutoScroll";
 import {StyleProperties} from "plain-design-composition/src/use/useStyles";
 import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
+import React from "react";
 
 interface DragData {
     left: number
@@ -249,7 +250,7 @@ export function useColDraggier(config: () => {
     }
 
     const handler = {
-        mousedown: (e: MouseEvent) => {
+        mousedown: (e: React.MouseEvent) => {
 
             const {broList, broData} = getDragData(table, plc)
             state.dragData = broData
@@ -340,6 +341,6 @@ export function useColDraggier(config: () => {
     }
 
     return {
-        tdAttrs: {onMousedown: handler.mousedown,}
+        tdAttrs: {onMouseDown: handler.mousedown,}
     }
 }
