@@ -16,6 +16,7 @@ import PlAlert from "../../../src/packages/PlAlert";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlTooltip from "../../../src/packages/PlTooltip";
 import PlIcon from "../../../src/packages/PlIcon";
+import PlTree from "../../../src/packages/PlTree";
 
 const DemoVirtualTreeTable = designPage(() => {
 
@@ -306,6 +307,20 @@ export default designPage(() => {
                 <PlTable data={data} keyField="id" childrenField="subs" according>
                     <PlcIndex/>
                     <Plc.PlcTree
+                        title={'标题'}
+                        content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
+                    />
+                    <Plc title={'编号'} field={'id'}/>
+                    <Plc title={'名称'} field={'name'}/>
+                </PlTable>
+            </DemoRow>
+
+            <DemoRow title={'展开图标'}>
+                <PlTable data={data} keyField="id" childrenField="subs">
+                    <PlcIndex/>
+                    <Plc.PlcTree
+                        folderExpandIcon="el-icon-caret-bottom"
+                        folderCollapseIcon="el-icon-caret-right"
                         title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
