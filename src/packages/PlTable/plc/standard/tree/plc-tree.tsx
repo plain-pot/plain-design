@@ -149,17 +149,15 @@ export default designPlc({
     head: ({refer, plc}) => (<>
         <PlDropdown
             {...{placement: "bottom"}}
-            v-slots={{
-                default: () => <PlButton icon="el-icon-menu" mode="text"/>,
-                popper: () => <PlDropdownMenu>
-                    <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={refer.methods.expandAll}/>
-                    <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={refer.methods.collapseAll}/>
-                    {refer.tableProps.showCheckbox && <>
-                        <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={refer.methods.checkAll}/>
-                        <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={refer.methods.uncheckAll}/>
-                    </>}
-                </PlDropdownMenu>
-            }}
+            default={() => <PlButton icon="el-icon-menu" mode="text"/>}
+            popper={() => <PlDropdownMenu>
+                <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={refer.methods.expandAll}/>
+                <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={refer.methods.collapseAll}/>
+                {refer.tableProps.showCheckbox && <>
+                    <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={refer.methods.checkAll}/>
+                    <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={refer.methods.uncheckAll}/>
+                </>}
+            </PlDropdownMenu>}
         />
         <div className="plc-tree-node-content">{plc.props.title}</div>
     </>),

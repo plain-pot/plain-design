@@ -102,14 +102,12 @@ export default designPlc({
     head: ({refer}) => (
         <PlDropdown
             {...{placement: 'bottom-center'}}
-            v-slots={{
-                default: () => <PlCheckbox checkStatus={refer.status.value}/>,
-                popper: () => <PlDropdownMenu>
-                    <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={refer.methods.checkAll}/>
-                    <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={refer.methods.clearAll}/>
-                    <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={refer.methods.reverse}/>
-                </PlDropdownMenu>
-            }}
+            default={() => <PlCheckbox checkStatus={refer.status.value}/>}
+            popper={() => <PlDropdownMenu>
+                <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={refer.methods.checkAll}/>
+                <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={refer.methods.clearAll}/>
+                <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={refer.methods.reverse}/>
+            </PlDropdownMenu>}
         />
     )
 })

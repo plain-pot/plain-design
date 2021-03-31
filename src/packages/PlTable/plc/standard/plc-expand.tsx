@@ -96,13 +96,11 @@ export default designPlc(
         head: ({refer}) => (
             <PlDropdown
                 {...{placement: "bottom-center"}}
-                v-slots={{
-                    default: () => <PlButton icon="el-icon-menu" mode="text"/>,
-                    popper: () => <PlDropdownMenu>
-                        <PlDropdownOption label="全部展开" onClick={refer.methods.expandAll} icon="el-icon-zoom-full"/>
-                        <PlDropdownOption label="全部收起" onClick={refer.methods.collapseAll} icon="el-icon-zoom-scale"/>
-                    </PlDropdownMenu>
-                }}
+                default={() => <PlButton icon="el-icon-menu" mode="text"/>}
+                popper={() => <PlDropdownMenu>
+                    <PlDropdownOption label="全部展开" onClick={refer.methods.expandAll} icon="el-icon-zoom-full"/>
+                    <PlDropdownOption label="全部收起" onClick={refer.methods.collapseAll} icon="el-icon-zoom-scale"/>
+                </PlDropdownMenu>}
             />
         ),
         default: ({refer, node, props}) => {
