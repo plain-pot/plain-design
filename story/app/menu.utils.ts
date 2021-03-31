@@ -147,7 +147,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Plc', title: '列组件', page: '/table/DemoTableColumns', complete: true},
             {name: 'Expand', title: '展开列', page: '/table/DemoTableExpand', complete: true},
             {name: 'Span', title: '合并单元格', page: '/table/DemoTableSpan', complete: true},
-            {name: 'Tree', title: '树形表格', page: '/table/tree/DemoTableTree', complete: false},
+            {name: 'Tree', title: '树形表格', page: '/table/DemoTableTree', complete: true},
             {name: 'Row Draggable', title: '行拖拽排序', page: '/table/DemoTableRowDraggable', complete: false},
             {name: 'Col Draggable', title: '列拖拽排序', page: '/table/DemoTableColDraggable', complete: false},
             {name: 'Table class-style', title: '行列样式', page: '/table/DemoTableClassAndStyle', complete: false},
