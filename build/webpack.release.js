@@ -13,10 +13,15 @@ module.exports = {
         index: resolve('src/index.ts'),
     },
     externals: {
-        react: {
-            root: 'React',
+        vue: {
+            root: 'Vue',
             commonjs: 'vue',
             commonjs2: 'vue',
+        },
+        react: {
+            root: 'React',
+            commonjs: 'react',
+            commonjs2: 'react',
         },
         'react-dom': {
             root: 'ReactDom',
