@@ -1,0 +1,122 @@
+const path = require('path')
+const resolve = filePath => path.resolve(__dirname, '../', filePath)
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require("webpack")
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const outputDir = 'dist'
+
+module.exports = {
+    mode: 'production',
+    entry: resolve('src/index.ts'),
+    externals: {
+        react: {
+            root: 'React',
+            commonjs: 'vue',
+            commonjs2: 'vue',
+        },
+        'react-dom': {
+            root: 'ReactDom',
+            commonjs: 'react-dom',
+            commonjs2: 'react-dom',
+        },
+    },
+    output: {
+        path: resolve(outputDir),
+        filename: '[name].js',
+        libraryTarget: 'umd',
+        // libraryExport: 'default',
+        library: 'PlainDesign',
+        globalObject: 'this'
+    },
+    resolve: {
+        //别名
+        alias: {
+            "@": resolve('src'),// @指向src
+            "~": resolve('node_modules')//~指向node_modules
+        },
+        //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
+        extensions: [".ts", ".tsx", ".js", ".json"]
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(t|j)sx?$/,
+                loader: 'babel-loader',
+                exclude: /node_modules(?!.*(plain-design-composition|plain-utils|plain-loading|plain-popper).*)/,
+            },
+            {
+                test: /\.css$/,//css处理顺口
+                use: ['style-loader', {//style-loader是把CSS当作一个style标签插入到HTML中
+                    loader: 'css-loader',//css-loader是处理CSS中的import 和url
+                    options: {importLoaders: 0}
+                }, {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: [
+                                [
+                                    require('autoprefixer')
+                                ],
+                            ],
+                        },
+                    }
+                }]
+            },
+            {
+                test: /\.scss$/,//处理less
+                use: ['style-loader', {
+                    loader: 'css-loader',
+                    options: {importLoaders: 0}
+                },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        require('autoprefixer')
+                                    ],
+                                ],
+                            },
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            additionalData: `
+                                @import "@/styles/global-import.scss";
+                            `
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(jpg|png|gif|svg|jpeg)$/,//处理图片,把图片打包到输出目录中
+                use: ['url-loader']
+            },
+            {
+                test: /\.md$/,
+                use: ['text-loader'],
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]',//path为相对于context的路径
+                        publicPath,
+                    }
+                }]
+            }
+        ]
+    },
+    plugins: [
+        new webpack.ProgressPlugin(),
+        new MiniCssExtractPlugin({filename: 'index.css'}),
+        new ForkTsCheckerWebpackPlugin(),
+        new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
+        new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+    ],
+}
