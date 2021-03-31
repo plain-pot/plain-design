@@ -24,7 +24,8 @@
     "plain-popper": "0.0.6",
     "plain-utils": "^0.1.18",
     "react-flip-move": "^3.0.4",
-    "react-transition-group": "^4.4.1"
+    "react-transition-group": "^4.4.1",
+    "vue": "^3.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
