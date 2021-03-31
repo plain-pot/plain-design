@@ -20,10 +20,10 @@ export function usePlcList({props}: {
     /*---------------------------------------computed-------------------------------------------*/
 
     const plcData = computed(() => {
-        if (!state.tableWidth) {
+        if (!state.tableWidth || !refs.collector) {
             return null
         }
-        const {children} = refs.collector!
+        const {children} = refs.collector
         return formatPlcList({
             plcList: children,
             props,
