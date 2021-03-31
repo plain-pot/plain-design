@@ -1,7 +1,6 @@
 import {designComponent, onMounted, reactive, useRefs} from "plain-design-composition";
 import React from "react";
 import './TestGroupTransition.scss'
-import 'antd/dist/antd.css'
 import {NativeInput} from "../../../src/packages/NativeInput";
 import {NativeTextarea} from "../../../src/packages/NativeTextarea";
 
