@@ -140,7 +140,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Basic', title: '基础表格', page: '/table/DemoTableBasic', complete: true},
             // {name: 'Test', title: '基础测试', page: '/table/table-base-test', complete: false},
             {name: 'Config', title: '自定义配置', page: '/table/DemoTableConfig', complete: true},
-            {name: 'Fixed', title: '固定列', page: '/table/DemoTableFixed', complete: false},
+            {name: 'Fixed', title: '固定列', page: '/table/DemoTableFixed', complete: true},
             {name: 'Slots', title: '列作用域插槽', page: '/table/DemoTableSlots', complete: false},
 
             {name: 'Edit Control', title: '编辑控制', page: '/table/DemoTableEdit', complete: false},
