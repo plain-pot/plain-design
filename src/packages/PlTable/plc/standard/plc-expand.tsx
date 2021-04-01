@@ -6,7 +6,7 @@ import {ComputedRef} from "@vue/runtime-core";
 import React, {ReactNode} from "react";
 import {injectPlainTable} from "../../index";
 import {computed, onBeforeUnmount, PropType} from "plain-design-composition";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import PlDropdown from "../../../PlDropdown";
 import PlButton from "../../../PlButton";
 import PlDropdownMenu from "../../../PlDropdownMenu";

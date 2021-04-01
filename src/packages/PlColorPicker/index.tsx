@@ -5,7 +5,7 @@ import {StyleProps, useStyle} from "../../use/useStyle";
 import {PlInput} from "../PlInput";
 import PlColorButton from "../PlColorButton";
 import {SimpleFunction} from "plain-design-composition/src/composition/event";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import useColorPicker from "../useColorPicker";
 import React from 'react';

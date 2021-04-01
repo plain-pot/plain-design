@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../dist/plain-design.min.css"/>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react/17.0.1/umd/react.production.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/react-dom/17.0.1/umd/react-dom.production.min.js"></script>
+<script src="./plain-design-composition.min.js"></script>
+<script src="../../dist/plain-design.min.js"></script>
+<script type="text/jsx">
+
+    console.log({
+        React,
+        ReactDOM,
+        PlainDesignComposition,
+        PlainDesign,
+    })
+    const {PlButton, PlRoot, $$message} = PlainDesign
+    const App = () => {
+        return (
+            <div>
+                <PlRoot>
+                    <PlButton onClick={() => $$message('hello world')}>
+                        this is app
+                    </PlButton>
+                </PlRoot>
+            </div>
+        )
+    }
+    ReactDOM.render(<App/>, document.querySelector('#app'))
+</script>
+</body>
+</html>

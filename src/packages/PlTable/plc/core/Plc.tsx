@@ -1,7 +1,7 @@
 import {computed, designComponent, ExtractPropTypes, useNumber, useRefs} from "plain-design-composition";
 import {PlcProps, PlcPublicAttrs} from "./plc.utils";
 import {Plc} from "./plc.type";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {usePlcCollector} from "./PlcCollector";
 import React from "react";
 
