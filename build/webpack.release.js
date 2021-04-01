@@ -18,6 +18,11 @@ module.exports = {
             commonjs: 'plain-design-composition',
             commonjs2: 'plain-design-composition',
         },
+        vue: {
+            root: 'Vue',
+            commonjs: 'vue',
+            commonjs2: 'vue',
+        },
         react: {
             root: 'React',
             commonjs: 'react',
