@@ -20,8 +20,8 @@ module.exports = {
         },
         react: {
             root: 'React',
-            commonjs: 'vue',
-            commonjs2: 'vue',
+            commonjs: 'react',
+            commonjs2: 'react',
         },
         'react-dom': {
             root: 'ReactDom',
