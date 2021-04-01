@@ -17,7 +17,9 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "plain-design-composition": "0.0.68"
+    "plain-design-composition": "0.0.68",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",
@@ -49,8 +51,6 @@
     "mini-css-extract-plugin": "^1.4.0",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
