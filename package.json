@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "plain-design-composition": "0.0.66"
+    "plain-design-composition": "0.0.68"
   },
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",

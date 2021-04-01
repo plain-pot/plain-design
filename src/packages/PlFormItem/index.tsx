@@ -4,7 +4,7 @@ import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
 import {FormComponentItemRules, FormRule, FormValidateUtils} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import useClass from "plain-design-composition/src/use/useClasses";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
