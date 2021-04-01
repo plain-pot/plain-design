@@ -13,6 +13,11 @@ module.exports = {
         index: resolve('src/index.ts'),
     },
     externals: {
+        'plain-design-composition': {
+            root: 'PlainDesignComposition',
+            commonjs: 'plain-design-composition',
+            commonjs2: 'plain-design-composition',
+        },
         react: {
             root: 'React',
             commonjs: 'vue',
