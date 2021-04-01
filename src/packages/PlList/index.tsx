@@ -9,7 +9,7 @@ export const PlList = designComponent({
         tag: {type: String, default: 'div'},
         easing: {type: String, default: 'cubic-bezier(0.23, 1, 0.32, 1)'},
         duration: {type: [String, Number], default: '300ms'},
-        animation: {type: String as PropType<FlipMove.AnimationProp>, default: 'accordionVertical'},
+        animation: {type: String as PropType<FlipMove.AnimationProp>},
         enterAnimation: {type: String as PropType<FlipMove.AnimationProp>},
         leaveAnimation: {type: String as PropType<FlipMove.AnimationProp>},
         onStart: {type: Function as PropType<(childElement: ReactElement<any>, domNode: HTMLElement) => void>},
@@ -22,6 +22,28 @@ export const PlList = designComponent({
     slots: ['default'],
     setup({props, slots}) {
         const {refs, onRef} = useRefs({el: HTMLDivElement})
+
+        const defaultFlipAnimation = {
+            enter: {
+                from: {
+                    transform: 'translateY(30px)',
+                    opacity: 0.15,
+                },
+                to: {
+                    transform: '',
+                },
+            },
+            leave: {
+                from: {
+                    transform: '',
+                },
+                to: {
+                    transform: 'translateY(-30px)',
+                    opacity: 0,
+                },
+            },
+        }
+
         return {
             refer: {
                 refs,
@@ -34,8 +56,8 @@ export const PlList = designComponent({
                             typeName={null}
                             easing={props.easing}
                             duration={props.duration}
-                            enterAnimation={props.enterAnimation || props.animation}
-                            leaveAnimation={props.leaveAnimation || props.animation}
+                            enterAnimation={defaultFlipAnimation.enter}
+                            leaveAnimation={defaultFlipAnimation.leave}
                             onStart={props.onStart}
                             onFinish={props.onFinish}
                             onStartAll={props.onStartAll}
