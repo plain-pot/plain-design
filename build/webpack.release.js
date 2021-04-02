@@ -18,6 +18,11 @@ module.exports = {
             commonjs: 'plain-design-composition',
             commonjs2: 'plain-design-composition',
         },
+        '@vue/runtime-core': {
+            root: 'Vue',
+            commonjs: '@vue/runtime-core',
+            commonjs2: '@vue/runtime-core',
+        },
         vue: {
             root: 'Vue',
             commonjs: 'vue',
