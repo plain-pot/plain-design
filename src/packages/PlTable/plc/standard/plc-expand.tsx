@@ -11,7 +11,7 @@ import PlDropdown from "../../../PlDropdown";
 import PlButton from "../../../PlButton";
 import PlDropdownMenu from "../../../PlDropdownMenu";
 import PlDropdownOption from "../../../PlDropdownOption";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 
 interface ExpandRefer {
     isExpand: (node: TableNode) => boolean,

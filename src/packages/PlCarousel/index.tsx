@@ -1,13 +1,13 @@
 import './carousel.scss'
 import {computed, designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {throttle} from "plain-utils/utils/throttle";
 import React from 'react';
 import PlIcon from "../PlIcon";
 import PlCarouselItem from "../PlCarouselItem";
 import {useCollect} from "../../use/useCollect";
-import classnames from 'plain-design-composition/src/lib/classNames';
+import {classnames} from 'plain-design-composition';
 
 export const PlCarousel = designComponent({
     name: 'pl-carousel',
@@ -88,7 +88,7 @@ export const PlCarousel = designComponent({
             return [...prev, activeVal.value, ...next]
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-carousel',
             {
                 'pl-carousel-vertical': props.vertical,

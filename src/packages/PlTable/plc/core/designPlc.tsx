@@ -4,7 +4,7 @@ import {VNodeChild} from "../../../../shims";
 import {Plc} from "./plc.type";
 import {TableNode} from "../../core/useTableNode";
 import {designComponent, ExtractPropTypes} from "plain-design-composition";
-import {ComponentPropsOptions} from "plain-design-composition/src/composition/prop-type";
+import {ComponentPropsOptions} from "plain-design-composition"
 import {usePlc} from "./Plc";
 import React from "react";
 

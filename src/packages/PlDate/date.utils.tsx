@@ -7,7 +7,7 @@ import {ExtractPropTypes, PropType} from "plain-design-composition";
 import {PDate} from "../../utils/plainDate";
 import {ReactNode} from "react";
 import React from "react";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 
 export enum DateView {
     year = 'year',

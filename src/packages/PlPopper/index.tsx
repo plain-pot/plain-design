@@ -1,14 +1,14 @@
 import './popper.scss'
 import {createError} from "../../utils/createError";
 import {computed, designComponent, getCurrentDesignInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
+import {nextIndex} from "plain-design-composition"
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "./trigger/PopperTrigger";
 import {getElement} from "../../utils/getElement";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 import {delay} from "plain-utils/utils/delay";
 import {debounce} from "plain-utils/utils/debounce";
 import React from 'react';
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {PlScroll} from "../PlScroll";
 import {createPortal, findDOMNode} from 'react-dom';
 import {PlainPopper} from 'plain-popper'
@@ -132,7 +132,7 @@ export const PlPopper = designComponent({
             return direction as 'top' | 'bottom' | 'left' | 'right'
         })
 
-        const popperClasses = useClass(() => [
+        const popperClasses = useClasses(() => [
             'pl-popper',
             'plain-popper',
             props.transition,

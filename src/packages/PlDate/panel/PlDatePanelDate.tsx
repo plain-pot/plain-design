@@ -6,13 +6,13 @@ import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import {prefix} from "../../../utils/prefix";
 import React from "react";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 import PlList from "../../PlList";
 import {PlDatePanelMonth} from "./PlDatePanelMonth";
 import {zeroize} from "plain-utils/string/zeroize";
 import {PlTimePanel} from "../../PlTime/panel/PlTimePanel";
-import classnames from "plain-design-composition/src/lib/classNames";
-import {mergeProps} from "plain-design-composition/src/composition/prop";
+import {classnames} from "plain-design-composition";
+import {mergeProps} from "plain-design-composition"
 
 export const PlDatePanelDate = designComponent({
     name: 'pl-date-panel-date',

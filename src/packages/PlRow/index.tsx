@@ -1,6 +1,6 @@
 import {designComponent, PropType, useRefs, useStyles} from 'plain-design-composition'
 import './grid.scss'
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
 
@@ -35,7 +35,7 @@ export const PlRow = designComponent({
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-row',
             {
                 [`pl-row-${props.type}`]: !!props.type,

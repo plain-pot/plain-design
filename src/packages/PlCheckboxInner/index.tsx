@@ -1,5 +1,5 @@
 import {designComponent} from "plain-design-composition"
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import {CheckboxStatus} from "../../utils/constant";
 import './checkbox-inner.scss'
@@ -13,7 +13,7 @@ export const PlCheckboxInner = designComponent({
     inheritPropsType: SVGElement,
     setup({props}) {
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-checkbox-inner',
             `pl-checkbox-inner-status-${props.checkStatus}`,
             {

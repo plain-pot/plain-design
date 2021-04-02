@@ -1,6 +1,6 @@
 import {onBeforeUnmount, onMounted, provide, reactive, ref, useRefs, useStyles} from "plain-design-composition";
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
+import {nextIndex} from "plain-design-composition"
 import {ReactNode} from "react";
 import React from "react";
 import PlTransition from "../PlTransition";

@@ -1,6 +1,6 @@
 import {designComponent, useRefs} from "plain-design-composition";
 import React from "react";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import PlIcon from "../PlIcon";
 
 export const PlDropdownGroup = designComponent({
@@ -11,7 +11,7 @@ export const PlDropdownGroup = designComponent({
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-dropdown-group',
             {'pl-dropdown-no-title': !slots.title.isExist()}
         ])

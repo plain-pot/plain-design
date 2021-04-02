@@ -11,10 +11,10 @@ import React from "react";
 import {handleKeyboard} from "../keyboard";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 
 const Props = {
     ...EditProps,

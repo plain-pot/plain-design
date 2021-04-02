@@ -4,7 +4,7 @@ import {designPage, reactive} from "plain-design-composition";
 import data2 from '../data/data-2.json'
 import {DemoRow} from "../../components/DemoRow";
 import PlVirtualList from "../../../src/packages/PlVirtualList";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 
 export default designPage(() => {

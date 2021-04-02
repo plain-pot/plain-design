@@ -1,6 +1,6 @@
 import './card.scss'
 import {designComponent, useRefs, useStyles} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
 
@@ -25,7 +25,7 @@ export const PlCard = designComponent({
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-card',
             {
                 'pl-card-mini': props.mini,

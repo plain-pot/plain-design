@@ -1,7 +1,7 @@
 import {designClassComponent, designComponent, onBeforeMount, PropType, useReference} from "plain-design-composition";
 import React from "react";
 import {CSSTransition, SwitchTransition} from "react-transition-group";
-import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {createCounter} from "plain-design-composition"
 import {findDOMNode} from "react-dom";
 
 const PlSwitchTransition = designComponent({

@@ -3,7 +3,7 @@ import './tag-input.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {PlInput} from "../PlInput";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {delay} from "plain-utils/utils/delay";
 import {getKey, KEY} from "../keyboard";
 import PlTag from "../PlTag";
@@ -46,7 +46,7 @@ export const PlTagInput = designComponent({
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle()
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             'pl-tag-input',
             `pl-tag-input-status-${styleComputed.value.status}`,
             {

@@ -5,7 +5,7 @@ import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {PlButton} from "../../../src/packages/PlButton";
 import {shuffle} from "plain-utils/object/shuffle";
 import {PlList} from "../../../src/packages/PlList";
-import {PropType} from "plain-design-composition/src/composition/prop-type";
+import {PropType} from "plain-design-composition"
 import './DemoUseRefList.scss'
 
 const Item = designClassComponent({
@@ -76,7 +76,7 @@ export default designComponent({
             },
         }
 
-        const items = useRefList<{ props: { data: any } }>()
+        const {refList:items,onRefList} = useRefList<{ props: { data: any } }>()
 
         return () => (
             <div className={'demo-use-ref-list'}>
@@ -96,7 +96,7 @@ export default designComponent({
                                     data={city}
                                     onAdd={() => handler.add(index)}
                                     onRemove={() => handler.remove(index)}
-                                    onRef={refer => items[index] = refer as any}
+                                    onRef={onRefList(index)}
                                 />
                             )
                         )}

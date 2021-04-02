@@ -1,5 +1,5 @@
 import {inject, provide} from "plain-design-composition"
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 
 const REFRESH_POPPER_REFERENCE = '@@REFRESH_POPPER_REFERENCE'
 

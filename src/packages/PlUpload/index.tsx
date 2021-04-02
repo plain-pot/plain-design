@@ -1,17 +1,17 @@
 import './upload.scss'
-import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {createCounter} from "plain-design-composition"
 import $$file, {FileServiceDefaultAccept, FileServiceSingleFile, FileServiceValidator} from "../$$file";
 import {computed, designComponent, PropType, useModel, useRefs} from 'plain-design-composition';
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
 import React, {ReactNode} from 'react';
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {toArray} from "../../utils/toArray";
 import $$message from "../$$message";
 import {$$dialog} from "../useDialog";
 import {defer} from "../../utils/defer";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import PlButtonGroup from "../PlButtonGroup";
 import PlButton from "../PlButton";
 
@@ -103,7 +103,7 @@ export const PlUpload = designComponent({
             id: 'nothing'
         }
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-upload',
             `pl-upload-${props.multiple ? 'multiple' : 'single'}`,
             {

@@ -13,7 +13,7 @@ import {PlDateTimeInput} from "../PlDateTimeInput";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
 import {PlInput} from "../PlInput";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 
 export const PlDate = designComponent({
     name: 'pl-date',

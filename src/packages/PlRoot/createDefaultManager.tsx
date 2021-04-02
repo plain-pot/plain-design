@@ -29,7 +29,7 @@ export function createDefaultManager<Option>(
         setup({props}) {
 
             const options = ref([] as Option[])
-            const refs = useRefList<typeof serviceComponent["use"]["class"]>()
+            const {refList, onRefList} = useRefList(serviceComponent)
 
             /**
              * 获取一个 非show以及open的 service提供服务，如果存在
@@ -41,13 +41,13 @@ export function createDefaultManager<Option>(
              */
             const service = async (option: Option): Promise<void> => {
                 if (isItemAvailable) {
-                    const item = isItemAvailable(refs, option)
+                    const item = isItemAvailable(refList, option)
                     if (!!item) {
                         return item.service(option)
                     }
                 } else {
-                    for (let i = 0; i < refs.length; i++) {
-                        const item = refs[i];
+                    for (let i = 0; i < refList.length; i++) {
+                        const item = refList[i];
                         const {isShow, isOpen} = item
                         if (!isShow.value && !isOpen.value) {
                             return item.service(option)
@@ -73,7 +73,7 @@ export function createDefaultManager<Option>(
                             {options.value.map((opt, i) => <ServiceComponent
                                 key={i}
                                 option={opt}
-                                ref={(proxy: any) => refs[i] = proxy}
+                                ref={onRefList(i)}
                             />)}
                         </div>
                     )

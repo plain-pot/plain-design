@@ -1,7 +1,7 @@
 import {designComponent, onMounted, reactive, useModel, useRefs, useStyles, watch} from 'plain-design-composition'
 import './loading-mask.scss'
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {nextIndex} from "plain-design-composition"
+import {useClasses} from "plain-design-composition";
 import {delay} from "plain-utils/utils/delay";
 import React from 'react';
 import PlLoading from "../PlLoading";
@@ -36,7 +36,7 @@ export const PlLoadingMask = designComponent({
             zIndex: nextIndex() + (!props.fixedPosition ? -1500 : 0) + 1,
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-loading-mask',
             {
                 'pl-loading-mask-unlock': props.unlock,

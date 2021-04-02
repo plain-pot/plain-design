@@ -4,7 +4,7 @@ import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import React from "react";
 import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
-import {mergeProps} from "plain-design-composition/src/composition/prop";
+import {mergeProps} from "plain-design-composition"
 
 export const PlDatePanelYear = designComponent({
     name: 'pl-date-panel-year',

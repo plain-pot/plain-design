@@ -4,7 +4,7 @@ import {DemoRow} from "../../components/DemoRow";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {StoryStatus} from "../../story.utils";
 import {PlCheckboxGroup} from "../../../src/packages/PlCheckboxGroup";
-import classNames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import './DemoCheckbox.scss'
 
 export default designPage(() => {
@@ -55,7 +55,7 @@ export default designPage(() => {
                 <PlCheckboxGroup v-model={state.val[4]}>
                     <PlCheckbox checkboxForAll>
                         {({status, click}) => (
-                            <div onClick={click} className={classNames(['demo-checkbox-custom-item', {'demo-checkbox-custom-item-active': status === 'check'}])}>
+                            <div onClick={click} className={classnames(['demo-checkbox-custom-item', {'demo-checkbox-custom-item-active': status === 'check'}])}>
                                 {({
                                     check: '以全选',
                                     uncheck: '未选中',
@@ -69,7 +69,7 @@ export default designPage(() => {
                             {({checked, click}) => (
                                 <div
                                     onClick={click}
-                                    className={classNames([
+                                    className={classnames([
                                         'demo-checkbox-custom-item',
                                         {'demo-checkbox-custom-item-active': checked},
                                     ])}>

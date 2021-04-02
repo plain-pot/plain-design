@@ -1,7 +1,7 @@
 import {computed, designComponent, reactive} from 'plain-design-composition'
 import React from 'react'
 import './DemoUseScopedSlots.scss'
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {delay} from "plain-utils/utils/delay";
 
 class TreeNode {
@@ -24,7 +24,7 @@ const DemoUseScopedSlotsComponent = designComponent({
 
         const formatData = computed(() => (props.data || []).map(item => new TreeNode(item)))
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'demo-use-scoped-slots-components',
             {
                 'demo-use-scoped-slots-components-has-default': scopeSlots.default.isExist()

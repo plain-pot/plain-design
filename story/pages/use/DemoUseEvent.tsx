@@ -1,7 +1,7 @@
 import {designComponent, useRefs, onBeforeUnmount, onMounted, reactive} from "plain-design-composition"
 import React from "react"
 import './DemoUseEvent.scss'
-import {createEventListener} from 'plain-design-composition/src/utils/createEventListener'
+import {createEventListener} from "plain-design-composition"
 
 export enum DemoUseEventTablePart {
     head = 'head',
@@ -122,7 +122,7 @@ export const DemoUseEventTable = designComponent({
         const state = reactive({
             hoverPart: null as null | DemoUseEventTablePart
         })
-
+        console.log(typeof DemoUseEventTableHead)
         return {
             refer: {
                 state,

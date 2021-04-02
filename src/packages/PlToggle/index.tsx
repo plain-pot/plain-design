@@ -2,7 +2,7 @@ import {computed, useRefs, designComponent, reactive, useModel} from "plain-desi
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {getKey, KEY} from "../keyboard";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import {useClickWave} from "../../directives/ClickWave";
 import './toggle.scss'
@@ -44,7 +44,7 @@ export const PlToggle = designComponent({
 
         const isChecked = computed(() => model.value === props.trueValue)
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             `pl-toggle`,
             `plain-click-node`,
             `pl-toggle-status-${styleComputed.value.status}`,

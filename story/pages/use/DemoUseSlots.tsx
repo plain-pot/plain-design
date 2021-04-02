@@ -1,6 +1,6 @@
 import {designComponent, reactive} from "plain-design-composition";
 import React from "react";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import './DemoUseSlots.scss'
 
 const DemoUseSlotsComponent = designComponent({
@@ -13,7 +13,7 @@ const DemoUseSlotsComponent = designComponent({
         'default',
     ],
     setup({props, slots}) {
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'demo-use-slots-component',
             {
                 'demo-use-slots-component-has-slot-head': slots.head.isExist()

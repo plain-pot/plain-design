@@ -4,8 +4,8 @@ import {TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
 import {TableNode} from "../../core/useTableNode";
 import {PropType} from "plain-design-composition";
 import {FormRule} from "../../../PlForm/form.validate";
-import {StyleProperties} from "plain-design-composition/src/use/useStyles";
-import {MultipleClass} from "plain-design-composition/src/lib/classNames";
+import {StyleProperties} from "plain-design-composition"
+import {MultipleClass} from "plain-design-composition"
 
 export type PlcRenderFunction = (scope: TableRenderScope) => VNodeChild
 export type PlcPropsHead = (scope: { plc: TablePlc }) => VNodeChild

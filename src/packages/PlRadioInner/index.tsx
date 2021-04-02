@@ -1,5 +1,5 @@
 import {designComponent, useRefs} from "plain-design-composition"
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import './radio-inner.scss'
 
@@ -13,7 +13,7 @@ export const PlRadioInner = designComponent({
 
         const {refs, onRef} = useRefs({el: SVGElement})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-radio-inner',
             `pl-radio-inner-${props.checkStatus}`,
         ])

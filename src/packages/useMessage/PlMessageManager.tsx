@@ -19,11 +19,11 @@ export const PlMessageManager = designComponent({
                     vertical: MessageServiceDirection.start,
                 }] as { horizontal: MessageServiceDirection, vertical: MessageServiceDirection }[]
         })
-        const refs = useRefList<typeof PlMessageContainer.use.class>()
+        const {refList, onRefList} = useRefList(PlMessageContainer)
 
         const getContainer = async (config: { horizontal: MessageServiceDirection, vertical: MessageServiceDirection }): Promise<typeof PlMessageContainer.use.class> => {
-            for (let i = 0; i < refs.length; i++) {
-                const ref = refs[i];
+            for (let i = 0; i < refList.length; i++) {
+                const ref = refList[i];
                 if (ref.props.horizontal === config.horizontal && ref.props.vertical === config.vertical) {
                     return ref
                 }
@@ -45,7 +45,7 @@ export const PlMessageManager = designComponent({
                             key={index}
                             horizontal={container.horizontal}
                             vertical={container.vertical}
-                            ref={(proxy: any) => refs[index] = proxy}/>)}
+                            ref={onRefList(index)}/>)}
                 </div>
             )
         }

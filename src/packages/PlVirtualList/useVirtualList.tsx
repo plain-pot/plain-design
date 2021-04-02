@@ -1,6 +1,6 @@
 import {computed, onMounted, onUpdated, reactive, useStyles, watch} from "plain-design-composition";
 import {PlScroll} from "../PlScroll";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {delay} from "plain-utils/utils/delay";
 import './virtual-list.scss'
 
@@ -86,7 +86,7 @@ export function useVirtualList(
      * @author  韦胜健
      * @date    2020/12/16 10:48
      */
-    const classes = useClass(() => [
+    const classes = useClasses(() => [
         'pl-virtual-list',
         {
             'pl-virtual-list-disabled': props.disabled,

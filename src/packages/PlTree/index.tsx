@@ -9,12 +9,12 @@ import {createKeyHandler} from "../../utils/createKeyHandler";
 import {useTreeDraggier} from "./core/useTreeDraggier";
 import {delay} from "plain-utils/utils/delay";
 import {TreeUtils} from "./utils/tree.utils";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import React from 'react';
 import {PlCheckbox} from '../PlCheckbox';
 import PlLoading from "../PlLoading";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 import {PlLoadingMask} from "../PlLoadingMask";
 
 export const PlTree = designComponent({

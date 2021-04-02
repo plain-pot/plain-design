@@ -7,7 +7,7 @@ import {debounce} from "plain-utils/utils/debounce";
 import PlIcon from "../PlIcon";
 import {PlScroll} from '../PlScroll';
 import {PlList} from '../PlList';
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import PlLoading from "../PlLoading";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {PlTransition} from '../PlTransition';

@@ -1,7 +1,7 @@
 import {computed, designComponent, getCurrentDesignInstance, useRefs} from "plain-design-composition";
 import {ArrowStepCollector} from "../PlArrowStepGroup";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import PlTriangle from "../PlTriangle";
 
@@ -43,7 +43,7 @@ export const PlArrowStep = designComponent({
             })
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-arrow-step',
             `pl-arrow-step-status-${currentStatus.value}`,
         ])

@@ -1,11 +1,11 @@
 import {computed, reactive, ref} from "plain-design-composition";
-import {StyleProperties} from "plain-design-composition/src/use/useStyles";
+import {StyleProperties} from "plain-design-composition"
 import {createDefaultService} from "../../PlRoot/createDefaultService";
 import {LoadingBarFormatOption, LoadingBarStatus} from "./index";
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
+import {nextIndex} from "plain-design-composition"
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import './loading-bar.scss'
 
 export default createDefaultService({
@@ -39,7 +39,7 @@ export default createDefaultService({
 
         const status = ['primary', 'success', 'warn', 'error', 'info']
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-loading-bar-service',
             {
                 [`pl-loading-bar-service-status-${color.value}`]: !!color.value && status.indexOf(color.value) > -1

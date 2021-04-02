@@ -6,7 +6,7 @@ import $$notice from "../$$notice";
 import PlIcon from "../PlIcon";
 import React from "react";
 import {useCollect} from "../../use/useCollect";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 
 export const PlSelectPanel = designComponent({
     name: 'pl-select-panel',
@@ -48,7 +48,7 @@ export const PlSelectPanel = designComponent({
         /*双向绑定值*/
         const model = useModel(() => props.modelValue as number | string | string[], emit.onUpdateModelValue)
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-select-panel',
             {
                 'pl-select-panel-multiple': props.multiple,

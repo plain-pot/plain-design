@@ -1,5 +1,5 @@
 import {designComponent, reactive, useRefList} from "plain-design-composition"
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {MessageServiceFormatOption} from "./index";
 import {delay} from "plain-utils/utils/delay";
 import {PlList} from "../PlList";
@@ -14,14 +14,14 @@ export default designComponent({
         duration: {type: String, default: "30px"},
     },
     setup({props}) {
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-message-container',
             `pl-message-container-${props.horizontal}-${props.vertical}`
         ])
         const state = reactive({
             options: [] as MessageServiceFormatOption[]
         })
-        const refs = useRefList<{ props: { option: MessageServiceFormatOption } }>()
+        const {refList, onRefList} = useRefList<{ props: { option: MessageServiceFormatOption } }>()
         const styles = {padding: props.duration}
 
         const utils = {
@@ -36,7 +36,7 @@ export default designComponent({
                 getMessage: async (option: MessageServiceFormatOption) => {
                     state.options.push(option)
                     await delay(0)
-                    const messages = refs.filter(Boolean)
+                    const messages = refList.filter(Boolean)
                     for (let i = 0; i < messages.length; i++) {
                         const message = messages[i];
                         if (message.props.option === option) {
@@ -53,7 +53,7 @@ export default designComponent({
                             <div className="pl-item" key={option.id}>
                                 <PlMessage
                                     option={option}
-                                    ref={(proxy: any) => refs[index] = proxy}
+                                    ref={onRefList(index)}
                                     onClose={() => utils.closeMessage(index)}
                                 />
                             </div>

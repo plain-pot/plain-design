@@ -12,14 +12,14 @@ import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {injectPlainTable} from "../../../index";
 import {PlcPropsDefault} from "../../core/plc.utils";
 import {ReactNode} from "react";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 import PlDropdown from "../../../../PlDropdown";
 import PlButton from "../../../../PlButton";
 import PlDropdownMenu from "../../../../PlDropdownMenu";
 import PlDropdownOption from "../../../../PlDropdownOption";
 import React from "react";
 import {PlCheckbox} from "../../../../PlCheckbox";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30

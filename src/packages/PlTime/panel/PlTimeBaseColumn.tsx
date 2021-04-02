@@ -6,7 +6,7 @@ import {zeroize} from "plain-utils/string/zeroize";
 import {delay} from "plain-utils/utils/delay";
 import {findOne} from "plain-utils/object/findOne";
 import React from 'react';
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 
 const size = 24;
 
@@ -32,7 +32,7 @@ export const PlTimeBaseColumn = designComponent({
         const {editComputed} = useEdit()
 
         const {refs, onRef} = useRefs({scroll: PlScroll,})
-        const liList = useRefList<HTMLLIElement>()
+        const {refList: liList, onRefList} = useRefList<HTMLLIElement>()
 
         const model = useModel(() => props.modelValue as any, event.emit.onUpdateModelValue, {onChange: () => delay().then(methods.resetPosition)})
 
@@ -119,7 +119,7 @@ export const PlTimeBaseColumn = designComponent({
                                 ])}
                                     key={item}
                                     onClick={() => handler.clickItem(item)}
-                                    ref={val => liList[index + 3] = val as any}>
+                                    ref={onRefList(index + 3)}>
                                     {item}
                                 </li>
                             ))}

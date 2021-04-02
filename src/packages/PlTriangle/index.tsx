@@ -1,6 +1,6 @@
 import './triangle.scss'
 import {designComponent, onMounted, useModel, useRefs, useStyles} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
 
@@ -31,7 +31,7 @@ export const PlTriangle = designComponent({
 
         const size = useModel(() => props.size, () => {})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-triangle',
             `pl-triangle-direction-${props.direction}`,
             {

@@ -3,7 +3,7 @@ import React from "react";
 import './DemoRow.scss'
 import {DemoRowCollector} from "./DemoRowController";
 import {DemoRowCache} from "./DemoRow.utils";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {Router} from "../app/navigator.utils";
 import PlIcon from "../../src/packages/PlIcon";
 
@@ -44,7 +44,7 @@ export const DemoRow = designComponent({
             }
         }
 
-        const classes = useClass(() => ['demo-row', {'demo-row-show': state.show, 'demo-row-group': props.group}])
+        const classes = useClasses(() => ['demo-row', {'demo-row-show': state.show, 'demo-row-group': props.group}])
 
         return {
             refer: {

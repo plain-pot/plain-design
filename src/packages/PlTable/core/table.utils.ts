@@ -1,8 +1,8 @@
 import {StyleProps} from "../../../use/useStyle";
 import {Plc, TablePlc} from "../plc/core/plc.type";
 import {TableNode} from "./useTableNode";
-import {MultipleClass} from "plain-design-composition/src/lib/classNames";
-import {StyleProperties} from "plain-design-composition/src/use/useStyles";
+import {MultipleClass} from "plain-design-composition"
+import {StyleProperties} from "plain-design-composition"
 import {PropType} from "plain-design-composition";
 import {SimpleObject} from "../../../shims";
 import {FormAssociateFields, FormComponentRules} from "../../PlForm/form.validate";

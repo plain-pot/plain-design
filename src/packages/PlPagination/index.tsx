@@ -8,9 +8,9 @@ import {PlSelectOption} from "../PlSelectOption";
 import React from "react";
 import {PlNumber} from "../PlNumber";
 import PlIcon from "../PlIcon";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import PlLoading from "../PlLoading";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 
 const SizesWidth = {
     large: 120,
@@ -52,7 +52,7 @@ export const PlPagination = designComponent({
         const jumperValue = ref(undefined as number | undefined)
         watch(() => props.currentPage, (val) => jumperValue.value = val == null ? 1 : Number(val), {immediate: true})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-pagination',
             `pl-pagination-size-${styleComputed.value.size}`,
             `pl-pagination-shape-${styleComputed.value.shape}`,

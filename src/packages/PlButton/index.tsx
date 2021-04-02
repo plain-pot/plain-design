@@ -1,11 +1,11 @@
 import {computed, designComponent, reactive, useNumber, useRefs, useStyles, watch} from 'plain-design-composition'
 import './button.scss'
-import {PropType} from "plain-design-composition/src/composition/prop-type";
+import {PropType} from "plain-design-composition";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
 import {throttle} from 'plain-utils/utils/throttle'
 import {unit} from 'plain-utils/string/unit'
 import React from 'react';
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {PlLoading} from "../PlLoading";
 import {PlIcon} from "../PlIcon";
 import {EditProps, useEdit} from "../../use/useEdit";
@@ -88,7 +88,7 @@ export const PlButton = designComponent({
             {immediate: true}
         )
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             'pl-button',
             'plain-click-node',
 

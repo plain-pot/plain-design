@@ -1,9 +1,9 @@
 import {computed, designComponent, useModel, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition";
 import {CheckboxStatus} from "../../utils/constant";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
 import PlCheckboxInner from "../PlCheckboxInner";
@@ -65,7 +65,7 @@ export const PlCheckbox = designComponent({
             }
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-checkbox',
             `pl-checkbox-status-${styleComputed.value.status}`,
             `pl-checkbox-size-${styleComputed.value.size}`,

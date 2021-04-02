@@ -1,7 +1,7 @@
 import {designPage, onMounted, useRefs} from "plain-design-composition";
 import React from "react";
 import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 import {reactive} from "@vue/reactivity";
 import {PlcCheck, PlcIndex, PlcTree} from "../../../src/packages/PlTable/plc/standard";
 import {DemoRow} from "../../components/DemoRow";

@@ -1,7 +1,7 @@
 import {designComponent, ref, watch} from 'plain-design-composition'
 import './icon.scss'
 import React, {ReactNode} from "react";
-import useClass from 'plain-design-composition/src/use/useClasses';
+import {useClasses} from 'plain-design-composition';
 import {refreshPopperReference} from "../PlPopper/refershPopperReference";
 
 interface IconGetter {
@@ -51,7 +51,7 @@ export const PlIcon = designComponent({
         const icon = ref(null as any)
         const {freshPopperReference} = refreshPopperReference.inject()
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-icon',
             {
                 [`pl-icon-status-${props.status}`]: !!props.status

@@ -1,5 +1,5 @@
 import {computed, designComponent, useRefs} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import {StepUtils} from "./step.utils";
 import {useCollect} from "../../use/useCollect";
@@ -29,7 +29,7 @@ export const PlStepGroup = designComponent({
         const isTitleAlignBottom = computed(() => {
             return props.titleAlignBottom || props.vertical
         })
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-step-group',
             `pl-step-group-${props.vertical ? 'vertical' : 'horizontal'}`,
             {

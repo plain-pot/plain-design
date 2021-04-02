@@ -1,8 +1,8 @@
 import './collapse.scss'
-import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {createCounter} from "plain-design-composition"
 import {computed, designComponent, useModel, useRefs} from "plain-design-composition";
 import PlCollapseGroup from "../PlCollapseGroup";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from 'react';
 import PlIcon from "../PlIcon";
 import PlCollapseTransition from "../PlCollapseTransition";
@@ -42,7 +42,7 @@ export const PlCollapse = designComponent({
             }
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-collapse',
             {
                 'pl-collapse-has-arrow': !props.noArrow,

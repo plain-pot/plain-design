@@ -1,6 +1,6 @@
 import {designComponent, useRefs} from "plain-design-composition";
 import PlDropdownMenu from "../PlDropdownMenu";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import PlIcon from "../PlIcon";
 
@@ -31,7 +31,7 @@ export const PlDropdownOption = designComponent({
             menu.handler.clickOption(e, props.val)
         }
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-dropdown-option',
             `pl-dropdown-option-align-${props.align}`,
             {

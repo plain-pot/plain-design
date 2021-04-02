@@ -20,11 +20,11 @@ export const PlNoticeManager = designComponent({
                 }] as { horizontal: NoticeServiceDirection, vertical: NoticeServiceDirection }[]
         })
 
-        const refs = useRefList<typeof PlNoticeContainer.use.class>()
+        const {refList, onRefList} = useRefList(PlNoticeContainer)
 
         const getContainer = async (config: { horizontal: NoticeServiceDirection, vertical: NoticeServiceDirection }): Promise<typeof PlNoticeContainer.use.class> => {
-            for (let i = 0; i < refs.length; i++) {
-                const ref = refs[i];
+            for (let i = 0; i < refList.length; i++) {
+                const ref = refList[i];
                 if (ref.props.horizontal === config.horizontal && ref.props.vertical === config.vertical) {
                     return ref
                 }
@@ -47,7 +47,7 @@ export const PlNoticeManager = designComponent({
                             key={index}
                             horizontal={container.horizontal}
                             vertical={container.vertical}
-                            ref={(proxy: any) => refs[index] = proxy}/>)}
+                            ref={onRefList(index)}/>)}
                 </div>
             )
         }

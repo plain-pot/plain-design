@@ -1,5 +1,5 @@
 import {computed, inject, provide} from "plain-design-composition";
-import {PropType} from "plain-design-composition/src/composition/prop-type";
+import {PropType} from "plain-design-composition"
 import {useFunctionWrapper} from "./useFunctionWrapper";
 
 export enum StyleMode {

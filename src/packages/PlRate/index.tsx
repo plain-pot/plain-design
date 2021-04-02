@@ -1,7 +1,7 @@
 import {computed, designComponent, reactive, useModel, useMounted, useRefs} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import React from "react";
@@ -43,7 +43,7 @@ export const PlRate = designComponent({
 
         /*---------------------------------------computer-------------------------------------------*/
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             `pl-rate`,
             `pl-rate-status-${styleComputed.value.status}`,
             `pl-rate-size-${styleComputed.value.size}`,

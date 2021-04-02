@@ -1,5 +1,5 @@
 import React, {useImperativeHandle, useMemo, useRef, useState} from "react";
-import {isDom} from "plain-design-composition/src/composition/utils";
+import {isDom} from "plain-design-composition"
 
 /**
  * 解决输入框光标问题

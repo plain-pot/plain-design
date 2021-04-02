@@ -2,7 +2,7 @@ import {designComponent, PropType, reactive, useModel, useRefs, useStyles, watch
 import {EditProps, useEdit} from "../../use/useEdit";
 import PlImage, {PlImageProps} from "../PlImage";
 import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$file";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {defer} from "../../utils/defer";
@@ -77,7 +77,7 @@ export const PlImageUploader = designComponent({
             image.src = val
         }, {immediate: true})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-image-uploader',
             `pl-image-uploader-status-${state.status}`,
             {

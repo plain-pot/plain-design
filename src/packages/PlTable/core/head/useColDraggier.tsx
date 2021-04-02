@@ -5,8 +5,8 @@ import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import PlTable from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import {useAutoScroll} from "../../../PlScroll/useAutoScroll";
-import {StyleProperties} from "plain-design-composition/src/use/useStyles";
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
+import {StyleProperties} from "plain-design-composition"
+import {nextIndex} from "plain-design-composition"
 import React from "react";
 
 interface DragData {

@@ -2,7 +2,7 @@ import {designComponent, useRefs, watch} from "plain-design-composition";
 import {PlainLoading} from "plain-loading";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import './loading.scss'
 
 export const PlLoading = designComponent({
@@ -15,7 +15,7 @@ export const PlLoading = designComponent({
 
         const {refs, onRef} = useRefs({el: HTMLElement})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-loading',
             !!props.status ? `pl-loading-status-${props.status}` : null,
         ])

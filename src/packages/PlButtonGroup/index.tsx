@@ -2,7 +2,7 @@ import {computed, designComponent, inject, provide, useRefs} from 'plain-design-
 import './button-group.scss'
 import {DEFAULT_STATUS, StyleMode, StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps, useEdit} from "../../use/useEdit";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from 'react';
 
 interface ButtonModeProviderValue {
@@ -42,7 +42,7 @@ export const PlButtonGroup = designComponent({
         const otherComputed = computed(() => ({mode: !!parentGroup ? parentGroup.value.mode : props.mode}))
         ButtonModeProvider.provide(otherComputed)
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             `pl-button-group`,
             `pl-button-group-status-${styleComputed.value.status}`,
             `pl-button-group-mode-${otherComputed.value.mode}`,

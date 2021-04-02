@@ -2,8 +2,8 @@ import './dialog.scss'
 import {computed, designComponent, onBeforeUnmount, reactive, ref, useRefs, watch} from "plain-design-composition";
 import {StyleProps, StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {nextIndex} from "plain-design-composition"
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {KeyboardService, KeyboardServiceOption} from "../keyboard";
 import {createPortal} from "react-dom";
@@ -86,7 +86,7 @@ export const PlDialog = designComponent({
             padding: !!props.center ? null : props.wrapperPadding,
         }))
 
-        const wrapperClasses = useClass(() => [
+        const wrapperClasses = useClasses(() => [
             'pl-dialog',
             props.transition,
             props.dialogClass,
@@ -99,7 +99,7 @@ export const PlDialog = designComponent({
             }
         ])
 
-        const bodyClasses = useClass(() => [
+        const bodyClasses = useClasses(() => [
             'pl-dialog-body',
             `pl-dialog-body-shape-${styleComputed.value.shape}`,
         ])

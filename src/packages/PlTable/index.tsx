@@ -11,7 +11,7 @@ import {useBindScroll} from "./core/useBindScroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {formatFormRules, FormValidate} from "../PlForm/form.validate";
 import {ComputedRef} from "@vue/runtime-core";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {hasClass} from "plain-utils/dom/hasClass";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
@@ -60,7 +60,7 @@ export const PlTable = designComponent({
         /*是否可以启用虚拟滚动*/
         const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-table',
             `pl-table-size-${styleComputed.value.size}`,
             `pl-table-shape-${styleComputed.value.shape}`,

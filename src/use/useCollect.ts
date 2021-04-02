@@ -1,5 +1,5 @@
 import {ref, provide, inject, onMounted, onBeforeUnmount, markRaw, getCurrentDesignInstance} from 'plain-design-composition';
-import {createCounter} from 'plain-design-composition/src/utils/createCounter'
+import {createCounter} from "plain-design-composition"
 import {UnwrapRef} from '@vue/reactivity'
 
 type UseCollectComponent = { options: { name?: string }, use: { class: any } }

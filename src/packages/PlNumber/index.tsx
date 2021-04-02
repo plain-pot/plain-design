@@ -4,7 +4,7 @@ import {EditProps, useEdit} from "../../use/useEdit";
 import {getKey, KEY} from "../keyboard";
 import {PlInput} from "../PlInput";
 import React from "react";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import PlIcon from "../PlIcon";
 import {useClickWave} from "../../directives/ClickWave";
 import './number.scss'
@@ -108,7 +108,7 @@ export const PlNumber = designComponent({
 
         /*---------------------------------------computer-------------------------------------------*/
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             `pl-number`,
             {
                 'pl-number-hide-button': props.hideButton,

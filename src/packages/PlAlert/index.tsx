@@ -1,7 +1,7 @@
 import {computed, designComponent, PropType, reactive, useRefs} from "plain-design-composition";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {STATUS} from "../../utils/constant";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import PlIcon from "../PlIcon";
 import './alert.scss'
@@ -39,7 +39,7 @@ export const PlAlert = designComponent({
             }
             return props.icon || STATUS[styleComputed.value.status!].icon
         })
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-alert',
             `pl-alert-status-${styleComputed.value.status}`,
             `pl-alert-shape-${styleComputed.value.shape}`,

@@ -1,5 +1,5 @@
 import {getBaseTrigger} from "./BaseTrigger";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 
 export class PopperTrigger {
     data: any

@@ -5,7 +5,7 @@ import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
 import {FormComponentItemRules, FormRule, FormValidateUtils} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
 import {reactive} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
 import {ComputedRef} from '@vue/runtime-core'
@@ -84,7 +84,7 @@ export const PlFormItem = designComponent({
         /*是否存在label节点*/
         const hasLabel = computed(() => !!props.label || slots.labelContent.isExist())
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-form-item',
             `pl-form-item-size-${styleComputed.value.size}`,
             `pl-form-item-label-align-${props.labelAlign || form.childState.align.label}`,

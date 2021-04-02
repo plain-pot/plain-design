@@ -1,6 +1,6 @@
 import './badge.scss'
 import {computed, designComponent, useRefs} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from 'react';
 
 export const PlBadge = designComponent({
@@ -16,7 +16,7 @@ export const PlBadge = designComponent({
     inheritPropsType: HTMLDivElement,
     slots: ['default', 'badge'],
     setup({props, slots}) {
-        const contentClass = useClass(() => [
+        const contentClass = useClasses(() => [
             'pl-badge-content',
             {
                 'pl-badge-content-dot': !!props.dot,

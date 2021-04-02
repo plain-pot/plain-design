@@ -1,7 +1,7 @@
 import {designComponent, PropType, useRefs, useStyles} from "plain-design-composition"
 import {PlRow} from "../PlRow";
-import useClass from "plain-design-composition/src/use/useClasses";
-import {SingleClass} from "plain-design-composition/src/lib/classNames";
+import {useClasses} from "plain-design-composition";
+import {SingleClass} from "plain-design-composition"
 import React from "react";
 
 export type GridColSize = number | {
@@ -29,7 +29,7 @@ export const PlCol = designComponent({
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         const row = PlRow.use.inject()
-        const classes = useClass(() => {
+        const classes = useClasses(() => {
             let classList = [
                 'pl-col',
                 {

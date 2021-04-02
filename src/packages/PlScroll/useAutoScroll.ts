@@ -1,6 +1,6 @@
 import {addClass} from "plain-utils/dom/addClass";
-import {nextIndex} from "plain-design-composition/src/utils/nextIndex";
-import {StyleProperties} from "plain-design-composition/src/use/useStyles";
+import {nextIndex} from "plain-design-composition"
+import {StyleProperties} from "plain-design-composition"
 import {PlScroll} from "./index";
 
 function createIndicator(hostEl: HTMLElement, vertical: boolean) {

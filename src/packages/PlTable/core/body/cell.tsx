@@ -6,7 +6,7 @@ import {ComputedRef} from "@vue/runtime-core";
 import {FormAssociateFields, FormValidate, FormValidateTrigger} from "../../../PlForm/form.validate";
 import {designComponent, PropType, useStyles} from "plain-design-composition";
 import {PlainTable} from "../../index";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {renderBodyCell} from "../../plc/core/render";
 import React from "react";
 
@@ -77,7 +77,7 @@ export const PltCell = designComponent({
                     /*rowspan为0时，不会正确合并单元格，如果要合并单元格得不渲染这个td*/
                     return null
                 }
-                const classes = useClass(() => {
+                const classes = useClasses(() => {
                     const ret = [
                         props.plc.classes.body,
                         props.plc.props.bodyCls,

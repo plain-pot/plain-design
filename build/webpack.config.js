@@ -36,8 +36,9 @@ module.exports = {
     resolve: {
         //别名
         alias: {
-            "@": resolve('src'),// @指向src
-            "~": resolve('node_modules')//~指向node_modules
+            "@": resolve('src'),
+            "~": resolve('node_modules'),
+            "plain-design-composition": "plain-design-composition/src/index.tsx",
         },
         //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
         extensions: [".ts", ".tsx", ".js", ".json"]
@@ -47,7 +48,7 @@ module.exports = {
             {
                 test: /\.(t|j)sx?$/,
                 loader: 'babel-loader',
-                exclude: /node_modules(?!.*(plain-utils|plain-loading|plain-popper).*)/,
+                exclude: /node_modules(?!.*(plain-design-composition|plain-utils|plain-loading|plain-popper).*)/,
             },
             {
                 test: /\.css$/,//css处理顺口

@@ -6,7 +6,7 @@ import {reactive} from "@vue/reactivity";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
 import './DemoScroll.scss'
-import classNames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import {PlCheckboxGroup} from "../../../src/packages/PlCheckboxGroup";
 import PlList from "../../../src/packages/PlList";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
@@ -44,7 +44,7 @@ export default designPage(() => {
                     <PlScroll>
                         <div>
                             {state.list.map((item, index) => (
-                                <div className={classNames(['demo-scroll-label', getClass(item),])} key={index}>
+                                <div className={classnames(['demo-scroll-label', getClass(item),])} key={index}>
                                     {item}
                                 </div>
                             ))}

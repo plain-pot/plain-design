@@ -1,4 +1,4 @@
-import {designPage, reactive} from 'plain-design-composition'
+import {designComponent, designPage, reactive} from 'plain-design-composition'
 import React from 'react'
 import './DemoTransition.scss'
 import PlTransition from "../../../src/packages/PlTransition";
@@ -7,12 +7,26 @@ import {PlButton} from "../../../src/packages/PlButton";
 import {PlButtonGroup} from "../../../src/packages/PlButtonGroup";
 import {PlInput} from "../../../src/packages/PlInput";
 
+const A = designComponent({
+    setup() {
+        return {
+            render: () => (
+                <div>
+                    111
+                </div>
+            )
+        }
+    },
+})
+console.log(A.name, typeof A)
+
 export default designPage(() => {
     const state = reactive({
         show: true,
     })
     return () => (
         <div>
+            <A/>
             <DemoRow title={'基本用法'}>
                 <PlButton label={'switch'} onClick={() => state.show = !state.show}/>
                 <br/>

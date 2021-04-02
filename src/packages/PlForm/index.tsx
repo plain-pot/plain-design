@@ -4,7 +4,7 @@ import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormAssociateFields, formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
 import {debounce} from "plain-utils/utils/debounce";
@@ -106,7 +106,7 @@ export const PlForm = designComponent({
             }
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-form',
             `pl-form-column-${numberState.column}`,
             {

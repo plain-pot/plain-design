@@ -1,6 +1,6 @@
 import {computed, designComponent, useRefs} from "plain-design-composition";
 import {SelectGroupCollector} from "../PlSelectGroup";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import {PlCheckbox} from "../PlCheckbox";
 import PlIcon from "../PlIcon";
@@ -35,7 +35,7 @@ export const PlSelectOption = designComponent({
             refs,
         }
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-select-option',
             {
                 'pl-select-option-disabled': props.disabled,

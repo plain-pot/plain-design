@@ -1,6 +1,6 @@
 import {reactive, computed, designComponent, PropType, watch, useStyles, useRefs} from 'plain-design-composition'
 import './image.scss'
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
 import PlIcon from "../PlIcon";
@@ -79,7 +79,7 @@ export const PlImage = designComponent({
             image.src = val
         }, {immediate: true})
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-image',
             `pl-image-status-${status.value}`,
             {

@@ -1,6 +1,6 @@
 import './tooltip.scss'
 import {designComponent, onMounted, onUpdated, reactive, useModel, useRefs} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {debounce} from "plain-utils/utils/debounce";
 import PlPopper from "../PlPopper";
 import React from 'react';
@@ -33,7 +33,7 @@ export const PlTooltip = designComponent({
         })
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
 
-        const popperClasses = useClass(() => [
+        const popperClasses = useClasses(() => [
             'pl-tooltip',
             `pl-tooltip-theme-${props.theme}`,
             props.popperClass,

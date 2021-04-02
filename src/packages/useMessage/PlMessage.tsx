@@ -1,11 +1,11 @@
 import {designClassComponent, PropType} from 'plain-design-composition'
 import './PlMessage.scss'
 import {MessageServiceFormatOption} from "./index";
-import useClass from "plain-design-composition/src/use/useClasses";
-import {nextIndex} from 'plain-design-composition/src/utils/nextIndex'
+import {useClasses} from "plain-design-composition";
+import {nextIndex} from "plain-design-composition"
 import React from 'react';
 import {PlIcon} from "../PlIcon";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 
 export default designClassComponent({
     name: 'pl-message',
@@ -17,7 +17,7 @@ export default designClassComponent({
     },
     setup({props, event: {emit}}) {
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-message',
             `pl-message-status-${props.option.status}`
         ])

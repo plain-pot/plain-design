@@ -1,7 +1,7 @@
 import {computed, useRefs, designComponent, PropType, reactive, useModel, useMounted} from "plain-design-composition"
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {removeUnit} from "plain-utils/string/removeUnit";
 import {disabledUserSelect} from 'plain-utils/dom/disabledUserSelect'
@@ -99,7 +99,7 @@ export const PlSlider = designComponent({
             [props.vertical ? 'width' : 'height']: unit(props.size),
         }))
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             'pl-slider',
             {
                 'pl-slider-full': !!props.full,

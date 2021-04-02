@@ -1,6 +1,6 @@
 import {computed, designComponent, getCurrentDesignInstance, useRefs} from "plain-design-composition";
 import {StepStatus, StepUtils} from "../PlStepGroup/step.utils";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import PlIcon from "../PlIcon";
 import PlLoading from "../PlLoading";
@@ -49,7 +49,7 @@ export const PlStep = designComponent({
         })
 
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-step',
             `pl-step-status-${currentStatus.value}`,
             {

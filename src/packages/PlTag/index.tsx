@@ -1,10 +1,10 @@
 import {designComponent, useRefs} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import PlIcon from "../PlIcon";
 import React from "react";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 import './tag.scss'
 
 export const PlTag = designComponent({
@@ -26,7 +26,7 @@ export const PlTag = designComponent({
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             `pl-tag`,
             `pl-tag-mode-${props.mode}`,
             `pl-tag-status-${styleComputed.value.status}`,

@@ -1,6 +1,6 @@
 import './scroll.scss'
 import {computed, designComponent, onBeforeUnmount, onMounted, reactive, useMounted, useRefs, useStyles, watch} from "plain-design-composition";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {delay} from "plain-utils/utils/delay";
 import {debounce} from "plain-utils/utils/debounce";
 import {throttle} from "plain-utils/utils/throttle";
@@ -98,7 +98,7 @@ export const PlScroll = designComponent({
             }
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             `pl-scroll`,
             {
                 'pl-scroll-always-show-scroll-bar': props.alwaysShowScrollbar,

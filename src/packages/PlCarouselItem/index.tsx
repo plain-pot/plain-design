@@ -1,8 +1,8 @@
 import {computed, designComponent, useRefs, useStyles} from "plain-design-composition";
-import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {createCounter} from "plain-design-composition";
 import React from "react";
 import {CarouselCollector} from "../PlCarousel";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 
 const counter = createCounter('carousel')
 
@@ -22,7 +22,7 @@ export const PlCarouselItem = designComponent({
         const itemVal = computed(() => props.val == null ? counter() : props.val)
         const styles = useStyles(() => carousel.utils.getItemStyles(itemVal.value) as any)
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-carousel-item',
             {'pl-carousel-item-animating': carousel.utils.isAnimating(itemVal.value),}
         ])

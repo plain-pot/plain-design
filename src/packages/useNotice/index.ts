@@ -1,5 +1,5 @@
 import {StyleStatus} from "../../use/useStyle";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 import {RequireFormat} from "../../shims";
 import {ReactNode} from "react";
 import {STATUS} from "../../utils/constant";

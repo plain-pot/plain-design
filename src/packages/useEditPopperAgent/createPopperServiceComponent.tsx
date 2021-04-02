@@ -4,7 +4,7 @@
  * @date    2020/11/27 9:31
  */
 import {computed, reactive, ref} from "plain-design-composition";
-import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {createCounter} from "plain-design-composition"
 import {createDefaultService} from "../PlRoot/createDefaultService";
 import {delay} from "plain-utils/utils/delay";
 import {PopperServiceComponentOption} from "./useEditPopperAgent.utils";

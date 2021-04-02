@@ -1,5 +1,5 @@
 import {computed, useRefs, designComponent, reactive, useModel} from "plain-design-composition"
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 import {useCollect} from "../../../src/use/useCollect";
 import './DemoUseCollect.scss'
@@ -47,7 +47,7 @@ export const DemoUseCollectChildComponent = designComponent({
             }
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'demo-use-collect-child',
             {
                 'demo-use-collect-child-checked': isChecked.value
@@ -115,7 +115,7 @@ export const DemoUseCollectParentComponent = designComponent({
             },
         }
 
-        const minusClass = useClass(() => [
+        const minusClass = useClasses(() => [
             'demo-use-collect-child',
             'demo-use-collect-child-minus',
             `demo-use-collect-child-minus-status-${utils.checkStatus()}`

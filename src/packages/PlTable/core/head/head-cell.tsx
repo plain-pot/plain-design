@@ -5,7 +5,7 @@ import {useColDraggier} from "./useColDraggier";
 import {designComponent, PropType} from "plain-design-composition";
 import {PlainTable} from "../../index";
 import {PlainScroll} from "../../../PlScroll";
-import classnames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import React from "react";
 
 export const PltHeadCell = designComponent({

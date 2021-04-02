@@ -2,9 +2,9 @@ import {computed, designComponent, PropType, useModel, useNumber, useRefs, useSt
 import './radio.scss'
 import {EditProps, useEdit} from "../../use/useEdit";
 import {DEFAULT_STATUS, StyleProps, useStyle} from "../../use/useStyle";
-import {SimpleFunction} from "plain-design-composition/src/composition/event";
+import {SimpleFunction} from "plain-design-composition"
 import {CheckboxStatus} from "../../utils/constant";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {getKey, KEY} from "../keyboard";
 import React from 'react';
@@ -55,7 +55,7 @@ export const PlRadio = designComponent({
             }
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-radio',
             `pl-radio-status-${styleComputed.value.status}`,
             `pl-radio-size-${styleComputed.value.size}`,

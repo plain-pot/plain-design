@@ -1,11 +1,9 @@
-import {designComponent, useRefList, installJSXModelPlugin, markRaw, reactive} from "plain-design-composition"
+import {designComponent, useRefList, markRaw, reactive} from "plain-design-composition"
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {delay} from "plain-utils/utils/delay";
 import React from "react";
 import {createPortal} from 'react-dom'
 import './PlRoot.scss'
-
-installJSXModelPlugin(React)
 
 export const PlRoot = designComponent({
     name: 'pl-root',
@@ -19,7 +17,7 @@ export const PlRoot = designComponent({
         /*全局样式定义*/
         useStyle()
         /*controller代理对象引用*/
-        let refs = useRefList<any>()
+        let {refList, onRefList} = useRefList()
         /*当前状态*/
         const state = reactive({
             managers: [] as {
@@ -38,9 +36,9 @@ export const PlRoot = designComponent({
             name: string,
             managerComponent: ManagerComponent
         ): Promise<ManagerComponent["use"]["class"]> {
-            if (!!refs) {
-                for (let i = 0; i < refs.length; i++) {
-                    const managerInstance = refs[i];
+            if (!!refList && refList.length > 0) {
+                for (let i = 0; i < refList.length; i++) {
+                    const managerInstance = refList[i];
                     if (!!managerInstance) {
                         const {name: attrName, Component: attrComponent} = managerInstance.props
                         if (name === attrName && managerComponent === attrComponent) {
@@ -73,7 +71,7 @@ export const PlRoot = designComponent({
                             <RenderComponent
                                 key={index}
                                 {...{name, Component}}
-                                ref={(refer: any) => refs[index] = refer}
+                                ref={onRefList(index)}
                             />
                         ))}
                     </div>,

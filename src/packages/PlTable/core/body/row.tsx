@@ -2,7 +2,7 @@ import {PltCell} from "./cell";
 import {TableNode} from "../useTableNode";
 import {designComponent, PropType} from "plain-design-composition";
 import {PlainTable} from "../../index";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import React from "react";
 
 export const PltRow = designComponent({
@@ -20,7 +20,7 @@ export const PltRow = designComponent({
             vid: props.vid,
         }
 
-        const classes = useClass(() => {
+        const classes = useClasses(() => {
             const ret = [
                 'plt-row',
                 {

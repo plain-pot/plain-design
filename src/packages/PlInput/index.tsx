@@ -1,13 +1,13 @@
 import {computed, designComponent, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {getKey, KEY} from "../keyboard";
 import {throttle} from "plain-utils/utils/throttle";
 import React from "react";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-design-composition/src/utils/createEventListener";
+import {createEventListener} from "plain-design-composition"
 import PlLoading from "../PlLoading";
 import './input.scss'
 import {noop} from "../../utils/constant";
@@ -134,7 +134,7 @@ export const PlInput = designComponent({
 
         /*---------------------------------------computed-------------------------------------------*/
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             `pl-input-shape-${styleComputed.value.shape}`,
             `pl-input-size-${styleComputed.value.size}`,
             {

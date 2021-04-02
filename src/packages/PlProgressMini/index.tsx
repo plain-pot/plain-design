@@ -4,7 +4,7 @@ import {PROGRESS_DEFAULT_PROPS} from "../PlProgressBar/progress.utils";
 import {createAnimate} from "../../utils/createAnimate";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 
 export const PlProgressMini = designComponent({
     name: 'pl-progress-mini',
@@ -31,7 +31,7 @@ export const PlProgressMini = designComponent({
             style.width = unit(props.size)
         })
 
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-progress-mini',
             {
                 [`pl-progress-mini-status-${props.status}`]: !!props.status,

@@ -10,7 +10,7 @@ import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import $$file from "../$$file";
 import {imageCompress} from "./image.service.utils";
 import {createPortal} from "react-dom";
-import {createCounter} from "plain-design-composition/src/utils/createCounter";
+import {createCounter} from "plain-design-composition"
 
 interface ImageServicePreviewOption {
     urls: (string | null | undefined)[],

@@ -2,7 +2,7 @@ import {designComponent, useRefs} from "plain-design-composition";
 import React, {ReactElement} from "react";
 import FlipMove from "react-flip-move";
 import './list.scss'
-import {PropType} from "plain-design-composition/src/composition/prop-type";
+import {PropType} from "plain-design-composition"
 
 export const PlList = designComponent({
     props: {

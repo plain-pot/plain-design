@@ -1,12 +1,12 @@
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, SlideTransitionDirection} from "../date.utils";
 import {computed, designComponent, PropType} from "plain-design-composition";
 import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import React from "react";
 import {PlDatePanelYear} from "./PlDatePanelYear";
-import {mergeProps} from "plain-design-composition/src/composition/prop";
+import {mergeProps} from "plain-design-composition"
 
 export const PlDatePanelMonth = designComponent({
     name: 'pl-date-panel-month',
@@ -80,7 +80,7 @@ export const PlDatePanelMonth = designComponent({
             return list
         })
 
-        const listClasses = useClass(() => [
+        const listClasses = useClasses(() => [
             'pl-date-base-panel-month-list',
             {
                 'pl-date-base-panel-month-list-show-quarter': props.showQuarter,

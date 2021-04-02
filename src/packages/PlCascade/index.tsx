@@ -9,7 +9,7 @@ import {CascadeMark} from "./utils/CascadMark";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useCascade} from "../PlCascadePanel/useCascade";
 import React from 'react';
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 import {ie} from "plain-utils/utils/ie";
 
 export const PlCascade = designComponent({
@@ -143,7 +143,7 @@ export const PlCascade = designComponent({
 
         /*---------------------------------------computer-------------------------------------------*/
 
-        const classes = useClass(() => ([
+        const classes = useClasses(() => ([
             'pl-cascade',
             {
                 'pl-cascade-open': agentState.isShow.value,

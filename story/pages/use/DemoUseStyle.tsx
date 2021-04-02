@@ -2,7 +2,7 @@ import {designComponent} from 'plain-design-composition'
 import './DemoUseStyle.scss'
 import {DEFAULT_STATUS, StyleProps, StyleStatus, useStyle} from "../../../src/use/useStyle";
 import React from 'react';
-import useClass from "plain-design-composition/src/use/useClasses";
+import {useClasses} from "plain-design-composition";
 
 const DemoUseStyleParent = designComponent({
     props: {
@@ -12,7 +12,7 @@ const DemoUseStyleParent = designComponent({
     setup({slots}) {
 
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-use-style-parent',
             `pl-use-style-parent-status-${styleComputed.value.status}`
         ])
@@ -37,7 +37,7 @@ const DemoUseStyleChild = designComponent({
     setup() {
 
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
-        const classes = useClass(() => [
+        const classes = useClasses(() => [
             'pl-use-style-child',
             `pl-use-style-child-status-${styleComputed.value.status}`
         ])

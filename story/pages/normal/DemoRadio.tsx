@@ -4,7 +4,7 @@ import {DemoRow} from "../../components/DemoRow";
 import {PlRadio} from "../../../src/packages/PlRadio";
 import {StorySizes, StoryStatus} from "../../story.utils";
 import {PlRadioGroup} from "../../../src/packages/PlRadioGroup";
-import classNames from "plain-design-composition/src/lib/classNames";
+import {classnames} from "plain-design-composition";
 import './DemoRadio.scss'
 
 export default designPage(() => {
@@ -70,21 +70,21 @@ export default designPage(() => {
                 <PlRadioGroup v-model={state.val[3]}>
                     <PlRadio val={'tag1'}>
                         {({checked, click}) => (
-                            <span className={classNames(['demo-radio-block', {'demo-radio-block-is-active': checked}])} onClick={click}>
+                            <span className={classnames(['demo-radio-block', {'demo-radio-block-is-active': checked}])} onClick={click}>
                                 标签一
                             </span>
                         )}
                     </PlRadio>
                     <PlRadio val={'tag2'}>
                         {({checked, click}) => (
-                            <span className={classNames(['demo-radio-block', {'demo-radio-block-is-active': checked}])} onClick={click}>
+                            <span className={classnames(['demo-radio-block', {'demo-radio-block-is-active': checked}])} onClick={click}>
                                 标签二
                             </span>
                         )}
                     </PlRadio>
                     <PlRadio val={'tag3'}>
                         {({checked, click}) => (
-                            <span className={classNames(['demo-radio-block', {'demo-radio-block-is-active': checked}])} onClick={click}>
+                            <span className={classnames(['demo-radio-block', {'demo-radio-block-is-active': checked}])} onClick={click}>
                                 标签三
                             </span>
                         )}
