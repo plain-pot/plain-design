@@ -4,9 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const webpack = require("webpack")
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
 const outputDir = 'docs'
 const publicPath = '/plain-design/'
+const port = '3379'
 const env = {
     publicPath
 }
@@ -38,7 +40,7 @@ module.exports = {
         alias: {
             "@": resolve('src'),
             "~": resolve('node_modules'),
-            "plain-design-composition": "plain-design-composition/src/index.tsx",
+            // "plain-design-composition": "plain-design-composition/src/index.tsx",
         },
         //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
         extensions: [".ts", ".tsx", ".js", ".json"]
@@ -48,7 +50,8 @@ module.exports = {
             {
                 test: /\.(t|j)sx?$/,
                 loader: 'babel-loader',
-                exclude: /node_modules(?!.*(plain-design-composition|plain-utils|plain-loading|plain-popper).*)/,
+                // exclude: /node_modules(?!.*(plain-design-composition|plain-utils|plain-loading|plain-popper).*)/,
+                exclude: /node_modules(?!.*(plain-utils|plain-loading|plain-popper).*)/,
             },
             {
                 test: /\.css$/,//css处理顺口
@@ -126,6 +129,14 @@ module.exports = {
         ...(isProduction ? [new BundleAnalyzerPlugin()] : []),
         new webpack.DefinePlugin({
             ENV: JSON.stringify(env),
-        })
+        }),
+        new FriendlyErrorsWebpackPlugin({
+            // 成功的时候输出
+            compilationSuccessInfo: {
+                messages: [`Your application is running here: http://localhost:${port}${publicPath}`]
+            },
+            // 是否每次都清空控制台
+            clearConsole: true,
+        }),
     ],
 }
