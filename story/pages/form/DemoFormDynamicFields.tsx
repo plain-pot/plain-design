@@ -40,7 +40,7 @@ export default designPage(() => {
                     {formData.addressList.map((item, index) => (
                         <PlFormItem label={`收件人地址${index + 1}`} field={`addressList.${index}.addr`} key={index} rules={{required: true, trigger: 'blur'}}>
                             <PlInput v-model={item.addr}/>
-                            <PlButton icon={'el-icon-minus'} style={{marginLeft: '1em'}} shape={'round'} mode={'stroke'} size={'mini'} onClick={() => {formData.addressList.splice(index, 1)}}/>
+                            <PlButton icon={'el-icon-minus'} style={{marginLeft: '1em'}} mode={'stroke'} size={'mini'} onClick={() => {formData.addressList.splice(index, 1)}}/>
                         </PlFormItem>
                     ))}
                     <PlFormItem>
