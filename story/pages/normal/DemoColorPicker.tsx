@@ -1,7 +1,7 @@
 import {designPage, onMounted, useRefs} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import PlColorAlphaSlider from "../../../src/packages/PlColorPicker/sub/PlColorAlphaSlider";
 import PlColorHueSlider from "../../../src/packages/PlColorPicker/sub/PlColorHueSlider";
 import PlColorPanel from "../../../src/packages/PlColorPicker/PlColorPanel";

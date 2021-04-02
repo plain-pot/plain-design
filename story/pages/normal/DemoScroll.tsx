@@ -2,7 +2,7 @@ import {designPage, useRefs} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlScroll} from "../../../src/packages/PlScroll";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
 import './DemoScroll.scss'

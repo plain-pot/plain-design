@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import data from '../data/data.json'
 import PlForm from "../../../src/packages/PlForm";

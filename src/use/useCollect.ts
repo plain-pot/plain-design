@@ -1,6 +1,6 @@
 import {ref, provide, inject, onMounted, onBeforeUnmount, markRaw, getCurrentDesignInstance} from 'plain-design-composition';
 import {createCounter} from "plain-design-composition"
-import {UnwrapRef} from '@vue/reactivity'
+import {UnwrapRef} from 'plain-design-composition'
 
 type UseCollectComponent = { options: { name?: string }, use: { class: any } }
 type UseCollectSort = (() => HTMLElement) | number

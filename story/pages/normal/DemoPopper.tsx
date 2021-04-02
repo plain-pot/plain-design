@@ -1,7 +1,7 @@
 import {designPage, useReference} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {PlPopper} from "../../../src/packages/PlPopper";
 import PlButton from "../../../src/packages/PlButton";
 import PlIcon from "../../../src/packages/PlIcon";

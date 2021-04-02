@@ -3,7 +3,7 @@ import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlLoading} from "../../../src/packages/PlLoading";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {PlLoadingMask} from "../../../src/packages/PlLoadingMask";
 import PlButton from "../../../src/packages/PlButton";
 import {useLoading} from "../../../src/packages/useLoading";

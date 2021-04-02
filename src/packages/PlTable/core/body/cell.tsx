@@ -2,7 +2,7 @@ import {Plc} from "../../plc/core/plc.type";
 import {TableNode} from "../useTableNode";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
-import {ComputedRef} from "@vue/runtime-core";
+import {ComputedRef} from "plain-design-composition";
 import {FormAssociateFields, FormValidate, FormValidateTrigger} from "../../../PlForm/form.validate";
 import {designComponent, PropType, useStyles} from "plain-design-composition";
 import {PlainTable} from "../../index";

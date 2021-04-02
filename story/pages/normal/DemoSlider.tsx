@@ -2,7 +2,7 @@ import {designPage} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import PlSlider from "../../../src/packages/PlSlider";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import PlButton from "../../../src/packages/PlButton";
 import {DemoLine} from "../../components/DemoLine";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";

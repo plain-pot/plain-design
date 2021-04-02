@@ -10,7 +10,7 @@ import {usePlcList} from "./plc/format/usePlcList";
 import {useBindScroll} from "./core/useBindScroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {formatFormRules, FormValidate} from "../PlForm/form.validate";
-import {ComputedRef} from "@vue/runtime-core";
+import {ComputedRef} from "plain-design-composition";
 import {useClasses} from "plain-design-composition";
 import {hasClass} from "plain-utils/dom/hasClass";
 import {PltHead} from "./core/head/head";

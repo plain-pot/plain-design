@@ -8,7 +8,7 @@ import {reactive} from "plain-design-composition";
 import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
-import {ComputedRef} from '@vue/runtime-core'
+import {ComputedRef} from 'plain-design-composition'
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',

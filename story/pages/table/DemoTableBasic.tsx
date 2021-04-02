@@ -4,7 +4,7 @@ import data from '../data/data-1.json'
 import {DemoRow} from "../../components/DemoRow";
 import PlTable from "../../../src/packages/PlTable";
 import Plc from "../../../src/packages/PlTable/plc/core/Plc";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
 import PlForm from "../../../src/packages/PlForm";
 import PlFormItem from "../../../src/packages/PlFormItem";

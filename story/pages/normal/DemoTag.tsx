@@ -6,7 +6,7 @@ import $$message from "../../../src/packages/$$message";
 import PlIcon from "../../../src/packages/PlIcon";
 import {StoryStatus} from "../../story.utils";
 import PlTagInput from "../../../src/packages/PlTagInput";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlButton from "../../../src/packages/PlButton";
 import {DemoLine} from "../../components/DemoLine";

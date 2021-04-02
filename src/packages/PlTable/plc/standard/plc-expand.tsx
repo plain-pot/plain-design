@@ -2,7 +2,7 @@ import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../core/useTableNode";
 import {SimpleObject} from "../../../../shims";
 import {Plc} from "../core/plc.type";
-import {ComputedRef} from "@vue/runtime-core";
+import {ComputedRef} from "plain-design-composition";
 import React, {ReactNode} from "react";
 import {injectPlainTable} from "../../index";
 import {computed, onBeforeUnmount, PropType} from "plain-design-composition";

@@ -7,7 +7,7 @@ import PlDropdownMenu from "../../../src/packages/PlDropdownMenu";
 import PlDropdownOption from "../../../src/packages/PlDropdownOption";
 import $$message from "../../../src/packages/$$message";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
-import {reactive} from "@vue/reactivity";
+import {reactive} from "plain-design-composition";
 import PlDropdownGroup from "../../../src/packages/PlDropdownGroup";
 import PlIcon from "../../../src/packages/PlIcon";
 
