@@ -26,6 +26,7 @@ module.exports = {
     devServer: {
         //热更新插件
         hot: true,
+        port,
         //静态文件根目录
         contentBase: outputDir,
         //browserHistory的时候，刷新会报404. 自动重定向到index.html

@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
-import {reactive} from "plain-design-composition";
+import {reactive} from '@vue/runtime-core'
 import React from "react";
 import {PlInput} from "../../../src/packages/PlInput";
 import {DemoLine} from "../../components/DemoLine";
