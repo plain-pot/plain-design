@@ -23,8 +23,9 @@
   },
   "dependencies": {
     "@types/react-transition-group": "^4.4.1",
+    "@vue/runtime-core": "^3.0.11",
     "dayjs": "^1.10.4",
-    "plain-design-composition": "0.0.79",
+    "plain-design-composition": "0.0.80",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
     "plain-utils": "^0.1.18",
