@@ -39,7 +39,7 @@ export const PlPopper = designComponent({
         placement: {type: String, default: 'bottom-start'},         // 位置
         arrow: {type: Boolean, default: true},                      // 是否需要箭头
 
-        boundary: {},                                               // 边界元素
+        boundary: {default: document.body as any},                  // 边界元素
         sizeEqual: {type: Boolean},                                 // 与reference在方向上大小相等
         scrollAttrs: {type: Object},                                // pl-scroll 属性配置
         popperAttrs: {type: Object},                                // 给popper dom节点传递的属性
