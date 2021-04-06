@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "plain-design-composition": "0.0.82",
+    "plain-design-composition": "0.0.86",
     "@vue/runtime-core": "3.0.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
