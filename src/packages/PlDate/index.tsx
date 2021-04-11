@@ -14,6 +14,7 @@ import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
 import {PlInput} from "../PlInput";
 import {classnames} from "plain-design-composition";
+import {unit} from "plain-utils/string/unit";
 
 export const PlDate = designComponent({
     name: 'pl-date',
@@ -33,7 +34,7 @@ export const PlDate = designComponent({
         plainDate,
     },
     slots: ['foot'],
-    setup({props, slots, event: {emit}}) {
+    setup({props, slots, event: {emit}, attrs}) {
 
         const model = useModel(() => props.modelValue as any, emit.onUpdateModelValue)
         const startModel = useModel(() => props.start, emit.onUpdateStart)
@@ -159,7 +160,7 @@ export const PlDate = designComponent({
                 suffixIcon: 'el-icon-date',
                 clearIcon: true,
                 isFocus: agentState.state.focusCounter > 0,
-                width: isDates ? undefined : null,
+                width: attrs.width != null ? unit(attrs.width) : (isDates ? undefined : null),
                 inputInnerTabindex: isDates ? 0 : null,
                 clearHandler: handler.clearHandler,
 

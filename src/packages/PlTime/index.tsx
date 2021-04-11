@@ -12,6 +12,7 @@ import {useTime} from "./useTime";
 import {PlInput} from "../PlInput";
 import {useDateTime} from "../PlDateTimeInput/useDateTime";
 import {PlDateTimeInput} from "../PlDateTimeInput";
+import {unit} from "plain-utils/string/unit";
 
 export const PlTime = designComponent({
     name: 'pl-time',
@@ -30,7 +31,7 @@ export const PlTime = designComponent({
     slots: ['foot'],
     expose: {plainDate},
     inheritPropsType: PlInput,
-    setup({props, slots, event: {emit}}) {
+    setup({props, slots, event: {emit}, attrs}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const startModel = useModel(() => props.start, emit.onUpdateStart)
@@ -157,7 +158,7 @@ export const PlTime = designComponent({
                     suffixIcon="el-icon-time"
                     clearIcon
                     isFocus={agentState.state.focusCounter > 0}
-                    width={null as any}
+                    width={attrs.width != null ? unit(attrs.width) : null as any}
                     inputInnerTabindex={null as any}
                     clearHandler={handler.clearHandler}
                     onClickInput={handler.clickInput}
