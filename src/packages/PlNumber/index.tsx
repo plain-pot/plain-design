@@ -233,7 +233,7 @@ export const PlNumber = designComponent({
                     <NativeInput
                         ref={onRef.innerInput}
                         type="text"
-                        value={model.value || ''}
+                        value={model.value == null ? '' : model.value}
                         disabled={editComputed.value.disabled!}
                         readOnly={editComputed.value.readonly!}
                         placeholder={editComputed.value.placeholder!}
