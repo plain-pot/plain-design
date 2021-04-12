@@ -18,6 +18,7 @@ export default designComponent({
             'accordionVertical',
             'accordionHorizontal',
             'none',
+            undefined,
         ] as any[]
 
         const state = reactive({
@@ -57,7 +58,7 @@ export default designComponent({
                 </DemoRow>
                 <DemoRow title={'动画'}>
                     {animations.map(ani => (
-                        <PlButton label={ani} active={state.animations === ani} key={ani} onClick={() => state.animations = ani}/>
+                        <PlButton label={String(ani)} active={state.animations === ani} key={ani} onClick={() => state.animations = ani}/>
                     ))}
                 </DemoRow>
                 <DemoRow>
