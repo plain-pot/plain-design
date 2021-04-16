@@ -1,4 +1,4 @@
-import {computed, designComponent, inject, onMounted, PropType, useRefs} from "plain-design-composition";
+import {computed, ComputedRef, designComponent, inject, onMounted, PropType, useClasses} from "plain-design-composition";
 import {TableHoverPart, TableProps} from "./core/table.utils";
 import {useTree} from "../PlTree/core/useTree";
 import {TableNode, useTableNode} from "./core/useTableNode";
@@ -10,8 +10,6 @@ import {usePlcList} from "./plc/format/usePlcList";
 import {useBindScroll} from "./core/useBindScroll";
 import {useFixedShadow} from "./core/useFixedShadow";
 import {formatFormRules, FormValidate} from "../PlForm/form.validate";
-import {ComputedRef} from "plain-design-composition";
-import {useClasses} from "plain-design-composition";
 import {hasClass} from "plain-utils/dom/hasClass";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
