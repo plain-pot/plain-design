@@ -2,11 +2,11 @@ import {PltRow} from "./row";
 import {TableHoverPart} from "../table.utils";
 import {TableNode} from "../useTableNode";
 import {designComponent, useRefs} from "plain-design-composition";
-import {PlVirtualTable} from "../../PlVirtualTable";
 import React from "react";
 import {PlainTable} from "../../index";
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PlainScroll} from "../../../PlScroll";
+import PlVirtualTable from "../../../PlVirtualTable";
 
 export const PltBody = designComponent({
     name: 'plt-head',

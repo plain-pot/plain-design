@@ -108,3 +108,5 @@ export const PlVirtualTable = designComponent({
         }
     },
 })
+
+export default PlVirtualTable

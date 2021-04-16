@@ -6,7 +6,7 @@ import data from '../data/data.json'
 import PlForm from "../../../src/packages/PlForm";
 import PlFormItem from "../../../src/packages/PlFormItem";
 import PlToggle from "../../../src/packages/PlToggle";
-import {PlVirtualTable} from "../../../src/packages/PlTable/PlVirtualTable";
+import PlVirtualTable from "../../../src/packages/PlVirtualTable";
 
 export default designPage(() => {
 
