@@ -12,7 +12,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.js --progress",
     "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js --progress",
-    "release": "cross-env NODE_ENV=production webpack --config ./build/webpack.release.js --progress"
+    "release": "cross-env NODE_ENV=production webpack --config ./build/webpack.release.js --progress",
+    "theme": "ts-node src/styles/data/scan.scss.ts"
   },
   "author": "",
   "license": "ISC",
@@ -60,6 +61,7 @@
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.5",
     "url-loader": "^4.1.1",
     "webpack": "^4.46.0",
