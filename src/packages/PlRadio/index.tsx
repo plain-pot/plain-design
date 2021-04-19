@@ -42,7 +42,6 @@ export const PlRadio = designComponent({
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {editComputed} = useEdit()
         const {styleComputed} = useStyle({status: DEFAULT_STATUS})
-        const {numberState} = useNumber(props, ['width'])
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const checkStatus = computed(() => {
             if (!!props.checkStatus) {
@@ -67,8 +66,8 @@ export const PlRadio = designComponent({
 
         const styles = useStyles(style => {
             let width: number | null | string = null;
-            if (!!numberState.width) {
-                width = numberState.width as number
+            if (!!props.width) {
+                width = props.width as number
             }
             if (!!group && !!group.props.itemWidth) {
                 width = group.props.itemWidth

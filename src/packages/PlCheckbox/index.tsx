@@ -44,8 +44,6 @@ export const PlCheckbox = designComponent({
         const checkboxGroup = CheckboxGroupCollector.child({injectDefaultValue: null})
         /*绑定值*/
         const modelValue = useModel(() => props.modelValue, emit.onUpdateModelValue)
-        /*格式化属性值*/
-        const {numberState} = useNumber(props, ['width'])
 
         /*可编辑控制*/
         const {editComputed} = useEdit()
@@ -75,7 +73,7 @@ export const PlCheckbox = designComponent({
 
         /*当前选项宽度*/
         const targetWidth = computed(() => {
-            if (!!numberState.width) return numberState.width
+            if (!!props.width) return props.width
             if (!!checkboxGroup && !!checkboxGroup.props.itemWidth) return checkboxGroup.props.itemWidth
             return null
         })
