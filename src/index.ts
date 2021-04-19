@@ -72,6 +72,8 @@ import PlTree from "./packages/PlTree";
 import PlTriangle from "./packages/PlTriangle";
 import PlUpload from "./packages/PlUpload";
 import PlVirtualList from "./packages/PlVirtualList";
+import PlVirtualTable from "./packages/PlVirtualTable";
+
 import useColorPicker from "./packages/useColorPicker";
 import useContextmenu from "./packages/useContextmenu";
 import useDialog from "./packages/useDialog";
@@ -156,6 +158,8 @@ export {
     PlTriangle,
     PlUpload,
     PlVirtualList,
+    PlVirtualTable,
+
     useColorPicker,
     useContextmenu,
     useDialog,
