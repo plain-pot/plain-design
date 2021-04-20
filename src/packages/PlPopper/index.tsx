@@ -78,7 +78,7 @@ export const PlPopper = designComponent({
         const {emit, on, off} = event
 
         const {refs, onRef} = useRefs({
-            wrapper: HTMLElement,                                               // 注释节点，用来查找reference的第一个节点
+            wrapper: ClassWrapper,                                               // 注释节点，用来查找reference的第一个节点
             popper: HTMLDivElement,                                             // popper div 节点
             content: HTMLDivElement,                                            // popper content 节点
         });
