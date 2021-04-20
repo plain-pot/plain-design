@@ -421,7 +421,7 @@ export const PlPopper = designComponent({
                     <>
                         {/*如果没有reference，则不渲染comment节点*/}
                         {!!children && <>
-                            <ClassWrapper ref={onRef.wrapper as any}>
+                            <ClassWrapper ref={onRef.wrapper}>
                                 {children}
                             </ClassWrapper>
                         </>}
