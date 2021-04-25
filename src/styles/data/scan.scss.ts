@@ -112,6 +112,8 @@ const ScanUtils = (() => {
         },
     })
 
+    pathToCode['plain-loading'] = await resolveScssCode(utils.resolve('node_modules/plain-loading/src/index.scss'))
+
     const compReg = /src\/packages\/(.*?)\/.*/
 
     let data = Object.entries(pathToCode)
