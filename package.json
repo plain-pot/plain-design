@@ -27,7 +27,7 @@
     "dayjs": "^1.10.4",
     "plain-loading": "^0.1.5",
     "plain-popper": "0.0.6",
-    "plain-utils": "^0.1.18",
+    "plain-utils": "^0.1.20",
     "react-flip-move": "^3.0.4",
     "react-transition-group": "^4.4.1"
   },
