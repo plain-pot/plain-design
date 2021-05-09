@@ -2,7 +2,7 @@ import './date.scss'
 import {computed, designComponent, PropType, useModel} from "plain-design-composition";
 import {StyleProps} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
-import {DateEmitRangeType, DatePanel, DatePublicEmits, DatePublicProps, getDefaultDateFormatter} from "./date.utils";
+import {DateCommonUtils, DateEmitRangeType, DatePanel, DatePublicEmits, DatePublicProps, getDefaultDateFormatter} from "./date.utils";
 import {PDate, plainDate} from "../../utils/plainDate";
 import {delay} from "plain-utils/utils/delay";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
@@ -34,6 +34,7 @@ export const PlDate = designComponent({
     },
     expose: {
         plainDate,
+        ...DateCommonUtils,
     },
     slots: ['foot'],
     setup({props, slots, event: {emit}, attrs}) {

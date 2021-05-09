@@ -4,7 +4,7 @@
  * @date    2021/1/18 10:43
  */
 import {ExtractPropTypes, PropType} from "plain-design-composition";
-import {PDate} from "../../utils/plainDate";
+import {PDate, plainDate} from "../../utils/plainDate";
 import {ReactNode} from "react";
 import React from "react";
 import {classnames} from "plain-design-composition";
@@ -231,3 +231,59 @@ export function DatePanelItemWrapper(
         },
     }
 }
+
+export const DateCommonUtils = {
+    /*今天*/
+    today: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => plainDate(new Date(), {displayFormat, valueFormat}).getDayJs(),
+    /*昨天*/
+    yesterday: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+        const today = DateCommonUtils.today(displayFormat, valueFormat)
+        return today.day(-1)
+    },
+    /*明天*/
+    tomorrow: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+        const today = DateCommonUtils.today(displayFormat, valueFormat)
+        return today.day(+1)
+    },
+    week: {
+        start: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+            const today = DateCommonUtils.today(displayFormat, valueFormat)
+            return today.startOf('week')
+        },
+        end: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+            const today = DateCommonUtils.today(displayFormat, valueFormat)
+            return today.endOf('week')
+        },
+    },
+    month: {
+        start: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+            const today = DateCommonUtils.today(displayFormat, valueFormat)
+            return today.startOf('month')
+        },
+        end: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+            const today = DateCommonUtils.today(displayFormat, valueFormat)
+            return today.endOf('month')
+        },
+    },
+    year: {
+        start: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+            const today = DateCommonUtils.today(displayFormat, valueFormat)
+            return today.startOf('year')
+        },
+        end: (displayFormat = 'YYYY-MM-DD', valueFormat = 'YYYY-MM-DD') => {
+            const today = DateCommonUtils.today(displayFormat, valueFormat)
+            return today.endOf('year')
+        },
+    },
+}
+
+/*
+console.log('今天', DateCommonUtils.today().format('YYYY-MM-DD'))
+console.log('明天', DateCommonUtils.tomorrow().format('YYYY-MM-DD'))
+console.log('昨天', DateCommonUtils.yesterday().format('YYYY-MM-DD'))
+console.log('本周第一天', DateCommonUtils.week.start().format('YYYY-MM-DD'))
+console.log('本周最后一天', DateCommonUtils.week.end().format('YYYY-MM-DD'))
+console.log('本月第一天', DateCommonUtils.month.start().format('YYYY-MM-DD'))
+console.log('本月最后一天', DateCommonUtils.month.end().format('YYYY-MM-DD'))
+console.log('本年第一天', DateCommonUtils.year.start().format('YYYY-MM-DD'))
+console.log('本年最后一天', DateCommonUtils.year.end().format('YYYY-MM-DD'))*/
