@@ -15,6 +15,7 @@ import PlIcon from "../PlIcon";
 import {PlInput} from "../PlInput";
 import {classnames} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
+import PlPopper from "../PlPopper";
 
 export const PlDate = designComponent({
     name: 'pl-date',
@@ -24,6 +25,7 @@ export const PlDate = designComponent({
         ...DatePublicProps,
         panel: {type: String as PropType<keyof typeof DatePanel>, default: DatePanel.date},
         collapseTags: {type: Boolean, default: true},
+        popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
     },
     emits: {
         ...DatePublicEmits,
@@ -77,6 +79,7 @@ export const PlDate = designComponent({
             serviceGetter: useDate,
             option: {
                 reference: () => refs.plInput?.refs.input,
+                popperAttrs: props.popperAttrs as any,
                 renderAttrs: () => ({
                     ...(Object.keys(DatePublicProps).reduce((ret: any, key) => {
                         ret[key] = (props as any)[key]

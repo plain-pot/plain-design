@@ -48,7 +48,7 @@ export default designPage(() => {
                 <DemoRow title={'日期选择'}>
                     <DemoRow title={'额外内容'}>
                         <DemoLine>{val[24]}</DemoLine>
-                        <PlDate v-model={val[24]} foot={<>
+                        <PlDate v-model={val[24]} popperAttrs={{placement: 'bottom-end'}} foot={<>
                             <PlButton size={'mini'} label={'昨天'} onClick={() => setDate('yesterday')}/>
                             <PlButton size={'mini'} label={'今天'} onClick={() => setDate('today')}/>
                             <PlButton size={'mini'} label={'明天'} onClick={() => setDate('tomorrow')}/>
