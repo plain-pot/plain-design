@@ -1,8 +1,8 @@
 @include theme {
   $tableHeadColor: rgba(0, 0, 0, 0.85);
-  $tableHeadBackground: #f5f7fa;
+  $tableHeadBackground: #f9f9f9;
   $tableHeadHoverBackground: #e4e7ef;
-  $tableHeadBorderColor: $ibc;
+  $tableHeadBorderColor: #f0f0f0;
 
   $tableBodyColor: rgba(0, 0, 0, 0.65);
 
@@ -140,6 +140,7 @@
   .plt-body {
     tr {
       td {
+        transition: background-color 150ms linear;
         background-color: white;
         color: $tableBodyColor;
       }
