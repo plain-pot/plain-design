@@ -47,12 +47,13 @@ export const PlRow = designComponent({
             const gutter = Number(props.gutter)
             if (gutter !== 0) {
                 style = {
-                    marginLeft: unit(gutter / -2),
-                    marginRight: unit(gutter / -2)
+                    paddingLeft: unit(gutter / 2),
+                    paddingRight: unit(gutter / 2)
                 };
             }
             return style
         })
+        // console.log(styles.value)
 
         return {
             refer: {
