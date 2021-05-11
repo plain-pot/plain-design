@@ -19,6 +19,7 @@ export default designPage(() => {
 
     const state = reactive({
         data,
+        stripe: false,
         summaryData: [
             {
                 "id": 0,
@@ -89,6 +90,9 @@ export default designPage(() => {
                     <PlFormItem label="列销毁测试(名称)">
                         <PlToggle v-model={state.plc.init}/>
                     </PlFormItem>
+                    <PlFormItem label="斑马纹">
+                        <PlToggle v-model={state.stripe}/>
+                    </PlFormItem>
                     <PlFormItem label="文本对齐方式">
                         <PlRadioGroup v-model={state.plc.align}>
                             <PlRadio label="left" val="left"/>
@@ -124,7 +128,7 @@ export default designPage(() => {
                     {...state.props}
                     /*不加这个key，没有问题，还很流畅*/
                     // key={state.other.groupHead ? '1' : '2'}
-                    stripe>
+                    stripe={state.stripe}>
 
                     {!!state.other.groupHead && <>
                         <Plc title={'普通文本列'} field={'id'}/>
