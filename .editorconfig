@@ -1,6 +1,11 @@
-# 匹配py结尾的文件
 [*.{js, jsx, ts, tsx, scss}]
 # 缩进风格，可选"space"、"tab"
 indent_style = space
 # 缩进的空格数
 indent_size = 4
+
+[*.scss]
+# 缩进风格，可选"space"、"tab"
+indent_style = space
+# 缩进的空格数
+indent_size = 2
