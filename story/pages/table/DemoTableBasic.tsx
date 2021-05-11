@@ -1,10 +1,9 @@
 import React from "react"
-import {designPage} from "plain-design-composition";
+import {designPage, reactive} from "plain-design-composition";
 import data from '../data/data-1.json'
 import {DemoRow} from "../../components/DemoRow";
 import PlTable from "../../../src/packages/PlTable";
 import Plc from "../../../src/packages/PlTable/plc/core/Plc";
-import {reactive} from "plain-design-composition";
 import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
 import PlForm from "../../../src/packages/PlForm";
 import PlFormItem from "../../../src/packages/PlFormItem";
@@ -20,6 +19,7 @@ export default designPage(() => {
     const state = reactive({
         data,
         stripe: false,
+        size: undefined as any,
         summaryData: [
             {
                 "id": 0,
@@ -43,8 +43,8 @@ export default designPage(() => {
             groupHead: true,
         },
         props: {
-            headRowHeight: 45,
-            bodyRowHeight: 40,
+            headRowHeight: undefined,
+            bodyRowHeight: undefined,
             border: false,
             virtual: false,
         },
@@ -93,6 +93,13 @@ export default designPage(() => {
                     <PlFormItem label="斑马纹">
                         <PlToggle v-model={state.stripe}/>
                     </PlFormItem>
+                    <PlFormItem label="大小尺寸">
+                        <PlRadioGroup v-model={state.size}>
+                            <PlRadio label="large" val="large"/>
+                            <PlRadio label="normal" val="normal"/>
+                            <PlRadio label="mini" val="mini"/>
+                        </PlRadioGroup>
+                    </PlFormItem>
                     <PlFormItem label="文本对齐方式">
                         <PlRadioGroup v-model={state.plc.align}>
                             <PlRadio label="left" val="left"/>
@@ -128,7 +135,9 @@ export default designPage(() => {
                     {...state.props}
                     /*不加这个key，没有问题，还很流畅*/
                     // key={state.other.groupHead ? '1' : '2'}
-                    stripe={state.stripe}>
+                    stripe={state.stripe}
+                    size={state.size}
+                >
 
                     {!!state.other.groupHead && <>
                         <Plc title={'普通文本列'} field={'id'}/>
