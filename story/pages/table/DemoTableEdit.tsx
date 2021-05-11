@@ -13,10 +13,13 @@ import {FormRule} from "../../../src/packages/PlForm/form.validate";
 import $$message from "../../../src/packages/$$message";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
+import {PlRadioGroup} from "../../../src/packages/PlRadioGroup";
+import {PlRadio} from "../../../src/packages/PlRadio";
 
 export default designPage(() => {
 
     const state = reactive({
+        size: undefined as any,
         data,
         editNodes: [] as TableNode[],
         virtualFlag: false,
@@ -60,6 +63,13 @@ export default designPage(() => {
         <div>
             <DemoRow title={'基本用法'}>
                 <PlForm column={1}>
+                    <PlFormItem label="大小尺寸">
+                        <PlRadioGroup v-model={state.size}>
+                            <PlRadio label="large" val="large"/>
+                            <PlRadio label="normal" val="normal"/>
+                            <PlRadio label="mini" val="mini"/>
+                        </PlRadioGroup>
+                    </PlFormItem>
                     <PlFormItem label={'是否开启虚拟滚动'}>
                         <PlToggle v-model={state.virtualFlag}/>
                     </PlFormItem>
@@ -76,7 +86,9 @@ export default designPage(() => {
                     virtual={state.virtualFlag}
                     data={data}
                     associateFields={state.associateFields}
-                    onDblclickCell={state.onDblClickRow}>
+                    onDblclickCell={state.onDblClickRow}
+                    size={state.size}
+                >
                     <Plc.PlcIndex/>
                     <Plc field="id" title="编号" width={'50'}/>
                     <Plc field="name" title="普通文本列"/>
