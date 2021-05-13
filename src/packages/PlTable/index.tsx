@@ -42,7 +42,7 @@ export const PlTable = designComponent({
             }
         })
         const {emit} = event
-        const {numberState, plcData, refs, onRef} = usePlcList({props})
+        const {numberState, plcData, refs, onRef} = usePlcList({props, styleComputed})
         const {bindScroll} = useBindScroll(event)
         const {state, flatNodes, summaryNodes, dataModel, methods, current, handler, utils} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)

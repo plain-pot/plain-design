@@ -1,10 +1,10 @@
 @include theme {
-  $tableHeadColor: rgba(0, 0, 0, 0.85);
+  $tableHeadColor: rgba(0, 0, 0, .85);
   $tableHeadBackground: #f9f9f9;
   $tableHeadHoverBackground: #e4e7ef;
   $tableHeadBorderColor: #f0f0f0;
 
-  $tableBodyColor: rgba(0, 0, 0, 0.65);
+  $tableBodyColor: rgba(0, 0, 0, 0.85);
 
   $tableRowHoverBackground: #f5f7fa;
   $tableRowCurrentBackground: mix($colorPrimary, white, 7.5%);
@@ -235,6 +235,26 @@
             }
           }
         }
+      }
+    }
+  }
+  /*---------------------------------------size-------------------------------------------*/
+  .pl-table {
+    &.pl-table-size-large {
+      .plt-cell {
+        font-size: 16px;
+      }
+    }
+
+    &.pl-table-size-normal {
+      .plt-cell {
+        font-size: 14px;
+      }
+    }
+
+    &.pl-table-size-mini {
+      .plt-cell {
+        font-size: 12px;
       }
     }
   }
