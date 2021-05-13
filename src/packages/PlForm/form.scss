@@ -90,8 +90,7 @@
 
       @include sizeMixin(form-item) {
         .pl-form-item-label {
-          font-size: 16px;
-          line-height: $value;
+          line-height: $value - 4;
         }
       }
 
