@@ -393,7 +393,7 @@
       border: 1px solid #dcdfe6;
       border-radius: 2px;
       padding: 0 12px;
-      overflow: visible;
+      overflow: hidden;
 
       width: 1px;
       white-space: nowrap;
@@ -409,6 +409,12 @@
       & > .pl-input, & > .pl-button {
         display: inline-block;
         margin: -1px -13px -1px -12px;
+      }
+
+      & > .pl-input {
+        .pl-input-inner {
+          border: none !important;
+        }
       }
     }
 
