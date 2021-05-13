@@ -1,7 +1,7 @@
 import './select.scss'
 import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {computed, designComponent, ref, useModel, useRefs} from "plain-design-composition";
+import {computed, designComponent, PropType, ref, useModel, useRefs} from "plain-design-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlInput} from "../PlInput";
 import {PlSelectPanel} from "./PlSelectPanel";
@@ -15,6 +15,7 @@ import {createEventListener} from "plain-design-composition"
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
 import {classnames} from "plain-design-composition";
+import PlPopper from "../PlPopper";
 
 const Props = {
     ...EditProps,
@@ -32,6 +33,7 @@ const Props = {
     noMatchText: {type: String, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
     noDataText: {type: String, default: '暂无数据'},                // 无数据时显示的文本
     filterMethod: Function,                                         // 筛选过滤函数
+    popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
 }
 
 export const PlSelect = designComponent({
@@ -87,6 +89,7 @@ export const PlSelect = designComponent({
                     onClick: event.emit.onClick,
                 }),
                 popperAttrs: ({
+                    ...props.popperAttrs as any,
                     onMousedownPopper: () => agentState.state.focusCounter++,
                     onClickPopper: () => refs.input!.methods.focus(),
                     onHide: () => filterText.value = null,
