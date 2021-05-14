@@ -50,6 +50,7 @@
 
       &:-webkit-autofill {
         background-color: white !important;
+        -webkit-transition: background-color 10000s cubic-bezier(1, -100, 1, -100) 0s !important;
       }
     }
 
