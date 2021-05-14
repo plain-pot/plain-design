@@ -1,4 +1,4 @@
-import {computed, designComponent, useModel} from 'plain-design-composition'
+import {computed, designComponent, PropType, useModel} from 'plain-design-composition'
 import './time.scss'
 import {StyleProps} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
@@ -13,6 +13,7 @@ import {PlInput} from "../PlInput";
 import {useDateTime} from "../PlDateTimeInput/useDateTime";
 import {PlDateTimeInput} from "../PlDateTimeInput";
 import {unit} from "plain-utils/string/unit";
+import PlPopper from "../PlPopper";
 
 export const PlTime = designComponent({
     name: 'pl-time',
@@ -20,6 +21,7 @@ export const PlTime = designComponent({
         ...StyleProps,
         ...EditProps,
         ...TimePanelProps,
+        popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
     },
     emits: {
         onUpdateModelValue: (val?: string) => true,
@@ -87,6 +89,7 @@ export const PlTime = designComponent({
             serviceGetter: useTime,
             option: {
                 reference: () => refs.plInput?.refs.input,
+                popperAttrs: props.popperAttrs as any,
                 renderAttrs: () => ({
                     ...(Object.keys(TimePanelProps).reduce((ret: any, key) => {
                         ret[key] = (props as any)[key]

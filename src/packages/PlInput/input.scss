@@ -23,6 +23,10 @@
         color: inherit;
         font-family: inherit;
       }
+
+      input {
+        padding: 0;
+      }
     }
 
     .pl-input-custom-placeholder {
@@ -46,7 +50,6 @@
 
       &:-webkit-autofill {
         background-color: white !important;
-        -webkit-transition: background-color 10000s cubic-bezier(1, -100, 1, -100) 0s !important;
       }
     }
 
@@ -390,7 +393,7 @@
       border: 1px solid #dcdfe6;
       border-radius: 2px;
       padding: 0 12px;
-      overflow: visible;
+      overflow: hidden;
 
       width: 1px;
       white-space: nowrap;
@@ -406,6 +409,12 @@
       & > .pl-input, & > .pl-button {
         display: inline-block;
         margin: -1px -13px -1px -12px;
+      }
+
+      & > .pl-input {
+        .pl-input-inner {
+          border: none !important;
+        }
       }
     }
 

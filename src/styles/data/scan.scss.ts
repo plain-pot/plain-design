@@ -113,6 +113,7 @@ const ScanUtils = (() => {
     })
 
     pathToCode['plain-loading'] = await resolveScssCode(utils.resolve('node_modules/plain-loading/src/index.scss'))
+    pathToCode['click-wave'] = await resolveScssCode(utils.resolve('src/directives/ClickWave/click-wave.scss'))
 
     const compReg = /src\/packages\/(.*?)\/.*/
 

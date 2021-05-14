@@ -11,6 +11,7 @@ import useColorPicker from "../useColorPicker";
 import React from 'react';
 import {isEffectiveColorString} from "./utils/ColorUtils";
 import $$notice from "../$$notice";
+import PlPopper from "../PlPopper";
 
 enum ColorPickerType {
     input = 'input',
@@ -26,7 +27,8 @@ export const PlColorPicker = designComponent({
         modelValue: {type: String},                             // 当前颜色值
         enableAlpha: {type: Boolean, default: true},            // 是否启用透明度
         format: {type: String, default: 'hex'},                 // 颜色格式
-        type: {type: String as PropType<keyof typeof ColorPickerType>, default: ColorPickerType.input}
+        type: {type: String as PropType<keyof typeof ColorPickerType>, default: ColorPickerType.input},
+        popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
     },
     scopeSlots: {
         default: (scope: { color: string, onClick: SimpleFunction }) => {},
@@ -67,6 +69,7 @@ export const PlColorPicker = designComponent({
                     },
                 }),
                 popperAttrs: () => ({
+                    ...props.popperAttrs as any,
                     onMousedownPopper: async () => {
                         agentState.state.focusCounter++
                     },

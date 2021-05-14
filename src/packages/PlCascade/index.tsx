@@ -11,6 +11,7 @@ import {useCascade} from "../PlCascadePanel/useCascade";
 import React from 'react';
 import {useClasses} from "plain-design-composition";
 import {ie} from "plain-utils/utils/ie";
+import PlPopper from "../PlPopper";
 
 export const PlCascade = designComponent({
     name: 'pl-cascade',
@@ -23,6 +24,7 @@ export const PlCascade = designComponent({
         showFormat: {type: Function as PropType<(value: any[]) => string>}, // 显示值格式化函数
 
         inputAttrs: {type: Object},                                         // 输入框属性值
+        popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
 
         ...StyleProps,
         ...EditProps,
@@ -98,6 +100,7 @@ export const PlCascade = designComponent({
                     onMousedownPopper: () => agentState.state.focusCounter++,
                     onClickPopper: () => refs.input!.methods.focus(),
                     onHide: () => state.inputValue = null,
+                    ...props.popperAttrs as any,
                 },
             },
         })
