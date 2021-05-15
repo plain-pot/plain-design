@@ -51,6 +51,7 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^4.5.2",
     "mini-css-extract-plugin": "^1.4.0",
+    "mockjs": "^1.1.0",
     "plain-design-composition": "0.0.93",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
