@@ -9,10 +9,11 @@
     "src"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.config.js --progress",
-    "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js --progress",
-    "release": "cross-env NODE_ENV=production webpack --config ./build/webpack.release.js --progress",
+    "start": "npm run local",
+    "local": "cross-env NODE_ENV=development APP_ENV=local webpack-dev-server --config ./build/webpack.config.js --progress",
+    "prod": "cross-env NODE_ENV=development APP_ENV=prod webpack-dev-server --config ./build/webpack.config.js --progress",
+    "build:prod": "cross-env NODE_ENV=production APP_ENV=prod webpack --config ./build/webpack.config.js --progress",
+    "release": "npm tun theme && cross-env NODE_ENV=production webpack --config ./build/webpack.release.js --progress",
     "theme": "ts-node src/styles/data/scan.scss.ts"
   },
   "author": "",

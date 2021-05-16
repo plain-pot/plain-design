@@ -1,3 +1,4 @@
+/*
 const fs = require('fs')
 const path = require('path')
 const mock = require('mockjs').mock
@@ -39,3 +40,4 @@ function generate() {
 }
 
 generate()
+*/

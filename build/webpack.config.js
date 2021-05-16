@@ -139,5 +139,8 @@ module.exports = {
             // 是否每次都清空控制台
             clearConsole: true,
         }),
+        new webpack.DefinePlugin({
+            APP_ENV: JSON.stringify(require(resolve(`story/env/config/${process.env.APP_ENV}.js`)))
+        })
     ],
 }

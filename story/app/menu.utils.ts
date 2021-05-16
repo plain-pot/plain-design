@@ -153,6 +153,11 @@ const MenuData: MenuGroup[] = [
             {name: 'Table class-style', title: '行列样式', page: '/table/DemoTableClassAndStyle', complete: true},
         ]
     },
+    {
+        name: 'table-pro', children: [
+            {name: '基本用法', title: 'pl-table-pro', page: '/table-pro/basic-usage', complete: true},
+        ]
+    },
     /*{
         name: 'Sticky Table',
         children: [
