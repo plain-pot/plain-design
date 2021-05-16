@@ -8,11 +8,7 @@ console.log(env)
 export default designPage(() => {
 
     onMounted(async () => {
-        const resp = await http.post('/demo/list', {
-            page: 0,
-            size: 10,
-        })
-        console.log(resp)
+
     })
 
     return () => <>
