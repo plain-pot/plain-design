@@ -12,9 +12,10 @@ export default designPlc({
     },
     externalProps: {
         summaryText: {type: String, default: '合计'},
+        start: {type: Number, default: 0},
     },
 }, {
     head: () => '#',
-    default: ({node}) => node.index + 1,
+    default: ({node, plc}) => (plc.props as any).start + node.index + 1,
     summary: ({props}) => <span className="plc-index-summary-text">{props.summaryText}</span>,
 })
