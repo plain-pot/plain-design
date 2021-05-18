@@ -10,7 +10,7 @@ export const App = () => {
         <PlRoot>
             <DemoRowController>
                 <div className="app-head">
-                    <div>plain-ui</div>
+                    <div>Plain Design</div>
                 </div>
                 <AppMenu/>
                 <AppNavigator/>
