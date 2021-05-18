@@ -10,11 +10,6 @@ export const useTableOption = createUseTableOption({
     pageSizeOptions: [5, 10, 20, 50, 100],
     editType: 'inline',
     loadOnStart: true,
-    request: {} as any,
-    getDefaultUrlConfig: {} as any,
     defaultNewRow: {},
     copyDefaultExcludeKeys: ['id', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'],
-    injectRules: () => {
-
-    }
 })

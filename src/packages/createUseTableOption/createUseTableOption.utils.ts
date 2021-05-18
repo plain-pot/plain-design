@@ -58,11 +58,11 @@ export interface iTableProDefaultConfig {
     editType: 'inline' | 'form',
 
     loadOnStart?: boolean,
-    request: iTableProRequest,
-    getDefaultUrlConfig: {},
+    // request: iTableProRequest,
+    // getDefaultUrlConfig: {},
     defaultNewRow: tDefaultNewRow,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
-    injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
+    // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
 }
 
 export interface iTableProConfig<D> {
