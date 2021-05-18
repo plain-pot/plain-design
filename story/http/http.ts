@@ -1,22 +1,17 @@
-import Axios, {AxiosRequestConfig} from 'axios'
+import Axios from 'axios'
 import {env} from "../env";
 
-export type PlainObject = Record<string, any>;
-
-export const $http = (() => {
-
-    const http = Axios.create({
+const http = (() => {
+    const axios = Axios.create({
         baseURL: env.base,
     })
-
-    const get = async (url: string, params?: PlainObject, config?: AxiosRequestConfig) => {
-        const resp = await http.get(url, {...config, params,})
-        return Object.assign(resp.data, {_resp: resp})
-    }
-    const post = async (url: string, data?: PlainObject, config?: AxiosRequestConfig) => {
-        const resp = await http.post(url, data, config)
-        return Object.assign(resp.data, {_resp: resp})
-    }
-
-
+    axios.interceptors.response.use((resp) => {
+        if ([404, 500, 403].indexOf(resp.status) > -1) {
+            return resp
+        } else {
+            const {data} = resp
+            return Object.assign(data, {_resp: resp})
+        }
+    })
+    return axios
 })();
