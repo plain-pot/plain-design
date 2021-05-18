@@ -82,7 +82,7 @@ import useLoading from "./packages/useLoading";
 import useMessage from "./packages/useMessage";
 import useNotice from "./packages/useNotice";
 import usePopper from "./packages/usePopper";
-import {createTablePro} from './packages/createUseTablePro'
+import createUseTableOption from "./packages/createUseTableOption";
 
 export {
     $$contextmenu,
@@ -169,5 +169,5 @@ export {
     useMessage,
     useNotice,
     usePopper,
-    createTablePro,
+    createUseTableOption,
 }

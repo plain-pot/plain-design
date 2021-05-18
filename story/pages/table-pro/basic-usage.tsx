@@ -7,9 +7,7 @@ console.log(env)
 
 export default designPage(() => {
 
-    onMounted(async () => {
 
-    })
 
     return () => <>
         hell world
