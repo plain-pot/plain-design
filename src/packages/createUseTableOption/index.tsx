@@ -2,6 +2,7 @@ import {iTableProConfig, iTableProDefaultConfig, tTableOptionConfig} from "./cre
 import {useTablePagination} from "./use.paginaiton";
 import {useTableMethods} from "./use.methods";
 import {useTableHooks} from "./use.hooks";
+import {reactive} from "plain-design-composition";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -11,13 +12,22 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             ...customConfig,
         }
 
+        const state = reactive({
+            list: [] as any[],
+        })
+
         const hooks = useTableHooks({config})
 
-        const pagination = useTablePagination({config})
+        const pagination = useTablePagination({state, config})
 
-        const methods = useTableMethods({config, pagination})
+        const methods = useTableMethods({config, pagination, hooks})
+
+        hooks.onLoaded.use(rows => {
+            state.list = rows
+        })
 
         return {
+            state,
             config,
             pagination,
             methods,

@@ -1,8 +1,8 @@
-import {designPage, onMounted} from "plain-design-composition";
+import {designPage} from "plain-design-composition";
 import React from "react";
-import {env} from "../../env";
 import {useTableOption} from "./useTableOption";
-import {$http} from "../../http/http";
+import PlTablePro from "../../../src/packages/PlTablePro";
+import {Plc} from "../../../src";
 
 export default designPage(() => {
 
@@ -10,12 +10,13 @@ export default designPage(() => {
         url: '/demo',
     })
 
-    onMounted(async () => {
-        const data = await $http.post('demo/list', {page: 1, size: 5})
-        console.log(data)
-    })
-
     return () => <>
-        hell world
+        <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
+            <PlTablePro option={option}>
+                <Plc title="id" field="id"/>
+                <Plc title="normalText" field="normalText"/>
+                <Plc title="numberVal" field="numberVal"/>
+            </PlTablePro>
+        </div>
     </>
 })
