@@ -61,10 +61,45 @@ export interface iTableProDefaultConfig {
     showRow: number,
     pageSizeOptions: number[],
     editType: 'inline' | 'form',
-
     loadOnStart?: boolean,
-    // request: iTableProRequest,
-    getDefaultUrlConfig: {
+    request?: {
+        query: (data: {
+            url: string,
+            query: { page: number, size: number } & PlainObject,
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<any[]>;
+        insert: (data: {
+            url: string,
+            data: PlainObject,
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<PlainObject>,
+        batchInsert: (data: {
+            url: string,
+            data: PlainObject[],
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<PlainObject>,
+        update: (data: {
+            url: string,
+            data: PlainObject,
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<PlainObject>,
+        batchUpdate: (data: {
+            url: string,
+            data: PlainObject[],
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<PlainObject>,
+        delete: (data: {
+            url: string,
+            data: PlainObject,
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<void>,
+        batchDelete: (data: {
+            url: string,
+            data: PlainObject[],
+            processRequestConfig: (requestConfig: any) => any | Promise<any>
+        }) => Promise<void>,
+    },
+    /*getDefaultUrlConfig: {
         query: (data: tUrl) => tRequestConfigConfig,
         insert: (data: tUrl) => tRequestConfigConfig,
         batchInsert: (data: tUrl) => tRequestConfigConfig,
@@ -72,7 +107,7 @@ export interface iTableProDefaultConfig {
         batchUpdate: (data: tUrl) => tRequestConfigConfig,
         delete: (data: tUrl) => tRequestConfigConfig,
         batchDelete: (data: tUrl) => tRequestConfigConfig,
-    },
+    },*/
     defaultNewRow: tDefaultNewRow,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
