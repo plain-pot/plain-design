@@ -1,9 +1,14 @@
 import {tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
+import {tTableHooks} from "./use.hooks";
 
-export function useTableMethods({config, pagination}: { config: tTableOptionConfig, pagination: tTablePagination }) {
+export function useTableMethods({config, pagination, hooks}: {
+    config: tTableOptionConfig,
+    pagination: tTablePagination,
+    hooks: tTableHooks,
+}) {
 
-    const load = (loadConfig?: { page: number, size: number }) => {
+    const load = async (loadConfig?: { page: number, size: number }) => {
         if (!config.url) {throw new Error('option.config.url 不能为空！')}
         if (!loadConfig) {loadConfig = {page: pagination.state.pageData.page, size: pagination.state.pageData.size}}
 
@@ -17,7 +22,7 @@ export function useTableMethods({config, pagination}: { config: tTableOptionConf
             }
         })();
 
-        const {request, ...requestConfig} = config.getDefaultUrlConfig.query(queryUrlConfig)
+        let {request, ...requestConfig} = config.getDefaultUrlConfig.query(queryUrlConfig)
         if (requestConfig.method === 'GET') {
             if (!requestConfig.query) {requestConfig.query = {}}
             Object.assign(requestConfig.query, loadConfig)
@@ -26,15 +31,35 @@ export function useTableMethods({config, pagination}: { config: tTableOptionConf
             Object.assign(requestConfig.body, loadConfig)
         }
 
-        const list = request(requestConfig)
+        requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
+        let list = await request(requestConfig)
+        list = await hooks.onAfterLoad.exec(list)
+        list = await hooks.onLoaded.exec(list)
+        return list
     }
 
     const reload = async (reloadConfig?: { size?: number }) => {
-        await load({page: 0, size: (!reloadConfig ? undefined : reloadConfig.size) || pagination.state.pageData.size})
+        return await load({page: 0, size: (!reloadConfig ? undefined : reloadConfig.size) || pagination.state.pageData.size})
+    }
+
+    const next = async () => {
+        const {pageData: {page, hasNext, size}} = pagination.state
+        if (!hasNext) {return}
+        return load({page: page + 1, size})
+    }
+
+    const prev = async () => {
+        const {pageData: {page, size}} = pagination.state
+        if (page <= 0) {return}
+        return load({page: page - 1, size})
     }
 
     return {
         load,
         reload,
+        next,
+        prev,
     }
 }
+
+export type tTableMethods = ReturnType<typeof useTableMethods>
