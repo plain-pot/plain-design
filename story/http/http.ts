@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import {env} from "../env";
 
-const http = (() => {
+export const $http = (() => {
     const axios = Axios.create({
         baseURL: env.base,
     })
