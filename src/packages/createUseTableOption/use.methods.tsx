@@ -20,7 +20,7 @@ export function useTableMethods({config, pagination, hooks}: {
             }
         }
 
-        const queryUrlConfig: tUrlConfig<any[]> = (() => {
+        const queryUrlConfig: tUrlConfig<any> = (() => {
             if (!config.url) {throw new Error('config.url is required when query list!')}
             if (typeof config.url === "string") {
                 return {base: config.url}
@@ -39,11 +39,11 @@ export function useTableMethods({config, pagination, hooks}: {
             Object.assign(requestConfig.body, targetLoadConfig)
         }
         requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
-        let list = await request(requestConfig)
-        list = await hooks.onAfterLoad.exec(list)
-        list = await hooks.onLoaded.exec(list)
-        pagination.update({...targetLoadConfig, hasNext: true})
-        return list
+        let {rows, hasNext} = await request(requestConfig)
+        rows = await hooks.onAfterLoad.exec(rows)
+        rows = await hooks.onLoaded.exec(rows)
+        pagination.update({...targetLoadConfig, hasNext})
+        return rows
     }
 
     const reload = async (reloadConfig?: { size?: number }) => {

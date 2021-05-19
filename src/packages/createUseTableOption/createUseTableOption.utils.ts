@@ -55,7 +55,7 @@ export type tUrlConfigFormat<RequestResp> = {
  */
 export type tUrl = string | {
     base?: string,
-    query?: string | tUrlConfig<PlainObject[]>,
+    query?: string | tUrlConfig<iQueryResponse>,
 
     insert?: string | tUrlConfig<PlainObject>,
     batchInsert?: string | tUrlConfig<PlainObject[]>,
@@ -65,6 +65,11 @@ export type tUrl = string | {
 
     delete?: string | tUrlConfig<boolean>,
     batchDelete?: string | tUrlConfig<boolean>,
+}
+
+export interface iQueryResponse {
+    rows: any[],
+    hasNext: boolean,
 }
 
 /**
@@ -98,7 +103,7 @@ export interface iTableProDefaultConfig {
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
     getDefaultUrlConfig: {
-        query: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
+        query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
         insert?: (data: tUrlConfig<PlainObject>) => tUrlConfigFormat<PlainObject>,
         batchInsert?: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
         update?: (data: tUrlConfig<PlainObject>) => tUrlConfigFormat<PlainObject>,
