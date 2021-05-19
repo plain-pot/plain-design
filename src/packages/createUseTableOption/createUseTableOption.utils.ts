@@ -11,7 +11,7 @@ export type tDefaultNewRow = tDefaultNewRowObject | tDefaultNewRowGetter
 
 /*请求相关类型*/
 export type tRequestConfigMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'PATCH'
-export type tRequestConfigConfig = {
+export type tRequestConfig = {
     method: tRequestConfigMethod,
     url: string,
     query?: PlainObject,
@@ -26,7 +26,7 @@ export type tUrlConfig<RequestResp> = {
     method?: tRequestConfigMethod,
     query?: PlainObject,
     body?: PlainObject,
-    request: (requestConfig: tRequestConfigConfig) => Promise<RequestResp>;
+    request?: (requestConfig: tRequestConfig) => Promise<RequestResp>;
 }
 
 /**
@@ -35,9 +35,9 @@ export type tUrlConfig<RequestResp> = {
  * @date    2021/5/19 21:07
  */
 export type tUrlConfigFormat<RequestResp> = {
-    url?: string,
+    url: string,
     method: tRequestConfigMethod,
-    request: (requestConfig: tRequestConfigConfig) => Promise<RequestResp>;
+    request: (requestConfig: tRequestConfig) => Promise<RequestResp>;
     query?: PlainObject,
     body?: PlainObject,
 } & PlainObject
@@ -113,7 +113,7 @@ export interface iTableProDefaultConfig {
  * @author  韦胜健
  * @date    2021/5/19 20:51
  */
-export interface iTableProConfig<D> {
+export interface iTableProConfig<D = any> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
     pageSize?: number,                                                  // 请求页大小
@@ -136,3 +136,5 @@ export interface iTableProConfig<D> {
         deleteButton?: boolean,                                         // 默认是否显示删除按钮
     },*/
 }
+
+export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
