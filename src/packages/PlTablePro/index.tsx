@@ -24,7 +24,7 @@ export const PlTablePro = designComponent({
                     <span className="pl-table-pro-title">{props.option.config.title}</span>
                 </div>
                 <PlTable data={props.option.state.list}>
-                    <Plc.PlcIndex/>
+                    <Plc.PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {slots.default()}
                 </PlTable>
                 {props.option.pagination.render()}

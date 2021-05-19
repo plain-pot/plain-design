@@ -3,7 +3,15 @@ import {tTableOptionConfig} from "./createUseTableOption.utils";
 import PlPagination from "../PlPagination";
 import React from "react";
 
-export function useTablePagination({state, config}: { state: { list: any[] }, config: tTableOptionConfig }) {
+export function useTablePagination({state, config, onPrev, onNext, onJump, onSizeChange}: {
+    state: { list: any[] },
+    config: tTableOptionConfig,
+
+    onPrev: () => void,
+    onNext: () => void,
+    onJump: (page: number) => void,
+    onSizeChange: (size: number) => void,
+}) {
 
     const pageState = reactive({
         page: 0,
@@ -29,11 +37,17 @@ export function useTablePagination({state, config}: { state: { list: any[] }, co
         return (
             <div className="pl-table-pro-pagination">
                 <PlPagination
-                    layout="loading,sizes,prev,pager,next,jumper"
+                    layout="loading,sizes,pager,prev,next,jumper"
                     size="mini"
                     pageSize={pageState.size}
                     currentPage={pageState.page + 1}
                     total={total.value}
+
+                    onPrev={onPrev}
+                    onNext={onNext}
+                    onJump={val => onJump(val - 1)}
+                    onCurrentChange={val => onJump(val - 1)}
+                    onSizeChange={onSizeChange}
                 />
             </div>
         )

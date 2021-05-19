@@ -18,7 +18,14 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         const hooks = useTableHooks({config})
 
-        const pagination = useTablePagination({state, config})
+        const pagination = useTablePagination({
+            state,
+            config,
+            onPrev: () => methods.prev(),
+            onNext: () => methods.next(),
+            onJump: (page) => methods.jump(page),
+            onSizeChange: size => methods.reload({size}),
+        })
 
         const methods = useTableMethods({config, pagination, hooks})
 
