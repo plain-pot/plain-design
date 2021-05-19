@@ -2,6 +2,7 @@ import {designComponent, onMounted, PropType} from "plain-design-composition";
 import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import PlTable from "../PlTable";
+import './table-pro.scss'
 
 export const PlTablePro = designComponent({
     props: {

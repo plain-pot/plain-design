@@ -28,7 +28,13 @@ export function useTablePagination({state, config}: { state: { list: any[] }, co
     const render = () => {
         return (
             <div className="pl-table-pro-pagination">
-                <PlPagination pageSize={pageState.size} currentPage={pageState.page + 1} total={total.value}/>
+                <PlPagination
+                    layout="loading,sizes,prev,pager,next,jumper"
+                    size="mini"
+                    pageSize={pageState.size}
+                    currentPage={pageState.page + 1}
+                    total={total.value}
+                />
             </div>
         )
     }
