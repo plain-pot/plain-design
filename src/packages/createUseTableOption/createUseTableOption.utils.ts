@@ -64,7 +64,15 @@ export interface iTableProDefaultConfig {
 
     loadOnStart?: boolean,
     // request: iTableProRequest,
-    // getDefaultUrlConfig: {},
+    getDefaultUrlConfig: {
+        query: (data: tUrl) => tRequestConfigConfig,
+        insert: (data: tUrl) => tRequestConfigConfig,
+        batchInsert: (data: tUrl) => tRequestConfigConfig,
+        update: (data: tUrl) => tRequestConfigConfig,
+        batchUpdate: (data: tUrl) => tRequestConfigConfig,
+        delete: (data: tUrl) => tRequestConfigConfig,
+        batchDelete: (data: tUrl) => tRequestConfigConfig,
+    },
     defaultNewRow: tDefaultNewRow,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
