@@ -15,7 +15,8 @@ export type tRequestConfigConfig = {
     url: string,
     query?: PlainObject,
     body?: PlainObject,
-}
+    headers?: PlainObject,
+} & Record<string, any>;
 
 /*tableOptionConfig中url的类型*/
 export interface iUrlConfig {
