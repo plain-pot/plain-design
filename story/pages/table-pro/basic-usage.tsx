@@ -7,6 +7,7 @@ import {Plc} from "../../../src";
 export default designPage(() => {
 
     const option = useTableOption({
+        title: '示例列表',
         url: '/demo',
     })
 

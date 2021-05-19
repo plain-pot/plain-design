@@ -3,6 +3,7 @@ import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import PlTable from "../PlTable";
 import './table-pro.scss'
+import Plc from "../Plc";
 
 export const PlTablePro = designComponent({
     props: {
@@ -19,7 +20,11 @@ export const PlTablePro = designComponent({
 
         return () => (
             <div className="pl-table-pro">
+                <div className="pl-table-pro-head">
+                    <span className="pl-table-pro-title">{props.option.config.title}</span>
+                </div>
                 <PlTable data={props.option.state.list}>
+                    <Plc.PlcIndex/>
                     {slots.default()}
                 </PlTable>
                 {props.option.pagination.render()}
