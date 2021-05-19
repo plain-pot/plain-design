@@ -63,43 +63,15 @@ export interface iTableProDefaultConfig {
     editType: 'inline' | 'form',
     loadOnStart?: boolean,
     request?: {
-        query: (data: {
-            url: string,
-            query: { page: number, size: number } & PlainObject,
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<any[]>;
-        insert: (data: {
-            url: string,
-            data: PlainObject,
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<PlainObject>,
-        batchInsert: (data: {
-            url: string,
-            data: PlainObject[],
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<PlainObject>,
-        update: (data: {
-            url: string,
-            data: PlainObject,
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<PlainObject>,
-        batchUpdate: (data: {
-            url: string,
-            data: PlainObject[],
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<PlainObject>,
-        delete: (data: {
-            url: string,
-            data: PlainObject,
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<void>,
-        batchDelete: (data: {
-            url: string,
-            data: PlainObject[],
-            processRequestConfig: (requestConfig: any) => any | Promise<any>
-        }) => Promise<void>,
+        query: (requestConfig: tRequestConfigConfig) => Promise<any[]>;
+        insert: (requestConfig: tRequestConfigConfig) => Promise<PlainObject>;
+        batchInsert: (requestConfig: tRequestConfigConfig) => Promise<PlainObject[]>;
+        update: (requestConfig: tRequestConfigConfig) => Promise<any>;
+        batchUpdate: (requestConfig: tRequestConfigConfig) => Promise<PlainObject[]>;
+        delete: (requestConfig: tRequestConfigConfig) => Promise<boolean>;
+        batchDelete: (requestConfig: tRequestConfigConfig) => Promise<boolean>;
     },
-    /*getDefaultUrlConfig: {
+    getDefaultUrlConfig?: {
         query: (data: tUrl) => tRequestConfigConfig,
         insert: (data: tUrl) => tRequestConfigConfig,
         batchInsert: (data: tUrl) => tRequestConfigConfig,
@@ -107,8 +79,8 @@ export interface iTableProDefaultConfig {
         batchUpdate: (data: tUrl) => tRequestConfigConfig,
         delete: (data: tUrl) => tRequestConfigConfig,
         batchDelete: (data: tUrl) => tRequestConfigConfig,
-    },*/
-    defaultNewRow: tDefaultNewRow,
+    },
+    defaultNewRow?: tDefaultNewRow,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
 }
