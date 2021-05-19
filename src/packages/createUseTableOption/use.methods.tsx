@@ -63,7 +63,18 @@ export function useTableMethods({config, pagination, hooks}: {
     }
 
     const jump = async (page: number) => {
-        console.log('jump', page)
+        if (page < 0) {return}
+
+
+        if (page > pagination.pageState.page) {
+            if (page === pagination.pageState.page + 1 && pagination.pageState.hasNext) {
+                return load({page})
+            } else {
+                console.log('query count')
+            }
+        } else {
+            return load({page})
+        }
     }
 
     return {
