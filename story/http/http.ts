@@ -1,5 +1,38 @@
-import Axios from 'axios'
+import Axios, {AxiosInterceptorManager, AxiosRequestConfig, AxiosResponse} from 'axios'
 import {env} from "../env";
+import {PlainObject} from "../../src/packages/createUseTableOption/createUseTableOption.utils";
+
+export type StandardResp<T> = Promise<T & { _resp: AxiosResponse<T> }>
+
+export interface AxiosInstance {
+    <T = PlainObject>(config: AxiosRequestConfig): StandardResp<T>;
+
+    <T = PlainObject>(url: string, config?: AxiosRequestConfig): StandardResp<T>;
+
+    defaults: AxiosRequestConfig;
+    interceptors: {
+        request: AxiosInterceptorManager<AxiosRequestConfig>;
+        response: AxiosInterceptorManager<AxiosResponse>;
+    };
+
+    getUri(config?: AxiosRequestConfig): string;
+
+    request<T = PlainObject>(config: AxiosRequestConfig): StandardResp<T>;
+
+    get<T = PlainObject>(url: string, config?: AxiosRequestConfig): StandardResp<T>;
+
+    delete<T = PlainObject>(url: string, config?: AxiosRequestConfig): StandardResp<T>;
+
+    head<T = PlainObject>(url: string, config?: AxiosRequestConfig): StandardResp<T>;
+
+    options<T = PlainObject>(url: string, config?: AxiosRequestConfig): StandardResp<T>;
+
+    post<T = PlainObject>(url: string, data?: any, config?: AxiosRequestConfig): StandardResp<T>;
+
+    put<T = PlainObject>(url: string, data?: any, config?: AxiosRequestConfig): StandardResp<T>;
+
+    patch<T = PlainObject>(url: string, data?: any, config?: AxiosRequestConfig): StandardResp<T>;
+}
 
 export const $http = (() => {
     const axios = Axios.create({
@@ -13,5 +46,5 @@ export const $http = (() => {
             return Object.assign(data, {_resp: resp})
         }
     })
-    return axios
+    return axios as AxiosInstance
 })();

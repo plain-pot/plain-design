@@ -7,6 +7,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             ...defaultConfig,
             ...customConfig,
         }
+        
 
         return {
             config,

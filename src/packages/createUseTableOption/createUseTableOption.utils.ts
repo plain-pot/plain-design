@@ -2,15 +2,15 @@ import {ReactFragment} from "react";
 import {FormComponentRules} from "../PlForm/form.validate";
 
 /*普通对象类型*/
-type PlainObject = Record<string, any>;
+export type PlainObject = Record<string, any>;
 
 /*默认新建行数据类型*/
-type tDefaultNewRowObject = PlainObject
-type tDefaultNewRowGetter = () => tDefaultNewRowObject | Promise<tDefaultNewRowObject>
-type tDefaultNewRow = tDefaultNewRowObject | tDefaultNewRowGetter
+export type tDefaultNewRowObject = PlainObject
+export type tDefaultNewRowGetter = () => tDefaultNewRowObject | Promise<tDefaultNewRowObject>
+export type tDefaultNewRow = tDefaultNewRowObject | tDefaultNewRowGetter
 
 /*请求相关类型*/
-export type tRequestConfigMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'TRACE'
+export type tRequestConfigMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'PATCH'
 export type tRequestConfigConfig = {
     method: tRequestConfigMethod,
     url: string,
@@ -20,13 +20,27 @@ export type tRequestConfigConfig = {
 } & Record<string, any>;
 
 /*tableOptionConfig中url的类型*/
-export type tUrlConfig = string | {
+export type tUrlConfig<RequestResp> = {
+    base?: string,
     url?: string,
     method?: tRequestConfigMethod,
     query?: PlainObject,
     body?: PlainObject,
-    custom: (requestConfig: tRequestConfigConfig) => Promise<any>;
+    request: (requestConfig: tRequestConfigConfig) => Promise<RequestResp>;
 }
+
+/**
+ * tUrlConfig格式化之后得到的对象
+ * @author  韦胜健
+ * @date    2021/5/19 21:07
+ */
+export type tUrlConfigFormat<RequestResp> = {
+    url?: string,
+    method: tRequestConfigMethod,
+    request: (requestConfig: tRequestConfigConfig) => Promise<RequestResp>;
+    query?: PlainObject,
+    body?: PlainObject,
+} & PlainObject
 
 /**
  * 基础请求路径：
@@ -41,16 +55,16 @@ export type tUrlConfig = string | {
  */
 export type tUrl = string | {
     base?: string,
-    query?: tUrlConfig,
+    query?: string | tUrlConfig<PlainObject[]>,
 
-    insert?: tUrlConfig,
-    batchInsert?: tUrlConfig,
+    insert?: string | tUrlConfig<PlainObject>,
+    batchInsert?: string | tUrlConfig<PlainObject[]>,
 
-    update?: tUrlConfig,
-    batchUpdate?: tUrlConfig,
+    update?: string | tUrlConfig<PlainObject>,
+    batchUpdate?: string | tUrlConfig<PlainObject[]>,
 
-    delete?: tUrlConfig,
-    batchDelete?: tUrlConfig,
+    delete?: string | tUrlConfig<boolean>,
+    batchDelete?: string | tUrlConfig<boolean>,
 }
 
 /**
@@ -74,33 +88,24 @@ export interface iTableProDefaultConfig {
     keyField: string,
     bodyRowHeight: number,
     headRowHeight: number,
-    indexing: boolean,
-    border: boolean,
+    indexing?: boolean,
+    border?: boolean,
     showRow: number,
     pageSizeOptions: number[],
     editType: 'inline' | 'form',
     loadOnStart?: boolean,
-    request?: {
-        query: (requestConfig: tRequestConfigConfig) => Promise<any[]>;
-        insert: (requestConfig: tRequestConfigConfig) => Promise<PlainObject>;
-        batchInsert: (requestConfig: tRequestConfigConfig) => Promise<PlainObject[]>;
-        update: (requestConfig: tRequestConfigConfig) => Promise<any>;
-        batchUpdate: (requestConfig: tRequestConfigConfig) => Promise<PlainObject[]>;
-        delete: (requestConfig: tRequestConfigConfig) => Promise<boolean>;
-        batchDelete: (requestConfig: tRequestConfigConfig) => Promise<boolean>;
-    },
-    getDefaultUrlConfig?: {
-        query: (data: tUrl) => tRequestConfigConfig,
-        insert: (data: tUrl) => tRequestConfigConfig,
-        batchInsert: (data: tUrl) => tRequestConfigConfig,
-        update: (data: tUrl) => tRequestConfigConfig,
-        batchUpdate: (data: tUrl) => tRequestConfigConfig,
-        delete: (data: tUrl) => tRequestConfigConfig,
-        batchDelete: (data: tUrl) => tRequestConfigConfig,
-    },
     defaultNewRow?: tDefaultNewRow,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
+    getDefaultUrlConfig: {
+        query: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
+        insert?: (data: tUrlConfig<PlainObject>) => tUrlConfigFormat<PlainObject>,
+        batchInsert?: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
+        update?: (data: tUrlConfig<PlainObject>) => tUrlConfigFormat<PlainObject>,
+        batchUpdate?: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
+        delete?: (data: tUrlConfig<boolean>) => tUrlConfigFormat<boolean>,
+        batchDelete?: (data: tUrlConfig<boolean>) => tUrlConfigFormat<boolean>,
+    },
 }
 
 /**

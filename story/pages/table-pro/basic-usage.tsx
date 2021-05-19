@@ -7,7 +7,7 @@ import {$http} from "../../http/http";
 export default designPage(() => {
 
     const option = useTableOption({
-        url: '',
+        url: '/demo',
     })
 
     onMounted(async () => {
