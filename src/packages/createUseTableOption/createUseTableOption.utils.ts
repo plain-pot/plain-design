@@ -1,33 +1,30 @@
 import {ReactFragment} from "react";
 
-export interface iTableProRequest {}
+/*普通对象类型*/
+type PlainObject = Record<string, any>;
 
-type tDefaultNewRowObject = Record<string, any>
+/*默认新建行数据类型*/
+type tDefaultNewRowObject = PlainObject
 type tDefaultNewRowGetter = () => tDefaultNewRowObject | Promise<tDefaultNewRowObject>
 type tDefaultNewRow = tDefaultNewRowObject | tDefaultNewRowGetter
 
-/**
- * filter render渲染的时候，绑定的对象的值
- * @author  韦胜健
- * @date    2021/5/4 15:51
- */
-export interface iFilterValue {
-    value?: any,                        // 单值查询
-    values?: any,                       // 多值查询
-    start?: any,                        // 范围查询：起始值
-    end?: any,                          // 范围查询：结束值
-    field: string,                      // 绑定的子弹
+/*请求相关类型*/
+export type tRequestConfigMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'TRACE'
+export type tRequestConfigConfig = {
+    method: tRequestConfigMethod,
+    url: string,
+    query?: PlainObject,
+    body?: PlainObject,
 }
 
-/*请求方法*/
-export type tRequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'TRACE'
-
-/*请求时，自定义query等请求的配置对象类型*/
-export type tUrlConfigObject = { method?: tRequestMethod, url?: string, query?: any, body?: any } & Record<string, any>
-export type tUrlConfig = string | tUrlConfigObject
-export type tRequestConfigObject = tUrlConfigObject & { url: string, method: tRequestMethod }
-
 /*tableOptionConfig中url的类型*/
+export interface iUrlConfig {
+    url?: string,
+    method?: tRequestConfigMethod,
+    query?: PlainObject,
+    body?: PlainObject,
+}
+
 /**
  * 基础请求路径：
  * url:string = url.base:string
@@ -41,10 +38,16 @@ export type tRequestConfigObject = tUrlConfigObject & { url: string, method: tRe
  */
 export type tUrl = string | {
     base?: string,
-    query?: tUrlConfig,
-    insert?: tUrlConfig,
-    update?: tUrlConfig,
-    delete?: tUrlConfig,
+    query?: iUrlConfig,
+
+    insert?: iUrlConfig,
+    batchInsert?: iUrlConfig,
+
+    update?: iUrlConfig,
+    batchUpdate?: iUrlConfig,
+
+    delete?: iUrlConfig,
+    batchDelete?: iUrlConfig,
 }
 
 export interface iTableProDefaultConfig {
@@ -68,7 +71,7 @@ export interface iTableProDefaultConfig {
 export interface iTableProConfig<D> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
-    pageSize?: number,                                                  // 页大小选项数组
+    pageSize?: number,                                                  // 请求页大小
     defaultEditing?: boolean,                                           // <是否默认开启编辑状态>
     copyExcludeKeys?: string[],                                         // 复制一行的时候，额外的不复制的属性
     // rules?: O2FormRule,                                                 // 校验规则
@@ -76,7 +79,6 @@ export interface iTableProConfig<D> {
     // multipleCheck?: boolean,                                            // 是否显示多选列
     title?: string,                                                     // 标题
     render?: () => ReactFragment,                                       // 自定义内容
-
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
