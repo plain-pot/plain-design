@@ -19,11 +19,12 @@ export type tRequestConfigConfig = {
 } & Record<string, any>;
 
 /*tableOptionConfig中url的类型*/
-export interface iUrlConfig {
+export type tUrlConfig = string | {
     url?: string,
     method?: tRequestConfigMethod,
     query?: PlainObject,
     body?: PlainObject,
+    custom: (requestConfig: tRequestConfigConfig) => Promise<any>;
 }
 
 /**
@@ -39,16 +40,16 @@ export interface iUrlConfig {
  */
 export type tUrl = string | {
     base?: string,
-    query?: iUrlConfig,
+    query?: tUrlConfig,
 
-    insert?: iUrlConfig,
-    batchInsert?: iUrlConfig,
+    insert?: tUrlConfig,
+    batchInsert?: tUrlConfig,
 
-    update?: iUrlConfig,
-    batchUpdate?: iUrlConfig,
+    update?: tUrlConfig,
+    batchUpdate?: tUrlConfig,
 
-    delete?: iUrlConfig,
-    batchDelete?: iUrlConfig,
+    delete?: tUrlConfig,
+    batchDelete?: tUrlConfig,
 }
 
 export interface iTableProDefaultConfig {
