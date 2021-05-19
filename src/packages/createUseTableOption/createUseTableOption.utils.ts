@@ -1,4 +1,5 @@
 import {ReactFragment} from "react";
+import {FormComponentRules} from "../PlForm/form.validate";
 
 /*普通对象类型*/
 type PlainObject = Record<string, any>;
@@ -52,6 +53,23 @@ export type tUrl = string | {
     batchDelete?: tUrlConfig,
 }
 
+/**
+ * 按钮配置徐喜怒
+ * @author  韦胜健
+ * @date    2021/5/19 20:50
+ */
+export interface iTableButtonConfig {
+    label: string,
+    show: boolean | (() => boolean),
+    disabled: boolean | (() => boolean),
+    handler: () => void | Promise<void>,
+}
+
+/**
+ * TablePro默认配置
+ * @author  韦胜健
+ * @date    2021/5/19 20:51
+ */
 export interface iTableProDefaultConfig {
     keyField: string,
     bodyRowHeight: number,
@@ -85,15 +103,20 @@ export interface iTableProDefaultConfig {
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
 }
 
+/**
+ * TablePro配置信息
+ * @author  韦胜健
+ * @date    2021/5/19 20:51
+ */
 export interface iTableProConfig<D> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
     pageSize?: number,                                                  // 请求页大小
     defaultEditing?: boolean,                                           // <是否默认开启编辑状态>
     copyExcludeKeys?: string[],                                         // 复制一行的时候，额外的不复制的属性
-    // rules?: O2FormRule,                                                 // 校验规则
-    // buttons?: iO2TableButtonConfig[],                                   // 额外的按钮配置
-    // multipleCheck?: boolean,                                            // 是否显示多选列
+    rules?: FormComponentRules,                                         // 校验规则
+    buttons?: iTableButtonConfig[],                                     // 额外的按钮配置
+    multipleCheck?: boolean,                                            // 是否显示多选列
     title?: string,                                                     // 标题
     render?: () => ReactFragment,                                       // 自定义内容
     /*enable?: boolean | {
