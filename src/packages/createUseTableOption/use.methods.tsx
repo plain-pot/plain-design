@@ -107,6 +107,11 @@ export function useTableMethods({config, pagination, hooks}: {
         }
     }
 
+    const editMethods = {
+        insert: () => {},
+        batchInsert: () => {},
+    }
+
     return {
         load,
         reload,
