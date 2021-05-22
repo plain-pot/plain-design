@@ -3,6 +3,7 @@ import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
 import $$notice from "../$$notice";
 import {nextTick} from "../../utils/nextTick";
+import PlTable from "../PlTable";
 
 export function useTableMethods({tableState, config, pagination, hooks}: {
     tableState: iTableState,
@@ -102,6 +103,12 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
         },
     }
 
+    const editUtils = {
+        saveInsert: async () => {
+
+        },
+    }
+
     const editMethods = {
         insert: async () => {
             tableState.editingWhenAddRow = true
@@ -127,7 +134,12 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             }
             tableState.mode = TableMode.normal
         },
-        save: () => {},
+        save: () => {
+            if (!tableState.isEditing) {return}
+            switch (tableState.mode) {
+
+            }
+        },
     }
 
     return {
