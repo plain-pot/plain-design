@@ -145,10 +145,19 @@ export interface iTableProConfig<D = any> {
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
 
+export enum TableMode {
+    normal = 'normal',
+    insert = 'insert',
+    update = 'update',
+    select = 'select',
+}
+
 export interface iTableState {
     list: any[],
     editingWhenAddRow: boolean,
+    mode: TableMode,
     insertRows: any[],
     updateRows: any[],
     selectRows: any[],
+    isEditing: boolean,
 }

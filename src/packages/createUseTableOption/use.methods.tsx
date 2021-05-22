@@ -1,4 +1,4 @@
-import {iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
+import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
 import $$notice from "../$$notice";
@@ -105,6 +105,7 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
     const editMethods = {
         insert: async () => {
             tableState.editingWhenAddRow = true
+            tableState.mode = TableMode.insert
             const newRowData = {}
             tableState.list.unshift(newRowData)
             tableState.insertRows = [tableState.list[0]]
@@ -112,6 +113,21 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             tableState.editingWhenAddRow = false
         },
         batchInsert: () => {},
+        cancel: () => {
+            if (!tableState.isEditing) {return}
+            switch (tableState.mode) {
+                case TableMode.insert:
+                    tableState.list = tableState.list.slice(tableState.insertRows.length)
+                    tableState.insertRows = []
+                    break
+                case TableMode.update:
+                    tableState.list = tableState.list.slice(tableState.updateRows.length)
+                    tableState.updateRows = []
+                    break
+            }
+            tableState.mode = TableMode.normal
+        },
+        save: () => {},
     }
 
     return {

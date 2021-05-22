@@ -1,8 +1,8 @@
-import {iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
+import {TableMode, iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTablePagination} from "./use.paginaiton";
 import {useTableMethods} from "./use.methods";
 import {useTableHooks} from "./use.hooks";
-import {reactive} from "plain-design-composition";
+import {computed, reactive} from "plain-design-composition";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -15,9 +15,11 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const tableState: iTableState = reactive({
             list: [] as any[],
             editingWhenAddRow: false,
+            mode: TableMode.normal,
             insertRows: [],
             updateRows: [],
             selectRows: [],
+            isEditing: computed(() => [TableMode.normal, TableMode.select].indexOf(tableState.mode) === -1)
         })
 
         const hooks = useTableHooks({config})

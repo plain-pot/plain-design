@@ -21,5 +21,8 @@
   }
 
   .pl-table-pro-operation {
+    & > .pl-button {
+      margin-left: 4px;
+    }
   }
 }
