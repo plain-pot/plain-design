@@ -7,6 +7,7 @@ import {delay} from "plain-utils/utils/delay";
 import React, {ReactNode} from "react";
 import {STATUS} from "../../utils/constant";
 import PlIcon from "../PlIcon";
+import {StyleShape} from "../../use/useStyle";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -155,6 +156,7 @@ export default createDefaultService({
 
                         {...binding}
                         width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : "500"}
+                        shape={binding.shape || StyleShape.square}
                     >
                         {{
                             default: content,

@@ -16,6 +16,7 @@
     @include statusMixin(dialog-service) {
       .pl-dialog-head {
         background-color: rgba($value, 0.05);
+        color: $value;
         /*position: relative;
 
         &:after {
@@ -27,14 +28,14 @@
           background-color: $value;
           content: '';
         }*/
-        border-top: solid 4px $value;
+        border-top: solid 4px rgba($value, 0.85);
 
         .pl-dialog-service-head {
           color: $value;
 
           .pl-dialog-service-status-icon {
-            font-size: 24px;
-            margin-right: 8px;
+            font-size: 18px;
+            margin-right: 4px;
             vertical-align: -0.25em;
           }
         }

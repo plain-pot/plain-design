@@ -40,9 +40,11 @@ type DialogServiceFunction = (message: string | DialogServiceOption, option?: Di
 type DialogService = DialogServiceFunction & { [k in StyleStatus]: DialogServiceFunction } & { confirm: DialogServiceFunction }
 
 function formatOption(o: DialogServiceOption): DialogServiceFormatOption {
-    return Object.assign(o, {
-        status: o.status === null ? null : (o.status || 'primary'),
-    }) as DialogServiceFormatOption
+    o = {...o}
+    if (!o.editType) {
+        o.status = o.status === null ? null : (o.status || 'primary')
+    }
+    return o as DialogServiceFormatOption
 }
 
 const useDialog = createUseService({
@@ -78,7 +80,7 @@ const useDialog = createUseService({
                     if (!!option) {
                         Object.assign(o, option)
                     }
-                    o.status = o.status || StyleStatus.info
+                    o.status = o.status == undefined ? null : o.status
                     o.confirmButton = true
                     o.cancelButton = true
                     const {onConfirm} = o

@@ -51,7 +51,8 @@
         align-items: center;
         cursor: pointer;
         padding: 0 8px;
-        opacity: 0.45;
+        opacity: 0.75;
+        color: inherit;
       }
     }
 
@@ -149,7 +150,7 @@
 
       .pl-dialog-foot {
         border-top: solid 1px $ibl;
-        background: #fafafa;
+        //background: #fafafa;
       }
 
       @include shapeMixin(dialog-body) {
