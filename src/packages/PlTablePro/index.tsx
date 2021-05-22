@@ -27,7 +27,10 @@ export const PlTablePro = designComponent({
         return () => (
             <div className="pl-table-pro">
                 <div className="pl-table-pro-head">
-                    <span className="pl-table-pro-title">{props.option.config.title}</span>
+                    <span className="pl-table-pro-title">
+                        <PlIcon icon="el-icon-menu" status="primary"/>
+                        <span>{props.option.config.title}</span>
+                    </span>
                     <div className="pl-table-pro-operation">
                         <PlButtonGroup size="mini">
                             <PlButton label={'新建'} icon="el-icon-document-add"/>
