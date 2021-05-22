@@ -154,7 +154,7 @@ export default createDefaultService({
                         onCancel={handler.cancel}
 
                         {...binding}
-                        width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : undefined}
+                        width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : "500"}
                     >
                         {{
                             default: content,
