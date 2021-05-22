@@ -31,6 +31,9 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
     }
 
     const total = computed(() => {
+        if (pageState.total != null) {
+            return pageState.total
+        }
         if (!pageState.hasNext) {
             return pageState.page * pageState.size + state.list.length
         } else {
@@ -47,6 +50,7 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
                     pageSize={pageState.size}
                     currentPage={pageState.page + 1}
                     total={total.value}
+                    limitJumpPageByTotalPage={false}
 
                     onJump={val => onJump(val - 1)}
                     onCurrentChange={val => onJump(val - 1)}
