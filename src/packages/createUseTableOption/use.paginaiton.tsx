@@ -20,10 +20,13 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
         total: null as null | number,
     })
 
-    const update = (data: { page: number, size: number, hasNext: boolean }) => {
+    const update = (data: { page: number, size: number, hasNext: boolean, list: any[] }) => {
         pageState.page = data.page
         pageState.size = data.size
         pageState.hasNext = data.hasNext
+        if (pageState.hasNext === false) {
+            pageState.total = pageState.page * pageState.size + data.list.length
+        }
     }
 
     const updateTotal = (total: null | number) => {
