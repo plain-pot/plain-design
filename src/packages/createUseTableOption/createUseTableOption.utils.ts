@@ -144,3 +144,11 @@ export interface iTableProConfig<D = any> {
 }
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
+
+export interface iTableState {
+    list: any[],
+    editingWhenAddRow: boolean,
+    insertRows: any[],
+    updateRows: any[],
+    selectRows: any[],
+}

@@ -1,4 +1,4 @@
-import {iTableProConfig, iTableProDefaultConfig, tTableOptionConfig} from "./createUseTableOption.utils";
+import {iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTablePagination} from "./use.paginaiton";
 import {useTableMethods} from "./use.methods";
 import {useTableHooks} from "./use.hooks";
@@ -12,9 +12,12 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             ...customConfig,
         }
 
-        const tableState = reactive({
+        const tableState: iTableState = reactive({
             list: [] as any[],
             editingWhenAddRow: false,
+            insertRows: [],
+            updateRows: [],
+            selectRows: [],
         })
 
         const hooks = useTableHooks({config})
@@ -22,13 +25,13 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const pagination = useTablePagination({
             tableState,
             config,
-            onPrev: () => methods.prev(),
-            onNext: () => methods.next(),
-            onJump: (page) => methods.jump(page),
-            onSizeChange: size => methods.reload({size}),
+            onPrev: () => pageMethods.prev(),
+            onNext: () => pageMethods.next(),
+            onJump: (page) => pageMethods.jump(page),
+            onSizeChange: size => pageMethods.reload({size}),
         })
 
-        const methods = useTableMethods({config, pagination, hooks, tableState})
+        const {pageMethods, editMethods} = useTableMethods({config, pagination, hooks, tableState})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
@@ -38,7 +41,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             tableState,
             config,
             pagination,
-            methods,
+            pageMethods,
+            editMethods,
         }
     }
 }

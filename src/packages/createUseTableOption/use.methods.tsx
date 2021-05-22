@@ -1,10 +1,11 @@
-import {iTableProDefaultConfig, tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
+import {iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
 import $$notice from "../$$notice";
+import {nextTick} from "../../utils/nextTick";
 
-export function useTableMethods({config, pagination, hooks}: {
-    tableState: { editingWhenAddRow: boolean },
+export function useTableMethods({tableState, config, pagination, hooks}: {
+    tableState: iTableState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableHooks,
@@ -37,87 +38,85 @@ export function useTableMethods({config, pagination, hooks}: {
                 requestConfig,
             }
         },
-
     }
 
-    const load = async (loadConfig?: { page?: number, size?: number }) => {
-        if (!config.url) {throw new Error('option.config.url 不能为空！')}
-        let targetLoadConfig = {
-            page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
-            size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
-        }
-        let {request, requestData, requestConfig} = utils.getUrlConfig('query')
-        Object.assign(requestData, targetLoadConfig)
-        requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
-        let {rows, hasNext} = await request(requestConfig)
-        rows = await hooks.onAfterLoad.exec(rows)
-        rows = await hooks.onLoaded.exec(rows)
-        pagination.update({...targetLoadConfig, hasNext, list: rows})
-        return rows
-    }
-
-    const reload = async (reloadConfig?: { size?: number }) => {
-        const rows = await load({page: 0, size: !reloadConfig ? undefined : reloadConfig.size})
-        pagination.updateTotal(null)
-        return rows
-    }
-
-    const queryCount = async () => {
-        if (!config.url) {throw new Error('option.config.url 不能为空！')}
-        let {request, requestData, requestConfig} = utils.getUrlConfig('query')
-        Object.assign(requestData, {onlyCount: true})
-        requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
-        let {total} = await request(requestConfig)
-        pagination.updateTotal(total || null)
-        return total
-    }
-
-    const next = async () => {
-        const {page, hasNext} = pagination.pageState
-        if (!hasNext) {return}
-        return load({page: page + 1})
-    }
-
-    const prev = async () => {
-        let page = pagination.pageState.page - 1
-        if (page < 0) {return}
-        return load({page})
-    }
-
-    const jump = async (page: number) => {
-        if (page < 0) {return}
-        if (page > pagination.pageState.page) {
-            if (page === pagination.pageState.page + 1 && pagination.pageState.hasNext) {
-                return load({page})
-            } else {
-                const total = await queryCount()
-                if (!total) {
-                    const msg = '查询总数失败！'
-                    $$notice.error(msg)
-                    throw new Error(msg)
-                }
-                const totalPage = Math.ceil(total / pagination.pageState.size) - 1
-                if (page > totalPage) {page = totalPage}
-                return load({page})
+    const pageMethods = {
+        load: async (loadConfig?: { page?: number, size?: number }) => {
+            if (!config.url) {throw new Error('option.config.url 不能为空！')}
+            let targetLoadConfig = {
+                page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
+                size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
             }
-        } else {
-            return load({page})
-        }
+            let {request, requestData, requestConfig} = utils.getUrlConfig('query')
+            Object.assign(requestData, targetLoadConfig)
+            requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
+            let {rows, hasNext} = await request(requestConfig)
+            rows = await hooks.onAfterLoad.exec(rows)
+            rows = await hooks.onLoaded.exec(rows)
+            pagination.update({...targetLoadConfig, hasNext, list: rows})
+            return rows
+        },
+        reload: async (reloadConfig?: { size?: number }) => {
+            const rows = await pageMethods.load({page: 0, size: !reloadConfig ? undefined : reloadConfig.size})
+            pagination.updateTotal(null)
+            return rows
+        },
+        queryCount: async () => {
+            if (!config.url) {throw new Error('option.config.url 不能为空！')}
+            let {request, requestData, requestConfig} = utils.getUrlConfig('query')
+            Object.assign(requestData, {onlyCount: true})
+            requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
+            let {total} = await request(requestConfig)
+            pagination.updateTotal(total || null)
+            return total
+        },
+        next: async () => {
+            const {page, hasNext} = pagination.pageState
+            if (!hasNext) {return}
+            return pageMethods.load({page: page + 1})
+        },
+        prev: async () => {
+            let page = pagination.pageState.page - 1
+            if (page < 0) {return}
+            return pageMethods.load({page})
+        },
+        jump: async (page: number) => {
+            if (page < 0) {return}
+            if (page > pagination.pageState.page) {
+                if (page === pagination.pageState.page + 1 && pagination.pageState.hasNext) {
+                    return pageMethods.load({page})
+                } else {
+                    const total = await pageMethods.queryCount()
+                    if (!total) {
+                        const msg = '查询总数失败！'
+                        $$notice.error(msg)
+                        throw new Error(msg)
+                    }
+                    const totalPage = Math.ceil(total / pagination.pageState.size) - 1
+                    if (page > totalPage) {page = totalPage}
+                    return pageMethods.load({page})
+                }
+            } else {
+                return pageMethods.load({page})
+            }
+        },
     }
 
     const editMethods = {
-        insert: () => {
-
+        insert: async () => {
+            tableState.editingWhenAddRow = true
+            const newRowData = {}
+            tableState.list.unshift(newRowData)
+            tableState.insertRows = [tableState.list[0]]
+            await nextTick()
+            // tableState.editingWhenAddRow = false
         },
         batchInsert: () => {},
     }
 
     return {
-        load,
-        reload,
-        next,
-        prev,
-        jump,
+        editMethods,
+        pageMethods,
     }
 }
 

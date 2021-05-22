@@ -20,7 +20,7 @@ export const PlTablePro = designComponent({
 
         onMounted(() => {
             if (props.option.config.loadOnStart !== false) {
-                props.option.methods.reload()
+                props.option.pageMethods.reload()
             }
         })
 
