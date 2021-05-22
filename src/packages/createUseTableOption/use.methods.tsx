@@ -25,14 +25,9 @@ export function useTableMethods({config, pagination, hooks}: {
 
     const load = async (loadConfig?: { page?: number, size?: number }) => {
         if (!config.url) {throw new Error('option.config.url 不能为空！')}
-        let targetLoadConfig: { page: number, size: number };
-        if (!loadConfig) {
-            targetLoadConfig = {page: pagination.pageState.page, size: pagination.pageState.size}
-        } else {
-            targetLoadConfig = {
-                page: loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
-                size: loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
-            }
+        let targetLoadConfig = {
+            page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
+            size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
         }
         const queryUrlConfig: tUrlConfig<any> = utils.getUrlConfig('query')
         let {request, ...requestConfig} = config.getDefaultUrlConfig.query(queryUrlConfig)
