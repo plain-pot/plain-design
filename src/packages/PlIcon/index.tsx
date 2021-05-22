@@ -46,6 +46,7 @@ export const PlIcon = designComponent({
         icon: {type: String},                       // 图标名称
         status: {type: String},                     // 图标状态
     },
+    inheritPropsType: HTMLElement,
     expose: {registry},
     setup({props}) {
         const icon = ref(null as any)

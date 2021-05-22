@@ -11,6 +11,7 @@ import PlTransition from "../PlTransition";
 import React from 'react';
 import PlButton from "../PlButton";
 import {PlLoadingMask} from "../PlLoadingMask";
+import PlIcon from "../PlIcon";
 
 export const PlDialog = designComponent({
     name: 'pl-dialog',
@@ -75,7 +76,7 @@ export const PlDialog = designComponent({
             loading: false,
         })
         const isLoading = computed(() => state.loading || props.loading)
-        const {styleComputed} = useStyle({status: undefined})
+        const {styleComputed} = useStyle({status: undefined, shape: StyleShape.square})
         const model = ref(false)
 
         /*---------------------------------------computer-------------------------------------------*/
@@ -238,13 +239,8 @@ export const PlDialog = designComponent({
                                     {hasHead.value && <div className="pl-dialog-head">
                                         {slots.head(<span className="pl-dialog-head-title">{slots.title() || '提示'}</span>)}
                                         {!!props.showClose && (
-                                            <div className="pl-dialog-head-close">
-                                                <PlButton
-                                                    icon="el-icon-close"
-                                                    shape={StyleShape.round}
-                                                    mode="text"
-                                                    size={StyleSize.large}
-                                                    onClick={handler.clickClose}/>
+                                            <div className="pl-dialog-head-close" onClick={handler.clickClose}>
+                                                <PlIcon icon="el-icon-close"/>
                                             </div>
                                         )}
                                     </div>}

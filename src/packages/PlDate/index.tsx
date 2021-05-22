@@ -227,7 +227,7 @@ export const PlDate = designComponent({
                                 collapseTags={props.collapseTags}
                                 default={({item, index}: { item: PDate, index: number }) => (<>
                                     <span>{item.getDisplay()}</span>
-                                    <PlIcon icon="el-icon-close" {...{onClick: (e: MouseEvent) => customHandler.onClickItemCloseIcon(index, e)}}/>
+                                    <PlIcon icon="el-icon-close" {...{onClick: (e: any) => customHandler.onClickItemCloseIcon(index, e)}}/>
                                 </>)}
                             />)}
 

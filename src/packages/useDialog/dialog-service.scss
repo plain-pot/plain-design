@@ -14,12 +14,29 @@
 @include theme {
   .pl-dialog-service {
     @include statusMixin(dialog-service) {
-      .pl-dialog-service-head {
-        .pl-dialog-service-status-icon {
+      .pl-dialog-head {
+        background-color: rgba($value, 0.05);
+        /*position: relative;
+
+        &:after {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          height: 4px;
+          background-color: $value;
+          content: '';
+        }*/
+        border-top: solid 4px $value;
+
+        .pl-dialog-service-head {
           color: $value;
-          font-size: 24px;
-          margin-right: 8px;
-          vertical-align: -0.25em;
+
+          .pl-dialog-service-status-icon {
+            font-size: 24px;
+            margin-right: 8px;
+            vertical-align: -0.25em;
+          }
         }
       }
     }
