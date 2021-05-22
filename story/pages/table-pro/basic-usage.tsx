@@ -15,9 +15,9 @@ export default designPage(() => {
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
                 <Plc title="id" field="id"/>
-                <Plc title="count" field="count"/>
-                <Plc title="normalText" field="normalText"/>
-                <Plc title="numberVal" field="numberVal"/>
+                <Plc.PlcNumber title="count" field="count"/>
+                <Plc.PlcInput title="normalText" field="normalText"/>
+                <Plc.PlcNumber title="numberVal" field="numberVal"/>
             </PlTablePro>
         </div>
     </>

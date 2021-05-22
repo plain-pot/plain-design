@@ -109,7 +109,7 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             tableState.list.unshift(newRowData)
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
-            // tableState.editingWhenAddRow = false
+            tableState.editingWhenAddRow = false
         },
         batchInsert: () => {},
     }
