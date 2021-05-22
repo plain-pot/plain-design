@@ -9,6 +9,7 @@ import PlDropdown from "../PlDropdown";
 import PlDropdownMenu from "../PlDropdownMenu";
 import PlDropdownOption from "../PlDropdownOption";
 import PlIcon from "../PlIcon";
+import PlButtonGroup from "../PlButtonGroup";
 
 export const PlTablePro = designComponent({
     props: {
@@ -28,33 +29,35 @@ export const PlTablePro = designComponent({
                 <div className="pl-table-pro-head">
                     <span className="pl-table-pro-title">{props.option.config.title}</span>
                     <div className="pl-table-pro-operation">
-                        <PlButton label={'新建'} size="mini" icon="el-icon-document-add"/>
-                        <PlButton label={'复制'} size="mini" icon="el-icon-document-copy"/>
-                        <PlButton label={'删除'} size="mini" icon="el-icon-document-remove"/>
-                        <PlDropdown placement="bottom-end" width="100">
-                            {{
-                                reference: ({open}) => (
-                                    <PlButton size="mini">
-                                        <span>更多</span>
-                                        <PlIcon icon={'el-icon-arrow-down'} style={{
-                                            transition: 'transform 200ms linear',
-                                            transform: `rotateX(${open ? 180 : 0}deg)`,
-                                        }}/>
-                                    </PlButton>
-                                ),
-                                popper: <PlDropdownMenu>
-                                    <PlDropdownOption label="批量新建" icon="el-icon-document-add"/>
-                                    <PlDropdownOption label="批量编辑" icon="el-icon-edit-outline"/>
-                                    <PlDropdownOption label="批量修改" icon="el-icon-edit"/>
-                                    <PlDropdownOption label="表单编辑" icon="el-icon-document"/>
-                                    <PlDropdownOption label="高级筛选" icon="el-icon-brush"/>
-                                    <PlDropdownOption label="高级排序" icon="el-icon-sort"/>
-                                    <PlDropdownOption label="个性设置" icon="el-icon-setting"/>
-                                    <PlDropdownOption label="导入数据" icon="el-icon-download"/>
-                                    <PlDropdownOption label="导出数据" icon="el-icon-upload1"/>
-                                </PlDropdownMenu>
-                            }}
-                        </PlDropdown>
+                        <PlButtonGroup size="mini">
+                            <PlButton label={'新建'} icon="el-icon-document-add"/>
+                            <PlButton label={'复制'} icon="el-icon-document-copy"/>
+                            <PlButton label={'删除'} icon="el-icon-document-remove"/>
+                            <PlDropdown placement="bottom-end" width="100">
+                                {{
+                                    reference: ({open}) => (
+                                        <PlButton>
+                                            <span>更多</span>
+                                            <PlIcon icon={'el-icon-arrow-down'} style={{
+                                                transition: 'transform 200ms linear',
+                                                transform: `rotateX(${open ? 180 : 0}deg)`,
+                                            }}/>
+                                        </PlButton>
+                                    ),
+                                    popper: <PlDropdownMenu>
+                                        <PlDropdownOption label="批量新建" icon="el-icon-document-add"/>
+                                        <PlDropdownOption label="批量编辑" icon="el-icon-edit-outline"/>
+                                        <PlDropdownOption label="批量修改" icon="el-icon-edit"/>
+                                        <PlDropdownOption label="表单编辑" icon="el-icon-document"/>
+                                        <PlDropdownOption label="高级筛选" icon="el-icon-brush"/>
+                                        <PlDropdownOption label="高级排序" icon="el-icon-sort"/>
+                                        <PlDropdownOption label="个性设置" icon="el-icon-setting"/>
+                                        <PlDropdownOption label="导入数据" icon="el-icon-download"/>
+                                        <PlDropdownOption label="导出数据" icon="el-icon-upload1"/>
+                                    </PlDropdownMenu>
+                                }}
+                            </PlDropdown>
+                        </PlButtonGroup>
                     </div>
                 </div>
                 <PlTable data={props.option.state.list}>

@@ -15,8 +15,5 @@
   padding: 0 24px;
 
   .pl-table-pro-operation {
-    & > * + * {
-      margin-left: 4px;
-    }
   }
 }
