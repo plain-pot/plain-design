@@ -36,6 +36,7 @@ export const PlPagination = designComponent({
         nextText: {type: String},                                                               // 下一页按钮替换文本
 
         jumperNumberWidth: {type: Number},                                                      // 跳转页的数字输入框宽度
+        limitJumpPageByTotalPage: {type: Boolean, default: true},                               // 限制跳转指定页的时候，不能大于总页数
     },
     emits: {
         onJump: (val: number) => true,
@@ -220,7 +221,9 @@ export const PlPagination = designComponent({
                     jumperValue.value = val
                 }
                 if (val > pageInfo.value.totalPage) {
-                    val = pageInfo.value.totalPage
+                    if (props.limitJumpPageByTotalPage) {
+                        val = pageInfo.value.totalPage
+                    }
                     await delay()
                     jumperValue.value = val
                 }
