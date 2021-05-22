@@ -4,6 +4,7 @@ import {tTableOption} from "../createUseTableOption";
 import PlTable from "../PlTable";
 import './table-pro.scss'
 import Plc from "../Plc";
+import PlButton from "../PlButton";
 
 export const PlTablePro = designComponent({
     props: {
@@ -22,6 +23,11 @@ export const PlTablePro = designComponent({
             <div className="pl-table-pro">
                 <div className="pl-table-pro-head">
                     <span className="pl-table-pro-title">{props.option.config.title}</span>
+                    <div className="pl-table-pro-operation">
+                        <PlButton label={'新建'} mode="text" icon="el-icon-document-add"/>
+                        <PlButton label={'复制'} mode="text" icon="el-icon-document-copy"/>
+                        <PlButton label={'删除'} mode="text" icon="el-icon-document-remove"/>
+                    </div>
                 </div>
                 <PlTable data={props.option.state.list}>
                     <Plc.PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>

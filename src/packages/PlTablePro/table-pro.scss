@@ -11,5 +11,12 @@
   height: 48px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 24px;
+
+  .pl-table-pro-operation {
+    & > * + * {
+      margin-left: 16px;
+    }
+  }
 }
