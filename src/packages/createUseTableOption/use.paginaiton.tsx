@@ -3,8 +3,8 @@ import {tTableOptionConfig} from "./createUseTableOption.utils";
 import PlPagination from "../PlPagination";
 import React from "react";
 
-export function useTablePagination({state, config, onPrev, onNext, onJump, onSizeChange}: {
-    state: { list: any[] },
+export function useTablePagination({tableState, config, onPrev, onNext, onJump, onSizeChange}: {
+    tableState: { list: any[] },
     config: tTableOptionConfig,
 
     onPrev: () => void,
@@ -38,7 +38,7 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
             return pageState.total
         }
         if (!pageState.hasNext) {
-            return pageState.page * pageState.size + state.list.length
+            return pageState.page * pageState.size + tableState.list.length
         } else {
             return (pageState.page + 1) * pageState.size + 1
         }

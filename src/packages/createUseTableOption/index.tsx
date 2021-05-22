@@ -12,14 +12,15 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             ...customConfig,
         }
 
-        const state = reactive({
+        const tableState = reactive({
             list: [] as any[],
+            editingWhenAddRow: false,
         })
 
         const hooks = useTableHooks({config})
 
         const pagination = useTablePagination({
-            state,
+            tableState,
             config,
             onPrev: () => methods.prev(),
             onNext: () => methods.next(),
@@ -27,14 +28,14 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onSizeChange: size => methods.reload({size}),
         })
 
-        const methods = useTableMethods({config, pagination, hooks})
+        const methods = useTableMethods({config, pagination, hooks, tableState})
 
         hooks.onLoaded.use(rows => {
-            state.list = rows
+            tableState.list = rows
         })
 
         return {
-            state,
+            tableState,
             config,
             pagination,
             methods,

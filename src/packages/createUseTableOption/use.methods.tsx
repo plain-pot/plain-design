@@ -4,6 +4,7 @@ import {tTableHooks} from "./use.hooks";
 import $$notice from "../$$notice";
 
 export function useTableMethods({config, pagination, hooks}: {
+    tableState: { editingWhenAddRow: boolean },
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableHooks,
@@ -105,7 +106,9 @@ export function useTableMethods({config, pagination, hooks}: {
     }
 
     const editMethods = {
-        insert: () => {},
+        insert: () => {
+
+        },
         batchInsert: () => {},
     }
 

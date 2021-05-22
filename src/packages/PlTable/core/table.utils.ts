@@ -49,6 +49,7 @@ export const TableProps = {
     associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
     colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
     spanMethod: {type: Function as PropType<TablePropsSpanMethod>},// 合并表体单元格的方法
+    defaultEditingWhenAddRow: {type: Boolean},                  // 默认开启编辑状态，当添加新行时
 
     /*---------------------------------------style-------------------------------------------*/
 

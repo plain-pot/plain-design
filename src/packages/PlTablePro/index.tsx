@@ -63,7 +63,9 @@ export const PlTablePro = designComponent({
                         </PlButtonGroup>
                     </div>
                 </div>
-                <PlTable data={props.option.state.list}>
+                <PlTable
+                    data={props.option.tableState.list}
+                    defaultEditingWhenAddRow={props.option.tableState.editingWhenAddRow}>
                     <Plc.PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {slots.default()}
                 </PlTable>
