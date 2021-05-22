@@ -70,6 +70,7 @@ export type tUrl = string | {
 export interface iQueryResponse {
     rows: any[],
     hasNext: boolean,
+    total?: number | null,
 }
 
 /**

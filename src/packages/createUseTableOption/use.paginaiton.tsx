@@ -17,12 +17,17 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
         page: 0,
         size: config.pageSize || config.showRow,
         hasNext: false,
+        total: null as null | number,
     })
 
     const update = (data: { page: number, size: number, hasNext: boolean }) => {
         pageState.page = data.page
         pageState.size = data.size
         pageState.hasNext = data.hasNext
+    }
+
+    const updateTotal = (total: null | number) => {
+        pageState.total = total
     }
 
     const total = computed(() => {
@@ -51,7 +56,7 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
         )
     }
 
-    return {pageState, update, render,}
+    return {pageState, update, render, updateTotal}
 }
 
 export type tTablePagination = ReturnType<typeof useTablePagination>

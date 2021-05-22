@@ -1,6 +1,7 @@
 import {tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
+import $$notice from "../$$notice";
 
 export function useTableMethods({config, pagination, hooks}: {
     config: tTableOptionConfig,
@@ -47,7 +48,34 @@ export function useTableMethods({config, pagination, hooks}: {
     }
 
     const reload = async (reloadConfig?: { size?: number }) => {
-        return await load({page: 0, size: !reloadConfig ? undefined : reloadConfig.size})
+        const rows = await load({page: 0, size: !reloadConfig ? undefined : reloadConfig.size})
+        pagination.updateTotal(null)
+        return rows
+    }
+
+    const queryCount = async () => {
+        if (!config.url) {throw new Error('option.config.url 不能为空！')}
+        const queryUrlConfig: tUrlConfig<any> = (() => {
+            if (!config.url) {throw new Error('config.url is required when query list!')}
+            if (typeof config.url === "string") {
+                return {base: config.url}
+            } else {
+                const {base, query} = config.url
+                return typeof query === "string" ? {url: query} : {...query, base}
+            }
+        })();
+        let {request, ...requestConfig} = config.getDefaultUrlConfig.query(queryUrlConfig)
+        if (requestConfig.method === 'GET') {
+            if (!requestConfig.query) {requestConfig.query = {}}
+            Object.assign(requestConfig.query, {onlyCount: true})
+        } else {
+            if (!requestConfig.body) {requestConfig.body = {}}
+            Object.assign(requestConfig.body, {onlyCount: true})
+        }
+        requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
+        let {total} = await request(requestConfig)
+        pagination.updateTotal(total || null)
+        return total
     }
 
     const next = async () => {
@@ -64,13 +92,19 @@ export function useTableMethods({config, pagination, hooks}: {
 
     const jump = async (page: number) => {
         if (page < 0) {return}
-
-
         if (page > pagination.pageState.page) {
             if (page === pagination.pageState.page + 1 && pagination.pageState.hasNext) {
                 return load({page})
             } else {
-                console.log('query count')
+                const total = await queryCount()
+                if (!total) {
+                    const msg = '查询总数失败！'
+                    $$notice.error(msg)
+                    throw new Error(msg)
+                }
+                const totalPage = Math.ceil(total / pagination.pageState.size) - 1
+                if (page > totalPage) {page = totalPage}
+                return load({page})
             }
         } else {
             return load({page})

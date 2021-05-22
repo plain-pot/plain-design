@@ -27,6 +27,7 @@ export const useTableOption = createUseTableOption({
                         return {
                             rows: data.list,
                             hasNext: data.hasNext,
+                            ...data,
                         }
                     } catch (e) {
                         $$notice.error({title: '查询失败！', message: Object.prototype.toString.call(e)})
