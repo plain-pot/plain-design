@@ -48,7 +48,7 @@ export function useTablePagination({state, config, onPrev, onNext, onJump, onSiz
                     currentPage={pageState.page + 1}
                     total={total.value}
 
-                    onJump={val => onJump(val)}
+                    onJump={val => onJump(val - 1)}
                     onCurrentChange={val => onJump(val - 1)}
                     onSizeChange={onSizeChange}
                 />
