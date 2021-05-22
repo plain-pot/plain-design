@@ -10,14 +10,30 @@ export function useTableMethods({config, pagination, hooks}: {
 }) {
 
     const utils = {
-        getUrlConfig: (type: keyof iTableProDefaultConfig["getDefaultUrlConfig"]) => {
-            if (!config.url) {throw new Error('option.config.url 不能为空！')}
-            if (typeof config.url === "string") {
-                return {base: config.url}
-            } else {
-                const base = config.url.base
-                const urlConfig = config.url[type]
-                return typeof urlConfig === "string" ? {url: urlConfig} : {...urlConfig, base}
+        getUrlConfig: <T extends keyof iTableProDefaultConfig["getDefaultUrlConfig"]>(type: T) => {
+            const urlConfig: tUrlConfig<any> = (() => {
+                if (!config.url) {throw new Error('option.config.url 不能为空！')}
+                if (typeof config.url === "string") {
+                    return {base: config.url}
+                } else {
+                    const base = config.url.base
+                    const urlConfig = config.url[type]
+                    return typeof urlConfig === "string" ? {url: urlConfig} : {...urlConfig as any, base}
+                }
+            })();
+            let {request, ...requestConfig} = config.getDefaultUrlConfig[type]!(urlConfig)
+            const requestData: any = (() => {
+                const dataName = requestConfig.method === 'GET' ? 'query' : 'body'
+                if (!requestConfig[dataName]) {requestConfig[dataName] = {}}
+                return requestConfig[dataName]
+            })();
+            return {
+                /*用来发送请求的request函数*/
+                request: request as any as iTableProDefaultConfig["getDefaultUrlConfig"][T],
+                /*请求参数，如果是GET请求，则为config.query，否则为config.body*/
+                requestData,
+                /*请求配置对象*/
+                requestConfig,
             }
         },
 
@@ -29,15 +45,8 @@ export function useTableMethods({config, pagination, hooks}: {
             page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
             size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
         }
-        const queryUrlConfig: tUrlConfig<any> = utils.getUrlConfig('query')
-        let {request, ...requestConfig} = config.getDefaultUrlConfig.query(queryUrlConfig)
-        if (requestConfig.method === 'GET') {
-            if (!requestConfig.query) {requestConfig.query = {}}
-            Object.assign(requestConfig.query, targetLoadConfig)
-        } else {
-            if (!requestConfig.body) {requestConfig.body = {}}
-            Object.assign(requestConfig.body, targetLoadConfig)
-        }
+        let {request, requestData, requestConfig} = utils.getUrlConfig('query')
+        Object.assign(requestData, targetLoadConfig)
         requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
         let {rows, hasNext} = await request(requestConfig)
         rows = await hooks.onAfterLoad.exec(rows)
@@ -54,15 +63,8 @@ export function useTableMethods({config, pagination, hooks}: {
 
     const queryCount = async () => {
         if (!config.url) {throw new Error('option.config.url 不能为空！')}
-        const queryUrlConfig: tUrlConfig<any> = utils.getUrlConfig('query')
-        let {request, ...requestConfig} = config.getDefaultUrlConfig.query(queryUrlConfig)
-        if (requestConfig.method === 'GET') {
-            if (!requestConfig.query) {requestConfig.query = {}}
-            Object.assign(requestConfig.query, {onlyCount: true})
-        } else {
-            if (!requestConfig.body) {requestConfig.body = {}}
-            Object.assign(requestConfig.body, {onlyCount: true})
-        }
+        let {request, requestData, requestConfig} = utils.getUrlConfig('query')
+        Object.assign(requestData, {onlyCount: true})
         requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
         let {total} = await request(requestConfig)
         pagination.updateTotal(total || null)
