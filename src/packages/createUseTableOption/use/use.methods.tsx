@@ -1,9 +1,9 @@
-import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "./createUseTableOption.utils";
+import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
-import $$notice from "../$$notice";
-import {nextTick} from "../../utils/nextTick";
-import PlTable from "../PlTable";
+import $$notice from "../../$$notice";
+import {nextTick} from "../../../utils/nextTick";
+import PlTable from "../../PlTable";
 
 export function useTableMethods({tableState, config, pagination, hooks}: {
     tableState: iTableState,

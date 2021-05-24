@@ -1,7 +1,7 @@
 import {TableMode, iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
-import {useTablePagination} from "./use.paginaiton";
-import {useTableMethods} from "./use.methods";
-import {useTableHooks} from "./use.hooks";
+import {useTablePagination} from "./use/use.paginaiton";
+import {useTableMethods} from "./use/use.methods";
+import {useTableHooks} from "./use/use.hooks";
 import {computed, reactive} from "plain-design-composition";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {

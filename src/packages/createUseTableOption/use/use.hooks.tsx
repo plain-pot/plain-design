@@ -1,5 +1,5 @@
-import {PlainObject, tRequestConfig, tTableOptionConfig} from "./createUseTableOption.utils";
-import {TableNode} from "../PlTable/core/useTableNode";
+import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
+import {TableNode} from "../../PlTable/core/useTableNode";
 
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),

@@ -1,6 +1,6 @@
 import {computed, reactive} from "plain-design-composition";
-import {tTableOptionConfig} from "./createUseTableOption.utils";
-import PlPagination from "../PlPagination";
+import {tTableOptionConfig} from "../createUseTableOption.utils";
+import PlPagination from "../../PlPagination";
 import React from "react";
 
 export function useTablePagination({tableState, config, onPrev, onNext, onJump, onSizeChange}: {
