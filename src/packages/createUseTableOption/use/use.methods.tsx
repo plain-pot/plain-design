@@ -133,7 +133,14 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
                 },
             }
         },
+        update: async () => {
+            return {
+                onSave: () => {},
+                onCancel: () => {},
+            }
+        },
     })
+
 
     return {
         editMethods,

@@ -1,6 +1,6 @@
 import {reactive, computed} from "plain-design-composition";
 
-export function useTableAsyncMethods<Methods extends Record<string, () => Promise<{
+export function useTableAsyncMethods<Methods extends Record<string, (...args: any[]) => Promise<{
     onSave: () => Promise<void> | void,
     onCancel: () => Promise<void> | void,
 }>>>(methods: Methods) {
@@ -23,5 +23,15 @@ export function useTableAsyncMethods<Methods extends Record<string, () => Promis
 
     return {
         loading,
+        ...Object.entries(methods).reduce((prev: any, [methodName, method]) => {
+            prev[methodName] = async (...args: any[]) => {
+                try {
+                    (loading as any)[methodName] = true;
+                    const effects = await method(...args)
+                } finally {
+                    (loading as any)[methodName] = false;
+                }
+            }
+        }, {})
     }
 }
