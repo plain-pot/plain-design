@@ -1,5 +1,6 @@
 import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/core/useTableNode";
+import PlTable from "../../PlTable";
 
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
@@ -91,6 +92,7 @@ export function useTableHooks({config}: { config: tTableOptionConfig }) {
         onAfterUpdate: createHooks<(resp: any) => void>(),                                          // 异步钩子，普通行编辑保存之后
 
         /*表格相关*/
+        onRefTable: createSyncHooks<(table: typeof PlTable.use.class) => void>(),               // 获取table对象的引用
         // onCollectRenderColumns: createHooks<(renderColumns: iRenderColumn[]) => void>(),            // 异步钩子，获取到列信息的时候
         // onColumns: createSyncHooks<(content: ReactNodeArray) => void>(),                            // 同步钩子，用来处理列信息
         // onButtons: createSyncHooks<(buttons: iO2TableButtonConfig[]) => void>(),                    // 同步钩子，用来处理按钮信息
