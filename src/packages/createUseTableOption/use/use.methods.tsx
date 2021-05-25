@@ -3,6 +3,9 @@ import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
 import {nextTick} from "../../../utils/nextTick";
+import PlTable from "../../PlTable";
+import $$message from "../../$$message";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export function useTableMethods({tableState, config, pagination, hooks}: {
     tableState: iTableState,
@@ -13,6 +16,7 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
 
     const freezeState = {
         effects: null as null | { onSave: () => void, onCancel: () => void },
+        table: {} as typeof PlTable.use.class
     }
 
     const utils = {
@@ -111,20 +115,30 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
         insert: async () => {
             tableState.editingWhenAddRow = true
             tableState.mode = TableMode.insert
-            const newRowData = {}
+            let newRowData = {}
             tableState.list.unshift(newRowData)
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
+            const newNode = freezeState.table.flatNodes.value[0]
+            newNode.validate()
             tableState.editingWhenAddRow = false
 
             freezeState.effects = {
                 onSave: async () => {
-                    console.log('保存新建')
-                    /*let {request, requestConfig} = utils.getUrlConfig('insert')
-                    requestConfig.body = newRowData
+                    const validateResult = await newNode.validate()
+                    if (!!validateResult) {
+                        const {validateMessage, node: {index}} = validateResult
+                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        return Promise.reject(validateResult)
+                    }
+                    let {request, requestConfig} = utils.getUrlConfig('insert')
+                    requestConfig.body = deepcopy(newNode.editRow)
                     requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     const newRowResult = await request!(requestConfig)
-                    return newRowResult*/
+                    newNode.saveEdit(newRowResult)
+                    newNode.closeEdit()
+                    tableState.mode = TableMode.normal
+                    tableState.insertRows = []
                 },
                 onCancel: async () => {
                     tableState.mode = TableMode.normal
@@ -147,6 +161,8 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             }
         },
     }
+
+    hooks.onRefTable.use(table => freezeState.table = table)
 
     return {
         editMethods,
