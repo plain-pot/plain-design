@@ -11,6 +11,10 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
     hooks: tTableHooks,
 }) {
 
+    const freezeState = {
+        effects: null as null | { onSave: () => void, onCancel: () => void },
+    }
+
     const utils = {
         getUrlConfig: <T extends keyof iTableProDefaultConfig["getDefaultUrlConfig"]>(type: T) => {
             const urlConfig: tUrlConfig<any> = (() => {
@@ -38,11 +42,13 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
                 requestConfig,
             }
         },
+        saveInsert: async () => {
+
+        },
     }
 
     const pageMethods = {
         load: async (loadConfig?: { page?: number, size?: number }) => {
-            if (!config.url) {throw new Error('option.config.url 不能为空！')}
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
@@ -62,7 +68,6 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             return rows
         },
         queryCount: async () => {
-            if (!config.url) {throw new Error('option.config.url 不能为空！')}
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, {onlyCount: true})
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
@@ -102,12 +107,6 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
         },
     }
 
-    const editUtils = {
-        saveInsert: async () => {
-
-        },
-    }
-
     const editMethods = {
         insert: async () => {
             tableState.editingWhenAddRow = true
@@ -117,26 +116,34 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
             tableState.editingWhenAddRow = false
+
+            freezeState.effects = {
+                onSave: async () => {
+                    console.log('保存新建')
+                    /*let {request, requestConfig} = utils.getUrlConfig('insert')
+                    requestConfig.body = newRowData
+                    requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                    const newRowResult = await request!(requestConfig)
+                    return newRowResult*/
+                },
+                onCancel: async () => {
+                    tableState.mode = TableMode.normal
+                    tableState.list.shift()
+                    tableState.insertRows = []
+                },
+            }
         },
         batchInsert: () => {},
-        cancel: () => {
-            if (!tableState.isEditing) {return}
-            switch (tableState.mode) {
-                case TableMode.insert:
-                    tableState.list = tableState.list.slice(tableState.insertRows.length)
-                    tableState.insertRows = []
-                    break
-                case TableMode.update:
-                    tableState.list = tableState.list.slice(tableState.updateRows.length)
-                    tableState.updateRows = []
-                    break
+        cancel: async () => {
+            if (!!freezeState.effects) {
+                await freezeState.effects.onCancel()
+                freezeState.effects = null
             }
-            tableState.mode = TableMode.normal
         },
-        save: () => {
-            if (!tableState.isEditing) {return}
-            switch (tableState.mode) {
-
+        save: async () => {
+            if (!!freezeState.effects) {
+                await freezeState.effects.onSave()
+                freezeState.effects = null
             }
         },
     }
