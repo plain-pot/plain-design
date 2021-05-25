@@ -1,9 +1,8 @@
-import {iTableProDefaultConfig, iTableState, TableMode, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
+import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
 import {nextTick} from "../../../utils/nextTick";
-import {useTableAsyncMethods} from "../utils/useTableMethods";
 
 export function useTableMethods({tableState, config, pagination, hooks}: {
     tableState: iTableState,
@@ -109,7 +108,7 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
         },
     }
 
-    const editMethods = useTableAsyncMethods({
+    const editMethods = {
         insert: async () => {
             tableState.editingWhenAddRow = true
             tableState.mode = TableMode.insert
@@ -118,29 +117,29 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
             tableState.editingWhenAddRow = false
-
-            return {
-                onSave: () => {
-                    if (tableState.mode !== TableMode.insert) {return}
-
-                },
-                onCancel: () => {
-                    if (tableState.mode !== TableMode.insert) {return}
-
-                    tableState.list.shift()
+        },
+        batchInsert: () => {},
+        cancel: () => {
+            if (!tableState.isEditing) {return}
+            switch (tableState.mode) {
+                case TableMode.insert:
+                    tableState.list = tableState.list.slice(tableState.insertRows.length)
                     tableState.insertRows = []
-                    tableState.mode = TableMode.normal
-                },
+                    break
+                case TableMode.update:
+                    tableState.list = tableState.list.slice(tableState.updateRows.length)
+                    tableState.updateRows = []
+                    break
             }
+            tableState.mode = TableMode.normal
         },
-        update: async () => {
-            return {
-                onSave: () => {},
-                onCancel: () => {},
-            }
-        },
-    })
+        save: () => {
+            if (!tableState.isEditing) {return}
+            switch (tableState.mode) {
 
+            }
+        },
+    }
 
     return {
         editMethods,
