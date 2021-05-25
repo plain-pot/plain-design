@@ -45,6 +45,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             pagination,
             pageMethods,
             editMethods,
+            hooks,
         }
     }
 }
