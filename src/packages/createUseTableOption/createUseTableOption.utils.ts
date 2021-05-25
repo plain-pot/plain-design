@@ -57,14 +57,14 @@ export type tUrl = string | {
     base?: string,
     query?: string | tUrlConfig<iQueryResponse>,
 
-    insert?: string | tUrlConfig<PlainObject>,
-    batchInsert?: string | tUrlConfig<PlainObject[]>,
+    insert?: string | tUrlConfig<tInsertResponse>,
+    batchInsert?: string | tUrlConfig<tBatchInsertResponse>,
 
-    update?: string | tUrlConfig<PlainObject>,
-    batchUpdate?: string | tUrlConfig<PlainObject[]>,
+    update?: string | tUrlConfig<tUpdateResponse>,
+    batchUpdate?: string | tUrlConfig<tBatchUpdateResponse>,
 
-    delete?: string | tUrlConfig<boolean>,
-    batchDelete?: string | tUrlConfig<boolean>,
+    delete?: string | tUrlConfig<tDeleteResponse>,
+    batchDelete?: string | tUrlConfig<tDeleteResponse>,
 }
 
 export interface iQueryResponse {
@@ -72,6 +72,12 @@ export interface iQueryResponse {
     hasNext: boolean,
     total?: number | null,
 }
+
+export type tInsertResponse = { newRow: PlainObject } & Record<string, any>
+export type tBatchInsertResponse = { newRows: PlainObject[] } & Record<string, any>
+export type tUpdateResponse = tInsertResponse
+export type tBatchUpdateResponse = tBatchInsertResponse
+export type tDeleteResponse = { error?: string }
 
 /**
  * 按钮配置徐喜怒
@@ -105,12 +111,12 @@ export interface iTableProDefaultConfig {
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
-        insert?: (data: tUrlConfig<PlainObject>) => tUrlConfigFormat<PlainObject>,
-        batchInsert?: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
-        update?: (data: tUrlConfig<PlainObject>) => tUrlConfigFormat<PlainObject>,
-        batchUpdate?: (data: tUrlConfig<PlainObject[]>) => tUrlConfigFormat<PlainObject[]>,
-        delete?: (data: tUrlConfig<boolean>) => tUrlConfigFormat<boolean>,
-        batchDelete?: (data: tUrlConfig<boolean>) => tUrlConfigFormat<boolean>,
+        insert?: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,
+        batchInsert?: (data: tUrlConfig<tBatchInsertResponse>) => tUrlConfigFormat<tBatchInsertResponse>,
+        update?: (data: tUrlConfig<tUpdateResponse>) => tUrlConfigFormat<tUpdateResponse>,
+        batchUpdate?: (data: tUrlConfig<tBatchUpdateResponse>) => tUrlConfigFormat<tBatchUpdateResponse>,
+        delete?: (data: tUrlConfig<tDeleteResponse>) => tUrlConfigFormat<tDeleteResponse>,
+        batchDelete?: (data: tUrlConfig<tDeleteResponse>) => tUrlConfigFormat<tDeleteResponse>,
     },
 }
 
