@@ -24,6 +24,10 @@ export const PlTablePro = designComponent({
             }
         })
 
+        const refTable = (table: typeof PlTable.use.class | null | undefined) => {
+            props.option.hooks.onRefTable.exec(table!)
+        }
+
         return () => (
             <div className="pl-table-pro">
                 <div className="pl-table-pro-head">
@@ -68,6 +72,7 @@ export const PlTablePro = designComponent({
                     </div>
                 </div>
                 <PlTable
+                    ref={refTable}
                     data={props.option.tableState.list}
                     defaultEditingWhenAddRow={props.option.tableState.editingWhenAddRow}>
                     <Plc.PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
