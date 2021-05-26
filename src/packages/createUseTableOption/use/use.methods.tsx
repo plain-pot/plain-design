@@ -160,6 +160,9 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
                 freezeState.effects = null
             }
         },
+        delete: async () => {
+            /**/
+        },
     }
 
     hooks.onRefTable.use(table => freezeState.table = table)
