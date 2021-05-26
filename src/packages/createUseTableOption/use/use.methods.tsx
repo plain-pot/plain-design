@@ -6,12 +6,15 @@ import {nextTick} from "../../../utils/nextTick";
 import PlTable from "../../PlTable";
 import $$message from "../../$$message";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {TableNode} from "../../PlTable/core/useTableNode";
+import {$$dialog} from "../../useDialog";
 
-export function useTableMethods({tableState, config, pagination, hooks}: {
+export function useTableMethods({tableState, config, pagination, hooks, currentNode}: {
     tableState: iTableState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableHooks,
+    currentNode: { value: TableNode | null | undefined },
 }) {
 
     const freezeState = {
@@ -161,7 +164,13 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
             }
         },
         delete: async () => {
-            /**/
+            if (!currentNode.value) {
+                return $$notice.warn('请选中一行要删除的数据！')
+            }
+            const {page, size} = pagination.pageState
+            const {data, index} = currentNode.value
+            await $$dialog.confirm(`确定要删除第${page * size + index + 1}条数据吗？`)
+            console.log('删除', {...data})
         },
     }
 

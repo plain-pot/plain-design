@@ -1,4 +1,4 @@
-import {TableMode, iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
+import {iTableProConfig, iTableProDefaultConfig, iTableState, TableMode, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTablePagination} from "./use/use.paginaiton";
 import {useTableMethods} from "./use/use.methods";
 import {useTableHooks} from "./use/use.hooks";
@@ -21,6 +21,14 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             selectRows: [],
             isEditing: computed(() => [TableMode.normal, TableMode.select].indexOf(tableState.mode) === -1),
             currentKey: null,
+            tableGetter: () => null,
+        })
+
+        const currentNode = computed(() => {
+            const table = tableState.tableGetter()
+            if (!table) {return null}
+            if (!tableState.currentKey) {return }
+            return table.getNode(tableState.currentKey)
         })
 
         const hooks = useTableHooks({config})
@@ -34,12 +42,13 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onSizeChange: size => pageMethods.reload({size}),
         })
 
-        const {pageMethods, editMethods} = useTableMethods({config, pagination, hooks, tableState})
+        const {pageMethods, editMethods} = useTableMethods({config, pagination, hooks, tableState, currentNode})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
             tableState.currentKey = rows.length > 0 ? rows[0].id : null
         })
+        hooks.onRefTable.use(table => tableState.tableGetter = (() => table) as any)
 
         return {
             tableState,
@@ -48,6 +57,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             pageMethods,
             editMethods,
             hooks,
+            currentNode,
         }
     }
 }

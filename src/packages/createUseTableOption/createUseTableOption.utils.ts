@@ -1,5 +1,6 @@
 import {ReactFragment} from "react";
 import {FormComponentRules} from "../PlForm/form.validate";
+import PlTable from "../PlTable";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;
@@ -167,4 +168,5 @@ export interface iTableState {
     selectRows: any[],
     isEditing: boolean,
     currentKey: string | null,
+    tableGetter: () => typeof PlTable.use.class | null,
 }
