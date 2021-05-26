@@ -170,7 +170,15 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             const {page, size} = pagination.pageState
             const {data, index} = currentNode.value
             await $$dialog.confirm(`确定要删除第${page * size + index + 1}条数据吗？`)
-            console.log('删除', {...data})
+
+            let {request, requestConfig} = utils.getUrlConfig('delete')
+            requestConfig.body = deepcopy(data)
+            requestConfig = await hooks.onBeforeDelete.exec(requestConfig)
+            const deleteResult = await request!(requestConfig)
+            if (!!deleteResult.error) {
+                return $$notice.error(`删除失败：${deleteResult.error}`)
+            }
+            tableState.list.splice(tableState.list.indexOf(data), 1)
         },
     }
 

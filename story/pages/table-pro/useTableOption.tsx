@@ -61,6 +61,28 @@ export const useTableOption = createUseTableOption({
                 }
             }
             return {...left, url: url!, method, request,}
+        },
+        delete: (config) => {
+            let {url, base, method, request, ...left} = config
+            if (!url && !!base) {url = base}
+            if (!method) {method = 'DELETE'}
+            if (!request) {
+                request = async (requestConfig) => {
+                    try {
+                        const {query, body, ...config} = requestConfig
+                        const data = await $http({
+                            ...config,
+                            params: query,
+                            data: body,
+                        })
+                        return {error: data.message}
+                    } catch (e) {
+                        $$notice.error({title: '删除失败！', message: String(e)})
+                        throw e
+                    }
+                }
+            }
+            return {...left, url: url!, method, request,}
         }
     },
 })
