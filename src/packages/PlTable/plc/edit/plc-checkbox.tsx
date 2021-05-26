@@ -1,9 +1,9 @@
 import React from "react";
 import {designPlc} from "../core/designPlc";
-import PlToggle from "../../../PlToggle";
+import PlCheckbox from "../../../PlCheckbox";
 
 export default designPlc({
-    name: 'plc-toggle',
+    name: 'plc-checkbox',
     standardProps: {
         addEditPadding: {default: true},
     },
@@ -11,22 +11,22 @@ export default designPlc({
         trueValue: {default: 'Y' as any},
         falseValue: {default: 'N' as any},
     },
-    setup(props) {return {props}},
+    setup: (props) => {
+        return {props}
+    },
 }, {
     summary: () => null,
-    default: ({row, plc, refer}) => !plc.props.field ? null : (
-        <PlToggle
+    default: ({row, plc, refer}) => !plc.props.field ? null :
+        <PlCheckbox
             disabled
             v-model={row[plc.props.field]}
             trueValue={refer.props.trueValue}
             falseValue={refer.props.falseValue}
-        />
-    ),
-    edit: ({row, plc, refer}) => !plc.props.field ? null : (
-        <PlToggle
+        />,
+    edit: ({row, plc, refer}) => !plc.props.field ? null :
+        <PlCheckbox
             v-model={row[plc.props.field]}
             trueValue={refer.props.trueValue}
             falseValue={refer.props.falseValue}
-        />
-    ),
+        />,
 })

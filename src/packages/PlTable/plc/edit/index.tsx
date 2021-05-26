@@ -4,6 +4,7 @@ import PlcColorPicker from './plc-color-picker'
 import PlcRate from './plc-rate'
 import PlcToggle from './plc-toggle'
 import PlcDate from './plc-date'
+import PlcCheckbox from './plc-checkbox'
 
 export {
     PlcInput,
@@ -12,4 +13,5 @@ export {
     PlcRate,
     PlcToggle,
     PlcDate,
+    PlcCheckbox,
 }

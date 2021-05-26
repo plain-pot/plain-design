@@ -17,7 +17,9 @@ export default designPage(() => {
                 <Plc title="id" field="id"/>
                 <Plc.PlcNumber title="count" field="count" required/>
                 <Plc.PlcInput title="normalText" field="normalText" required/>
+                <Plc.PlcInput title="longText" field="longText" required/>
                 <Plc.PlcNumber title="numberVal" field="numberVal" required/>
+                
             </PlTablePro>
         </div>
     </>
