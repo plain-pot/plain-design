@@ -20,7 +20,7 @@ export default designPage(() => {
                 <Plc.PlcInput title="longText" field="longText" required/>
                 <Plc.PlcNumber title="numberVal" field="numberVal" required/>
                 <Plc.PlcCheckbox title="flag" field="flag"/>
-
+                <Plc.PlcSelect title="selectVal" field="selectVal"/>
 
             </PlTablePro>
         </div>

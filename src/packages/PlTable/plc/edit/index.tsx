@@ -5,6 +5,7 @@ import PlcRate from './plc-rate'
 import PlcToggle from './plc-toggle'
 import PlcDate from './plc-date'
 import PlcCheckbox from './plc-checkbox'
+import PlcSelect from './plc-select'
 
 export {
     PlcInput,
@@ -14,4 +15,5 @@ export {
     PlcToggle,
     PlcDate,
     PlcCheckbox,
+    PlcSelect,
 }
