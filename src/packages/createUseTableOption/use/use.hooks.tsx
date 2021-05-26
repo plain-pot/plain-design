@@ -63,8 +63,8 @@ export function createHooks<Handler extends (arg: any) => any,
 export function useTableHooks({config}: { config: tTableOptionConfig }) {
     const hooks = {
         /*点击行*/
-        onClickRow: createHooks<(selectNode: TableNode) => void>(),                                // 异步钩子，行单击
-        onDblClickRow: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，行双击
+        onClickCell: createHooks<(selectNode: TableNode) => void>(),                                // 异步钩子，行单击
+        onDblClickCell: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，行双击
         onSelectChange: createHooks<(selectNode: TableNode) => void>(),                            // 异步钩子，单选行变化
         onCheckChange: createHooks<(data: { checked: any[], status: 'checked' | 'uncheck' | 'minus' }) => void>(),// 多选发生变化
 

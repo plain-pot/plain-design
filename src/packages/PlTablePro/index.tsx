@@ -10,6 +10,7 @@ import PlDropdownMenu from "../PlDropdownMenu";
 import PlDropdownOption from "../PlDropdownOption";
 import PlIcon from "../PlIcon";
 import PlButtonGroup from "../PlButtonGroup";
+import {TableNode} from "../PlTable/core/useTableNode";
 
 export const PlTablePro = designComponent({
     props: {
@@ -28,7 +29,10 @@ export const PlTablePro = designComponent({
             props.option.hooks.onRefTable.exec(table!)
         }
 
-        const handler = {}
+        const handler = {
+            onClickCell: (node: TableNode) => {props.option.hooks.onClickCell.exec(node)},
+            onDblClickCell: (node: TableNode) => {props.option.hooks.onDblClickCell.exec(node)},
+        }
 
         return () => (
             <div className="pl-table-pro">
@@ -80,6 +84,8 @@ export const PlTablePro = designComponent({
                     currentKey={props.option.tableState.currentKey || undefined}
                     onUpdateCurrentKey={val => props.option.tableState.currentKey = val || null}
                     keyField={props.option.config.keyField}
+                    onClickRow={handler.onClickCell}
+                    onDblclickCell={handler.onDblClickCell}
                 >
                     <Plc.PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {slots.default()}

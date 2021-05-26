@@ -151,16 +151,37 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             }
         },
         batchInsert: () => {},
-        cancel: async () => {
-            if (!!freezeState.effects) {
-                await freezeState.effects.onCancel()
-                freezeState.effects = null
-            }
-        },
-        save: async () => {
-            if (!!freezeState.effects) {
-                await freezeState.effects.onSave()
-                freezeState.effects = null
+        update: async (node: TableNode) => {
+            if (node.edit) {return}
+
+            tableState.mode = TableMode.update
+            tableState.updateRows = [node.data]
+            await nextTick()
+            node.openEdit()
+            node.validate()
+
+            freezeState.effects = {
+                onSave: async () => {
+                    const validateResult = await node.validate()
+                    if (!!validateResult) {
+                        const {validateMessage, node: {index}} = validateResult
+                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        return Promise.reject(validateResult)
+                    }
+                    let {request, requestConfig} = utils.getUrlConfig('update')
+                    requestConfig.body = deepcopy(node.editRow)
+                    requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
+                    const updateResult = await request!(requestConfig)
+                    node.saveEdit(updateResult.newRow)
+                    node.closeEdit()
+                    tableState.mode = TableMode.normal
+                    tableState.updateRows = []
+                },
+                onCancel: async () => {
+                    tableState.mode = TableMode.normal
+                    node.cancelEdit()
+                    tableState.updateRows = []
+                },
             }
         },
         delete: async () => {
@@ -180,9 +201,22 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             }
             tableState.list.splice(tableState.list.indexOf(data), 1)
         },
+        cancel: async () => {
+            if (!!freezeState.effects) {
+                await freezeState.effects.onCancel()
+                freezeState.effects = null
+            }
+        },
+        save: async () => {
+            if (!!freezeState.effects) {
+                await freezeState.effects.onSave()
+                freezeState.effects = null
+            }
+        },
     }
 
     hooks.onRefTable.use(table => freezeState.table = table)
+    hooks.onDblClickCell.use(node => editMethods.update(node))
 
     return {
         editMethods,
