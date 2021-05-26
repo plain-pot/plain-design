@@ -19,7 +19,9 @@ export default designPage(() => {
                 <Plc.PlcInput title="normalText" field="normalText" required/>
                 <Plc.PlcInput title="longText" field="longText" required/>
                 <Plc.PlcNumber title="numberVal" field="numberVal" required/>
-                
+                <Plc.PlcCheckbox title="flag" field="flag"/>
+
+
             </PlTablePro>
         </div>
     </>
