@@ -19,7 +19,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             insertRows: [],
             updateRows: [],
             selectRows: [],
-            isEditing: computed(() => [TableMode.normal, TableMode.select].indexOf(tableState.mode) === -1)
+            isEditing: computed(() => [TableMode.normal, TableMode.select].indexOf(tableState.mode) === -1),
+            currentKey: null,
         })
 
         const hooks = useTableHooks({config})
@@ -37,6 +38,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
+            tableState.currentKey = rows.length > 0 ? rows[0].id : null
         })
 
         return {

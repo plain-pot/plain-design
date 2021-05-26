@@ -166,4 +166,5 @@ export interface iTableState {
     updateRows: any[],
     selectRows: any[],
     isEditing: boolean,
+    currentKey: string | null,
 }
