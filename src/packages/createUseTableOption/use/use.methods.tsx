@@ -135,7 +135,7 @@ export function useTableMethods({tableState, config, pagination, hooks}: {
                     requestConfig.body = deepcopy(newNode.editRow)
                     requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     const newRowResult = await request!(requestConfig)
-                    newNode.saveEdit(newRowResult)
+                    newNode.saveEdit(newRowResult.newRow)
                     newNode.closeEdit()
                     tableState.mode = TableMode.normal
                     tableState.insertRows = []

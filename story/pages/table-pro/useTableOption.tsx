@@ -51,7 +51,7 @@ export const useTableOption = createUseTableOption({
                             data: body,
                         })
                         return {
-                            newRow: data.newRow,
+                            newRow: data.result,
                             ...data,
                         }
                     } catch (e) {
