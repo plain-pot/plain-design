@@ -39,10 +39,10 @@ export const PlTablePro = designComponent({
                     </span>
                     <div className="pl-table-pro-operation">
                         {props.option.tableState.isEditing ? <>
-                                <PlButton label={'取消'} size="mini" icon="el-icon-close-bold" mode="stroke" onClick={() => props.option.editMethods.cancel()}/>
-                                <PlButton label={'保存'} size="mini" icon="el-icon-check-bold" onClick={() => props.option.editMethods.save()}/>
+                                <PlButton label={'取消'} icon="el-icon-close-bold" mode="stroke" onClick={() => props.option.editMethods.cancel()}/>
+                                <PlButton label={'保存'} icon="el-icon-check-bold" onClick={() => props.option.editMethods.save()}/>
                             </> :
-                            <PlButtonGroup size="mini">
+                            <PlButtonGroup>
                                 <PlButton label={'新建'} icon="el-icon-document-add" onClick={() => props.option.editMethods.insert()}/>
                                 <PlButton label={'复制'} icon="el-icon-document-copy"/>
                                 <PlButton label={'删除'} icon="el-icon-document-remove" onClick={() => props.option.editMethods.delete()}/>
