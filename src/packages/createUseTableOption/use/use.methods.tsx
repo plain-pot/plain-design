@@ -56,6 +56,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
 
     const pageMethods = {
         load: async (loadConfig?: { page?: number, size?: number }) => {
+            await editMethods.save()
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
@@ -75,6 +76,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             return rows
         },
         queryCount: async () => {
+            await editMethods.save()
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, {onlyCount: true})
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
@@ -116,6 +118,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
 
     const editMethods = {
         insert: async (newRow?: Record<string, any>) => {
+            await editMethods.save()
             tableState.editingWhenAddRow = true
             tableState.mode = TableMode.insert
             let newRowData = newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))
@@ -151,7 +154,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             }
         },
         batchInsert: () => {},
-        copy: (row?: Record<string, any>) => {
+        copy: async (row?: Record<string, any>) => {
+            await editMethods.save()
             if (!row) {
                 if (!currentNode.value) {
                     return $$notice.warn('请选中一行要删除的数据！')
@@ -163,6 +167,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             return editMethods.insert(row)
         },
         update: async (node: TableNode) => {
+            await editMethods.save()
+
             if (node.edit) {return}
 
             tableState.mode = TableMode.update
@@ -196,6 +202,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             }
         },
         delete: async () => {
+            await editMethods.save()
             if (!currentNode.value) {
                 return $$notice.warn('请选中一行要删除的数据！')
             }
