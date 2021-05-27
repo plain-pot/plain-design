@@ -48,7 +48,7 @@ export const PlTablePro = designComponent({
                             </> :
                             <PlButtonGroup>
                                 <PlButton label={'新建'} icon="el-icon-document-add" onClick={() => props.option.editMethods.insert()}/>
-                                <PlButton label={'复制'} icon="el-icon-document-copy"/>
+                                <PlButton label={'复制'} icon="el-icon-document-copy" onClick={() => props.option.editMethods.copy()}/>
                                 <PlButton label={'删除'} icon="el-icon-document-remove" onClick={() => props.option.editMethods.delete()}/>
                                 <PlDropdown placement="bottom-end" width="100">
                                     {{

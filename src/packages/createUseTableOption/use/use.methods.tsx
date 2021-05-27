@@ -115,10 +115,10 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
     }
 
     const editMethods = {
-        insert: async () => {
+        insert: async (newRow?: Record<string, any>) => {
             tableState.editingWhenAddRow = true
             tableState.mode = TableMode.insert
-            let newRowData = !config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)
+            let newRowData = newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))
             tableState.list.unshift(newRowData)
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
@@ -152,7 +152,15 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
         },
         batchInsert: () => {},
         copy: (row?: Record<string, any>) => {
-
+            if (!row) {
+                if (!currentNode.value) {
+                    return $$notice.warn('请选中一行要删除的数据！')
+                }
+                row = deepcopy(currentNode.value.data)
+            }
+            const excludeKeys = [...config.copyDefaultExcludeKeys, ...config.copyExcludeKeys || []]
+            excludeKeys.forEach(key => delete row![key])
+            return editMethods.insert(row)
         },
         update: async (node: TableNode) => {
             if (node.edit) {return}
