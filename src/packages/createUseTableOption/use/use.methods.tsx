@@ -123,6 +123,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
             const newNode = freezeState.table.flatNodes.value[0]
+            console.log('newNode', {...newNode})
             newNode.validate()
             tableState.editingWhenAddRow = false
 
@@ -150,7 +151,58 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 },
             }
         },
-        batchInsert: () => {},
+        batchInsert: async () => {
+            await editMethods.save()
+            const num = await new Promise<number>((resolve) => {
+                $$dialog({
+                    editRequired: true,
+                    editType: 'number',
+                    editValue: 10,
+                    onConfirm: val => resolve(val as any),
+                    confirmButton: true,
+                    cancelButton: true,
+                })
+            })
+
+            tableState.editingWhenAddRow = true
+            tableState.mode = TableMode.insert
+            const newRows = new Array(num).fill(null).map(() => deepcopy((!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))))
+            tableState.list.unshift(...newRows)
+            tableState.insertRows = [...tableState.list.slice(0, newRows.length)]
+            await nextTick()
+            const newNodes = freezeState.table.flatNodes.value.slice(0, newRows.length)
+            newNodes.forEach(node => {
+                console.log({...node})
+                node.validate()
+            })
+            tableState.editingWhenAddRow = false
+
+            freezeState.effects = {
+                onSave: async () => {
+                    const validateResults = (await Promise.all(newNodes.map(node => node.validate()))).filter(Boolean)
+                    if (validateResults.length > 0) {
+                        const {validateMessage, node: {index}} = validateResults[0]!
+                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        return Promise.reject(validateResults[0])
+                    }
+                    let {request, requestConfig} = utils.getUrlConfig('batchInsert')
+                    requestConfig.body = deepcopy(newNodes.map(node => node.editRow))
+                    // todo
+                    // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                    await request!(requestConfig)
+                    freezeState.effects = null
+                    tableState.mode = TableMode.normal
+                    tableState.insertRows = []
+
+                    await pageMethods.reload()
+                },
+                onCancel: async () => {
+                    tableState.mode = TableMode.normal
+                    tableState.list.splice(0, newRows.length)
+                    tableState.insertRows = []
+                },
+            }
+        },
         copy: async (row?: Record<string, any>) => {
             await editMethods.save()
             if (!row) {
