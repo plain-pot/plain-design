@@ -147,8 +147,8 @@ export default createDefaultService({
                 </div>
                 /*---------------------------------------content-------------------------------------------*/
                 let content: ReactNode;
+                binding = {...binding}
                 if (!!option.editType) {
-                    binding = {...binding}
                     if (option.editType === 'textarea') {
                         (binding as any).height = binding.height || '300px';
                         (binding as any).width = binding.width || '400px';
@@ -175,6 +175,7 @@ export default createDefaultService({
                         readonly={option.editReadonly}
                         textarea={option.editType === 'textarea'}/>
                 } else if (!!option.message) {
+                    (binding as any).minHeight = '80px'
                     content = (
                         <div className="pl-dialog-service-item-message">
                             {option.message}
