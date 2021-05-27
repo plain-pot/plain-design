@@ -8,6 +8,7 @@ import React, {ReactNode} from "react";
 import {STATUS} from "../../utils/constant";
 import PlIcon from "../PlIcon";
 import {StyleShape} from "../../use/useStyle";
+import PlNumber from "../PlNumber";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -32,6 +33,7 @@ export default createDefaultService({
     setup(option: DialogServiceFormatOption) {
         const {refs, onRef} = useRefs({
             input: PlInput,
+            number: PlNumber,
         })
 
         const isShow = ref(false)
@@ -39,7 +41,7 @@ export default createDefaultService({
         const state = reactive({
             key: 0,
             option,
-            editValue: null as null | string,
+            editValue: null as any,
         })
 
         const targetOption = computed(() => {
@@ -83,8 +85,12 @@ export default createDefaultService({
             isShow.value = true
             if (!!option.editType) {
                 state.editValue = option.editValue as string
-                await delay(300)
-                refs.input!.methods.focus()
+                await delay(300);
+                if (option.editType === 'number') {
+                    refs.number!.focus()
+                } else {
+                    refs.input!.methods.focus()
+                }
             }
             return hide
         }
@@ -118,21 +124,31 @@ export default createDefaultService({
                 let content: ReactNode;
                 if (!!option.editType) {
                     binding = {...binding}
-                    if (option.editType !== 'input') {
+                    if (option.editType === 'textarea') {
                         (binding as any).height = binding.height || '300px';
                         (binding as any).width = binding.width || '400px';
                     } else {
                         (binding as any).minHeight = null
                     }
                     serviceClass += ` pl-dialog-service-edit`
-                    content = <PlInput ref={(refer) => { onRef.input(refer) }}
-                                       block
-                                       minHeight={null as any}
-                                       maxHeight={null as any}
-                                       autoHeight={false}
-                                       v-model={state.editValue}
-                                       readonly={option.editReadonly}
-                                       textarea={option.editType === 'textarea'}/>
+                    content = option.editType === 'number' ? (
+                        <PlNumber
+                            ref={onRef.number}
+                            block
+                            minHeight={null as any}
+                            maxHeight={null as any}
+                            v-model={state.editValue}
+                            readonly={option.editReadonly}
+                        />
+                    ) : <PlInput
+                        ref={(refer) => { onRef.input(refer) }}
+                        block
+                        minHeight={null as any}
+                        maxHeight={null as any}
+                        autoHeight={false}
+                        v-model={state.editValue}
+                        readonly={option.editReadonly}
+                        textarea={option.editType === 'textarea'}/>
                 } else if (!!option.message) {
                     content = (
                         <div className="pl-dialog-service-item-message">

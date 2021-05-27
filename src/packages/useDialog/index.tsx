@@ -10,7 +10,8 @@ import './dialog-service.scss'
 
 export enum DialogServiceEditType {
     input = 'input',
-    textarea = 'textarea'
+    textarea = 'textarea',
+    number = 'number',
 }
 
 export interface DialogServiceOption {

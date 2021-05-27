@@ -114,6 +114,15 @@ export default designPage(() => {
                     confirmButton: true,
                     cancelButton: true,
                 })}/>
+                <PlButton label={'number'} onClick={() => $dialog({
+                    editType: 'number',
+                    editValue: 100,
+                    onConfirm: val => {
+                        $$message(String(val))
+                    },
+                    confirmButton: true,
+                    cancelButton: true,
+                })}/>
             </DemoRow>
 
             <DemoRow title={'多实例'}>
