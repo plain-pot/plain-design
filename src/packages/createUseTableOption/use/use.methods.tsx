@@ -118,7 +118,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
         insert: async () => {
             tableState.editingWhenAddRow = true
             tableState.mode = TableMode.insert
-            let newRowData = {}
+            let newRowData = !config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)
             tableState.list.unshift(newRowData)
             tableState.insertRows = [tableState.list[0]]
             await nextTick()

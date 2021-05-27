@@ -9,6 +9,9 @@ export default designPage(() => {
     const option = useTableOption({
         title: '示例列表',
         url: '/demo',
+        defaultNewRow: {
+            count: 100
+        },
     })
 
     return () => <>
