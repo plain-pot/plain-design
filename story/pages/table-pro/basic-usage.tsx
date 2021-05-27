@@ -20,7 +20,7 @@ export default designPage(() => {
                 <Plc title="id" field="id"/>
                 <Plc.PlcNumber title="count" field="count" required/>
                 <Plc.PlcInput title="normalText" field="normalText" required/>
-                <Plc.PlcInput title="longText" field="longText" required/>
+                <Plc.PlcInput title="longText" field="longText"/>
                 <Plc.PlcNumber title="numberVal" field="numberVal" required/>
                 <Plc.PlcCheckbox title="flag" field="flag"/>
                 <Plc.PlcSelect title="selectVal" field="selectVal"/>
