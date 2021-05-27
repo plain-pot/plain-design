@@ -9,6 +9,7 @@ import {STATUS} from "../../utils/constant";
 import PlIcon from "../PlIcon";
 import {StyleShape} from "../../use/useStyle";
 import PlNumber from "../PlNumber";
+import $$message from "../$$message";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -18,6 +19,7 @@ import PlNumber from "../PlNumber";
 const OptionKeys = [
     'title',
     'message',
+    'editRequired',
     'editType',
     'editValue',
     'editReadonly',
@@ -67,14 +69,37 @@ export default createDefaultService({
 
         const handler = {
             confirm: () => {
-                if (!!targetOption.value.option.onConfirm) {
-                    targetOption.value.option.onConfirm(!targetOption.value.option.editType ? undefined : state.editValue as string)
+                const {onConfirm, editType, editReadonly, editRequired} = targetOption.value.option
+                if (!onConfirm) {
+                    isShow.value = false
+                    return
+                }
+                if (!editType || editReadonly) {
+                    isShow.value = false
+                    return onConfirm(state.editValue)
+                }
+                const {editValue} = state
+                if (editType !== "number") {
+                    if (editRequired && (!editValue || !editValue.trim())) {
+                        return $$message.error('请输入文本！')
+                    } else {
+                        isShow.value = false
+                        return onConfirm(editValue.trim())
+                    }
+                } else {
+                    if (editRequired && isNaN(Number(editValue))) {
+                        return $$message.error('请输入数字！')
+                    } else {
+                        isShow.value = false
+                        return onConfirm(editValue == null ? null : Number(editValue) as any)
+                    }
                 }
             },
             cancel: () => {
                 if (!!targetOption.value.option.onCancel) {
                     targetOption.value.option.onCancel()
                 }
+                isShow.value = false
             },
         }
 
@@ -169,6 +194,8 @@ export default createDefaultService({
 
                         onConfirm={handler.confirm}
                         onCancel={handler.cancel}
+                        closeOnConfirm={false}
+                        closeOnCancel={false}
 
                         {...binding}
                         width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : "500"}

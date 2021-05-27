@@ -17,7 +17,8 @@ export enum DialogServiceEditType {
 export interface DialogServiceOption {
     title?: string,                                                 // 标题
     message?: string,                                               // 提示的消息
-    editType?: keyof typeof DialogServiceEditType,                               // 输入类型
+    editRequired?: boolean,                                         // 输入的时候是否必填
+    editType?: keyof typeof DialogServiceEditType,                  // 输入类型
     editValue?: string | number,                                    // 输入初始内容
     editReadonly?: boolean,                                         // 输入框只读
     status?: keyof typeof StyleStatus | null,                                    // 对话框状态
