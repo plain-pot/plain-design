@@ -49,9 +49,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 requestConfig,
             }
         },
-        saveInsert: async () => {
-
-        },
     }
 
     const pageMethods = {
