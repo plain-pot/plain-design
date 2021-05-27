@@ -250,6 +250,44 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 },
             }
         },
+        batchUpdate: async () => {
+            await editMethods.save()
+
+            tableState.mode = TableMode.update
+            const updateNodes = [...freezeState.table.flatNodes.value]
+            tableState.updateRows = [updateNodes.map(n => n.data)]
+            await nextTick()
+            updateNodes.forEach(node => {
+                node.openEdit()
+                node.validate()
+            })
+            freezeState.effects = {
+                onSave: async () => {
+                    const validateResults = (await Promise.all(updateNodes.map(node => node.validate()))).filter(Boolean)
+                    if (validateResults.length > 0) {
+                        const {validateMessage, node: {index}} = validateResults[0]!
+                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        return Promise.reject(validateResults[0])
+                    }
+                    let {request, requestConfig} = utils.getUrlConfig('batchUpdate')
+                    requestConfig.body = deepcopy(updateNodes.map(node => node.editRow))
+                    // todo
+                    // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                    await request!(requestConfig)
+                    freezeState.effects = null
+                    tableState.mode = TableMode.normal
+                    tableState.updateRows = []
+                    await pageMethods.reload()
+                },
+                onCancel: async () => {
+                    tableState.mode = TableMode.normal
+                    updateNodes.forEach(node => {
+                        node.cancelEdit()
+                    })
+                    tableState.updateRows = []
+                },
+            }
+        },
         delete: async () => {
             await editMethods.save()
             if (!currentNode.value) {

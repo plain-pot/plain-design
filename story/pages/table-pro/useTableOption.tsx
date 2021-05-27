@@ -134,5 +134,30 @@ export const useTableOption = createUseTableOption({
             }
             return {...left, url: url!, method, request,}
         },
+        batchUpdate: (config) => {
+            let {url, base, method, request, ...left} = config
+            if (!url && !!base) {url = `${base}/batch`}
+            if (!method) {method = 'PUT'}
+            if (!request) {
+                request = async (requestConfig) => {
+                    try {
+                        const {query, body, ...config} = requestConfig
+                        const data = await $http({
+                            ...config,
+                            params: query,
+                            data: body,
+                        })
+                        return {
+                            newRows: data.result,
+                            ...data,
+                        }
+                    } catch (e) {
+                        $$notice.error({title: '批量更新失败！', message: String(e)})
+                        throw e
+                    }
+                }
+            }
+            return {...left, url: url!, method, request,}
+        },
     },
 })
