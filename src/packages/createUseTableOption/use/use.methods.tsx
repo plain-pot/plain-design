@@ -217,16 +217,14 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             tableState.list.splice(tableState.list.indexOf(data), 1)
         },
         cancel: async () => {
-            if (!!freezeState.effects) {
-                await freezeState.effects.onCancel()
-                freezeState.effects = null
-            }
+            if (!freezeState.effects) {return}
+            await freezeState.effects.onCancel()
+            freezeState.effects = null
         },
         save: async () => {
-            if (!!freezeState.effects) {
-                await freezeState.effects.onSave()
-                freezeState.effects = null
-            }
+            if (!freezeState.effects) {return}
+            await freezeState.effects.onSave()
+            freezeState.effects = null
         },
     }
 
