@@ -107,7 +107,6 @@ export interface iTableProDefaultConfig {
     pageSizeOptions: number[],
     editType: 'inline' | 'form',
     loadOnStart?: boolean,
-    defaultNewRow?: tDefaultNewRow,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
     getDefaultUrlConfig: {
@@ -131,6 +130,7 @@ export interface iTableProConfig<D = any> {
     url?: tUrl,                                                         // 请求地址信息
     pageSize?: number,                                                  // 请求页大小
     defaultEditing?: boolean,                                           // <是否默认开启编辑状态>
+    defaultNewRow?: tDefaultNewRow,                                     // 新建行的时候的默认新行数据
     copyExcludeKeys?: string[],                                         // 复制一行的时候，额外的不复制的属性
     rules?: FormComponentRules,                                         // 校验规则
     buttons?: iTableButtonConfig[],                                     // 额外的按钮配置

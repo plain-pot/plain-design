@@ -151,6 +151,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             }
         },
         batchInsert: () => {},
+        copy: (row?: Record<string, any>) => {
+
+        },
         update: async (node: TableNode) => {
             if (node.edit) {return}
 
