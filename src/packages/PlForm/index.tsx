@@ -200,22 +200,19 @@ export const PlForm = designComponent({
 
         const validateHandler = {
             onEditChange: async (field?: string | string[]) => {
-                /*if (props.validateMode === FormValidateMode.form) {
+                if (props.validateMode === FormValidateMode.form) {
                     return
                 }
-                const fields = FormValidateUtils.getListValue(field)
-                if (!fields) {return}
-                await Promise.all(fields.map(f => formValidate.value.methods.validateField({
-                    field: f,
+                if (!field) {return}
+                childState.allErrors = await formRuleData.value.methods.validateField({
+                    field,
                     trigger: FormValidateTrigger.change,
-                    formValidateResultMap: childState.validateResultMap,
-                    formData: props.modelValue || {},
+                    allErrors: childState.allErrors,
                     associateFields: props.associateFields,
-                })))*/
+                })
             },
             onBlurChange: async (field?: string | string[]) => {
                 if (!field) {return}
-                console.log('blur')
                 childState.allErrors = await formRuleData.value.methods.validateField({
                     field,
                     trigger: FormValidateTrigger.blur,
@@ -224,7 +221,6 @@ export const PlForm = designComponent({
                 })
             },
             onFieldChange: async (field: string) => {
-                console.log('change')
                 childState.allErrors = await formRuleData.value.methods.validateField({
                     field,
                     trigger: FormValidateTrigger.change,
