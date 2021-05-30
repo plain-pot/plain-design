@@ -81,6 +81,25 @@ export const FormValidateUtils = {
     getRuleArray: (rule: tFormRuleItem | tFormRuleItem[]): tFormRuleItem[] => {
         return Array.isArray(rule) ? [...rule] : [rule]
     },
+    getValueByField(field: string, formData: Record<string, any> | undefined | null, transform?: (val: any) => any) {
+        if (!formData) {
+            return null
+        }
+        let val: any;
+        if (field.indexOf('.') === -1) {
+            val = formData[field]
+        } else {
+            const fields = field.split('.')
+            let index = 0, len = fields.length
+            let value = formData[fields[index]]
+
+            while (index < len - 1 && value != null) {
+                value = value[fields[++index]]
+            }
+            val = index == len - 1 ? value : null
+        }
+        return !transform ? val : transform(val)
+    },
 }
 
 /**
@@ -186,7 +205,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
     })
 
     const rules = state.stateRules.reduce((prev, rule) => {
-        const {field, trigger, label, required, message, ...leftRule} = rule
+        const {field, trigger, label, required, message, transform: prevTransform, ...leftRule} = rule
 
         const errorMessage = (typeof message === "function" ? message() : message) || requiredMessage
 
@@ -200,15 +219,18 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
 
         FormValidateUtils.getFieldArray(field).forEach(f => {
             if (!prev[f]) {prev[f] = []}
+            let transform = f.indexOf('.') === -1 ? prevTransform : () => FormValidateUtils.getValueByField(f, formData, prevTransform)
+
             if (required) {
                 // console.log(f, 'asyncValidator')
-                prev[f].push({trigger, asyncValidator: requiredValidation})
+                prev[f].push({trigger, transform, asyncValidator: requiredValidation})
             }
             if (Object.keys(leftRule).length > 0) {
                 prev[f].push({
                     ...leftRule,
                     message,
                     trigger,
+                    transform,
                 })
             }
         })
