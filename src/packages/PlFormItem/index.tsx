@@ -1,14 +1,11 @@
-import {computed, designComponent, onBeforeMount, onMounted, PropType, useNumber, useRefs, useStyles} from "plain-design-composition";
+import {computed, designComponent, onBeforeMount, PropType, reactive, useClasses, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
 import {tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
-import {reactive} from "plain-design-composition";
-import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
-import {ComputedRef} from 'plain-design-composition'
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -39,7 +36,11 @@ export const PlFormItem = designComponent({
 
         const form = FormCollector.child()
         const {refs, onRef} = useRefs({label: HTMLDivElement,})
-        // const {styleComputed} = useStyle({adjust: ret => {!!invalidate.value && (ret.status = StyleStatus.error)}})
+        const {styleComputed} = useStyle({
+            adjust: ret => {
+                // !!invalidate.value && (ret.status = StyleStatus.error)
+            }
+        })
 
         const handler = {
             onEditChange: () => form.validateHandler.onEditChange(props.field),
@@ -86,7 +87,7 @@ export const PlFormItem = designComponent({
 
         const classes = useClasses(() => [
             'pl-form-item',
-            // `pl-form-item-size-${styleComputed.value.size}`,
+            `pl-form-item-size-${styleComputed.value.size}`,
             `pl-form-item-label-align-${props.labelAlign || form.childState.align.label}`,
             `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
@@ -160,7 +161,6 @@ export const PlFormItem = designComponent({
         }
 
         /*---------------------------------------validate-------------------------------------------*/
-
 
 
         return {

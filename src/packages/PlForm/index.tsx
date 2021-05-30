@@ -1,10 +1,9 @@
 import './form.scss'
-import {computed, designComponent, onMounted, PropType, reactive, ref, useNumber, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, onMounted, PropType, reactive, ref, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {FormAssociateFields, FormValidateTrigger, tFormPropRules} from "./form.validate";
+import {FormAssociateFields, tFormPropRules} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
-import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
 import {debounce} from "plain-utils/utils/debounce";
@@ -55,7 +54,7 @@ export const PlForm = designComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         /*收集的子组件*/
-        const items = FormCollector.parent()
+        const items = FormCollector.parent(true)
 
         useStyle();
         useEdit({adjust: data => {data.loading = false}});
@@ -73,7 +72,7 @@ export const PlForm = designComponent({
         /*---------------------------------------compute-------------------------------------------*/
 
         /*form-item中最大的label节点宽度*/
-        const maxLabelWidth = computed(() => items.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as { value: number }
+        const maxLabelWidth = computed(() => items.value.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as { value: number }
 
         /*form-item所需要的对齐方式信息*/
         const align = computed(() => {

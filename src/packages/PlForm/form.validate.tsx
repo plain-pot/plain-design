@@ -1,17 +1,15 @@
-import Schema, {RuleItem} from 'async-validator'
+import {RuleItem} from 'async-validator'
 
 /**
  * 校验触发动作类型
  * @author  韦胜健
  * @date    2020/12/12 15:41
  */
-
 /**
  * 校验触发器类型
  * @author  韦胜健
  * @date    2020/12/12 22:02
  */
-import {toArray} from "../../utils/toArray";
 
 /**
  * 触发校验的动作类型
@@ -78,4 +76,13 @@ export type tFormPropRules = Record<string, tFormRuleItem | tFormRuleItem[]>
  * @date    2020/12/28 12:07
  */
 export type FormAssociateFields = Record<string, string | string[]>
+
+/**
+ * 根据 PlForm以及PlFormItem接收到的
+ * @author  韦胜健
+ * @date    2021/5/30 13:17
+ */
+export function getFormRuleData() {
+    
+}
 
