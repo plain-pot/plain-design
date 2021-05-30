@@ -177,6 +177,9 @@ export default designPage(() => {
                     <PlFormItem label={'日期时间范围选择'} field={['field20', 'field21']} required>
                         <PlDate v-model-start={formData.field20} v-model-end={formData.field21} range datetime placeholder={'请选择'}/>
                     </PlFormItem>
+                    <PlFormItem label="文本域" field="field22" required>
+                        <PlInput textarea v-model={formData.field22}/>
+                    </PlFormItem>
                     <PlFormItem>
                         <PlButton label={'校验'} onClick={saveValidate}/>
                         <PlButton label={'取消校验'} mode={'stroke'} onClick={() => refs.form!.clearValidate()}/>
