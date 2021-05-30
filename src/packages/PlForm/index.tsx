@@ -23,7 +23,6 @@ export const PlForm = designComponent({
 
         modelValue: {type: Object},                                         // model绑定表单对象
         rules: {type: Object as PropType<tFormPropRules>},                  // 表单验证规则
-        validateResult: {type: Object},                                     // 校验结果信息
         validateMode: {type: String as PropType<keyof typeof FormValidateMode>, default: FormValidateMode.form},// 校验模式
         associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
 
