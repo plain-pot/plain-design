@@ -2,7 +2,7 @@ import './form.scss'
 import {computed, designComponent, onMounted, PropType, reactive, ref, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {FormAssociateFields, tFormPropRules} from "./form.validate";
+import {FormAssociateFields, getFormRuleData, tFormPropRules} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
@@ -25,6 +25,7 @@ export const PlForm = designComponent({
         rules: {type: Object as PropType<tFormPropRules>},                  // 表单验证规则
         validateMode: {type: String as PropType<keyof typeof FormValidateMode>, default: FormValidateMode.form},// 校验模式
         associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
+        requiredMessage: {type: String, default: '必填'},                    // 必填校验提示信息
 
         hideRequiredAsterisk: {type: Boolean, default: null},               // 是否隐藏文本旁边的红色必填星号
         hideValidateMessage: {type: Boolean, default: null},                // 是否隐藏校验失败的信息
@@ -136,6 +137,12 @@ export const PlForm = designComponent({
         })
         /*---------------------------------------validate-------------------------------------------*/
 
+        const formRuleData = computed(() => getFormRuleData({
+            formData: props.modelValue,
+            formProps: props,
+            formItems: items,
+            requiredMessage: props.requiredMessage,
+        }))
 
         const loading = (() => {
             let time: null | number;
@@ -174,7 +181,7 @@ export const PlForm = designComponent({
         /*---------------------------------------end-------------------------------------------*/
 
         onMounted(() => {
-            // console.log('formValidate.value', formValidate.value)
+            console.log('formValidate.value', formRuleData.value)
         })
 
         const childState = reactive({

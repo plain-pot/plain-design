@@ -166,6 +166,7 @@ export const PlFormItem = designComponent({
         return {
             refer: {
                 state,
+                props,
             },
             render: () => (
                 <div className={classes.value} style={styles.value}>
