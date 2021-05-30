@@ -252,13 +252,21 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
             if (fitRuleList.length === 0) {return Promise.resolve(allErrors)}
             const validation = new Schema(fitRuleMap)
             const dfd = defer<ErrorList>()
-            console.log('fitRuleMap', fitRuleMap, rules)
+            // console.log('fitRuleMap', fitRuleMap, rules)
             validation.validate(formData, undefined, (errors, fields) => {
                 const newErrors = allErrors.filter(e => fs.indexOf(e.field) === -1)
-                console.log({errors, fields, newErrors})
+                // console.log({errors, fields, newErrors})
                 dfd.resolve([...newErrors, ...errors || []])
-            })
+            }).then()
 
+            return dfd.promise
+        },
+        validate: () => {
+            const validation = new Schema(rules)
+            const dfd = defer<ErrorList>()
+            validation.validate(formData, undefined, (errors) => {
+                dfd.resolve(errors || [])
+            }).then()
             return dfd.promise
         },
     }

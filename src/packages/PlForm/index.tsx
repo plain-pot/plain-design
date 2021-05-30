@@ -168,9 +168,27 @@ export const PlForm = designComponent({
 
         const validateMethods = {
             validate: async (config?: { autoLoading?: boolean, autoAlert?: boolean, }) => {
-
+                config = config || {}
+                if (config.autoLoading != false) {
+                    loading.show()
+                }
+                childState.allErrors = await formRuleData.value.methods.validate()
+                loading.hide()
+                if (childState.allErrors.length > 0) {
+                    const {message} = childState.allErrors[0]
+                    if (config.autoAlert !== false) {
+                        $$notice.warn(message)
+                    }
+                    throw {
+                        validate: childState.allErrors[0],
+                        message: message,
+                    }
+                } else {
+                    return null
+                }
             },
             clearValidate: () => {
+                childState.allErrors = []
             },
             showError: (error: any) => {
                 if (!!error.message) {
