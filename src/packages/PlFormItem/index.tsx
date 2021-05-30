@@ -1,4 +1,4 @@
-import {computed, designComponent, onBeforeMount, PropType, reactive, useClasses, useNumber, useRefs, useStyles} from "plain-design-composition";
+import {computed, ComputedRef, designComponent, onBeforeMount, PropType, reactive, useClasses, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
@@ -6,6 +6,7 @@ import {tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
+import {toArray} from "../../utils/toArray";
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -92,7 +93,7 @@ export const PlFormItem = designComponent({
             `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
                 'pl-form-item-static-width': staticWidth.value,
-                // 'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
+                'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
                 // 'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
@@ -162,6 +163,27 @@ export const PlFormItem = designComponent({
 
         /*---------------------------------------validate-------------------------------------------*/
 
+        /*当前是否必填校验*/
+        const isRequired = computed(() => {
+            let fields = toArray(props.field || [])
+            if (!!props.rules) {
+                toArray(props.rules).forEach(r => {
+                    !!r.field && fields.push(...toArray(r.field))
+                })
+            }
+            return form.formRuleData.value.utils.isRequired(fields)
+        }) as ComputedRef<boolean>
+
+        /*当前是否校验不通过*/
+        /*const invalidate = computed(() => {
+            const {validateResultMap} = form.childState
+            const fields = FormValidateUtils.getListValue(props.field)
+            if (!fields) {
+                return null
+            }
+            const invalidField = fields.find(f => !!validateResultMap[f])
+            return !invalidField ? null : validateResultMap[invalidField]!
+        })*/
 
         return {
             refer: {

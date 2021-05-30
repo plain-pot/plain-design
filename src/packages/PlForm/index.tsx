@@ -2,7 +2,7 @@ import './form.scss'
 import {computed, designComponent, onMounted, PropType, reactive, ref, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {FormAssociateFields, getFormRuleData, tFormPropRules} from "./form.validate";
+import {FormAssociateFields, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
@@ -54,7 +54,7 @@ export const PlForm = designComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         /*收集的子组件*/
-        const items = FormCollector.parent(true)
+        const items = FormCollector.parent(true) as { value: { state: { labelWidth: number }, props: iFormItemPropRules }[] }
 
         useStyle();
         useEdit({adjust: data => {data.loading = false}});
@@ -257,6 +257,7 @@ export const PlForm = designComponent({
                 numberState,
                 validateHandler,
                 ...validateMethods,
+                formRuleData,
             },
             render: () => {
                 return (

@@ -184,6 +184,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
 
     return {
         ...state,
+        utils,
     }
 }
 
