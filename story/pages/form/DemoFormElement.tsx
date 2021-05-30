@@ -123,7 +123,7 @@ export default designPage(() => {
                             <PlCheckbox label="赢单客户" val="order"/>
                         </PlCheckboxGroup>
                     </PlFormItem>
-                    <PlFormItem label={'下拉选项'} field={'field6'} required rules={{message: '只能选择二级', options: '2'}}>
+                    <PlFormItem label={'下拉选项'} field={'field6'} required rules={{message: '只能选择二级',}}>
                         <PlSelect v-model={formData.field6} placeholder={'请选择'}>
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
@@ -150,7 +150,7 @@ export default designPage(() => {
                             <PlRadio label="未知" val="NO"/>
                         </PlRadioGroup>
                     </PlFormItem>
-                    <PlFormItem label={'开关按钮'} field={'field10'} rules={{message: '请阅读并同意使用协议', options: true}}>
+                    <PlFormItem label={'开关按钮'} field={'field10'} rules={{message: '请阅读并同意使用协议'}}>
                         <PlToggle v-model={formData.field10}/>
                     </PlFormItem>
                     <PlFormItem label={'滑块'} field={'field11'} required rules={{min: 50, message: '最小值50'}}>

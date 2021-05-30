@@ -11,13 +11,13 @@ import {PlSelect} from "../../../src/packages/PlSelect";
 import {PlSelectOption} from "../../../src/packages/PlSelectOption";
 import {PlRadioGroup} from "../../../src/packages/PlRadioGroup";
 import {PlRadio} from "../../../src/packages/PlRadio";
-import {FormRule} from "../../../src/packages/PlForm/form.validate";
 import {delay} from "plain-utils/utils/delay";
 import PlToggle from "../../../src/packages/PlToggle";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
 import $$message from "../../../src/packages/$$message";
 import $$notice from "../../../src/packages/$$notice";
+import {iFormItemPropRules} from "../../../src/packages/PlForm/form.validate";
 
 export default designPage(() => {
 
@@ -55,7 +55,7 @@ export default designPage(() => {
         }
     }
 
-    async function customValidator(rule: FormRule, value: any, row: any) {
+    async function customValidator(rule: iFormItemPropRules, value: any, row: any) {
         console.log({
             rule, value, row
         })
@@ -134,12 +134,12 @@ export default designPage(() => {
                     <PlFormItem label={'当复选框选项少于2个必填'} field={'field5_1'} rules={{validator: dynamicRequired}}>
                         <PlInput v-model={formData.field5_1}/>
                     </PlFormItem>
-                    <PlFormItem label={'选项校验：确定值'} field={'field6'} rules={{required: true, message: '只能选择二级', options: '2'}}>
+                    <PlFormItem label={'选项校验：确定值'} field={'field6'} rules={{required: true, message: '只能选择二级'}}>
                         <PlSelect v-model={formData.field6}>
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
                     </PlFormItem>
-                    <PlFormItem label={'选项校验：数组'} field={'field7'} rules={{required: true, message: '只能选择二级，三级', options: ['2', '3']}}>
+                    <PlFormItem label={'选项校验：数组'} field={'field7'} rules={{required: true, message: '只能选择二级，三级'}}>
                         <PlSelect v-model={formData.field7} multiple>
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
@@ -156,7 +156,7 @@ export default designPage(() => {
                             <PlRadio label={'未知'} val={'NO'}/>
                         </PlRadioGroup>
                     </PlFormItem>
-                    <PlFormItem label={'开启智能加速'} field={'field10'} rules={{message: '当前无法开启只能加速', options: false, trigger: 'blur'}}>
+                    <PlFormItem label={'开启智能加速'} field={'field10'} rules={{message: '当前无法开启只能加速', trigger: 'blur'}}>
                         <PlToggle v-model={formData.field10}/>
                     </PlFormItem>
                     <PlFormItem>

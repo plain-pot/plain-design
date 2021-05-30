@@ -2,7 +2,7 @@ import {computed, designComponent, onBeforeMount, onMounted, PropType, useNumber
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
-import {FormComponentItemRules, FormRule, FormValidateUtils} from "../PlForm/form.validate";
+import {tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
 import {reactive} from "plain-design-composition";
 import {useClasses} from "plain-design-composition";
@@ -17,7 +17,7 @@ export const PlFormItem = designComponent({
         ...StyleProps,
 
         field: {type: [String, Array] as PropType<string | string[]>},      // 绑定的属性字段名
-        rules: {type: [Array, Object] as PropType<FormRule | FormRule[]>},  // 校验规则
+        rules: {type: [Array, Object] as PropType<tFormRuleItem | tFormRuleItem[]>},  // 校验规则
         required: {type: Boolean},                                          // 不能为空
 
         label: {type: String, default: ' '},                                // 显示文本
@@ -25,8 +25,8 @@ export const PlFormItem = designComponent({
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
         colon: {type: Boolean, default: null},                              // label的冒号
-        labelAlign: {type: String as PropType<keyof typeof FormLabelAlign>},             // label 对齐方式
-        contentAlign: {type: String as PropType<keyof typeof FormContentAlign>},         // content 对齐方式
+        labelAlign: {type: String as PropType<FormLabelAlign | keyof typeof FormLabelAlign>},             // label 对齐方式
+        contentAlign: {type: String as PropType<FormContentAlign | keyof typeof FormContentAlign>},         // content 对齐方式
     },
     emits: {
         onBlur: () => true,
@@ -39,7 +39,7 @@ export const PlFormItem = designComponent({
 
         const form = FormCollector.child()
         const {refs, onRef} = useRefs({label: HTMLDivElement,})
-        const {styleComputed} = useStyle({adjust: ret => {!!invalidate.value && (ret.status = StyleStatus.error)}})
+        // const {styleComputed} = useStyle({adjust: ret => {!!invalidate.value && (ret.status = StyleStatus.error)}})
 
         const handler = {
             onEditChange: () => form.validateHandler.onEditChange(props.field),
@@ -50,7 +50,7 @@ export const PlFormItem = designComponent({
                 ret.onChange = handler.onEditChange
                 ret.onBlur = handler.onEditBlur
 
-                if (!!form.props.disabledFields && !!props.field) {
+                /*if (!!form.props.disabledFields && !!props.field) {
                     const fields = FormValidateUtils.getListValue(props.field)
                     if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
                         ret.disabled = true
@@ -61,7 +61,7 @@ export const PlFormItem = designComponent({
                     if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
                         ret.readonly = true
                     }
-                }
+                }*/
             }
         })
 
@@ -86,13 +86,13 @@ export const PlFormItem = designComponent({
 
         const classes = useClasses(() => [
             'pl-form-item',
-            `pl-form-item-size-${styleComputed.value.size}`,
+            // `pl-form-item-size-${styleComputed.value.size}`,
             `pl-form-item-label-align-${props.labelAlign || form.childState.align.label}`,
             `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
             {
                 'pl-form-item-static-width': staticWidth.value,
-                'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
-                'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
+                // 'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
+                // 'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
         const isBlock = computed(() => {
@@ -161,38 +161,11 @@ export const PlFormItem = designComponent({
 
         /*---------------------------------------validate-------------------------------------------*/
 
-        const formItemComponentRules = computed((): FormComponentItemRules => ({
-            label: props.label,
-            field: props.field,
-            required: props.required,
-            rules: props.rules,
-        })) as ComputedRef<FormComponentItemRules>
 
-        /*当前是否必填校验*/
-        const isRequired = computed(() => {
-            const {fieldToRequired} = form.formValidate.value
-            const fields = FormValidateUtils.getListValue(props.field)
-            if (!fields) {
-                return false
-            }
-            return !!fields.find(f => !!fieldToRequired[f])
-        }) as ComputedRef<boolean>
-
-        /*当前是否校验不通过*/
-        const invalidate = computed(() => {
-            const {validateResultMap} = form.childState
-            const fields = FormValidateUtils.getListValue(props.field)
-            if (!fields) {
-                return null
-            }
-            const invalidField = fields.find(f => !!validateResultMap[f])
-            return !invalidField ? null : validateResultMap[invalidField]!
-        })
 
         return {
             refer: {
                 state,
-                formItemComponentRules,
             },
             render: () => (
                 <div className={classes.value} style={styles.value}>
@@ -208,9 +181,9 @@ export const PlFormItem = designComponent({
                                 {slots.suffix()}
                             </div>
                         )}
-                        {!!invalidate.value && !form.props.hideValidateMessage && (<div className="pl-form-item-message">
+                        {/*{!!invalidate.value && !form.props.hideValidateMessage && (<div className="pl-form-item-message">
                             {invalidate.value.message}
-                        </div>)}
+                        </div>)}*/}
                     </div>
                 </div>
             )

@@ -2,7 +2,7 @@ import './form.scss'
 import {computed, designComponent, onMounted, PropType, reactive, ref, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {FormAssociateFields, formatFormRules, FormComponentRules, FormValidate, FormValidateResultMap, FormValidateTrigger, FormValidateUtils} from "./form.validate";
+import {FormAssociateFields, FormValidateTrigger, tFormPropRules} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
@@ -23,7 +23,7 @@ export const PlForm = designComponent({
         readonlyFields: {type: Object as PropType<Record<string, boolean>>},// 只读的字段
 
         modelValue: {type: Object},                                         // model绑定表单对象
-        rules: {type: Object as PropType<FormComponentRules>},              // 表单验证规则
+        rules: {type: Object as PropType<tFormPropRules>},                  // 表单验证规则
         validateResult: {type: Object},                                     // 校验结果信息
         validateMode: {type: String as PropType<keyof typeof FormValidateMode>, default: FormValidateMode.form},// 校验模式
         associateFields: {type: Object as PropType<FormAssociateFields>},   // 校验关联字段，一个对象，key为字段名，value为字段字符串或者字符串数组。当key变化时，会自动校验value中所列的字段
@@ -138,7 +138,6 @@ export const PlForm = designComponent({
         })
         /*---------------------------------------validate-------------------------------------------*/
 
-        const formValidate = computed(() => formatFormRules(props.rules, items.map(item => item.formItemComponentRules))) as { value: FormValidate }
 
         const loading = (() => {
             let time: null | number;
@@ -161,28 +160,9 @@ export const PlForm = designComponent({
 
         const validateMethods = {
             validate: async (config?: { autoLoading?: boolean, autoAlert?: boolean, }) => {
-                config = config || {}
-                if (config.autoLoading != false) {
-                    loading.show()
-                }
-                const {validateMessage, validateResultMap, validateResult} = await formValidate.value.methods.validate(props.modelValue!)
-                loading.hide()
 
-                childState.validateResultMap = validateResultMap
-                if (!!validateMessage) {
-                    if (config.autoAlert !== false) {
-                        $$notice.warn(validateMessage)
-                    }
-                    throw {
-                        validate: validateResult,
-                        message: validateMessage,
-                    }
-                } else {
-                    return null
-                }
             },
             clearValidate: () => {
-                childState.validateResultMap = {}
             },
             showError: (error: any) => {
                 if (!!error.message) {
@@ -202,7 +182,6 @@ export const PlForm = designComponent({
         const childState = reactive({
             align,
             width,
-            validateResultMap: {} as FormValidateResultMap,
             loading: false,
         })
 
@@ -212,7 +191,7 @@ export const PlForm = designComponent({
 
         const validateHandler = {
             onEditChange: async (field?: string | string[]) => {
-                if (props.validateMode === FormValidateMode.form) {
+                /*if (props.validateMode === FormValidateMode.form) {
                     return
                 }
                 const fields = FormValidateUtils.getListValue(field)
@@ -223,10 +202,10 @@ export const PlForm = designComponent({
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
                     associateFields: props.associateFields,
-                })))
+                })))*/
             },
             onBlurChange: async (field?: string | string[]) => {
-                const fields = FormValidateUtils.getListValue(field)
+                /*const fields = FormValidateUtils.getListValue(field)
                 if (!fields) {return}
                 await Promise.all(fields.map(f => formValidate.value.methods.validateField({
                     field: f,
@@ -234,16 +213,16 @@ export const PlForm = designComponent({
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
                     associateFields: props.associateFields,
-                })))
+                })))*/
             },
             onFieldChange: async (field: string) => {
-                await formValidate.value.methods.validateField({
+                /*await formValidate.value.methods.validateField({
                     field,
                     trigger: FormValidateTrigger.change,
                     formValidateResultMap: childState.validateResultMap,
                     formData: props.modelValue || {},
                     associateFields: props.associateFields,
-                })
+                })*/
             },
             onFormDataChange: debounce((val: any) => {
                 const newFormData = val || {}
@@ -271,7 +250,6 @@ export const PlForm = designComponent({
                 props,
                 childState,
                 numberState,
-                formValidate,
                 validateHandler,
                 ...validateMethods,
             },
