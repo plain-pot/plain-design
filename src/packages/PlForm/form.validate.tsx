@@ -73,6 +73,12 @@ export type tFormPropRules = Record<string, tFormRuleItem | tFormRuleItem[]>
  */
 export type FormAssociateFields = Record<string, string | string[]>
 
+export type FormValidateError = {
+    field: string,
+    message: string,
+    label: string,
+}
+
 export const FormValidateUtils = {
     getFieldArray: (field: string | string[] | undefined): string[] => {
         if (!field) return []
@@ -248,7 +254,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
                 field: string | string[],
                 trigger: FormValidateTrigger | undefined,
                 associateFields?: FormAssociateFields,
-                allErrors: ErrorList,
+                allErrors: FormValidateError[],
             }) => {
 
             const fs = (() => {
@@ -273,21 +279,27 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
             })
             if (fitRuleList.length === 0) {return Promise.resolve(allErrors)}
             const validation = new Schema(fitRuleMap)
-            const dfd = defer<ErrorList>()
+            const dfd = defer<FormValidateError[]>()
             // console.log('fitRuleMap', fitRuleMap, rules)
             validation.validate(formData, undefined, (errors, fields) => {
                 const newErrors = allErrors.filter(e => fs.indexOf(e.field) === -1)
                 // console.log({errors, fields, newErrors})
-                dfd.resolve([...newErrors, ...errors || []])
+                dfd.resolve([...newErrors, ...errors || []].map(i => ({
+                    ...i,
+                    label: state.fieldToLabel[i.field]!,
+                })))
             }).then()
 
             return dfd.promise
         },
         validate: () => {
             const validation = new Schema(rules)
-            const dfd = defer<ErrorList>()
+            const dfd = defer<FormValidateError[]>()
             validation.validate(formData, undefined, (errors) => {
-                dfd.resolve(errors || [])
+                dfd.resolve((errors || []).map(i => ({
+                    ...i,
+                    label: state.fieldToLabel[i.field]!
+                })))
             }).then()
             return dfd.promise
         },

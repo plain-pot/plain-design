@@ -2,7 +2,7 @@ import './form.scss'
 import {computed, designComponent, onMounted, PropType, reactive, ref, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {FormAssociateFields, FormValidateTrigger, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
+import {FormAssociateFields, FormValidateError, FormValidateTrigger, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
@@ -175,13 +175,15 @@ export const PlForm = designComponent({
                 childState.allErrors = await formRuleData.value.methods.validate()
                 loading.hide()
                 if (childState.allErrors.length > 0) {
-                    const {message} = childState.allErrors[0]
+                    const {message, label} = childState.allErrors[0]
+
+                    const errMsg = !label ? message : `"${label}" 校验不通过，${message}`
                     if (config.autoAlert !== false) {
-                        $$notice.warn(message)
+                        $$notice.warn(errMsg)
                     }
                     throw {
                         validate: childState.allErrors[0],
-                        message: message,
+                        message: errMsg,
                     }
                 } else {
                     return null
@@ -209,7 +211,7 @@ export const PlForm = designComponent({
             align,
             width,
             loading: false,
-            allErrors: [] as ErrorList,
+            allErrors: [] as FormValidateError[],
         })
 
         const freezeState = {
