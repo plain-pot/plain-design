@@ -137,12 +137,14 @@ export const PlForm = designComponent({
         })
         /*---------------------------------------validate-------------------------------------------*/
 
-        const formRuleData = computed(() => getFormRuleData({
-            formData: props.modelValue,
-            formProps: props,
-            formItems: items,
-            requiredMessage: props.requiredMessage,
-        }))
+        const formRuleData = computed(() => {
+            return getFormRuleData({
+                formData: props.modelValue,
+                formProps: props,
+                formItems: items,
+                requiredMessage: props.requiredMessage,
+            })
+        })
 
         const loading = (() => {
             let time: null | number;

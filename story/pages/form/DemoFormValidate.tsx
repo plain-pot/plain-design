@@ -29,7 +29,7 @@ export default designPage(() => {
         formData: {} as any,
         formRules: {
             field2: {required: true, trigger: 'blur'},
-            field3: {required: true, min: 3, max: 5, trigger: 'change'},
+            field3: {required: true, min: 3, max: 5, trigger: 'change', message: '3到5个字符'},
         },
         associateFields: {
             field5: ['field5_1'],
@@ -131,7 +131,7 @@ export default designPage(() => {
                             <PlCheckbox label="赢单客户" val="order"/>
                         </PlCheckboxGroup>
                     </PlFormItem>
-                    <PlFormItem label={'当复选框选项少于2个必填'} field={'field5_1'} rules={{validator: dynamicRequired}}>
+                    <PlFormItem label={'当复选框选项少于2个必填'} field={'field5_1'} rules={{required: dynamicRequired}}>
                         <PlInput v-model={formData.field5_1}/>
                     </PlFormItem>
                     <PlFormItem label={'选项校验：确定值'} field={'field6'} rules={{required: true, message: '只能选择二级'}}>
@@ -149,7 +149,7 @@ export default designPage(() => {
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
                     </PlFormItem>
-                    <PlFormItem label={'自定义(异步2s)校验'} field={'field9'} rules={{validator: customValidator}}>
+                    <PlFormItem label={'自定义(异步2s)校验'} field={'field9'} rules={{required: customValidator}}>
                         <PlRadioGroup v-model={formData.field9} itemWidth={'33%'}>
                             <PlRadio label={'是'} val={'Y'}/>
                             <PlRadio label={'否'} val={'N'}/>

@@ -1,5 +1,4 @@
 import {RuleItem} from 'async-validator'
-import {toArray} from "../../utils/toArray";
 
 const logError = (msg: string) => {console.error(`PlForm:${msg}`)}
 
@@ -39,9 +38,8 @@ export type tFormRuleValidatorResult = string | null | undefined | void
  * @author  韦胜健
  * @date    2021/5/30 12:27
  */
-export type tFormRuleItem = Omit<RuleItem, 'required' | 'validator'> & {
+export type tFormRuleItem = Omit<RuleItem, 'required'> & {
     required?: boolean | tFormRuleValidator,
-    validator?: tFormRuleValidator,
 
     trigger?: string,
     label?: string,
@@ -74,6 +72,16 @@ export type tFormPropRules = Record<string, tFormRuleItem | tFormRuleItem[]>
  */
 export type FormAssociateFields = Record<string, string | string[]>
 
+export const FormValidateUtils = {
+    getFieldArray: (field: string | string[] | undefined): string[] => {
+        if (!field) return []
+        return Array.isArray(field) ? [...field] : [field]
+    },
+    getRuleArray: (rule: tFormRuleItem | tFormRuleItem[]): tFormRuleItem[] => {
+        return Array.isArray(rule) ? [...rule] : [rule]
+    },
+}
+
 /**
  * 根据 PlForm以及PlFormItem接收到的
  * @author  韦胜健
@@ -101,7 +109,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
         /*判断某个字段是否有必填标识*/
         isRequired: (field?: string | string[]) => {
             if (!field) {return false}
-            const fields = toArray(field)
+            const fields = [...FormValidateUtils.getFieldArray(field)]
             return fields.some(f => !!state.fieldRequired[f])
         },
         /*添加一个stateRule*/
@@ -111,13 +119,13 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
         /*添加一个label*/
         addLabel: (field?: string | string[], label?: string) => {
             if (!field || !label) {return}
-            toArray(field).forEach((f) => {
+            FormValidateUtils.getFieldArray(field).forEach((f) => {
                 state.fieldToLabel[f] = label
             })
         },
         /*添加一个required*/
         addRequired: (field: string | string[], required: boolean | tFormRuleValidator | undefined) => {
-            toArray(field).forEach(f => {
+            FormValidateUtils.getFieldArray(field).forEach(f => {
                 if (required == null) {return}
                 state.fieldRequired[f] = typeof required !== "function" && !!required
             })
@@ -126,7 +134,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
 
     if (!!formProps.rules) {
         Object.entries(formProps.rules).forEach(([f, r]) => {
-            toArray(r!).forEach((rule) => {
+            FormValidateUtils.getRuleArray(r!).forEach((rule) => {
                 utils.addLabel(rule.field || f, rule.label)
                 utils.addRequired(rule.field || f, rule.required)
                 utils.addStateRule({
@@ -149,19 +157,13 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
                 utils.addRequired(field, required)
                 const requiredRule: StateRules = {
                     field,
-                    validator: (val, row) => {
-                        if (typeof required === "function") {return required(val, row, requiredRule)}
-                        if (val == null) {return requiredMessage}
-                        if (typeof val === "string" && !val.trim()) {return requiredMessage}
-                        if (Array.isArray(val) && val.length === 0) {return requiredMessage}
-                        return null
-                    },
+                    required,
                 }
                 utils.addStateRule(requiredRule)
             }
         }
         if (rules) {
-            toArray(rules).forEach(r => {
+            FormValidateUtils.getRuleArray(rules).forEach(r => {
                 if (!!r.label) {utils.addLabel(r.field || field, r.label)}
 
                 if (!r.field) {
@@ -182,9 +184,40 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
         }
     })
 
+    const rules = state.stateRules.reduce((prev, rule) => {
+        const {field, trigger, label, required, message, ...leftRule} = rule
+
+        const errorMessage = (typeof message === "function" ? message() : message) || requiredMessage
+
+        const requiredValidation: RuleItem["asyncValidator"] = async (rule, value, callback, source) => {
+            if (typeof required === "function") {return callback(await required(value, source, rule) || undefined)}
+            if (value == null) {return callback(errorMessage)}
+            if (typeof value === "string" && !value.trim()) {return callback(errorMessage)}
+            if (Array.isArray(value) && value.length === 0) {return callback(errorMessage)}
+            return callback()
+        }
+
+        FormValidateUtils.getFieldArray(field).forEach(f => {
+            if (!prev[f]) {prev[f] = []}
+            if (required) {
+                // console.log(f, 'asyncValidator')
+                prev[f].push({asyncValidator: requiredValidation})
+            }
+            if (Object.keys(leftRule).length > 0) {
+                prev[f].push({
+                    ...leftRule,
+                    message,
+                })
+            }
+        })
+        return prev
+    }, {} as Record<string, RuleItem[]>)
+
+
     return {
         ...state,
         utils,
+        rules,
     }
 }
 

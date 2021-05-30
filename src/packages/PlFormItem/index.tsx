@@ -2,11 +2,10 @@ import {computed, ComputedRef, designComponent, onBeforeMount, PropType, reactiv
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
-import {tFormRuleItem} from "../PlForm/form.validate";
+import {FormValidateUtils, tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
-import {toArray} from "../../utils/toArray";
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -165,10 +164,10 @@ export const PlFormItem = designComponent({
 
         /*当前是否必填校验*/
         const isRequired = computed(() => {
-            let fields = toArray(props.field || [])
+            let fields = FormValidateUtils.getFieldArray(props.field)
             if (!!props.rules) {
-                toArray(props.rules).forEach(r => {
-                    !!r.field && fields.push(...toArray(r.field))
+                FormValidateUtils.getRuleArray(props.rules).forEach(r => {
+                    !!r.field && fields.push(...FormValidateUtils.getFieldArray(r.field))
                 })
             }
             return form.formRuleData.value.utils.isRequired(fields)
