@@ -122,7 +122,7 @@ export default designPage(() => {
                     <PlFormItem label={'form-item 设置校验规则'} field={'field4'} rules={{required: true, trigger: 'blur'}}>
                         <PlInput v-model={formData.field4}/>
                     </PlFormItem>
-                    <PlFormItem label={'数组, 1-2 个选项'} field={'field5'} rules={{type: 'array', min: 1, max: 2}} required>
+                    <PlFormItem label={'数组, 2-3 个选项'} field={'field5'} rules={{type: 'array', min: 2, max: 3, message: '2到3个选项'}} required>
                         <PlCheckboxGroup v-model={formData.field5} itemWidth={'50%'}>
                             <PlCheckbox label="全选" checkboxForAll/>
                             <PlCheckbox label="大客户" val="large"/>

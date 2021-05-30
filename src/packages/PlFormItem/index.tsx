@@ -1,6 +1,6 @@
 import {computed, ComputedRef, designComponent, onBeforeMount, PropType, reactive, useClasses, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps, useStyle} from "../../use/useStyle";
+import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
 import {FormValidateUtils, tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
@@ -38,7 +38,7 @@ export const PlFormItem = designComponent({
         const {refs, onRef} = useRefs({label: HTMLDivElement,})
         const {styleComputed} = useStyle({
             adjust: ret => {
-                // !!invalidate.value && (ret.status = StyleStatus.error)
+                !!invalidate.value && (ret.status = StyleStatus.error)
             }
         })
 
@@ -51,18 +51,18 @@ export const PlFormItem = designComponent({
                 ret.onChange = handler.onEditChange
                 ret.onBlur = handler.onEditBlur
 
-                /*if (!!form.props.disabledFields && !!props.field) {
-                    const fields = FormValidateUtils.getListValue(props.field)
+                if (!!form.props.disabledFields && !!props.field) {
+                    const fields = FormValidateUtils.getFieldArray(props.field)
                     if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
                         ret.disabled = true
                     }
                 }
                 if (!!form.props.readonlyFields && !!props.field) {
-                    const fields = FormValidateUtils.getListValue(props.field)
+                    const fields = FormValidateUtils.getFieldArray(props.field)
                     if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
                         ret.readonly = true
                     }
-                }*/
+                }
             }
         })
 
@@ -93,7 +93,7 @@ export const PlFormItem = designComponent({
             {
                 'pl-form-item-static-width': staticWidth.value,
                 'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
-                // 'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
+                'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
         const isBlock = computed(() => {
@@ -174,15 +174,18 @@ export const PlFormItem = designComponent({
         }) as ComputedRef<boolean>
 
         /*当前是否校验不通过*/
-        /*const invalidate = computed(() => {
-            const {validateResultMap} = form.childState
-            const fields = FormValidateUtils.getListValue(props.field)
+        const invalidate = computed(() => {
+            const {allErrors} = form.childState
+            const fields = FormValidateUtils.getFieldArray(props.field)
             if (!fields) {
                 return null
             }
-            const invalidField = fields.find(f => !!validateResultMap[f])
-            return !invalidField ? null : validateResultMap[invalidField]!
-        })*/
+            const fitErrors = allErrors.find(err => fields.indexOf(err.field) > -1)
+            return !fitErrors ? null : {
+                message: fitErrors.message,
+                field: fitErrors.field,
+            }
+        })
 
         return {
             refer: {
@@ -203,9 +206,9 @@ export const PlFormItem = designComponent({
                                 {slots.suffix()}
                             </div>
                         )}
-                        {/*{!!invalidate.value && !form.props.hideValidateMessage && (<div className="pl-form-item-message">
+                        {!!invalidate.value && !form.props.hideValidateMessage && (<div className="pl-form-item-message">
                             {invalidate.value.message}
-                        </div>)}*/}
+                        </div>)}
                     </div>
                 </div>
             )

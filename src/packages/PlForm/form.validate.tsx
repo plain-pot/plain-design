@@ -1,4 +1,5 @@
-import {RuleItem} from 'async-validator'
+import Schema, {ErrorList, RuleItem} from 'async-validator'
+import {defer} from "../../utils/defer";
 
 const logError = (msg: string) => {console.error(`PlForm:${msg}`)}
 
@@ -201,23 +202,74 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
             if (!prev[f]) {prev[f] = []}
             if (required) {
                 // console.log(f, 'asyncValidator')
-                prev[f].push({asyncValidator: requiredValidation})
+                prev[f].push({trigger, asyncValidator: requiredValidation})
             }
             if (Object.keys(leftRule).length > 0) {
                 prev[f].push({
                     ...leftRule,
                     message,
+                    trigger,
                 })
             }
         })
         return prev
-    }, {} as Record<string, RuleItem[]>)
+    }, {} as Record<string, (RuleItem & { trigger?: string })[]>)
 
+    const methods = {
+        validateField: (
+            {
+                field,
+                trigger,
+                associateFields,
+                allErrors,
+            }: {
+                field: string | string[],
+                trigger: FormValidateTrigger | undefined,
+                associateFields?: FormAssociateFields,
+                allErrors: ErrorList,
+            }) => {
+
+            const fs = (() => {
+                const fields = FormValidateUtils.getFieldArray(field)
+                !!associateFields && fields.forEach((f) => {
+                    if (associateFields[f]) {
+                        fields.push(...FormValidateUtils.getFieldArray(associateFields[f]))
+                    }
+                })
+                return fields
+            })();
+
+            const fitRuleList = [] as (RuleItem & { trigger?: string })[]
+            const fitRuleMap = {} as Record<string, (RuleItem & { trigger?: string })[]>
+            Object.entries(rules).forEach(([f, rs]) => {
+                if (fs.indexOf(f) > -1) {
+                    if (!fitRuleMap[f]) {fitRuleMap[f] = []}
+                    const fitRules = !trigger ? rs : rs.filter(i => (i.trigger || FormValidateTrigger.change) === trigger)
+                    fitRuleMap[f]!.push(...fitRules)
+                    fitRuleList.push(...fitRules)
+                }
+            })
+            if (fitRuleList.length === 0) {return Promise.resolve(allErrors)}
+            const validation = new Schema(fitRuleMap)
+            const dfd = defer<ErrorList>()
+            console.log('fitRuleMap', fitRuleMap, rules)
+            validation.validate(formData, undefined, (errors, fields) => {
+                const newErrors = allErrors.filter(e => fs.indexOf(e.field) === -1)
+                console.log({errors, fields, newErrors})
+                dfd.resolve([...newErrors, ...errors || []])
+            })
+
+            return dfd.promise
+        },
+    }
 
     return {
-        ...state,
         utils,
         rules,
+        ...state,
+        methods,
     }
 }
+
+
 

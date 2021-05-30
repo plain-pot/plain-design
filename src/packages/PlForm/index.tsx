@@ -2,7 +2,7 @@ import './form.scss'
 import {computed, designComponent, onMounted, PropType, reactive, ref, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {FormAssociateFields, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
+import {FormAssociateFields, FormValidateTrigger, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
 import {FormContentAlign, FormLabelAlign, FormValidateMode} from "./form.utils";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
@@ -12,6 +12,7 @@ import {useCollect} from "../../use/useCollect";
 import {PlFormItem} from "../PlFormItem";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {delay} from "plain-utils/utils/delay";
+import {ErrorList} from "async-validator";
 
 export const PlForm = designComponent({
     name: 'pl-form',
@@ -190,6 +191,7 @@ export const PlForm = designComponent({
             align,
             width,
             loading: false,
+            allErrors: [] as ErrorList,
         })
 
         const freezeState = {
@@ -212,24 +214,23 @@ export const PlForm = designComponent({
                 })))*/
             },
             onBlurChange: async (field?: string | string[]) => {
-                /*const fields = FormValidateUtils.getListValue(field)
-                if (!fields) {return}
-                await Promise.all(fields.map(f => formValidate.value.methods.validateField({
-                    field: f,
+                if (!field) {return}
+                console.log('blur')
+                childState.allErrors = await formRuleData.value.methods.validateField({
+                    field,
                     trigger: FormValidateTrigger.blur,
-                    formValidateResultMap: childState.validateResultMap,
-                    formData: props.modelValue || {},
+                    allErrors: childState.allErrors,
                     associateFields: props.associateFields,
-                })))*/
+                })
             },
             onFieldChange: async (field: string) => {
-                /*await formValidate.value.methods.validateField({
+                console.log('change')
+                childState.allErrors = await formRuleData.value.methods.validateField({
                     field,
                     trigger: FormValidateTrigger.change,
-                    formValidateResultMap: childState.validateResultMap,
-                    formData: props.modelValue || {},
                     associateFields: props.associateFields,
-                })*/
+                    allErrors: childState.allErrors,
+                })
             },
             onFormDataChange: debounce((val: any) => {
                 const newFormData = val || {}
