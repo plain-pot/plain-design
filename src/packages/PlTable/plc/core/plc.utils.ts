@@ -16,9 +16,11 @@ export enum ePlcFixedType {
 export interface iPlcGroup {
     state: ExtractPropTypes<typeof PlcStandardGroupOptions>,
     group: true,
-    items: { value: iPlc[] }
+    items: { value: tPlcType[] }
 }
 
 export interface iPlc {
     state: ExtractPropTypes<typeof PlcStandardPropOptions>,
 }
+
+export type tPlcType = iPlcGroup | iPlc
