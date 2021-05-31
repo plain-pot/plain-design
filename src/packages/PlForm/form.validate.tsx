@@ -292,10 +292,10 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
 
             return dfd.promise
         },
-        validate: () => {
+        validate: (data?: any) => {
             const validation = new Schema(rules)
             const dfd = defer<FormValidateError[]>()
-            validation.validate(formData, undefined, (errors) => {
+            validation.validate(data || formData, undefined, (errors) => {
                 dfd.resolve((errors || []).map(i => ({
                     ...i,
                     label: state.fieldToLabel[i.field]!
@@ -313,5 +313,6 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
     }
 }
 
+export type tFormRuleData = ReturnType<typeof getFormRuleData>
 
 
