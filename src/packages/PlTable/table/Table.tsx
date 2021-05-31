@@ -1,19 +1,19 @@
 import {designComponent} from "plain-design-composition";
 import React from "react";
+import {PlcGroup} from "../../PlcGroup";
 
-export const PlTable = designComponent({
+export default designComponent({
     name: 'pl-table',
     provideRefer: true,
-    setup({props}) {
+    slots: ['default'],
+    setup({props, slots}) {
         return {
             refer: {},
             render: () => (
                 <div>
-
+                    <PlcGroup>{slots.default()}</PlcGroup>
                 </div>
             )
         }
     },
 })
-
-export default PlTable

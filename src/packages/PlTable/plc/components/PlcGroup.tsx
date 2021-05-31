@@ -3,8 +3,10 @@ import React from "react";
 import {PlcStandardGroupOptions} from "../core/plc.props";
 import {usePropsState} from "../../utils/usePropsState";
 import {iPlcGroup} from "../core/plc.utils";
+import {useCollect} from "../../../../use/useCollect";
+import Plc from "./Plc";
 
-export const PlcGroup = designComponent({
+const PlcGroup = designComponent({
     name: 'plc-group',
     props: PlcStandardGroupOptions,
     slots: [
@@ -12,12 +14,15 @@ export const PlcGroup = designComponent({
     ],
     setup({props, slots}) {
 
+        PlcCollector.child({sort: () => refs.el!, injectDefaultValue: null})
+        const items = PlcCollector.parent(true)
+
         const {refs, onRef} = useRefs({el: HTMLSpanElement})
         const propsState = usePropsState(props)
         const refer: iPlcGroup = {
             state: propsState,
             group: true,
-            items: {value: []}
+            items,
         }
 
         return {
@@ -30,3 +35,10 @@ export const PlcGroup = designComponent({
         }
     },
 })
+
+export default PlcGroup
+
+export const PlcCollector = useCollect(() => ({
+    parent: PlcGroup,
+    child: Plc,
+}))

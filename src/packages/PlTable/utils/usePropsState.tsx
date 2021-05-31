@@ -23,6 +23,8 @@ export function usePropsState<Props extends Record<string, any>>(props: Props) {
             },
         })
 
+        return prev
+
     }, {} as any))
 
     return propsState as Props
