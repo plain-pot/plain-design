@@ -1,17 +1,15 @@
-import {designComponent, onMounted, useRefs} from "plain-design-composition";
+import {computed, designComponent, onMounted, reactive, useRefs, watch} from "plain-design-composition";
 import React from "react";
 import {PlcGroup} from "../../PlcGroup";
-import {StyleProps, StyleShape, StyleSize, useStyle} from "../../../use/useStyle";
-import {EditProps} from "../../../use/useEdit";
+import {StyleShape, StyleSize, useStyle} from "../../../use/useStyle";
 import {useTableHooks} from "./use/useTableHooks";
 import {usePlcData} from "./use/usePlcData";
+import {TableDefaultRowHeight, TableProps} from "./utils/table.utils";
+import {removeUnit} from "plain-utils/string/removeUnit";
 
 export default designComponent({
     name: 'pl-table',
-    props: {
-        ...EditProps,
-        ...StyleProps,
-    },
+    props: TableProps,
     provideRefer: true,
     slots: ['default'],
     setup({props, slots}) {
@@ -20,6 +18,8 @@ export default designComponent({
             group: PlcGroup,
             el: HTMLDivElement,
         })
+        const hooks = useTableHooks()
+        const {} = usePlcData({hooks})
 
         const {styleComputed} = useStyle({
             adjust: config => {
@@ -29,15 +29,31 @@ export default designComponent({
             }
         })
 
-        const hooks = useTableHooks()
-        const {} = usePlcData({hooks})
+        const {numberState} = (() => {
+            const watchValue = computed(() => {
+                const {bodyRowHeight: propsBodyRowHeight, headRowHeight: propsHeadRowHeight,} = props
+                let {size} = styleComputed.value
+                if (!size) {size = StyleSize.normal}
+                const bodyRowHeight = Number(propsBodyRowHeight == null ? removeUnit(TableDefaultRowHeight.body[size]) : propsBodyRowHeight)
+                const headRowHeight = Number(propsHeadRowHeight == null ? removeUnit(TableDefaultRowHeight.head[size]) : propsHeadRowHeight)
+                return {bodyRowHeight, headRowHeight}
+            })
+            const numberState = reactive({...watchValue.value,})
+            watch(watchValue, () => Object.assign(numberState, watchValue.value))
+            return {numberState}
+        })();
 
         onMounted(() => {
             hooks.onTableMounted.exec(refs.el!)
         })
 
+        const refer = {
+            hooks,
+            numberState,
+        }
+
         return {
-            refer: {},
+            refer,
             render: () => (
                 <div className="pl-table" ref={onRef.el}>
                     <PlcGroup ref={onRef.group}>{slots.default()}</PlcGroup>

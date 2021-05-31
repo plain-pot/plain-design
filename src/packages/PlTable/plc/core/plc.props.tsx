@@ -26,4 +26,6 @@ export const PlcStandardPropOptions = {
     field: {type: String},                                                  // 列绑定字段
     width: {type: [String, Number], default: 120},                          // 列宽度
     fit: {type: Boolean},                                                   // 列宽自适应(只有一个列能够自适应)
+
+    addEditPadding: {type: Boolean},                                        // 处于编辑状态的时候，是否添加内编辑，只有当行状态为编辑状态，并且列有edit渲染函数或者作用域插槽时，才符合“处于编辑状态”的条件
 }

@@ -2,7 +2,7 @@ import {designComponent, useRefs} from "plain-design-composition";
 import React from "react";
 import {PlcStandardGroupOptions} from "../core/plc.props";
 import {usePropsState} from "../../utils/usePropsState";
-import {iPlcGroup} from "../core/plc.utils";
+import {tPlcGroup} from "../core/plc.utils";
 import {useCollect} from "../../../../use/useCollect";
 import Plc from "./Plc";
 
@@ -19,7 +19,7 @@ const PlcGroup = designComponent({
 
         const {refs, onRef} = useRefs({el: HTMLSpanElement})
         const propsState = usePropsState(props)
-        const refer: iPlcGroup = {
+        const refer: tPlcGroup = {
             state: propsState,
             group: true,
             items,
