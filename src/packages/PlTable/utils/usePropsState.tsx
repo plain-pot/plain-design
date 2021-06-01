@@ -1,22 +1,24 @@
 import {computed, reactive, watch} from "plain-design-composition";
 
-export function usePropsState<Props extends Record<string, any>>(props: Props) {
+export function usePropsState<PropsGetter extends () => Record<string, any>>(propsGetter: PropsGetter) {
 
-    const state = reactive(Object.keys(props).reduce((prev, propKey) => {
+    const initialProps = propsGetter()
+
+    const state = reactive(Object.keys(initialProps).reduce((prev, propKey) => {
         prev[propKey] = undefined
         return prev
     }, {} as any))
 
-    const propsState = reactive(Object.keys(props).reduce((prev, propKey) => {
+    const propsState = reactive(Object.keys(initialProps).reduce((prev, propKey) => {
 
-        watch(() => props[propKey], () => {
+        watch(() => propsGetter()[propKey], () => {
             state[propKey] = undefined
         })
 
         prev[propKey] = computed({
             get() {
                 if (state[propKey] !== undefined) { return state[propKey]}
-                return props[propKey]
+                return propsGetter()[propKey]
             },
             set(val: any) {
                 state[propKey] = val
@@ -27,5 +29,5 @@ export function usePropsState<Props extends Record<string, any>>(props: Props) {
 
     }, {} as any))
 
-    return propsState as Props
+    return propsState as ReturnType<PropsGetter>
 }

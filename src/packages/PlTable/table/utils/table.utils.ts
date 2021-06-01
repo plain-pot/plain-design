@@ -20,12 +20,6 @@ export enum TablePlcAlign {
     right = 'right',
 }
 
-export enum ePlcFixedType {
-    left = 'left',
-    center = 'center',
-    right = 'right',
-}
-
 export enum TableHoverPart {
     body = 'body',
     head = 'head'

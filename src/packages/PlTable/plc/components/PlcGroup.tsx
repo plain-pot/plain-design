@@ -1,8 +1,8 @@
-import {designComponent, useRefs} from "plain-design-composition";
+import {designComponent, useNumber, useRefs, computed, reactive} from "plain-design-composition";
 import React from "react";
 import {PlcStandardGroupOptions} from "../core/plc.props";
 import {usePropsState} from "../../utils/usePropsState";
-import {tPlcGroup} from "../core/plc.utils";
+import {PlcPublicAttrs, tPlcGroup} from "../core/plc.utils";
 import {useCollect} from "../../../../use/useCollect";
 import Plc from "./Plc";
 
@@ -13,17 +13,26 @@ const PlcGroup = designComponent({
         'default'
     ],
     setup({props, slots}) {
-
+        const {refs, onRef} = useRefs({el: HTMLSpanElement})
         PlcCollector.child({sort: () => refs.el!, injectDefaultValue: null})
         const items = PlcCollector.parent(true)
 
-        const {refs, onRef} = useRefs({el: HTMLSpanElement})
-        const propsState = usePropsState(props)
-        const refer: tPlcGroup = {
-            state: propsState,
+        /*格式化props*/
+        const {numberState} = useNumber(props, ['order'])
+        /*目标props*/
+        const formatProps = computed(() => ({
+            ...props,
+            ...numberState,
+        }) as Omit<typeof props, 'order'> & typeof numberState)
+
+        const propsState = usePropsState(() => formatProps.value)
+        const refer: tPlcGroup = reactive({
+            ...PlcPublicAttrs,
+            props: propsState,
             group: true,
-            items,
-        }
+            children: items,
+            refer: () => refer,
+        })
 
         return {
             refer,

@@ -20,7 +20,7 @@ export function processPlcClassAndStyle(
                     ...getPltCellClass(plc),
                     'plt-cell-last-fixed-left': plc.isLastFixedLeft,
                     'plt-cell-first-fixed-right': plc.isFirstFixedRight,
-                    'plt-cell-no-padding': plc.state.noPadding,
+                    'plt-cell-no-padding': plc.props.noPadding,
                 }
             ]
             /*---------------------------------------body-------------------------------------------*/
@@ -31,10 +31,10 @@ export function processPlcClassAndStyle(
                     'plt-body-cell',
                     {
                         ...getPltCellClass(plc),
-                        'plt-cell-add-edit-padding': plc.state.addEditPadding,
+                        'plt-cell-add-edit-padding': plc.props.addEditPadding,
                         'plt-cell-last-fixed-left': plc.isLastFixedLeft,
                         'plt-cell-first-fixed-right': plc.isFirstFixedRight,
-                        'plt-cell-no-padding': plc.state.noPadding,
+                        'plt-cell-no-padding': plc.props.noPadding,
                     },
                 ]
             }

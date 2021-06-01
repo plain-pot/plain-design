@@ -3,7 +3,7 @@ import React from "react";
 import {PlcGroup} from "../../PlcGroup";
 import {StyleShape, StyleSize, useStyle} from "../../../use/useStyle";
 import {useTableHooks} from "./use/useTableHooks";
-import {usePlcData} from "./use/usePlcData";
+import {usePlcData} from "./use/usePlcData/usePlcData";
 import {TableDefaultRowHeight, TableProps} from "./utils/table.utils";
 import {removeUnit} from "plain-utils/string/removeUnit";
 
@@ -19,7 +19,7 @@ export default designComponent({
             el: HTMLDivElement,
         })
         const hooks = useTableHooks()
-        const {} = usePlcData({hooks})
+        const {plcData} = usePlcData({hooks})
 
         const {styleComputed} = useStyle({
             adjust: config => {
@@ -45,6 +45,13 @@ export default designComponent({
 
         onMounted(() => {
             hooks.onTableMounted.exec(refs.el!)
+        })
+        watch(() => refs.group?.children, val => {
+            hooks.onCollectPlc.exec(val || [])
+        })
+
+        watch(() => plcData.value, (val) => {
+            console.log(val)
         })
 
         const refer = {

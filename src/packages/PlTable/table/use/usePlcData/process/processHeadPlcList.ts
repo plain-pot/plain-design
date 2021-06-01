@@ -1,11 +1,10 @@
-import {tPlcType} from "src/packages/PlTable/plc/core/plc.utils"
-import {ePlcFixedType} from "../../../utils/table.utils";
-
 /**
  * 计算渲染表头所需要的二维数组以及层数
  * @author  韦胜健
  * @date    2020/12/18 14:38
  */
+import {ePlcFixedType, tPlcType} from "../../../../plc/core/plc.utils";
+
 export function processHeadPlcList({plcList}: { plcList: tPlcType[] }) {
     // 最大表头层数
     let maxLevel = 1
@@ -16,7 +15,7 @@ export function processHeadPlcList({plcList}: { plcList: tPlcType[] }) {
             list.forEach((item) => {
                 item.level = level - 1
                 if (item.group) {
-                    calculateLevel((item).items.value, level + 1)
+                    calculateLevel((item).children, level + 1)
                 }
             })
         }
@@ -27,10 +26,10 @@ export function processHeadPlcList({plcList}: { plcList: tPlcType[] }) {
     const calculateSpan = (item: tPlcType) => {
         if (item.group) {
             const group = item
-            group.items.value.forEach(calculateSpan)
+            group.children.forEach(calculateSpan)
             group.rowspan = 1
             group.colspan = 0
-            group.items.value.forEach(i => group.colspan += i.colspan)
+            group.children.forEach(i => group.colspan += i.colspan)
         } else {
             const plc = item
             plc.rowspan = maxLevel - plc.level
@@ -49,7 +48,7 @@ export function processHeadPlcList({plcList}: { plcList: tPlcType[] }) {
             list.forEach((item) => {
                 headPlcListArray[item.level!].push(item)
                 if (item.group) {
-                    calculateHeadColumns((item).items.value)
+                    calculateHeadColumns((item).children)
                 }
             })
         }
@@ -73,10 +72,10 @@ function setFixedFlag(plcList: tPlcType[]) {
     let firstFixedRight: tPlcType | undefined;
 
     plcList.forEach(plc => {
-        if (plc.state.fixed === ePlcFixedType.left) {
+        if (plc.props.fixed === ePlcFixedType.left) {
             lastFixedLeft = plc
         }
-        if (!firstFixedRight && plc.state.fixed === ePlcFixedType.right) {
+        if (!firstFixedRight && plc.props.fixed === ePlcFixedType.right) {
             firstFixedRight = plc
         }
     })
@@ -89,7 +88,7 @@ function setFixedFlag(plcList: tPlcType[]) {
     function setLastFixedLeft(plc: tPlcType) {
         plc.isLastFixedLeft = true
         if (plc.group) {
-            setLastFixedLeft(plc.items.value[plc.items.value.length - 1])
+            setLastFixedLeft(plc.children[plc.children.length - 1])
         }
     }
 
@@ -103,7 +102,7 @@ function setFixedFlag(plcList: tPlcType[]) {
     function setFirstFixedRight(plc: tPlcType) {
         plc.isFirstFixedRight = true
         if (plc.group) {
-            setFirstFixedRight(plc.items.value[0])
+            setFirstFixedRight(plc.children[0])
         }
     }
 

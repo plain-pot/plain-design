@@ -60,15 +60,18 @@ export const PlcPublicAttrs: PlcPublicAttrsType = {
     },
 }
 
+type PlcPropsType = Omit<ExtractPropTypes<typeof PlcStandardPropOptions>, 'width' | 'order'> & { width: number, order: number | undefined }
+type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcStandardGroupOptions>, 'order'> & { order: number | undefined }
+
 export type tPlcGroup = PlcPublicAttrsType & {
-    state: ExtractPropTypes<typeof PlcStandardGroupOptions>,
+    props: PlcGroupPropsType,
     group: true,
-    items: { value: tPlcType[] },
+    children: tPlcType[],
     refer: () => tPlcGroup,
 }
 
 export type tPlc = PlcPublicAttrsType & {
-    state: ExtractPropTypes<typeof PlcStandardPropOptions>,
+    props: PlcPropsType,
     group: false,
     refer: () => tPlc,
 }

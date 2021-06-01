@@ -1,7 +1,6 @@
-import {Plc, tPlcType} from "../../core/plc.type";
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
 import {insertSort} from "plain-utils/object/insertSort";
-import {ePlcFixedType} from "../../../core/table.utils";
+import {ePlcFixedType, tPlc, tPlcType} from "../../../../plc/core/plc.utils";
 
 /**
  * 获取plc的排序索引
@@ -34,7 +33,7 @@ export function processPlcSort(
 ) {
     insertSort(plcList, (a, b) => getPlcOrder(a) > getPlcOrder(b))
     /*计算 flatPlcList 自己 targetTableWidth*/
-    const flatPlcList = [] as Plc[]
+    const flatPlcList = [] as tPlc[]
     iteratePlcList({
         plcList,
         onPlc: plc => {
@@ -50,7 +49,7 @@ export function processPlcSort(
     /*计算表格需要固定的宽度*/
     const {targetTableWidth, plcKeyString} = (() => {
         let totalPlcWidth = 0;                                          // 总的plc宽度
-        let fitPlc = null as null | Plc                                 // 需要自适应宽度的plc
+        let fitPlc = null as null | tPlc                                 // 需要自适应宽度的plc
         const plcKeyString = [] as string[]
         flatPlcList.forEach(plc => {
             totalPlcWidth += plc.props.width

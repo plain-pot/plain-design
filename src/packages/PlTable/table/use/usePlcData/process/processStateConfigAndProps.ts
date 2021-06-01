@@ -1,27 +1,5 @@
-import {tPlcType} from "../../core/plc.type";
-import {ePlcFixedType, TablePropsConfig} from "../../../core/table.utils";
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
-
-/**
- * 处理Plc以及PlcGroup公共的，逻辑
- * @author  韦胜健
- * @date    2020/12/18 11:18
- */
-function handleTablePlc(plc: tPlcType, configData: { [k: string]: any } | null) {
-    const props = plc.props as any
-    const state = plc.state as any
-    // 如果有config，将config中的属性覆盖props
-    const configPlc = !configData ? null : configData[`${!plc.group ? plc.props.field : 'group'}_${plc.props.title}`]
-    if (!!configPlc) {
-        Object.keys(configPlc).forEach(key => {
-            if (configPlc[key] != null) props[key] = configPlc[key]
-        })
-    }
-    // 如果有state，将state中的属性覆盖props
-    Object.keys(plc.state).forEach(key => {
-        if (state[key] != null) props[key] = state[key]
-    })
-}
+import {ePlcFixedType, tPlcType} from "../../../../plc/core/plc.utils";
 
 /**
  * 处理plc的数据，以state、config、props为顺序，优先级依次递减，
@@ -32,14 +10,11 @@ function handleTablePlc(plc: tPlcType, configData: { [k: string]: any } | null) 
 export function processStateConfigAndProps(
     {
         plcList,
-        config,
+
     }: {
         plcList: tPlcType[],
-        config?: TablePropsConfig,
     }
 ) {
-    const configData = !config ? null : config(plcList)
-
     const configState = {
         notFitVirtual: [] as tPlcType[],                        // 不能使用虚拟滚动的列
         fixedLeft: [] as tPlcType[],                            // 左固定的列
@@ -59,12 +34,11 @@ export function processStateConfigAndProps(
     iteratePlcList({
         plcList,
         onPlc: plc => {
-            handleTablePlc(plc, configData)
+
             // 如果是隐藏的列，则删除这一列
             if (plc.props.hide) {
                 return IteratePlcHandleType.remove
             }
-            if (plc.props.notFitVirtual) configState.notFitVirtual.push(plc)
             if (plc.props.autoFixedLeft) configState.autoFixedLeft.push(plc)
             if (plc.props.autoFixedRight) configState.autoFixedRight.push(plc)
             if (plc.props.fixed === ePlcFixedType.left) configState.fixedLeft.push(plc)
@@ -72,7 +46,7 @@ export function processStateConfigAndProps(
             return IteratePlcHandleType.nothing
         },
         onGroup: group => {
-            handleTablePlc(group, configData)
+
             if (group.props.hide) {
                 return IteratePlcHandleType.remove
             }

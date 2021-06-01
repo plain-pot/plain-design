@@ -1,5 +1,5 @@
-import {deepcopy} from "plain-utils/object/deepcopy";
 import {PlcPublicAttrs, tPlcType} from "../../../../plc/core/plc.utils";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 /**
  * 浅复制一份plc数据，复制plc最外层对象以及plc.props数据，props数据是需要动态计算修改的。
@@ -14,9 +14,9 @@ export function copyPlcList(plcList: tPlcType[]) {
             ...refer,
             ...deepcopy(PlcPublicAttrs),
         }
-        newPlc.state = {...newPlc.state}
+        newPlc.props = {...newPlc.props}
         if (newPlc.group) {
-            newPlc.items = {value: copyPlcList(newPlc.items.value)}
+            newPlc.children = copyPlcList(newPlc.children)
         }
         return newPlc
     })

@@ -3,7 +3,8 @@
  * @author  韦胜健
  * @date    2020/8/14 17:26
  */
-import {Plc, PlcGroup, tPlcType} from "../../core/plc.type";
+
+import {tPlc, tPlcGroup, tPlcType} from "../../../../plc/core/plc.utils";
 
 export enum IteratePlcHandleType {
     remove = 'remove',                      // 移除当前节点
@@ -17,28 +18,28 @@ export function iteratePlcList(
         onGroup,
     }: {
         plcList: tPlcType[],
-        onPlc: (plc: Plc) => IteratePlcHandleType,
-        onGroup: (group: PlcGroup) => IteratePlcHandleType,
+        onPlc: (plc: tPlc) => IteratePlcHandleType,
+        onGroup: (group: tPlcGroup) => IteratePlcHandleType,
     }
 ) {
 
     for (let i = 0; i < plcList.length; i++) {
-        const plc = plcList[i];
-        if (!plc.group) {
-            const handleType = onPlc(plc)
+        const tPlc = plcList[i];
+        if (!tPlc.group) {
+            const handleType = onPlc(tPlc)
             if (handleType === IteratePlcHandleType.remove) {
                 plcList.splice(i, 1)
                 i--
             }
         } else {
-            const handleType = onGroup(plc)
+            const handleType = onGroup(tPlc)
             if (handleType === IteratePlcHandleType.remove) {
                 plcList.splice(i, 1)
                 i--
             } else {
-                iteratePlcList({plcList: plc.children, onPlc, onGroup,})
+                iteratePlcList({plcList: tPlc.children, onPlc, onGroup,})
                 // 当这个分组没有列的时候（可能都隐藏了），自动删除这个分组
-                if (plc.children.length === 0) {
+                if (tPlc.children.length === 0) {
                     plcList.splice(i, 1)
                     i--
                 }

@@ -1,6 +1,5 @@
 import {StyleProperties} from "plain-design-composition"
-import {tPlc, tPlcType} from "../../../../plc/core/plc.utils";
-import {ePlcFixedType} from "../../../utils/table.utils";
+import {ePlcFixedType, tPlc, tPlcType} from "../../../../plc/core/plc.utils";
 
 /**
  * 处理plc的fixed定位
@@ -12,7 +11,7 @@ export function processPlcFixed(flatPlcList: tPlc[]) {
         const left = [] as tPlc[]
         const right = [] as tPlc[]
         flatPlcList.forEach(plc => {
-            switch (plc.state.fixed) {
+            switch (plc.props.fixed) {
                 case ePlcFixedType.left:
                     left.push(plc)
                     break
@@ -37,11 +36,11 @@ export function processPlcFixed(flatPlcList: tPlc[]) {
 
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
-            width[key] += element.state.width
+            width[key] += element.props.width
             if (i === 0) {
                 element.fixedPosition[key] = 0
             } else {
-                const {state: {width: prevWidth}, fixedPosition: {[key]: prevValue}} = list[i - 1]!
+                const {props: {width: prevWidth}, fixedPosition: {[key]: prevValue}} = list[i - 1]!
                 element.fixedPosition[key] = Number(prevWidth) + prevValue
             }
         }
@@ -54,7 +53,7 @@ export function processPlcFixed(flatPlcList: tPlc[]) {
  * @date    2020/12/19 16:55
  */
 export function getPlcFixedStyle(plc: tPlcType) {
-    const {state: {fixed}} = plc
+    const {props: {fixed}} = plc as any
     const styles = {} as StyleProperties
     if (fixed === ePlcFixedType.center) {
         return styles
