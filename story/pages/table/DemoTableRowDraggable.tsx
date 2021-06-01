@@ -33,8 +33,8 @@ export default designPage(() => {
             const validates = (await Promise.all(state.editNodes.map(node => node.validate()))).filter(Boolean)
             if (validates.length > 0) {
                 console.log(validates)
-                const {validateMessage, node: {index}} = validates[0]!
-                $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                const {errors, node: {index}} = validates[0]!
+                $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                 return
             }
             // todo 网络保存逻辑

@@ -1,6 +1,6 @@
 import {ReactFragment} from "react";
-import {FormComponentRules} from "../PlForm/form.validate";
 import PlTable from "../PlTable";
+import {tFormPropRules} from "../PlForm/form.validate";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;
@@ -132,7 +132,7 @@ export interface iTableProConfig<D = any> {
     defaultEditing?: boolean,                                           // <是否默认开启编辑状态>
     defaultNewRow?: tDefaultNewRow,                                     // 新建行的时候的默认新行数据
     copyExcludeKeys?: string[],                                         // 复制一行的时候，额外的不复制的属性
-    rules?: FormComponentRules,                                         // 校验规则
+    rules?: tFormPropRules,                                             // 校验规则
     buttons?: iTableButtonConfig[],                                     // 额外的按钮配置
     multipleCheck?: boolean,                                            // 是否显示多选列
     title?: string,                                                     // 标题

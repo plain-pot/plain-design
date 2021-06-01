@@ -11,6 +11,7 @@ import PlArrowStepGroup from "./packages/PlArrowStepGroup";
 import PlBadge from "./packages/PlBadge";
 import PlButton from './packages/PlButton'
 import PlButtonGroup from "./packages/PlButtonGroup";
+import Plc from "./packages/Plc";
 import PlCard from "./packages/PlCard";
 import PlCarousel from "./packages/PlCarousel";
 import PlCarouselItem from "./packages/PlCarouselItem";
@@ -60,6 +61,7 @@ import PlSelectOption from "./packages/PlSelectOption";
 import PlSlider from "./packages/PlSlider";
 import PlStep from "./packages/PlStep";
 import PlStepGroup from "./packages/PlStepGroup";
+import PlTable from "./packages/PlTable";
 import PlTag from "./packages/PlTag";
 import PlTagInput from "./packages/PlTagInput";
 import PlTime from "./packages/PlTime";
@@ -80,6 +82,7 @@ import useLoading from "./packages/useLoading";
 import useMessage from "./packages/useMessage";
 import useNotice from "./packages/useNotice";
 import usePopper from "./packages/usePopper";
+import createUseTableOption from "./packages/createUseTableOption";
 
 export {
     $$contextmenu,
@@ -95,6 +98,7 @@ export {
     PlBadge,
     PlButton,
     PlButtonGroup,
+    Plc,
     PlCard,
     PlCarousel,
     PlCarouselItem,
@@ -144,6 +148,7 @@ export {
     PlSlider,
     PlStep,
     PlStepGroup,
+    PlTable,
     PlTag,
     PlTagInput,
     PlTime,
@@ -164,4 +169,5 @@ export {
     useMessage,
     useNotice,
     usePopper,
+    createUseTableOption,
 }

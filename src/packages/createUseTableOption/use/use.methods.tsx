@@ -131,8 +131,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 onSave: async () => {
                     const validateResult = await newNode.validate()
                     if (!!validateResult) {
-                        const {validateMessage, node: {index}} = validateResult
-                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        const {errors, node: {index}} = validateResult
+                        $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                         return Promise.reject(validateResult)
                     }
                     let {request, requestConfig} = utils.getUrlConfig('insert')
@@ -181,8 +181,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 onSave: async () => {
                     const validateResults = (await Promise.all(newNodes.map(node => node.validate()))).filter(Boolean)
                     if (validateResults.length > 0) {
-                        const {validateMessage, node: {index}} = validateResults[0]!
-                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        const {errors, node: {index}} = validateResults[0]!
+                        $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                         return Promise.reject(validateResults[0])
                     }
                     let {request, requestConfig} = utils.getUrlConfig('batchInsert')
@@ -230,8 +230,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 onSave: async () => {
                     const validateResult = await node.validate()
                     if (!!validateResult) {
-                        const {validateMessage, node: {index}} = validateResult
-                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        const {errors, node: {index}} = validateResult
+                        $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                         return Promise.reject(validateResult)
                     }
                     let {request, requestConfig} = utils.getUrlConfig('update')
@@ -265,8 +265,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 onSave: async () => {
                     const validateResults = (await Promise.all(updateNodes.map(node => node.validate()))).filter(Boolean)
                     if (validateResults.length > 0) {
-                        const {validateMessage, node: {index}} = validateResults[0]!
-                        $$message.error(`第${index + 1}条记录校验不通过，${validateMessage}`)
+                        const {errors, node: {index}} = validateResults[0]!
+                        $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                         return Promise.reject(validateResults[0])
                     }
                     let {request, requestConfig} = utils.getUrlConfig('batchUpdate')

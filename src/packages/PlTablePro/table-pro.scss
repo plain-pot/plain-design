@@ -1,0 +1,28 @@
+.pl-table-pro-pagination {
+  padding: 16px 24px;
+
+  .pl-pagination {
+    justify-content: flex-end;
+  }
+}
+
+.pl-table-pro-head {
+  font-size: 14px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+
+  .pl-table-pro-title {
+    .pl-icon {
+      margin-right: 4px;
+    }
+  }
+
+  .pl-table-pro-operation {
+    & > .pl-button {
+      margin-left: 4px;
+    }
+  }
+}

@@ -203,9 +203,9 @@ export const PlForm = designComponent({
 
         /*---------------------------------------end-------------------------------------------*/
 
-        onMounted(() => {
+        /*onMounted(() => {
             console.log('formValidate.value', formRuleData.value)
-        })
+        })*/
 
         const childState = reactive({
             align,
