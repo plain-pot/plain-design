@@ -16,7 +16,6 @@ import PlAlert from "../../../src/packages/PlAlert";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlTooltip from "../../../src/packages/PlTooltip";
 import PlIcon from "../../../src/packages/PlIcon";
-import PlTree from "../../../src/packages/PlTree";
 
 const DemoVirtualTreeTable = designPage(() => {
 

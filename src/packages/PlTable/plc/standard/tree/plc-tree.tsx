@@ -1,4 +1,3 @@
-import {designPlc} from "../../core/designPlc";
 import {TableNode} from "../../../table/use/useTableNode";
 import {tPlc} from "../../utils/plc.type";
 import {SimpleObject} from "../../../../../shims";
@@ -7,33 +6,32 @@ import {useTableGetScroll} from "../../../table/use/useTableGetScroll";
 import {usePlcTreeDraggier} from "./plc-tree.draggier";
 import {delay} from "plain-utils/utils/delay";
 import {StyleSize} from "../../../../../use/useStyle";
-import {computed, getCurrentDesignInstance, onBeforeUnmount, onMounted, PropType, watch} from "plain-design-composition";
+import {computed, createEventListener, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
 import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {injectPlainTable} from "../../../index";
-import {ReactNode} from "react";
-import {SimpleFunction} from "plain-design-composition"
+import React from "react";
 import PlDropdown from "../../../../PlDropdown";
 import PlButton from "../../../../PlButton";
 import PlDropdownMenu from "../../../../PlDropdownMenu";
 import PlDropdownOption from "../../../../PlDropdownOption";
-import React from "react";
 import {PlCheckbox} from "../../../../PlCheckbox";
-import {createEventListener} from "plain-design-composition"
+import {createPlcPropOptions, PlcEmitsOptions} from "../../utils/plc.utils";
+import {PlcScopeSlotsOptions} from "../../utils/plc.scope-slots";
+import {useExternalPlc} from "../../core/useExternalPlc";
 
 /*只显示展开收起按钮的时候的基本宽度，不算content宽度*/
 const size = 30
 
-export default designPlc({
+export default designComponent({
     name: 'plc-tree',
-    standardProps: {
-        autoFixedLeft: {default: true},
-        order: {default: -9996},
-        width: {default: size},
-        noPadding: {default: true},
-        bodyCls: {default: 'plc-tree-node'},
-    },
-    externalProps: {
-        content: {type: Function as PropType<(scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => ReactNode>},             // 列内容默认渲染函数
+    props: {
+        ...createPlcPropOptions({
+            autoFixedLeft: true,
+            order: -9996,
+            width: size,
+            noPadding: true,
+            bodyCls: 'plc-tree-node',
+        }),
         contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
         rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
         allowRowDraggable: {type: Function as PropType<(node: TableNode) => boolean>},// 行是否可以被拖拽放置到其他位置
@@ -43,10 +41,14 @@ export default designPlc({
         folderExpandIcon: {type: String, default: 'el-icon-folder-opened'},
         leafIcon: {type: String, default: 'el-icon-document'},
     },
-    setup(props) {
+    emits: PlcEmitsOptions,
+    scopeSlots: {
+        ...PlcScopeSlotsOptions,
+        content: (scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => null,
+    },
+    setup({props, scopeSlots, event}) {
 
-        const refer = getCurrentDesignInstance().proxy
-        const plc = refer as any as tPlc;
+
         const table = injectPlainTable()
         const {getScroll} = useTableGetScroll(table.event.on.onVirtualMounted)
 
@@ -64,7 +66,7 @@ export default designPlc({
             // 展开按钮的基本宽度
             let expand = size
             // 内容宽度，如果有content插槽，则加上props.contentWidth
-            let content = !!props.content ? props.contentWidth : 0
+            let content = scopeSlots.content.isExist() ? props.contentWidth : 0
             // 如果显示复选框，则宽度再加上size
             let check = table.props.showCheckbox ? size : 0
             // 如果显示拖拽排序按钮，则宽度再加上size
@@ -113,11 +115,9 @@ export default designPlc({
 
         onMounted(() => {
             watch(() => maxShowLevel.value, () => {
-                plc.state.width = width.value
+                refer.state.width = width.value
             }, {immediate: true})
         })
-
-        Object.assign(refer, methods)
 
         let unmountListener = [] as SimpleFunction[]
         if (table.props.expandOnClickNode) {
@@ -134,70 +134,72 @@ export default designPlc({
             onBeforeUnmount(() => unmountListener.forEach(listener => table.event.off.onClickCell(listener)))
         }
 
+        const {refer, render} = useExternalPlc({
+            props, scopeSlots, event, defaultScopeSlots: {
+                summary: () => null,
+                head: ({plc}) => (<>
+                    <PlDropdown
+                        {...{placement: "bottom"}}
+                        default={() => <PlButton icon="el-icon-menu" mode="text"/>}
+                        popper={() => <PlDropdownMenu>
+                            <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={methods.expandAll}/>
+                            <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={methods.collapseAll}/>
+                            {table.props.showCheckbox && <>
+                                <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={methods.checkAll}/>
+                                <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={methods.uncheckAll}/>
+                            </>}
+                        </PlDropdownMenu>}
+                    />
+                    <div className="plc-tree-node-content">{plc.props.title}</div>
+                </>),
+                default: ({node, plc, row}) => {
+                    return (
+                        <>
+                            <div className="plc-tree-node-expander" {...utils.getExpanderAttrs(node)}>
+                                <PlButton
+                                    loading={node.loading}
+                                    mode="text"
+                                    size={StyleSize.normal}
+                                    icon={node.isLeaf ? props.leafIcon : node.expand ? props.folderExpandIcon : props.folderCollapseIcon}
+                                    onClick={(e: React.MouseEvent) => !node.isLeaf && handler.onClickExpandIcon(e, node)}/>
+                            </div>
+                            {table.props.showCheckbox && (
+                                <div className="plc-tree-node-check">
+                                    <PlCheckbox
+                                        key={node.key}
+                                        size={StyleSize.normal}
+                                        modelValue={node.check}
+                                        customReadonly={true}
+                                        checkStatus={node.checkStatus}
+                                        disabled={!node.isCheckable}
+                                        {...{onClick: (e?: React.MouseEvent) => handler.onClickCheckbox(e, node)}}
+                                    />
+                                </div>
+                            )}
+                            {props.rowDraggable && (
+                                <PlButton mode="text"
+                                          icon="el-icon-list"
+                                          className="plc-tree-node-drag-btn"
+                                          disabled={!draggier.utils.allowDrag(node)}
+                                          {...createEventListener({onMouseDown: draggier.handler.onMousedown})}/>
+                            )}
+                            {!!scopeSlots.content.isExist() && (
+                                <div className="plc-tree-node-content" style={{width: unit(props.contentWidth)!}}>
+                                    {scopeSlots.content({node, row, plc})}
+                                </div>
+                            )}
+                        </>
+                    )
+                }
+            }
+        })
+
         return {
-            tableProps: table.props,
-            props,
-            handler,
-            utils,
-            draggier,
-            methods,
-            ...methods,
+            refer: {
+                ...refer,
+                ...methods,
+            },
+            render,
         }
-    },
-}, {
-    summary: () => null,
-    head: ({refer, plc}) => (<>
-        <PlDropdown
-            {...{placement: "bottom"}}
-            default={() => <PlButton icon="el-icon-menu" mode="text"/>}
-            popper={() => <PlDropdownMenu>
-                <PlDropdownOption label="全部展开" icon="el-icon-zoom-full" onClick={refer.methods.expandAll}/>
-                <PlDropdownOption label="全部收起" icon="el-icon-zoom-scale" onClick={refer.methods.collapseAll}/>
-                {refer.tableProps.showCheckbox && <>
-                    <PlDropdownOption label="全部选中" icon="el-icon-check" onClick={refer.methods.checkAll}/>
-                    <PlDropdownOption label="取消选中" icon="el-icon-close" onClick={refer.methods.uncheckAll}/>
-                </>}
-            </PlDropdownMenu>}
-        />
-        <div className="plc-tree-node-content">{plc.props.title}</div>
-    </>),
-    default: ({refer, node, plc, row}) => {
-        return (
-            <>
-                <div className="plc-tree-node-expander" {...refer.utils.getExpanderAttrs(node)}>
-                    <PlButton
-                        loading={node.loading}
-                        mode="text"
-                        size={StyleSize.normal}
-                        icon={node.isLeaf ? refer.props.leafIcon : node.expand ? refer.props.folderExpandIcon : refer.props.folderCollapseIcon}
-                        onClick={(e: React.MouseEvent) => !node.isLeaf && refer.handler.onClickExpandIcon(e, node)}/>
-                </div>
-                {refer.tableProps.showCheckbox && (
-                    <div className="plc-tree-node-check">
-                        <PlCheckbox
-                            key={node.key}
-                            size={StyleSize.normal}
-                            modelValue={node.check}
-                            customReadonly={true}
-                            checkStatus={node.checkStatus}
-                            disabled={!node.isCheckable}
-                            {...{onClick: (e?: React.MouseEvent) => refer.handler.onClickCheckbox(e, node)}}
-                        />
-                    </div>
-                )}
-                {refer.props.rowDraggable && (
-                    <PlButton mode="text"
-                              icon="el-icon-list"
-                              className="plc-tree-node-drag-btn"
-                              disabled={!refer.draggier.utils.allowDrag(node)}
-                              {...createEventListener({onMouseDown: refer.draggier.handler.onMousedown})}/>
-                )}
-                {!!refer.props.content && (
-                    <div className="plc-tree-node-content" style={{width: unit(refer.props.contentWidth)!}}>
-                        {refer.props.content({node, row, plc})}
-                    </div>
-                )}
-            </>
-        )
     }
 })
