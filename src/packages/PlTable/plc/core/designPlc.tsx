@@ -1,12 +1,13 @@
-import {PlcPropsOptions} from "../utils/plc.utils";
+import {PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {VNodeChild} from "../../../../shims";
 import {tPlc} from "../utils/plc.type";
 import {TableNode} from "../../table/use/useTableNode";
 import {designComponent, ExtractPropTypes} from "plain-design-composition";
 import {ComponentPropsOptions} from "plain-design-composition"
-import {usePlc} from "./Plc";
 import React from "react";
+import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
+import {useBasePlc} from "./useBasePlc";
 
 export function designPlc<_,
     ExternalProps extends Readonly<ComponentPropsOptions> = {},
@@ -54,8 +55,14 @@ export function designPlc<_,
             ...OptionProps,
             ...(externalProps!),
         },
-        setup({props}) {
-            const {render, refer: plcRefer} = usePlc(props)
+        scopeSlots: {
+            ...PlcScopeSlotsOptions,
+        },
+        emits: {
+            ...PlcEmitsOptions,
+        },
+        setup({props, scopeSlots, event}) {
+            const {render, refer: plcRefer} = useBasePlc({props, scopeSlots, event})
             if (!!setup) {
                 const externalRefer = setup(props as any)
                 Object.assign(plcRefer, {externalRefer: () => externalRefer})

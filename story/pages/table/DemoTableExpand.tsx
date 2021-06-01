@@ -11,27 +11,11 @@ import {PlNumber} from "../../../src/packages/PlNumber";
 import PlDate from "../../../src/packages/PlDate";
 import PlColorPicker from "../../../src/packages/PlColorPicker";
 import {PlcGroup} from "../../../src/packages/PlTable/plc/standard";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export default designPage(() => {
 
-    const summaryData = [
-        {
-            "id": 0,
-            "color": "#79f285",
-            "name": "Lisa",
-            "date": "2002-04-28",
-            "star": "★★★★★★★",
-            "size": 49
-        },
-        {
-            "id": 1,
-            "color": "#f27990",
-            "name": "George",
-            "date": "2019-01-06",
-            "star": "★★★★★★★★",
-            "size": 74
-        },
-    ]
+    const summaryData = deepcopy(data.slice(0, 2))
 
     return () => (
         <div>

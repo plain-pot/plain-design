@@ -10,7 +10,7 @@ const PlcGroup = designComponent({
     props: {
         ...PlcGroupPropsOptions,
     },
-    slots: ['default'],
+    slots: ['default', 'head'],
     setup({props, slots}) {
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})
@@ -38,6 +38,7 @@ const PlcGroup = designComponent({
             group: true,
             children: items,
             props: formatProps,
+            slots,
             state: propsState,
             refer: () => group,
             setDurWidth: (durWidth: number) => {

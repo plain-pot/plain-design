@@ -10,7 +10,6 @@ import {StyleSize} from "../../../../../use/useStyle";
 import {computed, getCurrentDesignInstance, onBeforeUnmount, onMounted, PropType, watch} from "plain-design-composition";
 import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {injectPlainTable} from "../../../index";
-import {PlcPropsDefault} from "../../utils/plc.utils";
 import {ReactNode} from "react";
 import {SimpleFunction} from "plain-design-composition"
 import PlDropdown from "../../../../PlDropdown";

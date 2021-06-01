@@ -1,15 +1,9 @@
-import {VNodeChild} from "../../../../shims";
-import {TableRenderScope, tPlcType} from "./plc.type";
 import {TablePlcAlign, TablePlcFixedType} from "../../table/utils/table.utils";
 import {TableNode} from "../../table/use/useTableNode";
 import {MultipleClass, PropType, StyleProperties} from "plain-design-composition";
 import {tFormRuleItem} from "../../../PlForm/form.validate";
+import {TableRenderScope} from "./plc.type";
 
-export type PlcRenderFunction = (scope: TableRenderScope) => VNodeChild
-export type PlcPropsHead = (scope: { plc: tPlcType }) => VNodeChild
-export type PlcPropsDefault = PlcRenderFunction
-export type PlcPropsSummary = PlcRenderFunction
-export type PlcPropsEdit = PlcRenderFunction
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
 export const PlcGroupPropsOptions = {
@@ -17,8 +11,6 @@ export const PlcGroupPropsOptions = {
     align: {type: String as PropType<string | TablePlcAlign>},                       // 非编辑状态下文本对其方式
     noPadding: {type: Boolean},                                             // 是否不兼容表格的虚拟滚动功能
     colDraggable: {type: Boolean, default: null},                           // 列是否可以拖拽排序
-
-    head: {type: Function as PropType<PlcPropsHead>},                       // 列标题渲染函数
 
     hide: {type: Boolean},                                                  // 是否隐藏
     order: {type: [String, Number]},                                        // 列排序
@@ -36,17 +28,15 @@ export const PlcPropsOptions = {
     width: {type: [String, Number], default: 120},                          // 列宽度
     fit: {type: Boolean},                                                   // 列宽自适应(只有一个列能够自适应)
 
-    // 渲染函数
-    head: {type: Function as PropType<PlcPropsHead>},                       // 列标题渲染函数
-    default: {type: Function as PropType<PlcPropsDefault>},                 // 列内容默认渲染函数
-    summary: {type: Function as PropType<PlcPropsSummary>},                 // 列内容在合计行上的渲染函数
-    edit: {type: Function as PropType<PlcPropsEdit>},                       // 列内容在编辑状态下的渲染函数
-
     // 编辑相关
     required: {type: Boolean},                                              // 是否必填
     rules: {type: [Object, Array] as PropType<tFormRuleItem | tFormRuleItem[]>},// 校验规则
     editable: {type: [Boolean, Function] as PropType<PlcPropsEditable>, default: true},// 是否可编辑
     addEditPadding: {type: Boolean},                                        // 处于编辑状态的时候，是否添加内编辑，只有当行状态为编辑状态，并且列有edit渲染函数或者作用域插槽时，才符合“处于编辑状态”的条件
+}
+
+export const PlcEmitsOptions = {
+    onClick: (scope: TableRenderScope) => true,
 }
 
 export type PlcPublicAttrsType = {
