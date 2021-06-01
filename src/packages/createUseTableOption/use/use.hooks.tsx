@@ -105,4 +105,4 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
     return hooks
 }
 
-export type tTableHooks = ReturnType<typeof useTableOptionHooks>
+export type tTableOptionHooks = ReturnType<typeof useTableOptionHooks>
