@@ -6,6 +6,11 @@ import React, {ReactNode} from "react";
 import {tTableHooks} from "../../table/use/useTableHooks";
 import {tPlcType} from "../utils/plc.type";
 
+/**
+ * 负责监听根group，收集plcTypeArr
+ * @author  韦胜健
+ * @date    2021/6/1 16:10
+ */
 export function usePlcList({props, slots, hooks}: {
     props: ExtractPropTypes<typeof TableProps>,
     slots: { default: () => ReactNode },

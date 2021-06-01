@@ -36,7 +36,7 @@ export default designPage(() => {
         ],
         other: {
             hasSummaryData: true,
-            groupHead: false,
+            groupHead: true,
         },
         props: {
             headRowHeight: 45,

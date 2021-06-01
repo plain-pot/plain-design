@@ -35,7 +35,15 @@ export const PlTable = designComponent({
     slots: ['default'],
     setup({props, slots, event}) {
 
+        const {emit} = event
         const {refs, onRef} = useRefs({el: HTMLDivElement})
+
+        const hooks = useTableHooks()
+        const {plcData, renderCollector} = usePlcList({props, hooks, slots})
+        const {bindScroll} = useBindScroll(event)
+        const {state, flatNodes, summaryNodes, dataModel, methods, current, handler, utils} = useTableNode({props, emit, getValidate: () => formValidate.value})
+        const {fixedShadowClass} = useFixedShadow(event)
+
         const {styleComputed} = useStyle({
             adjust: config => {
                 config.shape = props.shape as any || StyleShape.square
@@ -43,10 +51,6 @@ export const PlTable = designComponent({
                 config.status = props.status as any
             }
         })
-        const hooks = useTableHooks()
-        const {plcData, renderCollector} = usePlcList({props, hooks, slots})
-
-        const {emit} = event
         const {numberState} = (() => {
             const watchValue = computed(() => {
                 const {bodyRowHeight: propsBodyRowHeight, headRowHeight: propsHeadRowHeight,} = props
@@ -61,11 +65,7 @@ export const PlTable = designComponent({
             return {numberState}
         })();
 
-        const {bindScroll} = useBindScroll(event)
-        const {state, flatNodes, summaryNodes, dataModel, methods, current, handler, utils} = useTableNode({props, emit, getValidate: () => formValidate.value})
-        const {fixedShadowClass} = useFixedShadow(event)
         const formValidate = computed(() => getFormRuleData({
-            // todo
             formProps: {rules: props.rules},
             formItems: {
                 value: !plcData.value ? [] : plcData.value.flatPlcList.map(plc => ({
