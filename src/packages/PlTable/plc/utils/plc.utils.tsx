@@ -42,7 +42,6 @@ export const PlcProps = {
     default: {type: Function as PropType<PlcPropsDefault>},                 // 列内容默认渲染函数
     summary: {type: Function as PropType<PlcPropsSummary>},                 // 列内容在合计行上的渲染函数
     edit: {type: Function as PropType<PlcPropsEdit>},                       // 列内容在编辑状态下的渲染函数
-    renderAfterRow: {type: Function as PropType<PlcPropsRenderAfterRow>},   // 行之后需要额外渲染的内容
 
     // 编辑相关
     required: {type: Boolean},                                              // 是否必填

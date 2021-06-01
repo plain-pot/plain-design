@@ -1,8 +1,7 @@
 import {PltCell} from "./cell";
 import {TableNode} from "../use/useTableNode";
-import {designComponent, PropType} from "plain-design-composition";
+import {designComponent, PropType, useClasses} from "plain-design-composition";
 import {PlainTable} from "../../index";
-import {useClasses} from "plain-design-composition";
 import React from "react";
 
 export const PltRow = designComponent({
@@ -35,14 +34,15 @@ export const PltRow = designComponent({
 
         return {
             render: () => {
-                return <>
-                    <tr className={classes.value} style={{height: `${props.table.numberState.bodyRowHeight}px`}} {...handler}>
-                        {props.table.plcData.value!.flatPlcList.map((plc, index) => <PltCell key={index} table={props.table} node={props.node} plc={plc}/>)}
-                    </tr>
-                    {props.table.plcData.value!.plcListHasRenderAfterRow && (
-                        props.table.plcData.value!.plcListHasRenderAfterRow.map(plc => plc.props.renderAfterRow!({node: props.node, plc, row: props.node.data,}) as JSX.Element)
-                    )}
-                </>
+                return props.table.hooks.onRenderRow.exec({
+                    content: (
+                        <tr className={classes.value} style={{height: `${props.table.numberState.bodyRowHeight}px`}} {...handler}>
+                            {props.table.plcData.value!.flatPlcList.map((plc, index) => <PltCell key={index} table={props.table} node={props.node} plc={plc}/>)}
+                        </tr>
+                    ),
+                    node: props.node,
+                    row: props.node.data,
+                }).content
             }
         }
     },

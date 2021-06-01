@@ -1,24 +1,20 @@
 import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../table/use/useTableNode";
 import {SimpleObject} from "../../../../shims";
-import {tPlc} from "../utils/plc.type";
-import {ComputedRef} from "plain-design-composition";
+import {classnames, computed, ComputedRef, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
 import React, {ReactNode} from "react";
 import {injectPlainTable} from "../../index";
-import {computed, onBeforeUnmount, PropType} from "plain-design-composition";
-import {reactive} from "plain-design-composition";
 import PlDropdown from "../../../PlDropdown";
 import PlButton from "../../../PlButton";
 import PlDropdownMenu from "../../../PlDropdownMenu";
 import PlDropdownOption from "../../../PlDropdownOption";
-import {classnames} from "plain-design-composition";
 
 interface ExpandRefer {
     isExpand: (node: TableNode) => boolean,
     totalSpan: ComputedRef<number>,
     state: { expandKeys: Record<string, boolean> },
     toggle: (node: TableNode) => void,
-    props: { expand?: (scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => ReactNode },
+    props: { expand?: (scope: { node: TableNode, row: SimpleObject }) => ReactNode },
     width: () => number,
     methods: {
         expandAll: () => void,
@@ -35,24 +31,9 @@ export default designPlc(
             width: {default: 60},
             align: {default: 'center'},
             noPadding: {default: true},
-            renderAfterRow: {
-                default: ({plc, node, row}: { plc: tPlc & { externalRefer: () => ExpandRefer }, node: TableNode, row: SimpleObject }) => {
-                    const refer = plc.externalRefer()
-                    if (!refer.isExpand(node)) {return null}
-                    return (
-                        <tr className="plt-row plt-expand-row" key={`expand_${node.key}`}>
-                            <td className="plt-cell" rowSpan={1} colSpan={refer.totalSpan.value}>
-                                <div className="plt-expand-body" style={{width: `${refer.width() - 20}px`}}>
-                                    {!!refer.props.expand && refer.props.expand({node, plc, row})}
-                                </div>
-                            </td>
-                        </tr>
-                    )
-                }
-            },
         },
         externalProps: {
-            expand: {type: Function as PropType<(scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => ReactNode>},             // 列内容默认渲染函数
+            expand: {type: Function as PropType<(scope: { node: TableNode, row: SimpleObject }) => ReactNode>},// 列内容默认渲染函数
             toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
             summaryExpand: {type: Boolean},                         // 合计行是否可以展开
         },
@@ -60,6 +41,24 @@ export default designPlc(
             const table = injectPlainTable()
             /*告诉 table，不能启用虚拟滚动*/
             table.hooks.onDisabledVirtual.use(() => true)
+            /*拦截渲染行的动作*/
+            table.hooks.onRenderRow.use((scope) => {
+                const {content, node, row} = scope
+                if (!refer.isExpand(node)) {return scope}
+                return {
+                    ...scope,
+                    content: <>
+                        {content}
+                        <tr className="plt-row plt-expand-row" key={`expand_${node.key}`}>
+                            <td className="plt-cell" rowSpan={1} colSpan={refer.totalSpan.value}>
+                                <div className="plt-expand-body" style={{width: `${refer.width() - 20}px`}}>
+                                    {!!refer.props.expand && refer.props.expand({node, row})}
+                                </div>
+                            </td>
+                        </tr>
+                    </>
+                }
+            })
 
             const state = reactive({
                 expandKeys: {} as Record<string, boolean>,
