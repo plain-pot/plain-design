@@ -1,8 +1,9 @@
 import {TablePlcAlign, TablePlcFixedType} from "../../table/utils/table.utils";
 import {TableNode} from "../../table/use/useTableNode";
-import {MultipleClass, PropType, StyleProperties} from "plain-design-composition";
+import {ExtractPropTypes, MultipleClass, PropType, StyleProperties} from "plain-design-composition";
 import {tFormRuleItem} from "../../../PlForm/form.validate";
 import {TableRenderScope} from "./plc.type";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
@@ -84,4 +85,12 @@ export const PlcPublicAttrs: PlcPublicAttrsType = {
         head: [],
         body: [],
     },
+}
+
+export function createPlcPropOptions(defaultProps: Partial<ExtractPropTypes<typeof PlcPropsOptions>>) {
+    const options = deepcopy(PlcPropsOptions)
+    Object.entries(defaultProps).forEach(([propName, defaultValue]) => {
+        (options as any)[propName].default = defaultValue
+    })
+    return options
 }

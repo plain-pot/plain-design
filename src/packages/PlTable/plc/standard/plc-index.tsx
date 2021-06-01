@@ -1,19 +1,19 @@
 import React from "react";
 import {designComponent} from "plain-design-composition";
-import {PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
+import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
 
 export default designComponent({
     name: 'plc-index',
     props: {
-        ...PlcPropsOptions,
-        autoFixedLeft: {default: true},
-        order: {default: -9999},
-        width: {default: 45},
-        align: {default: 'center'},
-        noPadding: {default: true},
-
+        ...createPlcPropOptions({
+            autoFixedLeft: true,
+            order: -9999,
+            width: 45,
+            align: 'center',
+            noPadding: true,
+        }),
         summaryText: {type: String, default: '合计'},
         start: {type: Number, default: 0},
     },
