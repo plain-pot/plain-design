@@ -59,6 +59,9 @@ export default designPlc(
         },
         setup: (props) => {
             const table = injectPlainTable()
+            /*告诉 table，不能启用虚拟滚动*/
+            table.hooks.onDisabledVirtual.use(() => true)
+
             const state = reactive({
                 expandKeys: {} as Record<string, boolean>,
             })

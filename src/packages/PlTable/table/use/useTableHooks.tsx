@@ -1,5 +1,5 @@
 import {TableNode} from "./useTableNode";
-import {createHooks} from "../../../createUseTableOption/use/use.hooks";
+import {createHooks, createSyncHooks} from "../../../createUseTableOption/use/use.hooks";
 import React from "react";
 import {PlainScroll} from "../../../PlScroll";
 import {TableHoverPart} from "../utils/table.utils";
@@ -17,6 +17,7 @@ export function useTableHooks() {
 
         /*收集原始列信息*/onPlcTypes: createHooks<(list: tPlcType[]) => void>(),
         /*table根节点挂载*/onTableMounted: createHooks<(el: HTMLDivElement) => void>(),
+        /*禁用虚拟滚动*/ onDisabledVirtual: createSyncHooks<(flag: boolean) => void>(true),
     }
 
     return hooks;

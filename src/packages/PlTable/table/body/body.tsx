@@ -40,32 +40,35 @@ export const PltBody = designComponent({
         }
 
         return {
-            render: () => (
-                <PlVirtualTable
-                    className="plt-body"
-                    ref={onRef.virtual}
-                    key={props.table.plcData.value!.plcKeyString}
-                    width={props.table.plcData.value!.targetTableWidth!}
-                    size={props.table.numberState.bodyRowHeight}
-                    data={props.table.flatNodes.value}
-                    summaryData={props.table.summaryNodes.value || undefined}
-                    height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
-                    disabled={props.table.disabledVirtual.value}
-                    {...bindScroll}
-                    {...handler}>
-                    {{
-                        default: ({item, index}: { item: TableNode, index: number }) => (
-                            <PltRow
-                                {...{vid: index}}
-                                key={index}
-                                table={props.table}
-                                node={item}
-                            />
-                        ),
-                        colgroup: () => renderColgroup(props.table.plcData.value!.flatPlcList)
-                    }}
-                </PlVirtualTable>
-            )
+            render: () => {
+                // console.log('props.table.disabledVirtual.value', props.table.disabledVirtual.value)
+                return (
+                    <PlVirtualTable
+                        className="plt-body"
+                        ref={onRef.virtual}
+                        key={props.table.plcData.value!.plcKeyString}
+                        width={props.table.plcData.value!.targetTableWidth!}
+                        size={props.table.numberState.bodyRowHeight}
+                        data={props.table.flatNodes.value}
+                        summaryData={props.table.summaryNodes.value || undefined}
+                        height={props.table.props.showRows * props.table.numberState.bodyRowHeight + 12}
+                        disabled={props.table.disabledVirtual.value}
+                        {...bindScroll}
+                        {...handler}>
+                        {{
+                            default: ({item, index}: { item: TableNode, index: number }) => (
+                                <PltRow
+                                    {...{vid: index}}
+                                    key={index}
+                                    table={props.table}
+                                    node={item}
+                                />
+                            ),
+                            colgroup: () => renderColgroup(props.table.plcData.value!.flatPlcList)
+                        }}
+                    </PlVirtualTable>
+                )
+            }
         }
     },
 })

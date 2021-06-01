@@ -82,7 +82,11 @@ export const PlTable = designComponent({
         }))
 
         /*是否可以启用虚拟滚动*/
-        const disabledVirtual = computed(() => props.virtual == false || (!!plcData.value && plcData.value.notFitVirtual.length > 0))
+        const disabledVirtual = computed(() => {
+            if (props.virtual === false) {return true}
+            /*如果有的列不能启动虚拟滚动，那么会增加一个hook拦截器，hooks.onDisabledVirtual.exec会返回true*/
+            return hooks.onDisabledVirtual.exec(false)
+        })
 
         const classes = useClasses(() => [
             'pl-table',
@@ -124,6 +128,7 @@ export const PlTable = designComponent({
             formValidate,
             current,
             utils,
+            hooks,
         }
 
         onMounted(() => {hooks.onTableMounted.exec(refs.el!)})

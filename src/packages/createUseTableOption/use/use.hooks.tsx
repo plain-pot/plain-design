@@ -1,34 +1,39 @@
 import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
+import {reactive, shallowReactive} from "plain-design-composition";
 
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
-    >() {
-    const innerHandlers: InnerHandler[] = []
+    >(isReactive?: boolean) {
+    const state = isReactive ? reactive({
+        innerHandlers: [] as InnerHandler[],
+    }) : {
+        innerHandlers: [] as InnerHandler[],
+    }
     const use = (handler: InnerHandler) => {
-        innerHandlers.push(handler)
+        state.innerHandlers.push(handler as any)
         return () => eject(handler)
     }
     const eject = (handler: InnerHandler) => {
-        const index = innerHandlers.indexOf(handler)
+        const index = state.innerHandlers.indexOf(handler as any)
         if (index > -1) {
-            innerHandlers.splice(index, 1)
+            state.innerHandlers.splice(index, 1)
         }
     }
     const exec = (arg: Parameters<Handler>["0"]): Parameters<Handler>["0"] => {
-        if (innerHandlers.length === 0) {return arg}
+        if (state.innerHandlers.length === 0) {return arg}
         let index = 0
-        let innerHandler: InnerHandler | undefined = innerHandlers[index]
+        let innerHandler: InnerHandler | undefined = state.innerHandlers[index] as any
         while (!!innerHandler) {
             let newArg = (innerHandler as any)(arg);
             if (newArg !== undefined) {arg = newArg}
             index++
-            innerHandler = innerHandlers[index]
+            innerHandler = state.innerHandlers[index] as any
         }
         return arg
     }
-    return {use, eject, exec}
+    return {use, eject, exec, state}
 }
 
 export function createHooks<Handler extends (arg: any) => any,
