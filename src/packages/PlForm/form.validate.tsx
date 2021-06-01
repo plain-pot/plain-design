@@ -307,8 +307,6 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
         },
     }
 
-    console.warn({...state.fieldRequired})
-
     return {
         utils,
         rules,
