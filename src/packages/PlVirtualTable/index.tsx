@@ -4,6 +4,7 @@ import {designComponent, PropType, useRefs, useStyles} from "plain-design-compos
 import {PlScroll} from "../PlScroll";
 import {useVirtualList} from "../PlVirtualList/useVirtualList";
 import React from "react";
+import '../PlTable/table.scss'
 
 // const scrollbarSize = 12;
 

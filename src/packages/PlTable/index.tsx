@@ -1,4 +1,4 @@
-import {computed, ComputedRef, designComponent, inject, onMounted, PropType, useClasses} from "plain-design-composition";
+import {computed, designComponent, inject, onMounted, PropType, useClasses} from "plain-design-composition";
 import {TableHoverPart, TableProps} from "./core/table.utils";
 import {useTree} from "../PlTree/core/useTree";
 import {TableNode, useTableNode} from "./core/useTableNode";
@@ -13,7 +13,7 @@ import {hasClass} from "plain-utils/dom/hasClass";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";
 import {PlLoadingMask} from "../PlLoadingMask";
-import {getFormRuleData, tFormRuleData} from "../PlForm/form.validate";
+import {getFormRuleData} from "../PlForm/form.validate";
 
 export const PlTable = designComponent({
     name: 'pl-table',
