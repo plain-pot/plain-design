@@ -104,6 +104,7 @@ export default designPage(() => {
                     <Plc.PlcColorPicker field={'color'} title={'颜色'}/>
                     <Plc.PlcRate field={'star'} title={'评分'}/>
                     <Plc.PlcToggle field={'flag'} title={'开关'}/>
+                    <Plc.PlcCheckbox field={'flag'} title={'开关'}/>
                 </PlTable>
             </DemoRow>
         </div>
