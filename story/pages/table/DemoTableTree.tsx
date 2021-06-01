@@ -353,7 +353,7 @@ export default designPage(() => {
                     <PlcIndex/>
                     <Plc.PlcTree
                         rowDraggable
-                        ref={onRef.tree2} title={'标题'}
+                        title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
                     <Plc title={'编号'} field={'id'}/>
@@ -372,7 +372,7 @@ export default designPage(() => {
                     <PlcIndex/>
                     <Plc.PlcTree
                         rowDraggable
-                        ref={onRef.tree2} title={'标题'}
+                        title={'标题'}
                         allowRowDraggable={allow.rowDraggable}
                         allowRowDroppable={allow.rowDroppable}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
