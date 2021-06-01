@@ -46,12 +46,8 @@ export default designComponent({
         onMounted(() => {
             hooks.onTableMounted.exec(refs.el!)
         })
-        watch(() => refs.group?.children, val => {
+        watch(() => !!refs.group ? refs.group.children : null, val => {
             hooks.onCollectPlc.exec(val || [])
-        })
-
-        watch(() => plcData.value, (val) => {
-            console.log(val)
         })
 
         const refer = {
