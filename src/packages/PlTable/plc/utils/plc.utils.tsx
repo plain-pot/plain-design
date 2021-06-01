@@ -1,11 +1,9 @@
 import {VNodeChild} from "../../../../shims";
-import {tPlcType, TableRenderScope} from "./plc.type";
+import {TableRenderScope, tPlcType} from "./plc.type";
 import {TablePlcAlign, TablePlcFixedType} from "../../table/utils/table.utils";
 import {TableNode} from "../../table/use/useTableNode";
-import {PropType} from "plain-design-composition";
-import {StyleProperties} from "plain-design-composition"
-import {MultipleClass} from "plain-design-composition"
-import {iFormItemPropRules, tFormRuleItem} from "../../../PlForm/form.validate";
+import {MultipleClass, PropType, StyleProperties} from "plain-design-composition";
+import {tFormRuleItem} from "../../../PlForm/form.validate";
 
 export type PlcRenderFunction = (scope: TableRenderScope) => VNodeChild
 export type PlcPropsHead = (scope: { plc: tPlcType }) => VNodeChild
