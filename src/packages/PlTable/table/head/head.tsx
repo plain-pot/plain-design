@@ -1,6 +1,6 @@
 import {renderColgroup} from "../../plc/core/renderColgroup";
 import {PltHeadCell} from "./head-cell";
-import {TableHoverPart} from "../../table/utils/table.utils";
+import {TableHoverPart} from "../utils/table.utils";
 import {designComponent, useRefs, useStyles} from "plain-design-composition";
 import {PlainTable} from "../../index";
 import {PlScroll} from "../../../PlScroll";

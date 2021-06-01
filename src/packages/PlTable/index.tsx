@@ -10,8 +10,8 @@ import {usePlcList} from "./plc/format/usePlcList";
 import {useBindScroll} from "./table/use/useBindScroll";
 import {useFixedShadow} from "./table/use/useFixedShadow";
 import {hasClass} from "plain-utils/dom/hasClass";
-import {PltHead} from "./core/head/head";
-import {PltBody} from "./core/body/body";
+import {PltHead} from "./table/head/head";
+import {PltBody} from "./table/body/body";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {getFormRuleData} from "../PlForm/form.validate";
 

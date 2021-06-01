@@ -1,5 +1,5 @@
 import {PltCell} from "./cell";
-import {TableNode} from "../../table/use/useTableNode";
+import {TableNode} from "../use/useTableNode";
 import {designComponent, PropType} from "plain-design-composition";
 import {PlainTable} from "../../index";
 import {useClasses} from "plain-design-composition";
