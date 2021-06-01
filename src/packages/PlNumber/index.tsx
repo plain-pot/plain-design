@@ -152,7 +152,13 @@ export const PlNumber = designComponent({
                     clearInterval(state.interval)
                 }
                 window.removeEventListener('mouseup', methods.clearInterval)
-            }
+            },
+            focus: () => {
+                refs.input!.methods.focus()
+            },
+            blur: () => {
+                refs.input!.methods.blur()
+            },
         }
 
         /*---------------------------------------handler-------------------------------------------*/

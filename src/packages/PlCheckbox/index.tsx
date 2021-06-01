@@ -119,7 +119,7 @@ export const PlCheckbox = designComponent({
                          onClick={handler.clickEl}
                          ref={onRef.el}>
                         <span className="plain-click-node">
-                            <PlTransition switch name="pl-transition-scale">
+                            <PlTransition switch name="pl-transition-fade">
                                 <PlCheckboxInner
                                     checkStatus={checkStatus.value}
                                     key={checkStatus.value}

@@ -7,7 +7,7 @@ export function createKeyHandler(prefix: string) {
     const map = new WeakMap<any, string>()
     let count = 1
     return (obj: any, keyField?: string | null): string => {
-        if (!!keyField) {
+        if (!!keyField && obj[keyField]) {
             return obj[keyField]
         }
         let key = map.get(obj)

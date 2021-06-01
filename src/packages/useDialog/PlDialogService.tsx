@@ -8,6 +8,8 @@ import React, {ReactNode} from "react";
 import {STATUS} from "../../utils/constant";
 import PlIcon from "../PlIcon";
 import {StyleShape} from "../../use/useStyle";
+import PlNumber from "../PlNumber";
+import $$message from "../$$message";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -17,6 +19,7 @@ import {StyleShape} from "../../use/useStyle";
 const OptionKeys = [
     'title',
     'message',
+    'editRequired',
     'editType',
     'editValue',
     'editReadonly',
@@ -32,6 +35,7 @@ export default createDefaultService({
     setup(option: DialogServiceFormatOption) {
         const {refs, onRef} = useRefs({
             input: PlInput,
+            number: PlNumber,
         })
 
         const isShow = ref(false)
@@ -39,7 +43,7 @@ export default createDefaultService({
         const state = reactive({
             key: 0,
             option,
-            editValue: null as null | string,
+            editValue: null as any,
         })
 
         const targetOption = computed(() => {
@@ -65,14 +69,37 @@ export default createDefaultService({
 
         const handler = {
             confirm: () => {
-                if (!!targetOption.value.option.onConfirm) {
-                    targetOption.value.option.onConfirm(!targetOption.value.option.editType ? undefined : state.editValue as string)
+                const {onConfirm, editType, editReadonly, editRequired} = targetOption.value.option
+                if (!onConfirm) {
+                    isShow.value = false
+                    return
+                }
+                if (!editType || editReadonly) {
+                    isShow.value = false
+                    return onConfirm(state.editValue)
+                }
+                const {editValue} = state
+                if (editType !== "number") {
+                    if (editRequired && (!editValue || !editValue.trim())) {
+                        return $$message.error('请输入文本！')
+                    } else {
+                        isShow.value = false
+                        return onConfirm(editValue.trim())
+                    }
+                } else {
+                    if (editRequired && isNaN(Number(editValue))) {
+                        return $$message.error('请输入数字！')
+                    } else {
+                        isShow.value = false
+                        return onConfirm(editValue == null ? null : Number(editValue) as any)
+                    }
                 }
             },
             cancel: () => {
                 if (!!targetOption.value.option.onCancel) {
                     targetOption.value.option.onCancel()
                 }
+                isShow.value = false
             },
         }
 
@@ -83,8 +110,12 @@ export default createDefaultService({
             isShow.value = true
             if (!!option.editType) {
                 state.editValue = option.editValue as string
-                await delay(300)
-                refs.input!.methods.focus()
+                await delay(300);
+                if (option.editType === 'number') {
+                    refs.number!.focus()
+                } else {
+                    refs.input!.methods.focus()
+                }
             }
             return hide
         }
@@ -116,24 +147,35 @@ export default createDefaultService({
                 </div>
                 /*---------------------------------------content-------------------------------------------*/
                 let content: ReactNode;
+                binding = {...binding}
                 if (!!option.editType) {
-                    binding = {...binding}
-                    if (option.editType !== 'input') {
+                    if (option.editType === 'textarea') {
                         (binding as any).height = binding.height || '300px';
                         (binding as any).width = binding.width || '400px';
                     } else {
                         (binding as any).minHeight = null
                     }
                     serviceClass += ` pl-dialog-service-edit`
-                    content = <PlInput ref={(refer) => { onRef.input(refer) }}
-                                       block
-                                       minHeight={null as any}
-                                       maxHeight={null as any}
-                                       autoHeight={false}
-                                       v-model={state.editValue}
-                                       readonly={option.editReadonly}
-                                       textarea={option.editType === 'textarea'}/>
+                    content = option.editType === 'number' ? (
+                        <PlNumber
+                            ref={onRef.number}
+                            block
+                            minHeight={null as any}
+                            maxHeight={null as any}
+                            v-model={state.editValue}
+                            readonly={option.editReadonly}
+                        />
+                    ) : <PlInput
+                        ref={(refer) => { onRef.input(refer) }}
+                        block
+                        minHeight={null as any}
+                        maxHeight={null as any}
+                        autoHeight={false}
+                        v-model={state.editValue}
+                        readonly={option.editReadonly}
+                        textarea={option.editType === 'textarea'}/>
                 } else if (!!option.message) {
+                    (binding as any).minHeight = '80px'
                     content = (
                         <div className="pl-dialog-service-item-message">
                             {option.message}
@@ -153,6 +195,8 @@ export default createDefaultService({
 
                         onConfirm={handler.confirm}
                         onCancel={handler.cancel}
+                        closeOnConfirm={false}
+                        closeOnCancel={false}
 
                         {...binding}
                         width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : "500"}

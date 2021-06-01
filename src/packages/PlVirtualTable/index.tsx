@@ -1,4 +1,3 @@
-import '../PlTable/table.scss'
 import {SimpleObject} from "../../shims";
 import {unit} from "plain-utils/string/unit";
 import {designComponent, PropType, useRefs, useStyles} from "plain-design-composition";

@@ -29,8 +29,8 @@ export default designPage(() => {
             <DemoRow title={'动态增减表单项'}>
                 <PlForm labelWidth={'120px'} ref={onRef.form} modelValue={formData}>
                     <PlFormItem label={'收件箱'} field={'email'} rules={{
-                        field: 'email',
-                        pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+                        type: 'email',
+                        // pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
                         message: '请输入正确的邮箱',
                         required: true,
                         trigger: 'blur',

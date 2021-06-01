@@ -148,7 +148,7 @@ export default designPage(() => {
                     <PlFormItem label={'备注'} field={'comments'}>
                         <PlInput textarea v-model={formData.comments}/>
                     </PlFormItem>
-                    <PlFormItem label={' '}>
+                    <PlFormItem label={' '} field="button">
                         <PlButton mode={'stroke'} label={'取消'}/>
                         <PlButton label={'提交'}/>
                     </PlFormItem>

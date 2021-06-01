@@ -1,14 +1,11 @@
-import {computed, designComponent, onBeforeMount, onMounted, PropType, useNumber, useRefs, useStyles} from "plain-design-composition";
+import {computed, ComputedRef, designComponent, onBeforeMount, PropType, reactive, useClasses, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, StyleStatus, useStyle} from "../../use/useStyle";
 import {FormContentAlign, FormLabelAlign} from "../PlForm/form.utils";
-import {FormComponentItemRules, FormRule, FormValidateUtils} from "../PlForm/form.validate";
+import {FormValidateUtils, tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
-import {reactive} from "plain-design-composition";
-import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
-import {ComputedRef} from 'plain-design-composition'
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -17,7 +14,7 @@ export const PlFormItem = designComponent({
         ...StyleProps,
 
         field: {type: [String, Array] as PropType<string | string[]>},      // 绑定的属性字段名
-        rules: {type: [Array, Object] as PropType<FormRule | FormRule[]>},  // 校验规则
+        rules: {type: [Array, Object] as PropType<tFormRuleItem | tFormRuleItem[]>},  // 校验规则
         required: {type: Boolean},                                          // 不能为空
 
         label: {type: String, default: ' '},                                // 显示文本
@@ -25,8 +22,8 @@ export const PlFormItem = designComponent({
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
         colon: {type: Boolean, default: null},                              // label的冒号
-        labelAlign: {type: String as PropType<keyof typeof FormLabelAlign>},             // label 对齐方式
-        contentAlign: {type: String as PropType<keyof typeof FormContentAlign>},         // content 对齐方式
+        labelAlign: {type: String as PropType<FormLabelAlign | keyof typeof FormLabelAlign>},             // label 对齐方式
+        contentAlign: {type: String as PropType<FormContentAlign | keyof typeof FormContentAlign>},         // content 对齐方式
     },
     emits: {
         onBlur: () => true,
@@ -39,7 +36,11 @@ export const PlFormItem = designComponent({
 
         const form = FormCollector.child()
         const {refs, onRef} = useRefs({label: HTMLDivElement,})
-        const {styleComputed} = useStyle({adjust: ret => {!!invalidate.value && (ret.status = StyleStatus.error)}})
+        const {styleComputed} = useStyle({
+            adjust: ret => {
+                !!invalidate.value && (ret.status = StyleStatus.error)
+            }
+        })
 
         const handler = {
             onEditChange: () => form.validateHandler.onEditChange(props.field),
@@ -51,13 +52,13 @@ export const PlFormItem = designComponent({
                 ret.onBlur = handler.onEditBlur
 
                 if (!!form.props.disabledFields && !!props.field) {
-                    const fields = FormValidateUtils.getListValue(props.field)
+                    const fields = FormValidateUtils.getFieldArray(props.field)
                     if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
                         ret.disabled = true
                     }
                 }
                 if (!!form.props.readonlyFields && !!props.field) {
-                    const fields = FormValidateUtils.getListValue(props.field)
+                    const fields = FormValidateUtils.getFieldArray(props.field)
                     if (!!fields && !!fields.find(f => form.props.disabledFields![f])) {
                         ret.readonly = true
                     }
@@ -161,38 +162,35 @@ export const PlFormItem = designComponent({
 
         /*---------------------------------------validate-------------------------------------------*/
 
-        const formItemComponentRules = computed((): FormComponentItemRules => ({
-            label: props.label,
-            field: props.field,
-            required: props.required,
-            rules: props.rules,
-        })) as ComputedRef<FormComponentItemRules>
-
         /*当前是否必填校验*/
         const isRequired = computed(() => {
-            const {fieldToRequired} = form.formValidate.value
-            const fields = FormValidateUtils.getListValue(props.field)
-            if (!fields) {
-                return false
+            let fields = FormValidateUtils.getFieldArray(props.field)
+            if (!!props.rules) {
+                FormValidateUtils.getRuleArray(props.rules).forEach(r => {
+                    !!r.field && fields.push(...FormValidateUtils.getFieldArray(r.field))
+                })
             }
-            return !!fields.find(f => !!fieldToRequired[f])
+            return form.formRuleData.value.utils.isRequired(fields)
         }) as ComputedRef<boolean>
 
         /*当前是否校验不通过*/
         const invalidate = computed(() => {
-            const {validateResultMap} = form.childState
-            const fields = FormValidateUtils.getListValue(props.field)
+            const {allErrors} = form.childState
+            const fields = FormValidateUtils.getFieldArray(props.field)
             if (!fields) {
                 return null
             }
-            const invalidField = fields.find(f => !!validateResultMap[f])
-            return !invalidField ? null : validateResultMap[invalidField]!
+            const fitErrors = allErrors.find(err => fields.indexOf(err.field) > -1)
+            return !fitErrors ? null : {
+                message: fitErrors.message,
+                field: fitErrors.field,
+            }
         })
 
         return {
             refer: {
                 state,
-                formItemComponentRules,
+                props,
             },
             render: () => (
                 <div className={classes.value} style={styles.value}>
