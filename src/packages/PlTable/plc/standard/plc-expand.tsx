@@ -1,5 +1,5 @@
 import {designPlc} from "../core/designPlc";
-import {TableNode} from "../../core/useTableNode";
+import {TableNode} from "../../table/use/useTableNode";
 import {SimpleObject} from "../../../../shims";
 import {tPlc} from "../core/plc.type";
 import {ComputedRef} from "plain-design-composition";

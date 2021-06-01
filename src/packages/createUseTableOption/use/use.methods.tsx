@@ -6,7 +6,7 @@ import {nextTick} from "../../../utils/nextTick";
 import PlTable from "../../PlTable";
 import $$message from "../../$$message";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {TableNode} from "../../PlTable/core/useTableNode";
+import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {$$dialog} from "../../useDialog";
 
 export function useTableMethods({tableState, config, pagination, hooks, currentNode}: {

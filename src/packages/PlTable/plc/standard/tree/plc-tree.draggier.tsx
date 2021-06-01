@@ -1,4 +1,4 @@
-import {TableNode} from "../../../core/useTableNode";
+import {TableNode} from "../../../table/use/useTableNode";
 import {getRowEl, getScrollParent} from '../draggier/core/utils';
 import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {PlainScroll} from "../../../../PlScroll";

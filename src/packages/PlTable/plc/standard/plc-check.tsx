@@ -1,5 +1,5 @@
 import {designPlc} from "../core/designPlc";
-import {TableNode} from "../../core/useTableNode";
+import {TableNode} from "../../table/use/useTableNode";
 import {CheckboxStatus} from "../../../../utils/constant";
 import {toArray} from "../../../../utils/toArray";
 import {computed, getCurrentDesignInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";

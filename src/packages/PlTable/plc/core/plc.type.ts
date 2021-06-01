@@ -1,6 +1,6 @@
 import {SimpleObject} from "../../../../shims";
 import {ExtractPropTypes} from "plain-design-composition";
-import {TableNode} from "../../core/useTableNode";
+import {TableNode} from "../../table/use/useTableNode";
 import {PlcGroupProps, PlcProps, PlcPublicAttrsType} from "./plc.utils";
 
 export type TableRenderScope = { plc: tPlc, node: TableNode, row: SimpleObject }

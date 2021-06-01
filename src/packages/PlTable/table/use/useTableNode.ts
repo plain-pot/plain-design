@@ -1,11 +1,11 @@
-import {SimpleObject} from "../../../shims";
-import {TableProps} from "../table/utils/table.utils";
-import {createKeyHandler} from "../../../utils/createKeyHandler";
+import {SimpleObject} from "../../../../shims";
+import {TableProps} from "../utils/table.utils";
+import {createKeyHandler} from "../../../../utils/createKeyHandler";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {computed, ExtractPropTypes} from "plain-design-composition";
-import {useTree} from "../../PlTree/core/useTree";
-import {TreeNodeCheckStatus} from "../../PlTree/utils/tree-constant";
-import {FormValidateError, tFormRuleData} from "../../PlForm/form.validate";
+import {useTree} from "../../../PlTree/core/useTree";
+import {TreeNodeCheckStatus} from "../../../PlTree/utils/tree-constant";
+import {FormValidateError, tFormRuleData} from "../../../PlForm/form.validate";
 
 export function useTableNode(
     {

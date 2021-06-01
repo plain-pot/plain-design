@@ -1,4 +1,4 @@
-import {TableHoverPart} from "../table/utils/table.utils";
+import {TableHoverPart} from "../utils/table.utils";
 import {ref} from "plain-design-composition";
 
 /**

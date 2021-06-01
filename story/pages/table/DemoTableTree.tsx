@@ -1,6 +1,6 @@
 import {designPage, onMounted, useRefs} from "plain-design-composition";
 import React from "react";
-import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
+import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
 import {SimpleFunction} from "plain-design-composition"
 import {reactive} from "plain-design-composition";
 import {PlcCheck, PlcIndex, PlcTree} from "../../../src/packages/PlTable/plc/standard";

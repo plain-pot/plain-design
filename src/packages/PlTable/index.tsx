@@ -1,14 +1,14 @@
 import {computed, designComponent, inject, onMounted, PropType, useClasses} from "plain-design-composition";
 import {TableHoverPart, TableProps} from "./table/utils/table.utils";
 import {useTree} from "../PlTree/core/useTree";
-import {TableNode, useTableNode} from "./core/useTableNode";
+import {TableNode, useTableNode} from "./table/use/useTableNode";
 import {PlainScroll} from "../PlScroll";
 import React from "react";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {PlcCollector} from "./plc/core/PlcCollector";
 import {usePlcList} from "./plc/format/usePlcList";
-import {useBindScroll} from "./core/useBindScroll";
-import {useFixedShadow} from "./core/useFixedShadow";
+import {useBindScroll} from "./table/use/useBindScroll";
+import {useFixedShadow} from "./table/use/useFixedShadow";
 import {hasClass} from "plain-utils/dom/hasClass";
 import {PltHead} from "./core/head/head";
 import {PltBody} from "./core/body/body";

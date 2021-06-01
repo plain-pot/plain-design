@@ -3,7 +3,7 @@ import {DemoRow} from "../../components/DemoRow";
 import {designPage} from "plain-design-composition";
 import {DemoLine} from "../../components/DemoLine";
 import PlTable from "../../../src/packages/PlTable";
-import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
+import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
 import Plc from "../../../src/packages/Plc";
 
 const DemoRowSpan = designPage(() => {

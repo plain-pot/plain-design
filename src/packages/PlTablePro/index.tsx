@@ -10,7 +10,7 @@ import PlDropdownMenu from "../PlDropdownMenu";
 import PlDropdownOption from "../PlDropdownOption";
 import PlIcon from "../PlIcon";
 import PlButtonGroup from "../PlButtonGroup";
-import {TableNode} from "../PlTable/core/useTableNode";
+import {TableNode} from "../PlTable/table/use/useTableNode";
 
 export const PlTablePro = designComponent({
     props: {

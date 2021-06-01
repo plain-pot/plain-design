@@ -2,7 +2,7 @@ import {PlcProps} from "./plc.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {VNodeChild} from "../../../../shims";
 import {tPlc} from "./plc.type";
-import {TableNode} from "../../core/useTableNode";
+import {TableNode} from "../../table/use/useTableNode";
 import {designComponent, ExtractPropTypes} from "plain-design-composition";
 import {ComponentPropsOptions} from "plain-design-composition"
 import {usePlc} from "./Plc";

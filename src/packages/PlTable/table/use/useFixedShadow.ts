@@ -1,6 +1,6 @@
 import {computed, reactive} from "plain-design-composition";
 import {useTableGetScroll} from "./useTableGetScroll";
-import {PlainScroll} from "../../PlScroll";
+import {PlainScroll} from "../../../PlScroll";
 
 export function useFixedShadow(event: {
     on: {

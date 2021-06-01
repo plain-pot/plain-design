@@ -1,5 +1,5 @@
 import {tPlc} from "../../plc/core/plc.type";
-import {TableNode} from "../useTableNode";
+import {TableNode} from "../../table/use/useTableNode";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
 import {ComputedRef} from "plain-design-composition";

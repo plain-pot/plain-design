@@ -8,7 +8,7 @@ import PlForm from "../../../src/packages/PlForm";
 import PlFormItem from "../../../src/packages/PlFormItem";
 import PlToggle from "../../../src/packages/PlToggle";
 import Plc from "../../../src/packages/Plc";
-import {TableNode} from "../../../src/packages/PlTable/core/useTableNode";
+import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
 import $$message from "../../../src/packages/$$message";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";

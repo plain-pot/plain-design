@@ -1,5 +1,5 @@
 import {tPlc, tPlcType, TableRenderScope} from "./plc.type";
-import {TableNode} from "../../core/useTableNode";
+import {TableNode} from "../../table/use/useTableNode";
 import {VNodeChild} from "../../../../shims";
 
 export function renderHeadCell(plc: tPlcType) {
