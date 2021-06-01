@@ -1,14 +1,14 @@
 import {SimpleObject} from "../../../../shims";
 import {ExtractPropTypes} from "plain-design-composition";
 import {TableNode} from "../../table/use/useTableNode";
-import {PlcGroupProps, PlcProps, PlcPublicAttrsType} from "./plc.utils";
+import {PlcGroupPropsOptions, PlcPropsOptions, PlcPublicAttrsType} from "./plc.utils";
 
 export type TableRenderScope = { plc: tPlc, node: TableNode, row: SimpleObject }
 
-type PlcPropsType = Omit<ExtractPropTypes<typeof PlcProps>, 'width' | 'order'> & { width: number, order: number | undefined }
+type PlcPropsType = Omit<ExtractPropTypes<typeof PlcPropsOptions>, 'width' | 'order'> & { width: number, order: number | undefined }
 type PlcStateType = { [k in keyof PlcPropsType]: PlcPropsType[k] | null }
 
-type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupProps>, 'order'> & { order: number | undefined }
+type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupPropsOptions>, 'order'> & { order: number | undefined }
 type PlcGroupStateType = { [k in keyof PlcGroupPropsType]: PlcGroupPropsType[k] | null }
 
 export type tPlcGroup = PlcPublicAttrsType & {

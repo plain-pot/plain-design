@@ -12,7 +12,7 @@ export type PlcPropsSummary = PlcRenderFunction
 export type PlcPropsEdit = PlcRenderFunction
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
-export const PlcGroupProps = {
+export const PlcGroupPropsOptions = {
     title: {type: String},                                                  // 列标题
     align: {type: String as PropType<string | TablePlcAlign>},                       // 非编辑状态下文本对其方式
     noPadding: {type: Boolean},                                             // 是否不兼容表格的虚拟滚动功能
@@ -30,8 +30,8 @@ export const PlcGroupProps = {
     bodyCls: {},                                                            // 给表体添加的class
 }
 
-export const PlcProps = {
-    ...PlcGroupProps,
+export const PlcPropsOptions = {
+    ...PlcGroupPropsOptions,
     field: {type: String},                                                  // 列绑定字段
     width: {type: [String, Number], default: 120},                          // 列宽度
     fit: {type: Boolean},                                                   // 列宽自适应(只有一个列能够自适应)

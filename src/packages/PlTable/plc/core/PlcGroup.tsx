@@ -1,4 +1,4 @@
-import {PlcGroupProps, PlcPublicAttrs} from "../utils/plc.utils";
+import {PlcGroupPropsOptions, PlcPublicAttrs} from "../utils/plc.utils";
 import {tPlcGroup} from "../utils/plc.type";
 import {computed, designComponent, reactive, useNumber, useRefs} from "plain-design-composition";
 import React from "react";
@@ -8,7 +8,7 @@ import Plc from "./Plc";
 const PlcGroup = designComponent({
     name: 'plc-group',
     props: {
-        ...PlcGroupProps,
+        ...PlcGroupPropsOptions,
     },
     slots: ['default'],
     setup({props, slots}) {
@@ -25,7 +25,7 @@ const PlcGroup = designComponent({
             ...numberState,
         }) as Omit<typeof props, 'order'> & typeof numberState)
         /*props的一个副本，不过如果有值的情况下，优先级比props中的值高（比config值也高）*/
-        const propsState = reactive(Object.keys(PlcGroupProps).reduce((ret: any, key: string) => {
+        const propsState = reactive(Object.keys(PlcGroupPropsOptions).reduce((ret: any, key: string) => {
             ret[key] = null
             return ret
         }, {}) as { [k in keyof typeof formatProps.value]: typeof formatProps.value[k] | null })

@@ -1,4 +1,4 @@
-import {PlcProps} from "../utils/plc.utils";
+import {PlcPropsOptions} from "../utils/plc.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {VNodeChild} from "../../../../shims";
 import {tPlc} from "../utils/plc.type";
@@ -10,7 +10,7 @@ import React from "react";
 
 export function designPlc<_,
     ExternalProps extends Readonly<ComponentPropsOptions> = {},
-    TargetProps = ExtractPropTypes<typeof PlcProps & ExternalProps>,
+    TargetProps = ExtractPropTypes<typeof PlcPropsOptions & ExternalProps>,
     ExternalRefer = {},
     >(
     {
@@ -20,7 +20,7 @@ export function designPlc<_,
         setup,
     }: {
         name: string,
-        standardProps?: Partial<{ [k in keyof typeof PlcProps]: any }>,
+        standardProps?: Partial<{ [k in keyof typeof PlcPropsOptions]: any }>,
         externalProps?: ExternalProps,
         setup?: (props: TargetProps) => ExternalRefer,
     },
@@ -31,7 +31,7 @@ export function designPlc<_,
         edit?: (scope: { node: TableNode, plc: tPlc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
     },
 ) {
-    const OptionProps = deepcopy(PlcProps)
+    const OptionProps = deepcopy(PlcPropsOptions)
 
     Object.entries(OptionProps).map(([key, value]) => {
         if (!!standardProps && !!(standardProps as any)[key]) {
