@@ -1,7 +1,7 @@
 import {tPlc, tPlcType} from "../core/plc.type";
 import {copyPlcList} from "./process/copyPlcList";
 import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
-import {TableProps} from "../../core/table.utils";
+import {TableProps} from "../../table/utils/table.utils";
 import {processPlcSort} from "./process/processPlcSort";
 import {processHeadPlcList} from "./process/processHeadPlcList";
 import {processPlcFixed} from "./process/processPlcFixed";

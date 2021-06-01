@@ -1,5 +1,5 @@
 import {computed, designComponent, inject, onMounted, PropType, useClasses} from "plain-design-composition";
-import {TableHoverPart, TableProps} from "./core/table.utils";
+import {TableHoverPart, TableProps} from "./table/utils/table.utils";
 import {useTree} from "../PlTree/core/useTree";
 import {TableNode, useTableNode} from "./core/useTableNode";
 import {PlainScroll} from "../PlScroll";

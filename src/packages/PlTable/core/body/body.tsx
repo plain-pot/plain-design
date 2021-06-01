@@ -1,5 +1,5 @@
 import {PltRow} from "./row";
-import {TableHoverPart} from "../table.utils";
+import {TableHoverPart} from "../../table/utils/table.utils";
 import {TableNode} from "../useTableNode";
 import {designComponent, useRefs} from "plain-design-composition";
 import React from "react";

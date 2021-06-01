@@ -1,7 +1,7 @@
 import {tPlc, tPlcType} from "../../core/plc.type";
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
 import {insertSort} from "plain-utils/object/insertSort";
-import {TablePlcFixedType} from "../../../core/table.utils";
+import {TablePlcFixedType} from "../../../table/utils/table.utils";
 
 /**
  * 获取plc的排序索引

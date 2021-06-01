@@ -1,5 +1,5 @@
 import {tPlc, tPlcType} from "../../core/plc.type";
-import {TablePlcFixedType} from "../../../core/table.utils";
+import {TablePlcFixedType} from "../../../table/utils/table.utils";
 import {StyleProperties} from "plain-design-composition"
 
 /**

@@ -1,5 +1,5 @@
 import {tPlcType} from "../../core/plc.type";
-import {TablePlcFixedType} from "../../../core/table.utils";
+import {TablePlcFixedType} from "../../../table/utils/table.utils";
 
 /**
  * 计算渲染表头所需要的二维数组以及层数

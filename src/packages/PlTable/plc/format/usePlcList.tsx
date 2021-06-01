@@ -1,5 +1,5 @@
 import {computed, ExtractPropTypes, onMounted, reactive, useRefs, watch} from "plain-design-composition";
-import {TableDefaultRowHeight, TableProps} from "../../core/table.utils";
+import {TableDefaultRowHeight, TableProps} from "../../table/utils/table.utils";
 import {PlcCollector} from "../core/PlcCollector";
 import {formatPlcList} from "./formatPlcList";
 import {removeUnit} from "plain-utils/string/removeUnit";

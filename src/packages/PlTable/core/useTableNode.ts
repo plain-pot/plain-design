@@ -1,5 +1,5 @@
 import {SimpleObject} from "../../../shims";
-import {TableProps} from "./table.utils";
+import {TableProps} from "../table/utils/table.utils";
 import {createKeyHandler} from "../../../utils/createKeyHandler";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {computed, ExtractPropTypes} from "plain-design-composition";

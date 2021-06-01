@@ -1,6 +1,6 @@
 import {VNodeChild} from "../../../../shims";
 import {tPlcType, TableRenderScope} from "./plc.type";
-import {TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
+import {TablePlcAlign, TablePlcFixedType} from "../../table/utils/table.utils";
 import {TableNode} from "../../core/useTableNode";
 import {PropType} from "plain-design-composition";
 import {StyleProperties} from "plain-design-composition"

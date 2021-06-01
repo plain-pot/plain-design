@@ -1,5 +1,5 @@
 import {tPlcType} from "../../core/plc.type";
-import {TablePlcFixedType, TablePropsConfig} from "../../../core/table.utils";
+import {TablePlcFixedType, TablePropsConfig} from "../../../table/utils/table.utils";
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
 
 /**

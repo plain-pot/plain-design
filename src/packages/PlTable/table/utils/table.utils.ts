@@ -1,10 +1,10 @@
-import {StyleProps} from "../../../use/useStyle";
-import {tPlc, tPlcType} from "../plc/core/plc.type";
-import {TableNode} from "./useTableNode";
+import {StyleProps} from "../../../../use/useStyle";
+import {tPlc, tPlcType} from "../../plc/core/plc.type";
+import {TableNode} from "../../core/useTableNode";
 import {MultipleClass, PropType, StyleProperties} from "plain-design-composition"
-import {SimpleObject} from "../../../shims";
-import {FormAssociateFields, tFormPropRules} from "../../PlForm/form.validate";
-import {useTree} from "../../PlTree/core/useTree";
+import {SimpleObject} from "../../../../shims";
+import {FormAssociateFields, tFormPropRules} from "../../../PlForm/form.validate";
+import {useTree} from "../../../PlTree/core/useTree";
 
 export type TablePropsConfig = (plcList: tPlcType[]) => Record<string, any>
 
@@ -14,7 +14,7 @@ export type TablePropsCellStyleFunc = (node: TableNode, plc: tPlc) => StylePrope
 export type TablePropsHeadCellClassFunc = (plc: tPlcType) => MultipleClass
 export type TablePropsHeadCellStyleFunc = (plc: tPlcType) => StyleProperties
 
-export type TablePropsSpanMethod = (socpe: { node: TableNode, plc: tPlc }) => { rowspan: number, colspan: number }
+export type TablePropsSpanMethod = (scope: { node: TableNode, plc: tPlc }) => { rowspan: number, colspan: number }
 
 export enum TablePlcAlign {
     left = 'left',
