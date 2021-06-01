@@ -2,28 +2,34 @@ import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../table/use/useTableNode";
 import {CheckboxStatus} from "../../../../utils/constant";
 import {toArray} from "../../../../utils/toArray";
-import {computed, getCurrentDesignInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
+import {computed, designComponent, getCurrentDesignInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
 import {injectPlainTable} from "../../index";
 import React from "react";
 import {PlCheckbox} from "../../../PlCheckbox";
 import PlDropdown from "../../../PlDropdown";
 import PlDropdownMenu from "../../../PlDropdownMenu";
 import PlDropdownOption from "../../../PlDropdownOption";
+import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
+import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
+import {useExternalPlc} from "../core/useExternalPlc";
 
-export default designPlc({
+export default designComponent({
     name: 'plc-check',
-    standardProps: {
-        autoFixedLeft: {default: true},
-        order: {default: -9998},
-        width: {default: 40},
-        align: {default: 'center'},
-        noPadding: {default: true},
-    },
-    externalProps: {
+    props: {
+        ...createPlcPropOptions({
+            autoFixedLeft: true,
+            order: -9998,
+            width: 40,
+            align: 'center',
+            noPadding: true,
+        }),
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
         isCheckable: Function as PropType<(node: TableNode) => boolean>,// 是否可选
     },
-    setup(props) {
+    scopeSlots: PlcScopeSlotsOptions,
+    emits: PlcEmitsOptions,
+    setup({props, scopeSlots, event}) {
+
         const table = injectPlainTable()
         const proxy = getCurrentDesignInstance().proxy!
         const state = reactive({
@@ -81,34 +87,39 @@ export default designPlc({
             onBeforeUnmount(() => table.event.off.onClickRow(handler.onClickCheckbox))
         }
         Object.assign(proxy, methods)
+
+        const {refer, render} = useExternalPlc({
+            props, scopeSlots, event, defaultScopeSlots: {
+                summary: () => null,
+                default: ({node}) => <PlCheckbox
+                    customReadonly
+                    modelValue={isCheck(node)}
+                    onClick={() => handler.onClickCheckbox(node)}
+                    disabled={!isCheckable(node)}
+                />,
+                head: () => (
+                    <PlDropdown
+                        {...{placement: 'bottom-center'}}
+                        default={() => <PlCheckbox checkStatus={status.value}/>}
+                        popper={() => <PlDropdownMenu>
+                            <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
+                            <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
+                            <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
+                        </PlDropdownMenu>}
+                    />
+                )
+            }
+        })
+
         return {
-            state,
-            selectedKeys,
-            status,
-            handler,
-            isCheck,
-            isCheckable,
-            methods,
-            ...methods,
+            refer: {
+                ...refer,
+                isCheckable,
+                isCheck,
+                toggle,
+                ...methods,
+            },
+            render,
         }
     },
-}, {
-    summary: () => null,
-    default: ({refer, node}) => <PlCheckbox
-        customReadonly
-        modelValue={refer.isCheck(node)}
-        onClick={() => refer.handler.onClickCheckbox(node)}
-        disabled={!refer.isCheckable(node)}
-    />,
-    head: ({refer}) => (
-        <PlDropdown
-            {...{placement: 'bottom-center'}}
-            default={() => <PlCheckbox checkStatus={refer.status.value}/>}
-            popper={() => <PlDropdownMenu>
-                <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={refer.methods.checkAll}/>
-                <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={refer.methods.clearAll}/>
-                <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={refer.methods.reverse}/>
-            </PlDropdownMenu>}
-        />
-    )
 })
