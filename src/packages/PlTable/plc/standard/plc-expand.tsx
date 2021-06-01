@@ -1,119 +1,111 @@
-import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../table/use/useTableNode";
 import {SimpleObject} from "../../../../shims";
-import {classnames, computed, ComputedRef, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
-import React, {ReactNode} from "react";
+import {classnames, computed, designComponent, onBeforeUnmount, reactive} from "plain-design-composition";
+import React from "react";
 import {injectPlainTable} from "../../index";
 import PlDropdown from "../../../PlDropdown";
 import PlButton from "../../../PlButton";
 import PlDropdownMenu from "../../../PlDropdownMenu";
 import PlDropdownOption from "../../../PlDropdownOption";
+import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
+import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
+import {useExternalPlc} from "../core/useExternalPlc";
 
-interface ExpandRefer {
-    isExpand: (node: TableNode) => boolean,
-    totalSpan: ComputedRef<number>,
-    state: { expandKeys: Record<string, boolean> },
-    toggle: (node: TableNode) => void,
-    props: { expand?: (scope: { node: TableNode, row: SimpleObject }) => ReactNode },
-    width: () => number,
-    methods: {
-        expandAll: () => void,
-        collapseAll: () => void,
+export default designComponent({
+    props: {
+        ...createPlcPropOptions({
+            autoFixedLeft: true,
+            order: -9997,
+            width: 60,
+            align: 'center',
+            noPadding: true,
+        }),
+        toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
+        summaryExpand: {type: Boolean},
     },
-}
+    emits: PlcEmitsOptions,
+    scopeSlots: {
+        ...PlcScopeSlotsOptions,
+        expand: (scope: { node: TableNode, row: SimpleObject }) => null,
+    },
+    setup({props, scopeSlots, event}) {
 
-export default designPlc(
-    {
-        name: 'plc-expand',
-        standardProps: {
-            autoFixedLeft: {default: true},
-            order: {default: -9997},
-            width: {default: 60},
-            align: {default: 'center'},
-            noPadding: {default: true},
-        },
-        externalProps: {
-            expand: {type: Function as PropType<(scope: { node: TableNode, row: SimpleObject }) => ReactNode>},// 列内容默认渲染函数
-            toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
-            summaryExpand: {type: Boolean},                         // 合计行是否可以展开
-        },
-        setup: (props) => {
-            const table = injectPlainTable()
-            /*告诉 table，不能启用虚拟滚动*/
-            table.hooks.onDisabledVirtual.use(() => true)
-            /*拦截渲染行的动作*/
-            table.hooks.onRenderRow.use((scope) => {
-                const {content, node, row} = scope
-                if (!refer.isExpand(node)) {return scope}
-                return {
-                    ...scope,
-                    content: <>
-                        {content}
-                        <tr className="plt-row plt-expand-row" key={`expand_${node.key}`}>
-                            <td className="plt-cell" rowSpan={1} colSpan={refer.totalSpan.value}>
-                                <div className="plt-expand-body" style={{width: `${refer.width() - 20}px`}}>
-                                    {!!refer.props.expand && refer.props.expand({node, row})}
-                                </div>
-                            </td>
-                        </tr>
-                    </>
+        const table = injectPlainTable()
+        /*告诉 table，不能启用虚拟滚动*/
+        table.hooks.onDisabledVirtual.use(() => true)
+        /*拦截渲染行的动作*/
+        table.hooks.onRenderRow.use((scope) => {
+            const {content, node, row} = scope
+            if (!isExpand(node)) {return scope}
+            return {
+                ...scope,
+                content: <>
+                    {content}
+                    <tr className="plt-row plt-expand-row" key={`expand_${node.key}`}>
+                        <td className="plt-cell" rowSpan={1} colSpan={totalSpan.value}>
+                            <div className="plt-expand-body" style={{width: `${table.plcData.value!.tableWidth - 20}px`}}>
+                                {scopeSlots.expand({node, row})}
+                            </div>
+                        </td>
+                    </tr>
+                </>
+            }
+        })
+
+        const state = reactive({
+            expandKeys: {} as Record<string, boolean>,
+        })
+        const totalSpan = computed(() => !table.plcData.value ? 1 : table.plcData.value.flatPlcList.length)
+        const isExpand = (node: TableNode) => state.expandKeys[node.key]
+        const toggle = (node: TableNode) => isExpand(node) ? close(node) : expand(node)
+        const expand = (node: TableNode) => state.expandKeys[node.key] = true
+        const close = (node: TableNode) => state.expandKeys[node.key] = false
+        if (props.toggleOnClickRow) {
+            table.event.on.onClickCell(toggle)
+            onBeforeUnmount(() => table.event.off.onClickRow(toggle))
+        }
+        const methods = {
+            expandAll: () => {
+                state.expandKeys = {}
+                Object.values(table.state.nodeMap).forEach(node => expand(node))
+            },
+            collapseAll: () => {
+                state.expandKeys = {}
+            },
+        }
+
+        const {refer, render} = useExternalPlc({
+            props, scopeSlots, event, defaultScopeSlots: {
+                head: () => (
+                    <PlDropdown
+                        {...{placement: "bottom-center"}}
+                        default={() => <PlButton icon="el-icon-menu" mode="text"/>}
+                        popper={() => <PlDropdownMenu>
+                            <PlDropdownOption label="全部展开" onClick={methods.expandAll} icon="el-icon-zoom-full"/>
+                            <PlDropdownOption label="全部收起" onClick={methods.collapseAll} icon="el-icon-zoom-scale"/>
+                        </PlDropdownMenu>}
+                    />
+                ),
+                default: ({node}) => {
+                    return (!node.isSummary || props.summaryExpand) && (<PlButton{...{
+                        icon: 'el-icon-arrow-down',
+                        mode: 'text',
+                        className: classnames([
+                            'plc-expand-icon',
+                            {'plc-expand-icon-active': isExpand(node)},
+                        ]),
+                        onClick: (e: React.MouseEvent) => toggle(node)
+                    }}/>)
                 }
-            })
+            }
+        })
 
-            const state = reactive({
-                expandKeys: {} as Record<string, boolean>,
-            })
-            const totalSpan = computed(() => !table.plcData.value ? 1 : table.plcData.value.flatPlcList.length)
-            const isExpand = (node: TableNode) => state.expandKeys[node.key]
-            const toggle = (node: TableNode) => isExpand(node) ? close(node) : expand(node)
-            const expand = (node: TableNode) => state.expandKeys[node.key] = true
-            const close = (node: TableNode) => state.expandKeys[node.key] = false
-            if (props.toggleOnClickRow) {
-                table.event.on.onClickCell(toggle)
-                onBeforeUnmount(() => table.event.off.onClickRow(toggle))
-            }
-            const methods = {
-                expandAll: () => {
-                    state.expandKeys = {}
-                    Object.values(table.state.nodeMap).forEach(node => expand(node))
-                },
-                collapseAll: () => {
-                    state.expandKeys = {}
-                },
-            }
-            const refer: ExpandRefer = {
-                state,
-                totalSpan,
-                isExpand,
-                toggle,
-                props,
-                width: () => table.plcData.value!.tableWidth,
+        return {
+            refer: {
+                ...refer,
                 methods,
-            }
-            return refer
+            },
+            render,
         }
     },
-    {
-        head: ({refer}) => (
-            <PlDropdown
-                {...{placement: "bottom-center"}}
-                default={() => <PlButton icon="el-icon-menu" mode="text"/>}
-                popper={() => <PlDropdownMenu>
-                    <PlDropdownOption label="全部展开" onClick={refer.methods.expandAll} icon="el-icon-zoom-full"/>
-                    <PlDropdownOption label="全部收起" onClick={refer.methods.collapseAll} icon="el-icon-zoom-scale"/>
-                </PlDropdownMenu>}
-            />
-        ),
-        default: ({refer, node, props}) => {
-            return (!node.isSummary || props.summaryExpand) && (<PlButton{...{
-                icon: 'el-icon-arrow-down',
-                mode: 'text',
-                className: classnames([
-                    'plc-expand-icon',
-                    {'plc-expand-icon-active': refer.isExpand(node)},
-                ]),
-                onClick: (e: React.MouseEvent) => refer.toggle(node)
-            }}/>)
-        }
-    },
-)
+})
