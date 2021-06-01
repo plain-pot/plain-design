@@ -113,8 +113,7 @@ export const FormValidateUtils = {
  * @author  韦胜健
  * @date    2021/5/30 13:18
  */
-export function getFormRuleData({formData, formProps, formItems, requiredMessage}: {
-    formData: any,
+export function getFormRuleData({formProps, formItems, requiredMessage}: {
     formProps: { rules?: tFormPropRules, },
     formItems: { value: { props: iFormItemPropRules }[] },
     requiredMessage: string,
@@ -225,7 +224,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
 
         FormValidateUtils.getFieldArray(field).forEach(f => {
             if (!prev[f]) {prev[f] = []}
-            let transform = f.indexOf('.') === -1 ? prevTransform : () => FormValidateUtils.getValueByField(f, formData, prevTransform)
+            let transform: any = f.indexOf('.') === -1 ? prevTransform : (val: any, source: any) => FormValidateUtils.getValueByField(f, source, prevTransform)
 
             if (required) {
                 // console.log(f, 'asyncValidator')
@@ -250,13 +249,13 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
                 trigger,
                 associateFields,
                 allErrors,
-                formData: customFormData,
+                formData,
             }: {
                 field: string | string[],
                 trigger: FormValidateTrigger | undefined,
                 associateFields?: FormAssociateFields,
                 allErrors: FormValidateError[],
-                formData?: any,
+                formData: any,
             }) => {
 
             const fs = (() => {
@@ -283,7 +282,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
             const validation = new Schema(fitRuleMap)
             const dfd = defer<FormValidateError[]>()
             // console.log('fitRuleMap', fitRuleMap, rules)
-            validation.validate(customFormData || formData, undefined, (errors, fields) => {
+            validation.validate(formData, undefined, (errors, fields) => {
                 const newErrors = allErrors.filter(e => fs.indexOf(e.field) === -1)
                 // console.log({errors, fields, newErrors})
                 dfd.resolve([...newErrors, ...errors || []].map(i => ({
@@ -294,10 +293,10 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
 
             return dfd.promise
         },
-        validate: (data?: any) => {
+        validate: (formData: any) => {
             const validation = new Schema(rules)
             const dfd = defer<FormValidateError[]>()
-            validation.validate(data || formData, undefined, (errors) => {
+            validation.validate(formData, undefined, (errors) => {
                 dfd.resolve((errors || []).map(i => ({
                     ...i,
                     label: state.fieldToLabel[i.field]!
@@ -306,6 +305,8 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
             return dfd.promise
         },
     }
+
+    console.log({...state.fieldRequired})
 
     return {
         utils,

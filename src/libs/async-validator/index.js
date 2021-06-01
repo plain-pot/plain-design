@@ -1247,7 +1247,7 @@ Schema.prototype = {
                         source = _extends({}, source);
                     }
 
-                    value = source[z] = rule.transform(value);
+                    value = source[z] = rule.transform(value, source);
                 }
 
                 if (typeof rule === 'function') {

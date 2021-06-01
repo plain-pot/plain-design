@@ -140,7 +140,6 @@ export const PlForm = designComponent({
 
         const formRuleData = computed(() => {
             return getFormRuleData({
-                formData: props.modelValue,
                 formProps: props,
                 formItems: items,
                 requiredMessage: props.requiredMessage,
@@ -172,7 +171,7 @@ export const PlForm = designComponent({
                 if (config.autoLoading != false) {
                     loading.show()
                 }
-                childState.allErrors = await formRuleData.value.methods.validate()
+                childState.allErrors = await formRuleData.value.methods.validate(props.modelValue)
                 loading.hide()
                 if (childState.allErrors.length > 0) {
                     const {message, label} = childState.allErrors[0]
@@ -225,6 +224,7 @@ export const PlForm = designComponent({
                 }
                 if (!field) {return}
                 childState.allErrors = await formRuleData.value.methods.validateField({
+                    formData: props.modelValue,
                     field,
                     trigger: FormValidateTrigger.change,
                     allErrors: childState.allErrors,
@@ -234,6 +234,7 @@ export const PlForm = designComponent({
             onBlurChange: async (field?: string | string[]) => {
                 if (!field) {return}
                 childState.allErrors = await formRuleData.value.methods.validateField({
+                    formData: props.modelValue,
                     field,
                     trigger: FormValidateTrigger.blur,
                     allErrors: childState.allErrors,
@@ -242,6 +243,7 @@ export const PlForm = designComponent({
             },
             onFieldChange: async (field: string) => {
                 childState.allErrors = await formRuleData.value.methods.validateField({
+                    formData: props.modelValue,
                     field,
                     trigger: FormValidateTrigger.change,
                     associateFields: props.associateFields,
