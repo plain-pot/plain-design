@@ -1,7 +1,7 @@
 import React from "react";
-import {Plc} from "./plc.type";
+import {tPlc} from "./plc.type";
 
-export function renderColgroup(flatPlcList: Plc[]) {
+export function renderColgroup(flatPlcList: tPlc[]) {
     return (
         <colgroup>
             {flatPlcList.map((plc, index) => <col key={index} width={plc.props.width || ''}/>)}

@@ -1,7 +1,7 @@
 import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../core/useTableNode";
 import {SimpleObject} from "../../../../shims";
-import {Plc} from "../core/plc.type";
+import {tPlc} from "../core/plc.type";
 import {ComputedRef} from "plain-design-composition";
 import React, {ReactNode} from "react";
 import {injectPlainTable} from "../../index";
@@ -18,7 +18,7 @@ interface ExpandRefer {
     totalSpan: ComputedRef<number>,
     state: { expandKeys: Record<string, boolean> },
     toggle: (node: TableNode) => void,
-    props: { expand?: (scope: { node: TableNode, plc: Plc, row: SimpleObject }) => ReactNode },
+    props: { expand?: (scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => ReactNode },
     width: () => number,
     methods: {
         expandAll: () => void,
@@ -37,7 +37,7 @@ export default designPlc(
             notFitVirtual: {default: true},
             noPadding: {default: true},
             renderAfterRow: {
-                default: ({plc, node, row}: { plc: Plc & { externalRefer: () => ExpandRefer }, node: TableNode, row: SimpleObject }) => {
+                default: ({plc, node, row}: { plc: tPlc & { externalRefer: () => ExpandRefer }, node: TableNode, row: SimpleObject }) => {
                     const refer = plc.externalRefer()
                     if (!refer.isExpand(node)) {return null}
                     return (
@@ -53,7 +53,7 @@ export default designPlc(
             },
         },
         externalProps: {
-            expand: {type: Function as PropType<(scope: { node: TableNode, plc: Plc, row: SimpleObject }) => ReactNode>},             // 列内容默认渲染函数
+            expand: {type: Function as PropType<(scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => ReactNode>},             // 列内容默认渲染函数
             toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
             summaryExpand: {type: Boolean},                         // 合计行是否可以展开
         },

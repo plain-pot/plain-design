@@ -1,4 +1,4 @@
-import {TablePlc} from "../../core/plc.type";
+import {tPlcType} from "../../core/plc.type";
 import {TablePlcFixedType, TablePropsConfig} from "../../../core/table.utils";
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
 
@@ -7,7 +7,7 @@ import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
  * @author  韦胜健
  * @date    2020/12/18 11:18
  */
-function handleTablePlc(plc: TablePlc, configData: { [k: string]: any } | null) {
+function handleTablePlc(plc: tPlcType, configData: { [k: string]: any } | null) {
     const props = plc.props as any
     const state = plc.state as any
     // 如果有config，将config中的属性覆盖props
@@ -34,18 +34,18 @@ export function processStateConfigAndProps(
         plcList,
         config,
     }: {
-        plcList: TablePlc[],
+        plcList: tPlcType[],
         config?: TablePropsConfig,
     }
 ) {
     const configData = !config ? null : config(plcList)
 
     const configState = {
-        notFitVirtual: [] as TablePlc[],                        // 不能使用虚拟滚动的列
-        fixedLeft: [] as TablePlc[],                            // 左固定的列
-        fixedRight: [] as TablePlc[],                           // 右固定的列
-        autoFixedLeft: [] as TablePlc[],                        // 需要自动左固定的列
-        autoFixedRight: [] as TablePlc[],                       // 需要自动右固定的列
+        notFitVirtual: [] as tPlcType[],                        // 不能使用虚拟滚动的列
+        fixedLeft: [] as tPlcType[],                            // 左固定的列
+        fixedRight: [] as tPlcType[],                           // 右固定的列
+        autoFixedLeft: [] as tPlcType[],                        // 需要自动左固定的列
+        autoFixedRight: [] as tPlcType[],                       // 需要自动右固定的列
     }
 
     /**

@@ -1,4 +1,4 @@
-import {Plc} from "../../plc/core/plc.type";
+import {tPlc} from "../../plc/core/plc.type";
 import {TableNode} from "../useTableNode";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
@@ -10,7 +10,7 @@ import {useClasses} from "plain-design-composition";
 import {renderBodyCell} from "../../plc/core/render";
 import React from "react";
 
-function useCellFormItemValidate(props: { plc: Plc, node: TableNode }, formRuleData: ComputedRef<tFormRuleData>, associateFields?: FormAssociateFields) {
+function useCellFormItemValidate(props: { plc: tPlc, node: TableNode }, formRuleData: ComputedRef<tFormRuleData>, associateFields?: FormAssociateFields) {
     const handler = {
         onEditChange: async () => {
             let {plc: {props: {field}}, node} = props
@@ -66,7 +66,7 @@ export const PltCell = designComponent({
     props: {
         table: {type: PlainTable, required: true},
         node: {type: Object as PropType<TableNode>, required: true},
-        plc: {type: Object as PropType<Plc>, required: true},
+        plc: {type: Object as PropType<tPlc>, required: true},
     },
     setup({props}) {
 

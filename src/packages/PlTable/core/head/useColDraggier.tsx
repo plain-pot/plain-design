@@ -1,4 +1,4 @@
-import {Plc, TablePlc} from "../../plc/core/plc.type";
+import {tPlc, tPlcType} from "../../plc/core/plc.type";
 import {addClass} from "plain-utils/dom/addClass";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
@@ -12,7 +12,7 @@ import React from "react";
 interface DragData {
     left: number
     width: number
-    plc: TablePlc
+    plc: tPlcType
     droppable: boolean
 }
 
@@ -38,7 +38,7 @@ export function getHorizontalScrollParent(el: HTMLElement): HTMLElement {
  * @author  韦胜健
  * @date    2020/9/6 11:24
  */
-function iteratePlc(plcList: TablePlc[], handler: (plc: TablePlc) => 'stop' | void): void {
+function iteratePlc(plcList: tPlcType[], handler: (plc: tPlcType) => 'stop' | void): void {
 
     for (let i = 0; i < plcList.length; i++) {
         const item = plcList[i]
@@ -59,9 +59,9 @@ function iteratePlc(plcList: TablePlc[], handler: (plc: TablePlc) => 'stop' | vo
  * @author  韦胜健
  * @date    2020/9/6 11:24
  */
-function getBroPlcList(plcList: TablePlc[], plc: TablePlc): TablePlc[] {
+function getBroPlcList(plcList: tPlcType[], plc: tPlcType): tPlcType[] {
 
-    let broPlcList: TablePlc[] = []
+    let broPlcList: tPlcType[] = []
 
     if (plcList.indexOf(plc) > -1) {
         broPlcList = plcList
@@ -89,11 +89,11 @@ function getBroPlcList(plcList: TablePlc[], plc: TablePlc): TablePlc[] {
  * @author  韦胜健
  * @date    2020/9/6 12:09
  */
-function getPlcWidth(plc: TablePlc) {
+function getPlcWidth(plc: tPlcType) {
     if (!plc.group) {
         return Number(plc.props.width)
     } else {
-        return plc.children.reduce((ret: number, item: TablePlc) => {
+        return plc.children.reduce((ret: number, item: tPlcType) => {
             ret += getPlcWidth(item)
             return ret
         }, 0)
@@ -106,7 +106,7 @@ function getPlcWidth(plc: TablePlc) {
  * @date    2020/9/6 11:29
  */
 function getIndicatorHeight(
-    plc: TablePlc,
+    plc: tPlcType,
     table: typeof PlTable.use.class,
 ) {
     if (plc.group) {
@@ -122,16 +122,16 @@ function getIndicatorHeight(
  * @author  韦胜健
  * @date    2020/9/6 20:27
  */
-function getLowestPlcList(plcList: TablePlc[]): Plc[] {
+function getLowestPlcList(plcList: tPlcType[]): tPlc[] {
 
-    return plcList.reduce((ret: Plc[], plc: TablePlc) => {
+    return plcList.reduce((ret: tPlc[], plc: tPlcType) => {
         if (plc.group) {
             ret.push(...getLowestPlcList(plc.children))
         } else {
             ret.push(plc)
         }
         return ret
-    }, [] as Plc[])
+    }, [] as tPlc[])
 
 }
 
@@ -140,16 +140,16 @@ function getLowestPlcList(plcList: TablePlc[]): Plc[] {
  * @author  韦胜健
  * @date    2020/9/6 20:41
  */
-function getDragData(table: typeof PlTable.use.class, plc: TablePlc): {
+function getDragData(table: typeof PlTable.use.class, plc: tPlcType): {
     broData: DragData[],
-    broList: TablePlc[]
+    broList: tPlcType[]
 } {
 
     const plcList = table.plcData.value!.plcList
     const broList = getBroPlcList(plcList, plc)
 
     const broLowestList = getLowestPlcList(broList)
-    const allLowestList = getLowestPlcList(plcList) as TablePlc[]
+    const allLowestList = getLowestPlcList(plcList) as tPlcType[]
 
     allLowestList.splice(allLowestList.indexOf(broLowestList[0]), broLowestList.length, ...broList)
 
@@ -177,7 +177,7 @@ function getDragData(table: typeof PlTable.use.class, plc: TablePlc): {
 }
 
 export function useColDraggier(config: () => {
-    plc: TablePlc,
+    plc: tPlcType,
     table: typeof PlTable.use.class,
     scrollRefer: () => PlainScroll,
 }) {
@@ -211,7 +211,7 @@ export function useColDraggier(config: () => {
         },
         indicator: null as null | HTMLElement,
         dragData: null as null | DragData[],
-        broList: null as null | TablePlc[],
+        broList: null as null | tPlcType[],
         refreshData: null as null | {
             index: number,
             dragData: DragData,

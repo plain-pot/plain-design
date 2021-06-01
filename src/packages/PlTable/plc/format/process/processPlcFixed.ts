@@ -1,4 +1,4 @@
-import {Plc, TablePlc} from "../../core/plc.type";
+import {tPlc, tPlcType} from "../../core/plc.type";
 import {TablePlcFixedType} from "../../../core/table.utils";
 import {StyleProperties} from "plain-design-composition"
 
@@ -7,10 +7,10 @@ import {StyleProperties} from "plain-design-composition"
  * @author  韦胜健
  * @date    2020/12/19 16:50
  */
-export function processPlcFixed(flatPlcList: Plc[]) {
+export function processPlcFixed(flatPlcList: tPlc[]) {
     const collect = (() => {
-        const left = [] as Plc[]
-        const right = [] as Plc[]
+        const left = [] as tPlc[]
+        const right = [] as tPlc[]
         flatPlcList.forEach(plc => {
             switch (plc.props.fixed) {
                 case TablePlcFixedType.left:
@@ -53,7 +53,7 @@ export function processPlcFixed(flatPlcList: Plc[]) {
  * @author  韦胜健
  * @date    2020/12/19 16:55
  */
-export function getPlcFixedStyle(plc: TablePlc) {
+export function getPlcFixedStyle(plc: tPlcType) {
     const {props: {fixed}} = plc
     const styles = {} as StyleProperties
     if (fixed === TablePlcFixedType.center) {

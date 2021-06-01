@@ -1,7 +1,7 @@
 import {PlcProps} from "./plc.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {VNodeChild} from "../../../../shims";
-import {Plc} from "./plc.type";
+import {tPlc} from "./plc.type";
 import {TableNode} from "../../core/useTableNode";
 import {designComponent, ExtractPropTypes} from "plain-design-composition";
 import {ComponentPropsOptions} from "plain-design-composition"
@@ -25,10 +25,10 @@ export function designPlc<_,
         setup?: (props: TargetProps) => ExternalRefer,
     },
     render?: {
-        head?: (scope: { plc: Plc, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-        default?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-        summary?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
-        edit?: (scope: { node: TableNode, plc: Plc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        head?: (scope: { plc: tPlc, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        default?: (scope: { node: TableNode, plc: tPlc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        summary?: (scope: { node: TableNode, plc: tPlc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
+        edit?: (scope: { node: TableNode, plc: tPlc, row: any, props: TargetProps, refer: ExternalRefer }) => VNodeChild,
     },
 ) {
     const OptionProps = deepcopy(PlcProps)

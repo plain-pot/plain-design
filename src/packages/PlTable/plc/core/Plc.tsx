@@ -1,6 +1,6 @@
 import {computed, designComponent, ExtractPropTypes, useNumber, useRefs} from "plain-design-composition";
 import {PlcProps, PlcPublicAttrs} from "./plc.utils";
-import {Plc} from "./plc.type";
+import {tPlc} from "./plc.type";
 import {reactive} from "plain-design-composition";
 import {usePlcCollector} from "./PlcCollector";
 import React from "react";
@@ -23,7 +23,7 @@ export function usePlc(props: ExtractPropTypes<typeof PlcProps>,) {
         return ret
     }, {}) as { [k in keyof typeof formatProps.value]: typeof formatProps.value[k] | null })
 
-    const plc: Plc = reactive({
+    const plc: tPlc = reactive({
         /*PlcPublicAttrs 在 copyPlc中会深度复制一遍，这里适配类型即可*/
         ...PlcPublicAttrs,
         group: false,

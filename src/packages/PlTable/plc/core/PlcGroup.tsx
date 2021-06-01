@@ -1,5 +1,5 @@
 import {PlcGroupProps, PlcPublicAttrs} from "./plc.utils";
-import {PlcGroup} from "./plc.type";
+import {tPlcGroup} from "./plc.type";
 import {reactive, computed, designComponent, PropType, useNumber, useRefs} from "plain-design-composition";
 import React from "react";
 import {usePlcCollector} from "./PlcCollector";
@@ -31,7 +31,7 @@ export default designComponent({
         }, {}) as { [k in keyof typeof formatProps.value]: typeof formatProps.value[k] | null })
 
         /*核心暴露对象*/
-        const group: PlcGroup = reactive({
+        const group: tPlcGroup = reactive({
             refs,
             /*PlcPublicAttrs 在 copyPlc中会深度复制一遍，这里适配类型即可*/
             ...PlcPublicAttrs,

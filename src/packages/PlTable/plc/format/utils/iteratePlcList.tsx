@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2020/8/14 17:26
  */
-import {Plc, PlcGroup, TablePlc} from "../../core/plc.type";
+import {tPlc, tPlcGroup, tPlcType} from "../../core/plc.type";
 
 export enum IteratePlcHandleType {
     remove = 'remove',                      // 移除当前节点
@@ -16,9 +16,9 @@ export function iteratePlcList(
         onPlc,
         onGroup,
     }: {
-        plcList: TablePlc[],
-        onPlc: (plc: Plc) => IteratePlcHandleType,
-        onGroup: (group: PlcGroup) => IteratePlcHandleType,
+        plcList: tPlcType[],
+        onPlc: (plc: tPlc) => IteratePlcHandleType,
+        onGroup: (group: tPlcGroup) => IteratePlcHandleType,
     }
 ) {
 

@@ -1,4 +1,4 @@
-import {TablePlc} from "../../core/plc.type";
+import {tPlcType} from "../../core/plc.type";
 import {TablePlcFixedType} from "../../../core/table.utils";
 
 /**
@@ -6,11 +6,11 @@ import {TablePlcFixedType} from "../../../core/table.utils";
  * @author  韦胜健
  * @date    2020/12/18 14:38
  */
-export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
+export function processHeadPlcList({plcList}: { plcList: tPlcType[] }) {
     // 最大表头层数
     let maxLevel = 1
     // 计算最大层数
-    const calculateLevel = (list: TablePlc[] | null, level: number) => {
+    const calculateLevel = (list: tPlcType[] | null, level: number) => {
         if (!!list && list.length > 0) {
             if (level > maxLevel) maxLevel = level
             list.forEach((item) => {
@@ -24,7 +24,7 @@ export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
     calculateLevel(plcList, 1)
 
     // 计算多级表头每个单元格所占行数以及列数
-    const calculateSpan = (item: TablePlc) => {
+    const calculateSpan = (item: tPlcType) => {
         if (item.group) {
             const group = item
             group.children.forEach(calculateSpan)
@@ -40,11 +40,11 @@ export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
     plcList.forEach(plc => calculateSpan(plc))
 
     // 计算结果
-    const headPlcListArray: TablePlc[][] = []
+    const headPlcListArray: tPlcType[][] = []
 
     for (let j = 0; j < maxLevel; j++) headPlcListArray.push([])
     // 收集多级表头渲染数据
-    const calculateHeadColumns = (list: TablePlc[]) => {
+    const calculateHeadColumns = (list: tPlcType[]) => {
         if (!!list && list.length > 0) {
             list.forEach((item) => {
                 headPlcListArray[item.level!].push(item)
@@ -68,9 +68,9 @@ export function processHeadPlcList({plcList}: { plcList: TablePlc[] }) {
  * @author  韦胜健
  * @date    2020/8/15 23:06
  */
-function setFixedFlag(plcList: TablePlc[]) {
-    let lastFixedLeft: TablePlc | undefined;
-    let firstFixedRight: TablePlc | undefined;
+function setFixedFlag(plcList: tPlcType[]) {
+    let lastFixedLeft: tPlcType | undefined;
+    let firstFixedRight: tPlcType | undefined;
 
     plcList.forEach(plc => {
         if (plc.props.fixed === TablePlcFixedType.left) {
@@ -86,7 +86,7 @@ function setFixedFlag(plcList: TablePlc[]) {
      * @author  韦胜健
      * @date    2020/12/18 14:46
      */
-    function setLastFixedLeft(plc: TablePlc) {
+    function setLastFixedLeft(plc: tPlcType) {
         plc.isLastFixedLeft = true
         if (plc.group) {
             setLastFixedLeft(plc.children[plc.children.length - 1])
@@ -100,7 +100,7 @@ function setFixedFlag(plcList: TablePlc[]) {
      * @author  韦胜健
      * @date    2020/12/18 14:46
      */
-    function setFirstFixedRight(plc: TablePlc) {
+    function setFirstFixedRight(plc: tPlcType) {
         plc.isFirstFixedRight = true
         if (plc.group) {
             setFirstFixedRight(plc.children[0])

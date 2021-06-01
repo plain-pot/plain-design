@@ -1,4 +1,4 @@
-import {TablePlc} from "../../core/plc.type";
+import {tPlcType} from "../../core/plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {PlcPublicAttrs} from "../../core/plc.utils";
 
@@ -8,10 +8,10 @@ import {PlcPublicAttrs} from "../../core/plc.utils";
  * @author  韦胜健
  * @date    2020/12/18 10:06
  */
-export function copyPlcList(plcList: TablePlc[]) {
+export function copyPlcList(plcList: tPlcType[]) {
     return plcList.map(plc => {
         const refer = plc.refer()
-        const newPlc: TablePlc = {
+        const newPlc: tPlcType = {
             ...refer,
             ...deepcopy(PlcPublicAttrs),
         }

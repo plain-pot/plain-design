@@ -1,11 +1,11 @@
 import {designComponent, getCurrentDesignInstance, inject, onBeforeUnmount, onMounted, provide, ref} from "plain-design-composition";
 import React from "react";
-import {TablePlc} from "./plc.type";
+import {tPlcType} from "./plc.type";
 
 export const usePlcCollector = (() => {
     const ProvideString = '@@TablePlcCollector'
     const useParent = () => {
-        const children = ref([] as TablePlc[])
+        const children = ref([] as tPlcType[])
         const refer = {
             children: children.value,
             add: (proxy: any) => {

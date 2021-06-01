@@ -1,6 +1,6 @@
 import {designPlc} from "../../core/designPlc";
 import {TableNode} from "../../../core/useTableNode";
-import {Plc} from "../../core/plc.type";
+import {tPlc} from "../../core/plc.type";
 import {SimpleObject} from "../../../../../shims";
 import {unit} from "plain-utils/string/unit";
 import {useTableGetScroll} from "../../../core/useTableGetScroll";
@@ -34,7 +34,7 @@ export default designPlc({
         bodyCls: {default: 'plc-tree-node'},
     },
     externalProps: {
-        content: {type: Function as PropType<(scope: { node: TableNode, plc: Plc, row: SimpleObject }) => ReactNode>},             // 列内容默认渲染函数
+        content: {type: Function as PropType<(scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => ReactNode>},             // 列内容默认渲染函数
         contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
         rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
         allowRowDraggable: {type: Function as PropType<(node: TableNode) => boolean>},// 行是否可以被拖拽放置到其他位置
@@ -47,7 +47,7 @@ export default designPlc({
     setup(props) {
 
         const refer = getCurrentDesignInstance().proxy
-        const plc = refer as any as Plc;
+        const plc = refer as any as tPlc;
         const table = injectPlainTable()
         const {getScroll} = useTableGetScroll(table.event.on.onVirtualMounted)
 

@@ -3,13 +3,13 @@
  * @author  韦胜健
  * @date    2020/8/18 16:17
  */
-import {TablePlc} from "../../plc/core/plc.type";
+import {tPlcType} from "../../plc/core/plc.type";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import React from "react";
 import PlTable from "../../index";
 
-export function useHeadCellResize(table: typeof PlTable.use.class, plc: TablePlc) {
+export function useHeadCellResize(table: typeof PlTable.use.class, plc: tPlcType) {
 
     const state = {
         indicatorEl: null as null | HTMLElement,

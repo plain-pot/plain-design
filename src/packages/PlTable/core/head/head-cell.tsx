@@ -1,4 +1,4 @@
-import {TablePlc} from "../../plc/core/plc.type";
+import {tPlcType} from "../../plc/core/plc.type";
 import {useHeadCellResize} from "./useHeadCellResize";
 import {renderHeadCell} from "../../plc/core/render";
 import {useColDraggier} from "./useColDraggier";
@@ -12,7 +12,7 @@ export const PltHeadCell = designComponent({
     name: 'plt-head-cell',
     props: {
         table: {type: PlainTable, required: true},
-        tablePlc: {type: Object as PropType<TablePlc>, required: true},
+        tablePlc: {type: Object as PropType<tPlcType>, required: true},
         scroll: {type: Function as PropType<() => PlainScroll>, required: true},
     },
     setup({props}) {

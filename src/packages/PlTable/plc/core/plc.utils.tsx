@@ -1,5 +1,5 @@
 import {VNodeChild} from "../../../../shims";
-import {TablePlc, TableRenderScope} from "./plc.type";
+import {tPlcType, TableRenderScope} from "./plc.type";
 import {TablePlcAlign, TablePlcFixedType} from "../../core/table.utils";
 import {TableNode} from "../../core/useTableNode";
 import {PropType} from "plain-design-composition";
@@ -8,7 +8,7 @@ import {MultipleClass} from "plain-design-composition"
 import {iFormItemPropRules, tFormRuleItem} from "../../../PlForm/form.validate";
 
 export type PlcRenderFunction = (scope: TableRenderScope) => VNodeChild
-export type PlcPropsHead = (scope: { plc: TablePlc }) => VNodeChild
+export type PlcPropsHead = (scope: { plc: tPlcType }) => VNodeChild
 export type PlcPropsDefault = PlcRenderFunction
 export type PlcPropsSummary = PlcRenderFunction
 export type PlcPropsEdit = PlcRenderFunction

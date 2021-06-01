@@ -1,4 +1,4 @@
-import {Plc, TablePlc} from "../core/plc.type";
+import {tPlc, tPlcType} from "../core/plc.type";
 import {copyPlcList} from "./process/copyPlcList";
 import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
 import {TableProps} from "../../core/table.utils";
@@ -14,7 +14,7 @@ export function formatPlcList(
         props,
         tableWidth,
     }: {
-        plcList: TablePlc[],
+        plcList: tPlcType[],
         props: ExtractPropTypes<typeof TableProps>,
         tableWidth: number,
     }
@@ -33,7 +33,7 @@ export function formatPlcList(
     processPlcClassAndStyle({headPlcListArray})
 
     /*需要在行之后渲染其他内容的plcList*/
-    let plcListHasRenderAfterRow = flatPlcList.filter(plc => plc.props.renderAfterRow) as (Plc[] | null)
+    let plcListHasRenderAfterRow = flatPlcList.filter(plc => plc.props.renderAfterRow) as (tPlc[] | null)
     if (!!plcListHasRenderAfterRow && plcListHasRenderAfterRow.length === 0) {plcListHasRenderAfterRow = null}
 
     return {

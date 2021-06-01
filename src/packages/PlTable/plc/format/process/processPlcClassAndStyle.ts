@@ -1,4 +1,4 @@
-import {TablePlc} from "../../core/plc.type";
+import {tPlcType} from "../../core/plc.type";
 import {getPlcFixedStyle} from "./processPlcFixed";
 import {getPltCellClass} from "./getPltCellClass";
 
@@ -6,7 +6,7 @@ export function processPlcClassAndStyle(
     {
         headPlcListArray,
     }: {
-        headPlcListArray: TablePlc[][],
+        headPlcListArray: tPlcType[][],
     }
 ) {
     headPlcListArray.forEach((list) => {

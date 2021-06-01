@@ -1,8 +1,8 @@
-import {Plc, TablePlc, TableRenderScope} from "./plc.type";
+import {tPlc, tPlcType, TableRenderScope} from "./plc.type";
 import {TableNode} from "../../core/useTableNode";
 import {VNodeChild} from "../../../../shims";
 
-export function renderHeadCell(plc: TablePlc) {
+export function renderHeadCell(plc: tPlcType) {
     // 如果存在 props.head 渲染函数，则渲染 props.head
     if (!plc.group && !!plc.props.head) {
         return plc.props.head({plc})
@@ -16,7 +16,7 @@ export function renderBodyCell(
         plc,
     }: {
         node: TableNode,
-        plc: Plc,
+        plc: tPlc,
     }
 ) {
     const editable = getEditable(plc, node)
@@ -38,7 +38,7 @@ export function renderBodyCell(
  * @author  韦胜健
  * @date    2020/7/21 21:16
  */
-function getEditable(plc: Plc, node: TableNode) {
+function getEditable(plc: tPlc, node: TableNode) {
     // 行非编辑状态下，定性为不可编辑
     if (!node.edit) {
         return false
@@ -57,7 +57,7 @@ function getBodyCell(
         editable,
     }: {
         node: TableNode,
-        plc: Plc,
+        plc: tPlc,
         editable: boolean,
     }
 ): VNodeChild {
