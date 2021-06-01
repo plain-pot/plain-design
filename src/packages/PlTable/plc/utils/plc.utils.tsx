@@ -10,7 +10,6 @@ export type PlcPropsHead = (scope: { plc: tPlcType }) => VNodeChild
 export type PlcPropsDefault = PlcRenderFunction
 export type PlcPropsSummary = PlcRenderFunction
 export type PlcPropsEdit = PlcRenderFunction
-export type PlcPropsRenderAfterRow = PlcRenderFunction
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
 export const PlcGroupProps = {
