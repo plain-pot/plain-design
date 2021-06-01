@@ -1,4 +1,4 @@
-import {tPlc, tPlcType} from "../core/plc.type";
+import {tPlc, tPlcType} from "../utils/plc.type";
 import {copyPlcList} from "./process/copyPlcList";
 import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
 import {TableProps} from "../../table/utils/table.utils";

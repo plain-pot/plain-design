@@ -1,6 +1,6 @@
 import {designPlc} from "../../core/designPlc";
 import {TableNode} from "../../../table/use/useTableNode";
-import {tPlc} from "../../core/plc.type";
+import {tPlc} from "../../utils/plc.type";
 import {SimpleObject} from "../../../../../shims";
 import {unit} from "plain-utils/string/unit";
 import {useTableGetScroll} from "../../../table/use/useTableGetScroll";
@@ -10,7 +10,7 @@ import {StyleSize} from "../../../../../use/useStyle";
 import {computed, getCurrentDesignInstance, onBeforeUnmount, onMounted, PropType, watch} from "plain-design-composition";
 import {TreeDropType} from "../../../../PlTree/utils/tree-constant";
 import {injectPlainTable} from "../../../index";
-import {PlcPropsDefault} from "../../core/plc.utils";
+import {PlcPropsDefault} from "../../utils/plc.utils";
 import {ReactNode} from "react";
 import {SimpleFunction} from "plain-design-composition"
 import PlDropdown from "../../../../PlDropdown";

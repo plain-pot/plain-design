@@ -1,4 +1,4 @@
-import {tPlc, tPlcType} from "../../core/plc.type";
+import {tPlc, tPlcType} from "../../utils/plc.type";
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
 import {insertSort} from "plain-utils/object/insertSort";
 import {TablePlcFixedType} from "../../../table/utils/table.utils";

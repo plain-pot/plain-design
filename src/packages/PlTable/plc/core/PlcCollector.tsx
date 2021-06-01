@@ -1,6 +1,6 @@
 import {designComponent, getCurrentDesignInstance, inject, onBeforeUnmount, onMounted, provide, ref} from "plain-design-composition";
 import React from "react";
-import {tPlcType} from "./plc.type";
+import {tPlcType} from "../utils/plc.type";
 
 export const usePlcCollector = (() => {
     const ProvideString = '@@TablePlcCollector'

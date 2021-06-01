@@ -4,7 +4,7 @@ import {TableNode} from "../use/useTableNode";
 import {designComponent, useRefs} from "plain-design-composition";
 import React from "react";
 import {PlainTable} from "../../index";
-import {renderColgroup} from "../../plc/core/renderColgroup";
+import {renderColgroup} from "../../plc/utils/renderColgroup";
 import {PlainScroll} from "../../../PlScroll";
 import PlVirtualTable from "../../../PlVirtualTable";
 

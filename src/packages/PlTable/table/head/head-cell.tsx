@@ -1,6 +1,6 @@
-import {tPlcType} from "../../plc/core/plc.type";
+import {tPlcType} from "../../plc/utils/plc.type";
 import {useHeadCellResize} from "./useHeadCellResize";
-import {renderHeadCell} from "../../plc/core/render";
+import {renderHeadCell} from "../../plc/utils/render";
 import {useColDraggier} from "./useColDraggier";
 import {designComponent, PropType} from "plain-design-composition";
 import {PlainTable} from "../../index";

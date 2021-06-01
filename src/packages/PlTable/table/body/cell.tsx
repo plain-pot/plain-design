@@ -1,4 +1,4 @@
-import {tPlc} from "../../plc/core/plc.type";
+import {tPlc} from "../../plc/utils/plc.type";
 import {TableNode} from "../use/useTableNode";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
@@ -7,7 +7,7 @@ import {FormAssociateFields, FormValidateTrigger, tFormRuleData} from "../../../
 import {designComponent, PropType, useStyles} from "plain-design-composition";
 import {PlainTable} from "../../index";
 import {useClasses} from "plain-design-composition";
-import {renderBodyCell} from "../../plc/core/render";
+import {renderBodyCell} from "../../plc/utils/render";
 import React from "react";
 
 function useCellFormItemValidate(props: { plc: tPlc, node: TableNode }, formRuleData: ComputedRef<tFormRuleData>, associateFields?: FormAssociateFields) {

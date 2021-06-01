@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2020/8/14 17:26
  */
-import {tPlc, tPlcGroup, tPlcType} from "../../core/plc.type";
+import {tPlc, tPlcGroup, tPlcType} from "../../utils/plc.type";
 
 export enum IteratePlcHandleType {
     remove = 'remove',                      // 移除当前节点

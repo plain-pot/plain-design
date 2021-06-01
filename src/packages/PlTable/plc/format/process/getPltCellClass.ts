@@ -1,4 +1,4 @@
-import {tPlcType} from "../../core/plc.type";
+import {tPlcType} from "../../utils/plc.type";
 
 export function getPltCellClass(plc: tPlcType) {
     return {

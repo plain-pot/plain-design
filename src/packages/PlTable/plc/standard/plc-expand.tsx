@@ -1,7 +1,7 @@
 import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../table/use/useTableNode";
 import {SimpleObject} from "../../../../shims";
-import {tPlc} from "../core/plc.type";
+import {tPlc} from "../utils/plc.type";
 import {ComputedRef} from "plain-design-composition";
 import React, {ReactNode} from "react";
 import {injectPlainTable} from "../../index";

@@ -1,4 +1,4 @@
-import {renderColgroup} from "../../plc/core/renderColgroup";
+import {renderColgroup} from "../../plc/utils/renderColgroup";
 import {PltHeadCell} from "./head-cell";
 import {TableHoverPart} from "../utils/table.utils";
 import {designComponent, useRefs, useStyles} from "plain-design-composition";

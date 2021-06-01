@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2020/8/18 16:17
  */
-import {tPlcType} from "../../plc/core/plc.type";
+import {tPlcType} from "../../plc/utils/plc.type";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import React from "react";

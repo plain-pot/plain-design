@@ -1,5 +1,5 @@
 import {StyleProps} from "../../../../use/useStyle";
-import {tPlc, tPlcType} from "../../plc/core/plc.type";
+import {tPlc, tPlcType} from "../../plc/utils/plc.type";
 import {TableNode} from "../use/useTableNode";
 import {MultipleClass, PropType, StyleProperties} from "plain-design-composition"
 import {SimpleObject} from "../../../../shims";

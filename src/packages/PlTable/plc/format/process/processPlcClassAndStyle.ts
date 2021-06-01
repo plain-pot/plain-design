@@ -1,4 +1,4 @@
-import {tPlcType} from "../../core/plc.type";
+import {tPlcType} from "../../utils/plc.type";
 import {getPlcFixedStyle} from "./processPlcFixed";
 import {getPltCellClass} from "./getPltCellClass";
 

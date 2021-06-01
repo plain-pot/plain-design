@@ -1,6 +1,6 @@
 import {computed, designComponent, ExtractPropTypes, useNumber, useRefs} from "plain-design-composition";
-import {PlcProps, PlcPublicAttrs} from "./plc.utils";
-import {tPlc} from "./plc.type";
+import {PlcProps, PlcPublicAttrs} from "../utils/plc.utils";
+import {tPlc} from "../utils/plc.type";
 import {reactive} from "plain-design-composition";
 import {usePlcCollector} from "./PlcCollector";
 import React from "react";

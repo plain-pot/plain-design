@@ -1,6 +1,6 @@
-import {tPlcType} from "../../core/plc.type";
+import {tPlcType} from "../../utils/plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {PlcPublicAttrs} from "../../core/plc.utils";
+import {PlcPublicAttrs} from "../../utils/plc.utils";
 
 /**
  * 浅复制一份plc数据，复制plc最外层对象以及plc.props数据，props数据是需要动态计算修改的。

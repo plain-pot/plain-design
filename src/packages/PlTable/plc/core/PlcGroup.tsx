@@ -1,5 +1,5 @@
-import {PlcGroupProps, PlcPublicAttrs} from "./plc.utils";
-import {tPlcGroup} from "./plc.type";
+import {PlcGroupProps, PlcPublicAttrs} from "../utils/plc.utils";
+import {tPlcGroup} from "../utils/plc.type";
 import {reactive, computed, designComponent, PropType, useNumber, useRefs} from "plain-design-composition";
 import React from "react";
 import {usePlcCollector} from "./PlcCollector";

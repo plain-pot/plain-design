@@ -1,4 +1,4 @@
-import {tPlc, tPlcType} from "../../plc/core/plc.type";
+import {tPlc, tPlcType} from "../../plc/utils/plc.type";
 import {addClass} from "plain-utils/dom/addClass";
 import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
