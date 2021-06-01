@@ -1,4 +1,3 @@
-import {designPlc} from "../core/designPlc";
 import {TableNode} from "../../table/use/useTableNode";
 import {CheckboxStatus} from "../../../../utils/constant";
 import {toArray} from "../../../../utils/toArray";
