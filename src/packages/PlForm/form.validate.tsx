@@ -1,5 +1,6 @@
-import Schema, {ErrorList, RuleItem} from 'async-validator'
+import Schema, {RuleItem} from 'async-validator'
 import {defer} from "../../utils/defer";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 const logError = (msg: string) => {console.error(`PlForm:${msg}`)}
 
@@ -85,7 +86,7 @@ export const FormValidateUtils = {
         return Array.isArray(field) ? [...field] : [field]
     },
     getRuleArray: (rule: tFormRuleItem | tFormRuleItem[]): tFormRuleItem[] => {
-        return Array.isArray(rule) ? [...rule] : [rule]
+        return deepcopy(Array.isArray(rule) ? rule : [rule])
     },
     getValueByField(field: string, formData: Record<string, any> | undefined | null, transform?: (val: any) => any) {
         if (!formData) {
@@ -306,7 +307,7 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
         },
     }
 
-    console.log({...state.fieldRequired})
+    console.warn({...state.fieldRequired})
 
     return {
         utils,
