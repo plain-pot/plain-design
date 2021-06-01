@@ -1,5 +1,5 @@
-import {computed, designComponent, inject, onMounted, PropType, useClasses} from "plain-design-composition";
-import {TableHoverPart, TableProps} from "./table/utils/table.utils";
+import {computed, designComponent, inject, onMounted, PropType, reactive, useClasses, useRefs, watch} from "plain-design-composition";
+import {TableDefaultRowHeight, TableHoverPart, TableProps} from "./table/utils/table.utils";
 import {useTree} from "../PlTree/core/useTree";
 import {TableNode, useTableNode} from "./table/use/useTableNode";
 import {PlainScroll} from "../PlScroll";
@@ -13,7 +13,8 @@ import {PltHead} from "./table/head/head";
 import {PltBody} from "./table/body/body";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {getFormRuleData} from "../PlForm/form.validate";
-import PlcGroup from "./plc/core/PlcGroup";
+import {useTableHooks} from "./table/use/useTableHooks";
+import {removeUnit} from "plain-utils/string/removeUnit";
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -34,6 +35,7 @@ export const PlTable = designComponent({
     slots: ['default'],
     setup({props, slots, event}) {
 
+        const {refs, onRef} = useRefs({el: HTMLDivElement})
         const {styleComputed} = useStyle({
             adjust: config => {
                 config.shape = props.shape as any || StyleShape.square
@@ -41,8 +43,24 @@ export const PlTable = designComponent({
                 config.status = props.status as any
             }
         })
+        const hooks = useTableHooks()
+        const {plcData, renderCollector} = usePlcList({props, hooks, slots})
+
         const {emit} = event
-        const {numberState, plcData, refs, onRef} = usePlcList({props, styleComputed})
+        const {numberState} = (() => {
+            const watchValue = computed(() => {
+                const {bodyRowHeight: propsBodyRowHeight, headRowHeight: propsHeadRowHeight,} = props
+                let {size} = styleComputed.value
+                if (!size) {size = StyleSize.normal}
+                const bodyRowHeight = Number(propsBodyRowHeight == null ? removeUnit(TableDefaultRowHeight.body[size]) : propsBodyRowHeight)
+                const headRowHeight = Number(propsHeadRowHeight == null ? removeUnit(TableDefaultRowHeight.head[size]) : propsHeadRowHeight)
+                return {bodyRowHeight, headRowHeight}
+            })
+            const numberState = reactive({...watchValue.value,})
+            watch(watchValue, () => Object.assign(numberState, watchValue.value))
+            return {numberState}
+        })();
+
         const {bindScroll} = useBindScroll(event)
         const {state, flatNodes, summaryNodes, dataModel, methods, current, handler, utils} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)
@@ -108,15 +126,13 @@ export const PlTable = designComponent({
             utils,
         }
 
-        onMounted(() => {
-            // console.log(refer.nodeState)
-        })
+        onMounted(() => {hooks.onTableMounted.exec(refs.el!)})
 
         return {
             refer,
             render: () => (
                 <div className={classes.value} ref={onRef.el}>
-                    <PlcGroup ref={onRef.group}>{slots.default()}</PlcGroup>
+                    {renderCollector()}
                     {!!plcData.value && <>
                         {!props.hideHeader && <PltHead table={refer}/>}
                         <PltBody table={refer}/>
