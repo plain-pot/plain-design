@@ -48,7 +48,6 @@ export const PlTable = designComponent({
         const {fixedShadowClass} = useFixedShadow(event)
         const formValidate = computed(() => getFormRuleData({
             // todo
-            formData: undefined,
             formProps: {rules: props.rules},
             formItems: {
                 value: !plcData.value ? [] : plcData.value.flatPlcList.map(plc => ({
