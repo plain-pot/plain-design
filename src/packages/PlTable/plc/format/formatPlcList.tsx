@@ -32,10 +32,6 @@ export function formatPlcList(
     /*计算plc的class以及style*/
     processPlcClassAndStyle({headPlcListArray})
 
-    /*需要在行之后渲染其他内容的plcList*/
-    let plcListHasRenderAfterRow = flatPlcList.filter(plc => plc.props.renderAfterRow) as (tPlc[] | null)
-    if (!!plcListHasRenderAfterRow && plcListHasRenderAfterRow.length === 0) {plcListHasRenderAfterRow = null}
-
     return {
         plcList,                                                // 列数组数据，树形结构的数据
         flatPlcList,                                            // 展开之后最底层的列数组
@@ -44,6 +40,5 @@ export function formatPlcList(
         headPlcListArray,                                       // 表头渲染的二维数组
         plcKeyString,                                           // 当列排序或者其他属性变化之后，需要刷新body，否则会出现部分节点没有更新的问题
         maxLevel,                                               // 表头层级
-        plcListHasRenderAfterRow,                               // 列需要在行之后多渲染的数据
     }
 }
