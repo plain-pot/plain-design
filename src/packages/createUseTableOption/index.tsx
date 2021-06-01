@@ -1,7 +1,7 @@
 import {iTableProConfig, iTableProDefaultConfig, iTableState, TableMode, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTablePagination} from "./use/use.paginaiton";
 import {useTableMethods} from "./use/use.methods";
-import {useTableHooks} from "./use/use.hooks";
+import {useTableOptionHooks} from "./use/use.hooks";
 import {computed, reactive} from "plain-design-composition";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
@@ -31,7 +31,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             return table.getNode(tableState.currentKey)
         })
 
-        const hooks = useTableHooks({config})
+        const hooks = useTableOptionHooks({config})
 
         const pagination = useTablePagination({
             tableState,

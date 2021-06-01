@@ -60,7 +60,7 @@ export function createHooks<Handler extends (arg: any) => any,
     return {use, eject, exec}
 }
 
-export function useTableHooks({config}: { config: tTableOptionConfig }) {
+export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
     const hooks = {
         /*点击行*/
         onClickCell: createHooks<(selectNode: TableNode) => void>(),                                // 异步钩子，行单击
@@ -105,4 +105,4 @@ export function useTableHooks({config}: { config: tTableOptionConfig }) {
     return hooks
 }
 
-export type tTableHooks = ReturnType<typeof useTableHooks>
+export type tTableHooks = ReturnType<typeof useTableOptionHooks>
