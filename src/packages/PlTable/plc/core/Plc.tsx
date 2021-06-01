@@ -1,15 +1,14 @@
-import {computed, designComponent, ExtractPropTypes, useNumber, useRefs} from "plain-design-composition";
+import {computed, designComponent, ExtractPropTypes, reactive, useNumber, useRefs} from "plain-design-composition";
 import {PlcProps, PlcPublicAttrs} from "../utils/plc.utils";
 import {tPlc} from "../utils/plc.type";
-import {reactive} from "plain-design-composition";
-import {usePlcCollector} from "./PlcCollector";
 import React from "react";
+import {PlcCollector} from "./PlcGroup";
 
 export function usePlc(props: ExtractPropTypes<typeof PlcProps>,) {
     const {refs, onRef} = useRefs({el: HTMLElement})
 
     /*collector收集列信息*/
-    usePlcCollector.useChild()
+    PlcCollector.child({sort: () => refs.el!})
     /*格式化props*/
     const {numberState} = useNumber(props, ['order', 'width'])
     /*目标props*/
@@ -40,7 +39,7 @@ export function usePlc(props: ExtractPropTypes<typeof PlcProps>,) {
     }
 }
 
-export default designComponent({
+export const Plc = designComponent({
     name: 'plc',
     props: {
         ...PlcProps,
@@ -49,3 +48,5 @@ export default designComponent({
         return usePlc(props)
     },
 })
+
+export default Plc

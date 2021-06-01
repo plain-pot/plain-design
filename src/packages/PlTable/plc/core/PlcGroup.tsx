@@ -1,10 +1,11 @@
 import {PlcGroupProps, PlcPublicAttrs} from "../utils/plc.utils";
 import {tPlcGroup} from "../utils/plc.type";
-import {reactive, computed, designComponent, PropType, useNumber, useRefs} from "plain-design-composition";
+import {computed, designComponent, reactive, useNumber, useRefs} from "plain-design-composition";
 import React from "react";
-import {usePlcCollector} from "./PlcCollector";
+import {useCollect} from "../../../../use/useCollect";
+import Plc from "./Plc";
 
-export default designComponent({
+const PlcGroup = designComponent({
     name: 'plc-group',
     props: {
         ...PlcGroupProps,
@@ -14,9 +15,8 @@ export default designComponent({
 
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         /*collector收集列信息*/
-        usePlcCollector.useChild()
-        /*子列信息*/
-        const {children} = usePlcCollector.useParent()
+        PlcCollector.child({sort: () => refs.el!, injectDefaultValue: null})
+        const items = PlcCollector.parent(true)
         /*格式化props*/
         const {numberState} = useNumber(props, ['order'])
         /*目标props*/
@@ -36,13 +36,13 @@ export default designComponent({
             /*PlcPublicAttrs 在 copyPlc中会深度复制一遍，这里适配类型即可*/
             ...PlcPublicAttrs,
             group: true,
-            children,
+            children: items,
             props: formatProps,
             state: propsState,
             refer: () => group,
             setDurWidth: (durWidth: number) => {
-                const itemDurWidth = Math.floor(durWidth / (children.length))
-                children.forEach(item => item.setDurWidth(itemDurWidth))
+                const itemDurWidth = Math.floor(durWidth / (items.value.length))
+                items.value.forEach(item => item.setDurWidth(itemDurWidth))
             },
         })
 
@@ -56,3 +56,10 @@ export default designComponent({
         }
     },
 })
+
+export default PlcGroup
+
+export const PlcCollector = useCollect(() => ({
+    parent: PlcGroup,
+    child: Plc,
+}))

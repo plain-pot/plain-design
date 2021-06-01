@@ -5,7 +5,6 @@ import {TableNode, useTableNode} from "./table/use/useTableNode";
 import {PlainScroll} from "../PlScroll";
 import React from "react";
 import {StyleShape, StyleSize, useStyle} from "../../use/useStyle";
-import {PlcCollector} from "./plc/core/PlcCollector";
 import {usePlcList} from "./plc/format/usePlcList";
 import {useBindScroll} from "./table/use/useBindScroll";
 import {useFixedShadow} from "./table/use/useFixedShadow";
@@ -14,6 +13,7 @@ import {PltHead} from "./table/head/head";
 import {PltBody} from "./table/body/body";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {getFormRuleData} from "../PlForm/form.validate";
+import PlcGroup from "./plc/core/PlcGroup";
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -116,7 +116,7 @@ export const PlTable = designComponent({
             refer,
             render: () => (
                 <div className={classes.value} ref={onRef.el}>
-                    <PlcCollector ref={onRef.collector}>{slots.default()}</PlcCollector>
+                    <PlcGroup ref={onRef.group}>{slots.default()}</PlcGroup>
                     {!!plcData.value && <>
                         {!props.hideHeader && <PltHead table={refer}/>}
                         <PltBody table={refer}/>

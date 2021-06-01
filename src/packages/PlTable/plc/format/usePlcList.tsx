@@ -1,16 +1,16 @@
 import {computed, ExtractPropTypes, onMounted, reactive, useRefs, watch} from "plain-design-composition";
 import {TableDefaultRowHeight, TableProps} from "../../table/utils/table.utils";
-import {PlcCollector} from "../core/PlcCollector";
 import {formatPlcList} from "./formatPlcList";
 import {removeUnit} from "plain-utils/string/removeUnit";
 import {StyleSize, useStyle} from "../../../../use/useStyle";
+import PlcGroup from "../core/PlcGroup";
 
 export function usePlcList({props, styleComputed}: {
     props: ExtractPropTypes<typeof TableProps>,
     styleComputed: ReturnType<typeof useStyle>["styleComputed"],
 }) {
 
-    const {refs, onRef} = useRefs({collector: PlcCollector, el: HTMLDivElement,})
+    const {refs, onRef} = useRefs({group: PlcGroup, el: HTMLDivElement,})
 
     /*---------------------------------------state-------------------------------------------*/
 
@@ -36,10 +36,10 @@ export function usePlcList({props, styleComputed}: {
     /*---------------------------------------computed-------------------------------------------*/
 
     const plcData = computed(() => {
-        if (!state.tableWidth || !refs.collector) {
+        if (!state.tableWidth || !refs.group) {
             return null
         }
-        const {children} = refs.collector
+        const {children} = refs.group
         return formatPlcList({
             plcList: children,
             props,
