@@ -22,7 +22,7 @@ export function formatPlcList(
     /*复制一份plc数据*/
     plcList = copyPlcList(plcList)
     /*处理state、config以及props*/
-    const {notFitVirtual} = processStateConfigAndProps({plcList, config: props.config})
+    processStateConfigAndProps({plcList, config: props.config})
     /*对plc进行排序*/
     const {flatPlcList, targetTableWidth, plcKeyString} = processPlcSort({plcList, tableWidth})
     /*计算表头渲染需要的数据*/
@@ -41,7 +41,6 @@ export function formatPlcList(
         flatPlcList,                                            // 展开之后最底层的列数组
         targetTableWidth,                                       // 表格设置的样式宽度
         tableWidth,                                             // 表格容器宽度
-        notFitVirtual,                                          // 不兼容虚拟列表的列数组
         headPlcListArray,                                       // 表头渲染的二维数组
         plcKeyString,                                           // 当列排序或者其他属性变化之后，需要刷新body，否则会出现部分节点没有更新的问题
         maxLevel,                                               // 表头层级

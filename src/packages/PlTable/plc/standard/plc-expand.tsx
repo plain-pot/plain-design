@@ -34,7 +34,6 @@ export default designPlc(
             order: {default: -9997},
             width: {default: 60},
             align: {default: 'center'},
-            notFitVirtual: {default: true},
             noPadding: {default: true},
             renderAfterRow: {
                 default: ({plc, node, row}: { plc: tPlc & { externalRefer: () => ExpandRefer }, node: TableNode, row: SimpleObject }) => {

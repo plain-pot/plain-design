@@ -41,7 +41,6 @@ export function processStateConfigAndProps(
     const configData = !config ? null : config(plcList)
 
     const configState = {
-        notFitVirtual: [] as tPlcType[],                        // 不能使用虚拟滚动的列
         fixedLeft: [] as tPlcType[],                            // 左固定的列
         fixedRight: [] as tPlcType[],                           // 右固定的列
         autoFixedLeft: [] as tPlcType[],                        // 需要自动左固定的列
@@ -64,7 +63,6 @@ export function processStateConfigAndProps(
             if (plc.props.hide) {
                 return IteratePlcHandleType.remove
             }
-            if (plc.props.notFitVirtual) configState.notFitVirtual.push(plc)
             if (plc.props.autoFixedLeft) configState.autoFixedLeft.push(plc)
             if (plc.props.autoFixedRight) configState.autoFixedRight.push(plc)
             if (plc.props.fixed === TablePlcFixedType.left) configState.fixedLeft.push(plc)
