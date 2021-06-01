@@ -1,4 +1,4 @@
-import {ExtractPropTypes} from "plain-design-composition/src/index";
+import {ExtractPropTypes} from "plain-design-composition";
 import {PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions, tPlcScopeSlots} from "../utils/plc.scope-slots";
 import {TableRenderScope, tPlcEvent, tPlcType} from "../utils/plc.type";

@@ -1,13 +1,25 @@
-import {designPlc} from "../core/designPlc";
 import React from "react";
 import {PlRate} from "../../../PlRate";
+import {designComponent} from "plain-design-composition";
+import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
+import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
+import {useExternalPlc} from "../core/useExternalPlc";
 
-export default designPlc({
+export default designComponent({
     name: 'plc-rate',
-    standardProps: {
-        addEditPadding: {default: true},
+    props: {
+        ...createPlcPropOptions({
+            addEditPadding: true,
+        }),
     },
-}, {
-    default: ({row, plc}) => !plc.props.field ? null : <PlRate disabled v-model={row[plc.props.field]}/>,
-    edit: ({row, plc}) => !plc.props.field ? null : <PlRate v-model={row[plc.props.field]}/>,
+    scopeSlots: PlcScopeSlotsOptions,
+    emits: PlcEmitsOptions,
+    setup({props, scopeSlots, event}) {
+        return useExternalPlc({
+            props, scopeSlots, event, defaultScopeSlots: {
+                default: ({row, plc}) => !plc.props.field ? null : <PlRate disabled v-model={row[plc.props.field]}/>,
+                edit: ({row, plc}) => !plc.props.field ? null : <PlRate v-model={row[plc.props.field]}/>,
+            }
+        })
+    },
 })

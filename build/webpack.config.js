@@ -42,7 +42,7 @@ module.exports = {
             "@": resolve('src'),
             "~": resolve('node_modules'),
             "async-validator": resolve('src/libs/async-validator/index.js'),
-            // "plain-design-composition": "plain-design-composition/src/index.tsx",
+            // "plain-design-composition": "plain-design-composition.tsx",
         },
         //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
         extensions: [".ts", ".tsx", ".js", ".json"]

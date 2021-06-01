@@ -1,32 +1,41 @@
 import React from "react";
-import {designPlc} from "../core/designPlc";
 import PlToggle from "../../../PlToggle";
+import {designComponent} from "plain-design-composition";
+import {createPlcPropOptions, PlcEmitsOptions} from "../utils/plc.utils";
+import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
+import {useExternalPlc} from "../core/useExternalPlc";
 
-export default designPlc({
+export default designComponent({
     name: 'plc-toggle',
-    standardProps: {
-        addEditPadding: {default: true},
-    },
-    externalProps: {
+    props: {
+        ...createPlcPropOptions({
+            addEditPadding: true,
+        }),
         trueValue: {default: 'Y' as any},
         falseValue: {default: 'N' as any},
     },
-    setup(props) {return {props}},
-}, {
-    summary: () => null,
-    default: ({row, plc, refer}) => !plc.props.field ? null : (
-        <PlToggle
-            disabled
-            v-model={row[plc.props.field]}
-            trueValue={refer.props.trueValue}
-            falseValue={refer.props.falseValue}
-        />
-    ),
-    edit: ({row, plc, refer}) => !plc.props.field ? null : (
-        <PlToggle
-            v-model={row[plc.props.field]}
-            trueValue={refer.props.trueValue}
-            falseValue={refer.props.falseValue}
-        />
-    ),
+    scopeSlots: PlcScopeSlotsOptions,
+    emits: PlcEmitsOptions,
+    setup({props, scopeSlots, event}) {
+        return useExternalPlc({
+            props, scopeSlots, event, defaultScopeSlots: {
+                summary: () => null,
+                default: ({row, plc}) => !plc.props.field ? null : (
+                    <PlToggle
+                        disabled
+                        v-model={row[plc.props.field]}
+                        trueValue={props.trueValue}
+                        falseValue={props.falseValue}
+                    />
+                ),
+                edit: ({row, plc}) => !plc.props.field ? null : (
+                    <PlToggle
+                        v-model={row[plc.props.field]}
+                        trueValue={props.trueValue}
+                        falseValue={props.falseValue}
+                    />
+                ),
+            }
+        })
+    },
 })
