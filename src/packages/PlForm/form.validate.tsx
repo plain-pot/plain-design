@@ -250,11 +250,13 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
                 trigger,
                 associateFields,
                 allErrors,
+                formData: customFormData,
             }: {
                 field: string | string[],
                 trigger: FormValidateTrigger | undefined,
                 associateFields?: FormAssociateFields,
                 allErrors: FormValidateError[],
+                formData?: any,
             }) => {
 
             const fs = (() => {
@@ -281,7 +283,7 @@ export function getFormRuleData({formData, formProps, formItems, requiredMessage
             const validation = new Schema(fitRuleMap)
             const dfd = defer<FormValidateError[]>()
             // console.log('fitRuleMap', fitRuleMap, rules)
-            validation.validate(formData, undefined, (errors, fields) => {
+            validation.validate(customFormData || formData, undefined, (errors, fields) => {
                 const newErrors = allErrors.filter(e => fs.indexOf(e.field) === -1)
                 // console.log({errors, fields, newErrors})
                 dfd.resolve([...newErrors, ...errors || []].map(i => ({
