@@ -1,28 +1,43 @@
 import {tPlc, tPlcType} from "../utils/plc.type";
 import {copyPlcList} from "./process/copyPlcList";
-import {processStateConfigAndProps} from "./process/processStateConfigAndProps";
-import {TableProps} from "../../table/utils/table.utils";
+import {processAutoFixed} from "./process/processAutoFixed";
+import {TablePropsConfig} from "../../table/utils/table.utils";
 import {processPlcSort} from "./process/processPlcSort";
 import {processHeadPlcList} from "./process/processHeadPlcList";
 import {processPlcFixed} from "./process/processPlcFixed";
 import {processPlcClassAndStyle} from "./process/processPlcClassAndStyle";
-import {ExtractPropTypes} from "plain-design-composition";
+import {IteratePlcHandleType, iteratePlcList} from "./utils/iteratePlcList";
 
 export function formatPlcList(
     {
         plcList,
-        props,
         tableWidth,
+        configPlcTypes,
     }: {
         plcList: tPlcType[],
-        props: ExtractPropTypes<typeof TableProps>,
         tableWidth: number,
+        configPlcTypes: TablePropsConfig,
     }
 ) {
     /*复制一份plc数据*/
     plcList = copyPlcList(plcList)
-    /*处理state、config以及props*/
-    processStateConfigAndProps({plcList, config: props.config})
+
+    /*config plcTypes*/
+    ;(() => {
+        const flatPlcList: tPlc[] = []
+        iteratePlcList({
+            plcList,
+            onPlc: (plc) => {
+                flatPlcList.push(plc)
+                return IteratePlcHandleType.nothing
+            },
+            onGroup: () => IteratePlcHandleType.nothing,
+        })
+        configPlcTypes(plcList, flatPlcList)
+    })();
+
+    /*先处理AutoFixed*/
+    processAutoFixed({plcList})
     /*对plc进行排序*/
     const {flatPlcList, targetTableWidth, plcKeyString} = processPlcSort({plcList, tableWidth})
     /*计算表头渲染需要的数据*/

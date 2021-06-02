@@ -4,7 +4,8 @@ import {formatPlcList} from "./formatPlcList";
 import PlcGroup from "../core/PlcGroup";
 import React, {ReactNode} from "react";
 import {tTableHooks} from "../../table/use/useTableHooks";
-import {tPlcType} from "../utils/plc.type";
+import {tPlc, tPlcType} from "../utils/plc.type";
+import {runOnce} from "./utils/runOnce";
 
 /**
  * 负责监听根group，收集plcTypeArr
@@ -51,12 +52,14 @@ export function usePlcList({props, slots, hooks}: {
 
     /*---------------------------------------computed-------------------------------------------*/
 
+    const runConfig = runOnce((plcList: tPlcType[], flatList: tPlc[]) => {!!props.config && props.config(plcList, flatList)})
+
     const plcData = computed(() => {
         if (!state.tableWidth || !state.getPlcTypeArr) {return null}
         return formatPlcList({
-            props,
             plcList: state.getPlcTypeArr(),
             tableWidth: state.tableWidth,
+            configPlcTypes: runConfig,
         })
     })
 

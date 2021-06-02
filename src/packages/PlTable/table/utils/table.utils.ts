@@ -6,7 +6,7 @@ import {SimpleObject} from "../../../../shims";
 import {FormAssociateFields, tFormPropRules} from "../../../PlForm/form.validate";
 import {useTree} from "../../../PlTree/core/useTree";
 
-export type TablePropsConfig = (plcList: tPlcType[]) => Record<string, any>
+export type TablePropsConfig = (plcList: tPlcType[], flatList: tPlc[]) => void
 
 export type TablePropsRowClassFunc = (node: TableNode) => MultipleClass
 export type TablePropsCellClassFunc = (node: TableNode, plc: tPlc) => MultipleClass

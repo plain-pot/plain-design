@@ -3,44 +3,20 @@ import {TablePlcFixedType, TablePropsConfig} from "../../../table/utils/table.ut
 import {IteratePlcHandleType, iteratePlcList} from "../utils/iteratePlcList";
 
 /**
- * 处理Plc以及PlcGroup公共的，逻辑
- * @author  韦胜健
- * @date    2020/12/18 11:18
- */
-function handleTablePlc(plc: tPlcType, configData: { [k: string]: any } | null) {
-    const props = plc.props as any
-    const state = plc.state as any
-    // 如果有config，将config中的属性覆盖props
-    const configPlc = !configData ? null : configData[`${!plc.group ? plc.props.field : 'group'}_${plc.props.title}`]
-    if (!!configPlc) {
-        Object.keys(configPlc).forEach(key => {
-            if (configPlc[key] != null) props[key] = configPlc[key]
-        })
-    }
-    // 如果有state，将state中的属性覆盖props
-    Object.keys(plc.state).forEach(key => {
-        if (state[key] != null) props[key] = state[key]
-    })
-}
-
-/**
  * 处理plc的数据，以state、config、props为顺序，优先级依次递减，
  * 得到一个最终的plc.props 对象
  * @author  韦胜健
  * @date    2020/12/18 11:08
  */
-export function processStateConfigAndProps(
+export function processAutoFixed(
     {
         plcList,
-        config,
     }: {
         plcList: tPlcType[],
-        config?: TablePropsConfig,
     }
 ) {
-    const configData = !config ? null : config(plcList)
 
-    const configState = {
+    const state = {
         fixedLeft: [] as tPlcType[],                            // 左固定的列
         fixedRight: [] as tPlcType[],                           // 右固定的列
         autoFixedLeft: [] as tPlcType[],                        // 需要自动左固定的列
@@ -58,19 +34,17 @@ export function processStateConfigAndProps(
     iteratePlcList({
         plcList,
         onPlc: plc => {
-            handleTablePlc(plc, configData)
             // 如果是隐藏的列，则删除这一列
             if (plc.props.hide) {
                 return IteratePlcHandleType.remove
             }
-            if (plc.props.autoFixedLeft) configState.autoFixedLeft.push(plc)
-            if (plc.props.autoFixedRight) configState.autoFixedRight.push(plc)
-            if (plc.props.fixed === TablePlcFixedType.left) configState.fixedLeft.push(plc)
-            if (plc.props.fixed === TablePlcFixedType.right) configState.fixedRight.push(plc)
+            if (plc.props.autoFixedLeft) state.autoFixedLeft.push(plc)
+            if (plc.props.autoFixedRight) state.autoFixedRight.push(plc)
+            if (plc.props.fixed === TablePlcFixedType.left) state.fixedLeft.push(plc)
+            if (plc.props.fixed === TablePlcFixedType.right) state.fixedRight.push(plc)
             return IteratePlcHandleType.nothing
         },
         onGroup: group => {
-            handleTablePlc(group, configData)
             if (group.props.hide) {
                 return IteratePlcHandleType.remove
             }
@@ -91,10 +65,10 @@ export function processStateConfigAndProps(
      */
 
     /*如果存在左固定列，则设置autoFixedLeft为左固定*/
-    if (configState.fixedLeft.length > 0) {configState.autoFixedLeft.forEach(plc => plc.props.fixed = TablePlcFixedType.left)}
+    if (state.fixedLeft.length > 0) {state.autoFixedLeft.forEach(plc => plc.props.fixed = TablePlcFixedType.left)}
 
     /*如果存在右固定列，则设置autoFixedRight为右固定*/
-    if (configState.fixedRight.length > 0) {configState.autoFixedRight.forEach(plc => plc.props.fixed = TablePlcFixedType.right)}
+    if (state.fixedRight.length > 0) {state.autoFixedRight.forEach(plc => plc.props.fixed = TablePlcFixedType.right)}
 
-    return configState
+    return state
 }

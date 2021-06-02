@@ -94,6 +94,7 @@ export default designPage(() => {
                     {...state.props}>
 
                     {!!state.other.groupHead && <>
+                        <Plc.PlcIndex/>
                         <Plc title={'编号'} field={'id'} fixed={'left'} width={state.plc.width}/>
                         <Plc title={'编号'} field={'id'}/>
                         <Plc title={'大小'} field={'size'}/>
