@@ -33,17 +33,26 @@ const PlcGroup = designComponent({
             ...PlcPublicAttrs,
             group: true,
             children: items,
+            /**
+             * 这里这个props是可修改的对象，别名叫做propsState，来源是props，当props
+             * 中的值发生变化时，自动修正使用props中的值
+             * @author  韦胜健
+             * @date    2021/6/2 15:57
+             */
             props: propsState,
             slots,
             refer: () => group,
+            /*分组表头宽度调整时，将放大/缩小的列宽分配给每一个子列*/
             setDurWidth: (durWidth: number) => {
                 const itemDurWidth = Math.floor(durWidth / (items.value.length))
                 items.value.forEach(item => item.setDurWidth(itemDurWidth))
             },
+            /*对propsState的state的修改，最好都通过setPropsState来进行，这样可以出发table的onConfigPlc这个hooks*/
             setPropsState: (data: any) => {
                 Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})
                 table.hooks.onConfigPlc.exec({plcList: table.plcData.value!.sourceList, stateData: getPropsState(table.plcData.value!.sourceList),})
             },
+            /*有时候希望直接修改props的state，可以通过这个方法获取修改，这样的不会触发table的onConfigPlc这个hook*/
             getState: () => state as any,
         })
 
