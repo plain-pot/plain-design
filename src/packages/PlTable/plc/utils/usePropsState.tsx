@@ -35,13 +35,14 @@ export function usePropsState<Props extends Record<string, any>>(propsRef: { val
 
 export type tPlcState = {
     state: PlcGroupPropsType | PlcPropsType,
-    children?: tPlcState[],
+    children?: tPlcStateData,
     key: string,
 }
 
+export type tPlcStateData = Record<string, tPlcState>
 
 function getPlcKey(i: tPlcType) {
-    return i.group ? 'G' : `${i.props.title || 'T'}_${i.props.field || 'F'}`
+    return i.group ? 'G' + i.props.title || 'GT' : `${i.props.title || 'PT'}_${i.props.field || 'PF'}`
 }
 
 /**
@@ -49,7 +50,7 @@ function getPlcKey(i: tPlcType) {
  * @author  韦胜健
  * @date    2021/6/2 14:58
  */
-export function getPropsState(plcList: tPlcType[]) {
+export function getPropsState(plcList: tPlcType[]): tPlcStateData {
     const stateList = [] as tPlcState[]
     plcList.forEach(i => {
         stateList.push({
@@ -58,7 +59,10 @@ export function getPropsState(plcList: tPlcType[]) {
             key: getPlcKey(i),
         })
     })
-    return stateList
+    return stateList.reduce((prev, item) => {
+        prev[item.key] = item
+        return prev
+    }, {} as Record<string, tPlcState>)
 }
 
 /**
@@ -66,15 +70,14 @@ export function getPropsState(plcList: tPlcType[]) {
  * @author  韦胜健
  * @date    2021/6/2 15:04
  */
-export function applyPropsState(stateData: tPlcState[], plcList: tPlcType[]) {
-    stateData.forEach((data, index) => {
-        const plcType = plcList[index]
-        if (!plcType) {
-            return
+export function applyPropsState(stateData: tPlcStateData, plcList: tPlcType[]) {
+    plcList.forEach(plcType => {
+        const key = getPlcKey(plcType)
+        if (!!stateData[key]) {
+            Object.assign(plcType.getState(), stateData[key].state)
+            if (plcType.group && !!stateData[key].children) {
+                applyPropsState(stateData[key].children!!, plcType.children)
+            }
         }
-        if (getPlcKey(plcType) !== data.key) {
-            return;
-        }
-        Object.assign(plcType.getState(), data.state)
     })
 }

@@ -15,7 +15,7 @@ import {PlLoadingMask} from "../PlLoadingMask";
 import {getFormRuleData} from "../PlForm/form.validate";
 import {useTableHooks} from "./table/use/useTableHooks";
 import {removeUnit} from "plain-utils/string/removeUnit";
-import {tPlcState} from "./plc/utils/usePropsState";
+import {tPlcStateData} from "./plc/utils/usePropsState";
 import {tPlcType} from "./plc/utils/plc.type";
 
 export const PlTable = designComponent({
@@ -34,7 +34,7 @@ export const PlTable = designComponent({
         onClickCell: (node: TableNode, e: React.MouseEvent) => true,
         onDblclickCell: (node: TableNode, e: React.MouseEvent) => true,
 
-        onConfigPlc: (data: { plcList: tPlcType[], stateData: tPlcState[] }) => true,
+        onConfigPlc: (data: { plcList: tPlcType[], stateData: tPlcStateData }) => true,
     },
     slots: ['default'],
     setup({props, slots, event}) {
