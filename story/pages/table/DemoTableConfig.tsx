@@ -9,8 +9,29 @@ import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import PlTable from "../../../src/packages/PlTable";
 import {Plc} from "../../../src/packages/Plc";
 import PlcGroup from "../../../src/packages/PlTable/plc/core/PlcGroup";
+import {tPlc, tPlcType} from "../../../src/packages/PlTable/plc/utils/plc.type";
 
 export default designPage(() => {
+
+    const TableConfigController = (() => {
+
+        const getTableId = (flatList: tPlc[]) => {
+            return flatList.map(i => `${i.props.title || '#'}-${i.props.field || '@'}`).join('_')
+        }
+
+        const propsConfig = (plcList: tPlcType[], flatList: tPlc[]) => {
+
+            const tableId = getTableId(flatList)
+
+            console.log({
+                tableId
+            })
+        }
+
+        return {
+            propsConfig,
+        }
+    })();
 
     const state = reactive({
         data,
@@ -27,13 +48,6 @@ export default designPage(() => {
         fixed: {
             colorFixedLeft: false,
             nameFixedLeft: false,
-        },
-        config(items: any) {
-            return {
-                'size_大小': {
-                    width: 60,
-                }
-            }
         },
     })
 
@@ -56,7 +70,7 @@ export default designPage(() => {
                 </PlForm>
             </DemoRow>
             <DemoRow title={'不分组'}>
-                <PlTable config={state.config} data={data}>
+                <PlTable config={TableConfigController.propsConfig} data={data}>
                     <Plc field={'id'} title={'编号'} width={"200px"}/>
                     {/*这里虽然通过props设置了宽度，但是因为 在config 中也配置了这一列的宽度，所以这里配置的不生效*/}
                     <Plc field={'size'} title={'大小'} width={state.plc.width}/>
@@ -67,7 +81,7 @@ export default designPage(() => {
                 </PlTable>
             </DemoRow>
             <DemoRow title={'分组'}>
-                <PlTable data={data}>
+                <PlTable config={TableConfigController.propsConfig} data={data}>
                     <Plc field={'id'} title={'编号'} width={"200px"}/>
                     <PlcGroup title={'第一组'}>
                         <Plc field={'size'} title={'大小'} width={state.plc.width}/>
