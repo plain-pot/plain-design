@@ -244,21 +244,11 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
     }, {} as Record<string, (RuleItem & { trigger?: string })[]>)
 
     const methods = {
-        validateField: (
-            {
-                field,
-                trigger,
-                associateFields,
-                allErrors,
-                formData,
-            }: {
-                field: string | string[],
-                trigger: FormValidateTrigger | undefined,
-                associateFields?: FormAssociateFields,
-                allErrors: FormValidateError[],
-                formData: any,
-            }) => {
-
+        getRules({field, trigger, associateFields}: {
+            field: string | string[],
+            trigger: FormValidateTrigger | undefined,
+            associateFields?: FormAssociateFields,
+        }) {
             const fs = (() => {
                 const fields = FormValidateUtils.getFieldArray(field)
                 !!associateFields && fields.forEach((f) => {
@@ -279,13 +269,28 @@ export function getFormRuleData({formProps, formItems, requiredMessage}: {
                     fitRuleList.push(...fitRules)
                 }
             })
-            if (fitRuleList.length === 0) {return Promise.resolve(allErrors)}
-            const validation = new Schema(fitRuleMap)
+            return {
+                fitRuleList,
+                fitRuleMap,
+            }
+        },
+        validateField: (
+            {
+                rules,
+                allErrors,
+                formData,
+            }: {
+                rules: Record<string, RuleItem[]>,
+                allErrors: FormValidateError[],
+                formData: any,
+            }) => {
+
+            const validation = new Schema(rules)
             const dfd = defer<FormValidateError[]>()
             // console.log('fitRuleMap', fitRuleMap, rules)
-            validation.validate(formData, undefined, (errors, fields) => {
-                const newErrors = allErrors.filter(e => fs.indexOf(e.field) === -1)
-                // console.log({errors, fields, newErrors})
+            const ruleKeys = Object.keys(rules)
+            validation.validate(formData, undefined, (errors) => {
+                const newErrors = allErrors.filter(e => ruleKeys.indexOf(e.field) === -1)
                 dfd.resolve([...newErrors, ...errors || []].map(i => ({
                     ...i,
                     label: state.fieldToLabel[i.field]!,
