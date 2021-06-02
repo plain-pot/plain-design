@@ -317,7 +317,7 @@ export function useColDraggier(config: () => {
                 }
 
                 if (startPlc.props.fixed != endPlc.props.fixed) {
-                    startPlc.props.fixed = endPlc.props.fixed
+                    startPlc.setPropsState({fixed: endPlc.props.fixed})
                 }
 
                 broList.splice(startIndex, 1)
@@ -325,7 +325,7 @@ export function useColDraggier(config: () => {
                 endIndex = hover === HoverPart.right ? endIndex + 1 : endIndex
                 broList.splice(endIndex, 0, startPlc)
 
-                broList.forEach((plc, index) => plc.props.order = index)
+                broList.forEach((plc, index) => plc.setPropsState({order: index}))
             })();
 
             enableUserSelect()

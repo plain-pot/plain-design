@@ -39,6 +39,7 @@ const PlcGroup = designComponent({
                 const itemDurWidth = Math.floor(durWidth / (items.value.length))
                 items.value.forEach(item => item.setDurWidth(itemDurWidth))
             },
+            setPropsState: (data: any) => {Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})}
         })
 
         return {

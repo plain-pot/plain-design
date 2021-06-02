@@ -32,7 +32,8 @@ export function useBasePlc({props, scopeSlots, event}: {
         event,
         refer: () => plc,
         refs,
-        setDurWidth: (durWidth: number) => propsState.width = Number((propsState.width)) + durWidth,
+        setDurWidth: (durWidth: number) => plc.setPropsState({width: Number((propsState.width)) + durWidth}),
+        setPropsState: (data: any) => {Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})}
     })
 
     return {
