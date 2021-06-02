@@ -4,6 +4,7 @@ import {computed, designComponent, reactive, useNumber, useRefs} from "plain-des
 import React from "react";
 import {useCollect} from "../../../../use/useCollect";
 import Plc from "./Plc";
+import {usePropsState} from "../utils/usePropsState";
 
 const PlcGroup = designComponent({
     name: 'plc-group',
@@ -19,16 +20,10 @@ const PlcGroup = designComponent({
         const items = PlcCollector.parent(true)
         /*格式化props*/
         const {numberState} = useNumber(props, ['order'])
-        /*目标props*/
-        const formatProps = computed(() => ({
+        const propsState = usePropsState(computed(() => ({
             ...props,
             ...numberState,
-        }) as Omit<typeof props, 'order'> & typeof numberState)
-        /*props的一个副本，不过如果有值的情况下，优先级比props中的值高（比config值也高）*/
-        const propsState = reactive(Object.keys(PlcGroupPropsOptions).reduce((ret: any, key: string) => {
-            ret[key] = null
-            return ret
-        }, {}) as { [k in keyof typeof formatProps.value]: typeof formatProps.value[k] | null })
+        }) as Omit<typeof props, 'order'> & typeof numberState))
 
         /*核心暴露对象*/
         const group: tPlcGroup = reactive({
@@ -37,9 +32,8 @@ const PlcGroup = designComponent({
             ...PlcPublicAttrs,
             group: true,
             children: items,
-            props: formatProps,
+            props: propsState,
             slots,
-            state: propsState,
             refer: () => group,
             setDurWidth: (durWidth: number) => {
                 const itemDurWidth = Math.floor(durWidth / (items.value.length))

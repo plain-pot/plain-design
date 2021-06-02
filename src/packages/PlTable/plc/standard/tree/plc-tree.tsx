@@ -115,7 +115,7 @@ export default designComponent({
 
         onMounted(() => {
             watch(() => maxShowLevel.value, () => {
-                refer.state.width = width.value
+                refer.props.width = width.value
             }, {immediate: true})
         })
 

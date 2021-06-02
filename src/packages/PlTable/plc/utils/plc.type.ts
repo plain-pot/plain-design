@@ -19,7 +19,6 @@ export type tPlcGroup = PlcPublicAttrsType & {
     group: true,
     children: tPlcType[],
     props: PlcGroupPropsType,
-    state: PlcGroupStateType,
     refer: () => tPlcGroup,
     slots: { head: PlcPropsHead & { isExist: () => boolean } },
     setDurWidth: (width: number) => void,
@@ -30,7 +29,6 @@ export type tPlc = PlcPublicAttrsType & {
     props: PlcPropsType,
     scopeSlots: tPlcScopeSlots,
     event: tPlcEvent,
-    state: PlcStateType,
     refer: () => tPlc,
     setDurWidth: (width: number) => void,
 }
