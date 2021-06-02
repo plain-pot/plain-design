@@ -5,7 +5,7 @@ import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import PlTable from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import {useAutoScroll} from "../../../PlScroll/useAutoScroll";
-import {StyleProperties} from "plain-design-composition"
+import {ComputedRef, StyleProperties} from "plain-design-composition"
 import {nextIndex} from "plain-design-composition"
 import React from "react";
 
@@ -62,13 +62,10 @@ function iteratePlc(plcList: tPlcType[], handler: (plc: tPlcType) => 'stop' | vo
 function getBroPlcList(plcList: tPlcType[], plc: tPlcType): tPlcType[] {
 
     let broPlcList: tPlcType[] = []
-    console.log({plcList})
 
     if (plcList.indexOf(plc) > -1) {
-        console.log(111);
         broPlcList = plcList
     } else {
-        console.log(222);
         iteratePlc(plcList, itarPlc => {
             if (itarPlc.group) {
                 if (itarPlc.children.indexOf(plc) > -1) {
@@ -179,17 +176,17 @@ function getDragData(table: typeof PlTable.use.class, plc: tPlcType): {
 
 }
 
-export function useColDraggier(config: () => {
+export function useColDraggier(config: ComputedRef<{
     plc: tPlcType,
     table: typeof PlTable.use.class,
     scrollRefer: () => PlainScroll,
-}) {
-    const {plc, table, scrollRefer} = config()
-    const isDraggable = !!table.props.colDraggable && plc.props.colDraggable !== false
+}>) {
+
+    const isDraggable = !!config.value.table.props.colDraggable && config.value.plc.props.colDraggable !== false
     if (!isDraggable) {return {tdAttrs: {}}}
     const autoScroller = useAutoScroll({
         vertical: false,
-        getScroll: scrollRefer
+        getScroll: config.value.scrollRefer,
     })
     const indicatorSize = 3
     const state = {
@@ -255,13 +252,13 @@ export function useColDraggier(config: () => {
     const handler = {
         mousedown: (e: React.MouseEvent) => {
 
-            const {broList, broData} = getDragData(table, plc)
+            const {broList, broData} = getDragData(config.value.table, config.value.plc)
             state.dragData = broData
             state.broList = broList
 
             const currentTarget = e.currentTarget as HTMLElement
             state.currentRect = currentTarget.getBoundingClientRect()!
-            const indicatorHeight = getIndicatorHeight(plc, table)
+            const indicatorHeight = getIndicatorHeight(config.value.plc, config.value.table)
 
             state.startClientX = state.moveClientX = e.clientX
             state.scrollParent = getHorizontalScrollParent(currentTarget)
@@ -309,7 +306,7 @@ export function useColDraggier(config: () => {
                     return;
                 }
 
-                const startPlc = plc
+                const startPlc = config.value.plc
                 const endPlc = dragData.plc
                 const broList = state.broList!
 

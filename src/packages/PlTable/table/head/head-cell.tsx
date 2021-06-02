@@ -2,7 +2,7 @@ import {tPlcType} from "../../plc/utils/plc.type";
 import {useHeadCellResize} from "./useHeadCellResize";
 import {renderHeadCell} from "../../plc/utils/render";
 import {useColDraggier} from "./useColDraggier";
-import {designComponent, PropType} from "plain-design-composition";
+import {computed, designComponent, PropType} from "plain-design-composition";
 import {PlainTable} from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import {classnames} from "plain-design-composition";
@@ -18,11 +18,11 @@ export const PltHeadCell = designComponent({
     setup({props}) {
 
         const {resizeHandler} = useHeadCellResize(props.table, props.tablePlc)
-        const {tdAttrs} = useColDraggier(() => ({
+        const {tdAttrs} = useColDraggier(computed(() => ({
             table: props.table,
             plc: props.tablePlc,
             scrollRefer: props.scroll,
-        }))
+        })))
 
         return {
             render: () => {
