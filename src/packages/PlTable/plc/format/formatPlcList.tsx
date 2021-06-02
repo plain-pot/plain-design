@@ -48,8 +48,8 @@ export function formatPlcList(
     processPlcClassAndStyle({headPlcListArray})
 
     return {
-        plcList,                                                // 列数组数据，树形结构的数据
-        flatPlcList,                                            // 展开之后最底层的列数组
+        plcList,                                                // 列数组数据，树形结构的数据(修改props有效)
+        flatPlcList,                                            // 展开之后最底层的列数组(修改props无效)
         targetTableWidth,                                       // 表格设置的样式宽度
         tableWidth,                                             // 表格容器宽度
         headPlcListArray,                                       // 表头渲染的二维数组
