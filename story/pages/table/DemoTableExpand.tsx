@@ -10,8 +10,10 @@ import {PlInput} from "../../../src/packages/PlInput";
 import {PlNumber} from "../../../src/packages/PlNumber";
 import PlDate from "../../../src/packages/PlDate";
 import PlColorPicker from "../../../src/packages/PlColorPicker";
-import {PlcGroup} from "../../../src/packages/PlTable/plc/standard";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {PlcExpand} from "../../../src/packages/PlcExpand";
+import {PlcIndex} from "../../../src/packages/PlcIndex";
+import {PlcGroup} from "../../../src/packages/PlcGroup";
 
 export default designPage(() => {
 
@@ -25,8 +27,8 @@ export default designPage(() => {
                     summaryData={summaryData}
                     virtual
                 >
-                    <Plc.PlcIndex/>
-                    <Plc.PlcExpand
+                    <PlcIndex/>
+                    <PlcExpand
                         toggleOnClickRow
                         expand={({row}) => (
                             <PlForm column={1} disabled key={row.id}>

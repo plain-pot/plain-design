@@ -5,7 +5,7 @@ import PlTable from "../../../src/packages/PlTable";
 
 import data from '../data/data-1.json'
 import Plc from "../../../src/packages/Plc";
-import {PlcGroup} from "../../../src/packages/PlTable/plc/standard";
+import {PlcGroup} from "../../../src/packages/PlcGroup";
 
 export default designPage(() => {
     return () => (
@@ -13,18 +13,18 @@ export default designPage(() => {
             <DemoRow title={'基本用法'}>
                 <PlTable data={data} colDraggable border>
                     <Plc field={'id'} title={'1'} fixed={'left'}/>
-                    <Plc.PlcGroup title={'2'}>
+                    <PlcGroup title={'2'}>
                         <Plc field={'size'} title={'2-1'}/>
                         <Plc field={'date'} title={'2-2'}/>
-                    </Plc.PlcGroup>
+                    </PlcGroup>
                     <Plc field={'color'} title={'3'}/>
-                    <Plc.PlcGroup title={'4'}>
+                    <PlcGroup title={'4'}>
                         <PlcGroup title={'4-1'}>
                             <Plc title={'4-1-1'} field={'name'}/>
                             <Plc title={'4-1-2'} field={'star'}/>
                         </PlcGroup>
                         <Plc field={'id'} title={'4-2'}/>
-                    </Plc.PlcGroup>
+                    </PlcGroup>
                     <Plc field="size" title="5"/>
                     <Plc field="date" title="6"/>
                     <Plc field="color" title="7"/>

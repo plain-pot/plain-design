@@ -11,6 +11,7 @@ import PlToggle from "../../../src/packages/PlToggle";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import PlcGroup from "../../../src/packages/PlTable/plc/core/PlcGroup";
 import Plc from "../../../src/packages/Plc";
+import {PlcIndex} from "../../../src/packages/PlcIndex";
 
 export default designPage(() => {
 
@@ -94,7 +95,7 @@ export default designPage(() => {
                     {...state.props}>
 
                     {!!state.other.groupHead && <>
-                        <Plc.PlcIndex/>
+                        <PlcIndex/>
                         <Plc title={'编号'} field={'id'} fixed={'left'} width={state.plc.width}/>
                         <Plc title={'编号'} field={'id'}/>
                         <Plc title={'大小'} field={'size'}/>
@@ -117,7 +118,7 @@ export default designPage(() => {
                         <Plc title="ip" field="ip"/>
                     </>}
                     {!state.other.groupHead && <>
-                        <Plc.PlcIndex/>
+                        <PlcIndex/>
                         <Plc field="id" title="编号" fixed={'left'}/>
                         <Plc field="size" title="大小"/>
                         <Plc field="date" title="日期"/>

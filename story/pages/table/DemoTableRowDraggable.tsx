@@ -1,9 +1,8 @@
 import React from "react"
-import {designPage, useRefs} from "plain-design-composition";
+import {designPage, reactive, useRefs} from "plain-design-composition";
 import data from '../data/data-1.json'
 import {DemoRow} from "../../components/DemoRow";
 import PlTable from "../../../src/packages/PlTable";
-import {reactive} from "plain-design-composition";
 import PlForm from "../../../src/packages/PlForm";
 import PlFormItem from "../../../src/packages/PlFormItem";
 import PlToggle from "../../../src/packages/PlToggle";
@@ -12,11 +11,20 @@ import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
 import $$message from "../../../src/packages/$$message";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
 import PlButton from "../../../src/packages/PlButton";
+import {PlcCheck} from "../../../src/packages/PlcCheck";
+import {PlcToggle} from "../../../src/packages/PlcToggle";
+import {PlcRate} from "../../../src/packages/PlcRate";
+import {PlcColorPicker} from "../../../src/packages/PlcColorPicker";
+import {PlcDate} from "../../../src/packages/PlcDate";
+import {PlcNumber} from "../../../src/packages/PlcNumber";
+import {PlcInput} from "../../../src/packages/PlcInput";
+import {PlcDraggier} from "../../../src/packages/PlcDraggier";
+import {PlcIndex} from "../../../src/packages/PlcIndex";
 
 export default designPage(() => {
 
     const {refs, onRef} = useRefs({
-        check: Plc.PlcCheck,
+        check: PlcCheck,
     })
 
     const state = reactive({
@@ -73,17 +81,17 @@ export default designPage(() => {
                 virtual={state.virtualFlag}
                 data={data}
                 onDblclickCell={state.onDblClickRow}>
-                <Plc.PlcIndex/>
-                <Plc.PlcCheck ref={onRef.check} toggleOnClickRow/>
-                <Plc.PlcDraggier key={state.virtualFlag ? 1 : 2}/>
+                <PlcIndex/>
+                <PlcCheck ref={onRef.check} toggleOnClickRow/>
+                <PlcDraggier key={state.virtualFlag ? 1 : 2}/>
                 <Plc field="id" title="编号"/>
                 <Plc field="name" title="普通文本列"/>
-                <Plc.PlcInput field="name" title="文本框" required/>
-                <Plc.PlcNumber field={'size'} title={'数字框'}/>
-                <Plc.PlcDate field={'date'} title={'日期'}/>
-                <Plc.PlcColorPicker field={'color'} title={'颜色'}/>
-                <Plc.PlcRate field={'star'} title={'评分'}/>
-                <Plc.PlcToggle field={'flag'} title={'开关'}/>
+                <PlcInput field="name" title="文本框" required/>
+                <PlcNumber field={'size'} title={'数字框'}/>
+                <PlcDate field={'date'} title={'日期'}/>
+                <PlcColorPicker field={'color'} title={'颜色'}/>
+                <PlcRate field={'star'} title={'评分'}/>
+                <PlcToggle field={'flag'} title={'开关'}/>
             </PlTable>
         </div>
     )

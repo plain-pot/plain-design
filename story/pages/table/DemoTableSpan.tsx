@@ -5,6 +5,7 @@ import {DemoLine} from "../../components/DemoLine";
 import PlTable from "../../../src/packages/PlTable";
 import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
 import Plc from "../../../src/packages/Plc";
+import {PlcIndex} from "../../../src/packages/PlcIndex";
 
 const DemoRowSpan = designPage(() => {
 
@@ -73,7 +74,7 @@ const DemoRowSpan = designPage(() => {
                 ))}
             </ul>
             <PlTable data={data} spanMethod={spanMethod} border>
-                <Plc.PlcIndex/>
+                <PlcIndex/>
                 <Plc title={'一级标题'} field={'first'}/>
                 <Plc title={'二级标题'} field={'second'}/>
                 <Plc title={'三级标题'} field={'third'}/>
@@ -144,7 +145,7 @@ const DemoColSpan = designPage(() => {
                 ))}
             </ul>
             <PlTable data={data} spanMethod={spanMethod} border>
-                <Plc.PlcIndex/>
+                <PlcIndex/>
                 <Plc title="产品线" field="name"/>
                 <Plc title="第一季度盈亏" field="first"/>
                 <Plc title="第二季度盈亏" field="second"/>

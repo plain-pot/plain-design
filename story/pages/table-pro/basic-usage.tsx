@@ -3,6 +3,10 @@ import React from "react";
 import {useTableOption} from "./useTableOption";
 import PlTablePro from "../../../src/packages/PlTablePro";
 import {Plc} from "../../../src";
+import {PlcSelect} from "../../../src/packages/PlcSelect";
+import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";
+import {PlcNumber} from "../../../src/packages/PlcNumber";
+import {PlcInput} from "../../../src/packages/PlcInput";
 
 export default designPage(() => {
 
@@ -18,12 +22,12 @@ export default designPage(() => {
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
                 <Plc title="id" field="id"/>
-                <Plc.PlcNumber title="count" field="count" required/>
-                <Plc.PlcInput title="normalText" field="normalText" required/>
-                <Plc.PlcInput title="longText" field="longText"/>
-                <Plc.PlcNumber title="numberVal" field="numberVal" required/>
-                <Plc.PlcCheckbox title="flag" field="flag"/>
-                <Plc.PlcSelect title="selectVal" field="selectVal"/>
+                <PlcNumber title="count" field="count" required/>
+                <PlcInput title="normalText" field="normalText" required/>
+                <PlcInput title="longText" field="longText"/>
+                <PlcNumber title="numberVal" field="numberVal" required/>
+                <PlcCheckbox title="flag" field="flag"/>
+                <PlcSelect title="selectVal" field="selectVal"/>
 
             </PlTablePro>
         </div>

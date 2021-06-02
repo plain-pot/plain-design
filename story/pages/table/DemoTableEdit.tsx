@@ -15,6 +15,12 @@ import PlButton from "../../../src/packages/PlButton";
 import {PlRadioGroup} from "../../../src/packages/PlRadioGroup";
 import {PlRadio} from "../../../src/packages/PlRadio";
 import {RuleItem} from "async-validator";
+import {PlcRate} from "../../../src/packages/PlcRate";
+import {PlcColorPicker} from "../../../src/packages/PlcColorPicker";
+import {PlcDate} from "../../../src/packages/PlcDate";
+import {PlcNumber} from "../../../src/packages/PlcNumber";
+import {PlcInput} from "../../../src/packages/PlcInput";
+import {PlcIndex} from "../../../src/packages/PlcIndex";
 
 export default designPage(() => {
 
@@ -93,7 +99,7 @@ export default designPage(() => {
                     onDblclickCell={state.onDblClickRow}
                     size={state.size}
                 >
-                    <Plc.PlcIndex/>
+                    <PlcIndex/>
                     <Plc field="id" title="编号" width={'50'}/>
                     <Plc field="name" title="普通文本列"/>
                     <Plc field="name" title="普通文本列，编辑作用域插槽" width={200} editable={state.isEditable}
@@ -101,13 +107,13 @@ export default designPage(() => {
                              <input type="text" v-model={row.name} style={{paddingLeft: '8px'}}/>
                          )}
                     />
-                    <Plc.PlcInput field="name" title="禁用编辑" editable={false}/>
-                    <Plc.PlcInput field="name" title="文本框" required/>
-                    <Plc.PlcInput field="size" title="文本框值大于6可以编辑" width={200} editable={state.isEditable} rules={state.customRule}/>
-                    <Plc.PlcNumber field={'size'} title={'数字框'}/>
-                    <Plc.PlcDate field={'date'} title={'日期'}/>
-                    <Plc.PlcColorPicker field={'color'} title={'颜色'}/>
-                    <Plc.PlcRate field={'star'} title={'评分'}/>
+                    <PlcInput field="name" title="禁用编辑" editable={false}/>
+                    <PlcInput field="name" title="文本框" required/>
+                    <PlcInput field="size" title="文本框值大于6可以编辑" width={200} editable={state.isEditable} rules={state.customRule}/>
+                    <PlcNumber field={'size'} title={'数字框'}/>
+                    <PlcDate field={'date'} title={'日期'}/>
+                    <PlcColorPicker field={'color'} title={'颜色'}/>
+                    <PlcRate field={'star'} title={'评分'}/>
                 </PlTable>
             </DemoRow>
         </div>

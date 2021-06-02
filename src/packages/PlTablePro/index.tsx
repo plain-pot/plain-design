@@ -3,7 +3,6 @@ import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import PlTable from "../PlTable";
 import './table-pro.scss'
-import Plc from "../Plc";
 import PlButton from "../PlButton";
 import PlDropdown from "../PlDropdown";
 import PlDropdownMenu from "../PlDropdownMenu";
@@ -11,6 +10,7 @@ import PlDropdownOption from "../PlDropdownOption";
 import PlIcon from "../PlIcon";
 import PlButtonGroup from "../PlButtonGroup";
 import {TableNode} from "../PlTable/table/use/useTableNode";
+import {PlcIndex} from "../PlcIndex";
 
 export const PlTablePro = designComponent({
     props: {
@@ -87,7 +87,7 @@ export const PlTablePro = designComponent({
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
                 >
-                    <Plc.PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
+                    <PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {slots.default()}
                 </PlTable>
                 {props.option.pagination.render()}

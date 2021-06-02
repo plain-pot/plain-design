@@ -3,7 +3,6 @@ import React from "react";
 import {TableNode} from "../../../src/packages/PlTable/table/use/useTableNode";
 import {SimpleFunction} from "plain-design-composition"
 import {reactive} from "plain-design-composition";
-import {PlcCheck, PlcIndex, PlcTree} from "../../../src/packages/PlTable/plc/standard";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 import PlButtonGroup from "../../../src/packages/PlButtonGroup";
@@ -16,6 +15,9 @@ import PlAlert from "../../../src/packages/PlAlert";
 import {PlInput} from "../../../src/packages/PlInput";
 import PlTooltip from "../../../src/packages/PlTooltip";
 import PlIcon from "../../../src/packages/PlIcon";
+import {PlcTree} from "../../../src/packages/PlcTree";
+import {PlcIndex} from "../../../src/packages/PlcIndex";
+import {PlcCheck} from "../../../src/packages/PlcCheck";
 
 const DemoVirtualTreeTable = designPage(() => {
 
@@ -44,7 +46,7 @@ const DemoVirtualTreeTable = designPage(() => {
             </DemoLine>
             <PlTable data={state.data} keyField="code" childrenField="children" virtual showCheckbox>
                 <PlcIndex/>
-                <Plc.PlcTree
+                <PlcTree
                     ref={onRef.tree} title={'标题'}
                     content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                 />
@@ -83,7 +85,7 @@ const DemoVirtualDraggableTreeTable = designPage(() => {
             </DemoLine>
             <PlTable data={state.data} keyField="code" childrenField="children" virtual showCheckbox>
                 <PlcIndex/>
-                <Plc.PlcTree
+                <PlcTree
                     rowDraggable
                     ref={onRef.tree} title={'标题'}
                     content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
@@ -222,7 +224,7 @@ export default designPage(() => {
                 </DemoLine>
                 <PlTable data={data} onRef={onRef.table1} keyField="id" childrenField="subs">
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         ref={onRef.tree1} title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -243,7 +245,7 @@ export default designPage(() => {
                 </DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs" showCheckbox>
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         ref={onRef.tree2} title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -255,7 +257,7 @@ export default designPage(() => {
             <DemoRow title={'懒加载子节点'}>
                 <PlTable v-model-data={lazyDemo.data} keyField="id" childrenField="subs" lazy isLeaf={lazyDemo.isLeaf} getChildren={lazyDemo.getChildren}>
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -273,8 +275,8 @@ export default designPage(() => {
                 </DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs" checkStrictly showCheckbox>
                     <PlcIndex/>
-                    <Plc.PlcCheck ref={onRef.strictCheck}/>
-                    <Plc.PlcTree
+                    <PlcCheck ref={onRef.strictCheck}/>
+                    <PlcTree
                         ref={onRef.strictTree} title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -292,8 +294,8 @@ export default designPage(() => {
                 </DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs" checkStrictly showCheckbox isCheckable={customIsCheckable}>
                     <PlcIndex/>
-                    <Plc.PlcCheck ref={onRef.disabledCheck} isCheckable={customIsCheckable}/>
-                    <Plc.PlcTree
+                    <PlcCheck ref={onRef.disabledCheck} isCheckable={customIsCheckable}/>
+                    <PlcTree
                         ref={onRef.disabledCheckTree} title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -305,7 +307,7 @@ export default designPage(() => {
             <DemoRow title={'手风琴模式，打开节点的时候关闭兄弟节点'}>
                 <PlTable data={data} keyField="id" childrenField="subs" according>
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -317,7 +319,7 @@ export default designPage(() => {
             <DemoRow title={'展开图标'}>
                 <PlTable data={data} keyField="id" childrenField="subs">
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         folderExpandIcon="el-icon-caret-bottom"
                         folderCollapseIcon="el-icon-caret-right"
                         title={'标题'}
@@ -336,7 +338,7 @@ export default designPage(() => {
                 </DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs" filterNodeMethod={customFilterNodeMethod}>
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
                     />
@@ -351,7 +353,7 @@ export default designPage(() => {
             <DemoRow title={'可拖拽树形表格'}>
                 <PlTable data={data} keyField="id" childrenField="subs">
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         rowDraggable
                         title={'标题'}
                         content={({row, node}) => (<span>{node.index + 1}、{row.name}</span>)}
@@ -370,7 +372,7 @@ export default designPage(() => {
                 <DemoLine>这里示例，第一层节点不能被拖拽，不能放置在第一层节点前后，只能放置在其子节点中（相当于控制第一层节点数量不变）</DemoLine>
                 <PlTable data={data} keyField="id" childrenField="subs">
                     <PlcIndex/>
-                    <Plc.PlcTree
+                    <PlcTree
                         rowDraggable
                         title={'标题'}
                         allowRowDraggable={allow.rowDraggable}
