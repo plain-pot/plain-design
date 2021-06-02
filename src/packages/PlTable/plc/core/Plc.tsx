@@ -3,6 +3,7 @@ import {PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import React from "react";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useBasePlc} from "./useBasePlc";
+import {applyPropsState, getPropsState} from "../utils/usePropsState";
 
 export const Plc = designComponent({
     name: 'plc',
@@ -11,6 +12,10 @@ export const Plc = designComponent({
     emits: PlcEmitsOptions,
     setup({props, scopeSlots, event}) {
         return useBasePlc({props, scopeSlots, event})
+    },
+    expose: {
+        applyPropsState,
+        getPropsState,
     },
 })
 

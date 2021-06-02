@@ -10,7 +10,7 @@ import PlTable from "../../../src/packages/PlTable";
 import {Plc} from "../../../src/packages/Plc";
 import PlcGroup from "../../../src/packages/PlTable/plc/core/PlcGroup";
 import {tPlcType} from "../../../src/packages/PlTable/plc/utils/plc.type";
-import {applyPropsState, tPlcStateData} from "../../../src/packages/PlTable/plc/utils/usePropsState";
+import {tPlcStateData} from "../../../src/packages/PlTable/plc/utils/usePropsState";
 
 export default designPage(() => {
 
@@ -48,7 +48,7 @@ export default designPage(() => {
             const tableId = getTableId(plcList)
             const cacheState = cache.get(tableId)
             if (!!cacheState) {
-                applyPropsState(cacheState, plcList)
+                Plc.applyPropsState(cacheState, plcList)
             }
         }
 
