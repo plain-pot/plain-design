@@ -1,4 +1,3 @@
-import {designPlc} from "../core/designPlc";
 import PlColorButton from "../../../PlColorButton";
 import PlColorPicker from "../../../PlColorPicker";
 import React from "react";
