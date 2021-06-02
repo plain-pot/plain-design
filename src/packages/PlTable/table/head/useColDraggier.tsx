@@ -223,7 +223,7 @@ export function useColDraggier(config: () => {
         getDragData: (left: number): { index: number, dragData: DragData, hover: HoverPart } => {
             for (let i = 0; i < state.dragData!.length; i++) {
                 const dd = state.dragData![i];
-                if (left >= dd.left && left <= dd.left + dd.width) {
+                if (left >= dd.left && left <= dd.left + (dd.width || Infinity)) {
                     return {
                         index: i,
                         dragData: dd,
