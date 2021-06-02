@@ -9,7 +9,7 @@ export function usePropsState<Props extends Record<string, any>>(propsRef: { val
 
     const propsState = reactive(Object.keys(propsRef.value).reduce((prev, propKey) => {
 
-        watch(() => propsRef.value[propKey], () => {(propsState as any)[propKey] = null})
+        watch(() => propsRef.value[propKey], () => {(propsState as any)[propKey] = undefined})
 
         ;(prev as any)[propKey] = computed({
             get() {
