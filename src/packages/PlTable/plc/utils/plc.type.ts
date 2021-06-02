@@ -6,13 +6,8 @@ import {PlcPropsHead, tPlcScopeSlots} from "./plc.scope-slots";
 import {ComponentEvent} from "plain-design-composition/src/composition/emit.type";
 
 export type TableRenderScope = { plc: tPlc, node: TableNode, row: SimpleObject }
-
-type PlcPropsType = Omit<ExtractPropTypes<typeof PlcPropsOptions>, 'width' | 'order'> & { width: number, order: number | undefined }
-type PlcStateType = { [k in keyof PlcPropsType]: PlcPropsType[k] | null }
-
-type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupPropsOptions>, 'order'> & { order: number | undefined }
-type PlcGroupStateType = { [k in keyof PlcGroupPropsType]: PlcGroupPropsType[k] | null }
-
+export type PlcPropsType = Omit<ExtractPropTypes<typeof PlcPropsOptions>, 'width' | 'order'> & { width: number, order: number | undefined }
+export type PlcGroupPropsType = Omit<ExtractPropTypes<typeof PlcGroupPropsOptions>, 'order'> & { order: number | undefined }
 export type tPlcEvent = ComponentEvent<typeof PlcEmitsOptions>
 
 export type tPlcGroup = PlcPublicAttrsType & {
@@ -23,6 +18,7 @@ export type tPlcGroup = PlcPublicAttrsType & {
     slots: { head: PlcPropsHead & { isExist: () => boolean } },
     setDurWidth: (width: number) => void,
     setPropsState: (data: Partial<PlcGroupPropsType>) => void,
+    getState: () => PlcPropsType,
 }
 
 export type tPlc = PlcPublicAttrsType & {
@@ -33,6 +29,7 @@ export type tPlc = PlcPublicAttrsType & {
     refer: () => tPlc,
     setDurWidth: (width: number) => void,
     setPropsState: (data: Partial<PlcPropsType>) => void,
+    getState: () => PlcPropsType,
 }
 
 export type tPlcType = tPlcGroup | tPlc

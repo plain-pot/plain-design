@@ -9,27 +9,57 @@ import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import PlTable from "../../../src/packages/PlTable";
 import {Plc} from "../../../src/packages/Plc";
 import PlcGroup from "../../../src/packages/PlTable/plc/core/PlcGroup";
-import {tPlc, tPlcType} from "../../../src/packages/PlTable/plc/utils/plc.type";
+import {tPlcType} from "../../../src/packages/PlTable/plc/utils/plc.type";
+import {applyPropsState, tPlcState} from "../../../src/packages/PlTable/plc/utils/usePropsState";
 
 export default designPage(() => {
 
     const TableConfigController = (() => {
 
-        const getTableId = (flatList: tPlc[]) => {
-            return flatList.map(i => `${i.props.title || '#'}-${i.props.field || '@'}`).join('_')
+        const cache = (() => {
+            const CACHE_KEY = '@@TABLE_CONFIG_CACHE'
+            let cacheString = window.localStorage.getItem(CACHE_KEY)
+            let cacheData: Record<string, undefined | tPlcState[]> = {}
+            if (!!cacheString) {
+                cacheData = JSON.parse(cacheString)
+            }
+            return {
+                get: (tableId: string) => {
+                    return cacheData[tableId]
+                },
+                set: (tableId: string, stateList: tPlcState[]) => {
+                    cacheData[tableId] = stateList
+                    window.localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData))
+                },
+            }
+        })();
+
+        const getTableId = (flatList: tPlcType[]): string => {
+            return flatList.map(i => {
+                if (i.group) {
+                    return `${i.props.title || '#'}-${getTableId(i.children)}`
+                } else {
+                    return `${i.props.title || '#'}-${i.props.field || '@'}`
+                }
+            }).join('_')
         }
 
-        const propsConfig = (plcList: tPlcType[], flatList: tPlc[]) => {
+        const propsConfig = (plcList: tPlcType[]) => {
+            const tableId = getTableId(plcList)
+            const cacheState = cache.get(tableId)
+            if (!!cacheState) {
+                applyPropsState(cacheState, plcList)
+            }
+        }
 
-            const tableId = getTableId(flatList)
-
-            console.log({
-                tableId
-            })
+        const propsOnConfigPlc = ({plcList, stateData}: { plcList: tPlcType[], stateData: tPlcState[] }) => {
+            const tableId = getTableId(plcList)
+            cache.set(tableId, stateData)
         }
 
         return {
             propsConfig,
+            propsOnConfigPlc,
         }
     })();
 
@@ -70,8 +100,14 @@ export default designPage(() => {
                 </PlForm>
             </DemoRow>
             <DemoRow title={'不分组'}>
-                <PlTable config={TableConfigController.propsConfig} data={data}>
-                    <Plc field={'id'} title={'编号'} width={"200px"}/>
+                <PlTable
+                    config={TableConfigController.propsConfig}
+                    onConfigPlc={TableConfigController.propsOnConfigPlc}
+                    data={data}
+                    colDraggable
+                    border
+                >
+                    <Plc field={'id'} title={'编号'} width={"200px"} fixed={"left"}/>
                     {/*这里虽然通过props设置了宽度，但是因为 在config 中也配置了这一列的宽度，所以这里配置的不生效*/}
                     <Plc field={'size'} title={'大小'} width={state.plc.width}/>
                     <Plc field={'date'} title={'日期'}/>
@@ -81,8 +117,14 @@ export default designPage(() => {
                 </PlTable>
             </DemoRow>
             <DemoRow title={'分组'}>
-                <PlTable config={TableConfigController.propsConfig} data={data}>
-                    <Plc field={'id'} title={'编号'} width={"200px"}/>
+                <PlTable
+                    config={TableConfigController.propsConfig}
+                    onConfigPlc={TableConfigController.propsOnConfigPlc}
+                    data={data}
+                    colDraggable
+                    border
+                >
+                    <Plc field={'id'} title={'编号'} width={"200px"} fixed="left"/>
                     <PlcGroup title={'第一组'}>
                         <Plc field={'size'} title={'大小'} width={state.plc.width}/>
                         <Plc field={'date'} title={'日期'}/>

@@ -62,10 +62,13 @@ function iteratePlc(plcList: tPlcType[], handler: (plc: tPlcType) => 'stop' | vo
 function getBroPlcList(plcList: tPlcType[], plc: tPlcType): tPlcType[] {
 
     let broPlcList: tPlcType[] = []
+    console.log({plcList})
 
     if (plcList.indexOf(plc) > -1) {
+        console.log(111);
         broPlcList = plcList
     } else {
+        console.log(222);
         iteratePlc(plcList, itarPlc => {
             if (itarPlc.group) {
                 if (itarPlc.children.indexOf(plc) > -1) {

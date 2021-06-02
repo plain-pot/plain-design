@@ -4,7 +4,8 @@ import {computed, designComponent, reactive, useNumber, useRefs} from "plain-des
 import React from "react";
 import {useCollect} from "../../../../use/useCollect";
 import Plc from "./Plc";
-import {usePropsState} from "../utils/usePropsState";
+import {getPropsState, usePropsState} from "../utils/usePropsState";
+import PlTable from "../../index";
 
 const PlcGroup = designComponent({
     name: 'plc-group',
@@ -13,14 +14,14 @@ const PlcGroup = designComponent({
     },
     slots: ['default', 'head'],
     setup({props, slots}) {
-
+        const table = PlTable.use.inject()
         const {refs, onRef} = useRefs({el: HTMLDivElement})
         /*collector收集列信息*/
         PlcCollector.child({sort: () => refs.el!, injectDefaultValue: null})
         const items = PlcCollector.parent(true)
         /*格式化props*/
         const {numberState} = useNumber(props, ['order'])
-        const propsState = usePropsState(computed(() => ({
+        const {propsState, state} = usePropsState(computed(() => ({
             ...props,
             ...numberState,
         }) as Omit<typeof props, 'order'> & typeof numberState))
@@ -39,7 +40,11 @@ const PlcGroup = designComponent({
                 const itemDurWidth = Math.floor(durWidth / (items.value.length))
                 items.value.forEach(item => item.setDurWidth(itemDurWidth))
             },
-            setPropsState: (data: any) => {Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})}
+            setPropsState: (data: any) => {
+                Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})
+                table.hooks.onConfigPlc.exec({plcList: table.plcData.value!.sourceList, stateData: getPropsState(table.plcData.value!.sourceList),})
+            },
+            getState: () => state as any,
         })
 
         return {

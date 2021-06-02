@@ -10,7 +10,7 @@ import {IteratePlcHandleType, iteratePlcList} from "./utils/iteratePlcList";
 
 export function formatPlcList(
     {
-        plcList,
+        plcList: sourceList,
         tableWidth,
         configPlcTypes,
     }: {
@@ -19,23 +19,23 @@ export function formatPlcList(
         configPlcTypes: TablePropsConfig,
     }
 ) {
-    /*复制一份plc数据*/
-    plcList = copyPlcList(plcList)
 
     /*config plcTypes*/
     ;(() => {
         const flatPlcList: tPlc[] = []
         iteratePlcList({
-            plcList,
+            plcList: sourceList,
             onPlc: (plc) => {
                 flatPlcList.push(plc)
                 return IteratePlcHandleType.nothing
             },
             onGroup: () => IteratePlcHandleType.nothing,
         })
-        configPlcTypes(plcList, flatPlcList)
+        configPlcTypes(sourceList, flatPlcList)
     })();
 
+    /*复制一份plc数据*/
+    const plcList = copyPlcList(sourceList)
     /*先处理AutoFixed*/
     processAutoFixed({plcList})
     /*对plc进行排序*/
@@ -48,7 +48,8 @@ export function formatPlcList(
     processPlcClassAndStyle({headPlcListArray})
 
     return {
-        plcList,                                                // 列数组数据，树形结构的数据(修改props有效)
+        sourceList,                                             // 原始列数组数据，树形结构的数据(修改props有效)
+        plcList,                                                // 原始列数组数据的一份拷贝
         flatPlcList,                                            // 展开之后最底层的列数组(修改props无效)
         targetTableWidth,                                       // 表格设置的样式宽度
         tableWidth,                                             // 表格容器宽度

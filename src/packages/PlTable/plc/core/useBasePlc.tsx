@@ -4,13 +4,15 @@ import {tPlcScopeSlots} from "../utils/plc.scope-slots";
 import {PlcCollector} from "./PlcGroup";
 import {tPlc, tPlcEvent} from "../utils/plc.type";
 import React from "react";
-import {usePropsState} from "../utils/usePropsState";
+import {getPropsState, usePropsState} from "../utils/usePropsState";
+import PlTable from "../../index";
 
 export function useBasePlc({props, scopeSlots, event}: {
     props: ExtractPropTypes<typeof PlcPropsOptions>,
     scopeSlots: tPlcScopeSlots,
     event: tPlcEvent,
 }) {
+    const table = PlTable.use.inject()
     const {refs, onRef} = useRefs({el: HTMLElement})
 
     /*collector收集列信息*/
@@ -18,7 +20,7 @@ export function useBasePlc({props, scopeSlots, event}: {
     /*格式化props*/
     const {numberState} = useNumber(props, ['order', 'width'])
 
-    const propsState = usePropsState(computed(() => ({
+    const {propsState, state} = usePropsState(computed(() => ({
         ...props,
         ...numberState,
     }) as Omit<typeof props, 'order' | 'width'> & typeof numberState))
@@ -33,7 +35,11 @@ export function useBasePlc({props, scopeSlots, event}: {
         refer: () => plc,
         refs,
         setDurWidth: (durWidth: number) => plc.setPropsState({width: Number((propsState.width)) + durWidth}),
-        setPropsState: (data: any) => {Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})}
+        setPropsState: (data: any) => {
+            Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})
+            table.hooks.onConfigPlc.exec({plcList: table.plcData.value!.sourceList, stateData: getPropsState(table.plcData.value!.sourceList),})
+        },
+        getState: () => state as any,
     })
 
     return {
