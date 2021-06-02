@@ -17,7 +17,7 @@ export default designComponent({
     setup({props, scopeSlots, event}) {
         return useExternalPlc({
             props, scopeSlots, event, defaultScopeSlots: {
-                default: ({row, plc}) => !plc.props.field ? null : <PlRate disabled v-model={row[plc.props.field]}/>,
+                normal: ({row, plc}) => !plc.props.field ? null : <PlRate disabled v-model={row[plc.props.field]}/>,
                 edit: ({row, plc}) => !plc.props.field ? null : <PlRate v-model={row[plc.props.field]}/>,
             }
         })

@@ -18,7 +18,7 @@ export default designComponent({
         return useExternalPlc({
             props, scopeSlots, event, defaultScopeSlots: {
                 summary: () => null,
-                default: ({row, plc}) => !plc.props.field ? null :
+                normal: ({row, plc}) => !plc.props.field ? null :
                     <PlCheckbox
                         disabled
                         v-model={row[plc.props.field]}

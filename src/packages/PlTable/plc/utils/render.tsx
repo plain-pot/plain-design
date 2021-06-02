@@ -70,8 +70,8 @@ function getBodyCell(
         if (plc.scopeSlots.summary.isExist()) {
             return plc.scopeSlots.summary(renderScope)
         }
-        if (plc.scopeSlots.default.isExist()) {
-            return plc.scopeSlots.default(renderScope)
+        if (plc.scopeSlots.normal.isExist()) {
+            return plc.scopeSlots.normal(renderScope)
         }
         return !!plc.props.field ? renderScope.row[plc.props.field] : null
     } else {
@@ -87,8 +87,8 @@ function getBodyCell(
         } else {
             // 当前单元格不可编辑，如果当前行处于编辑状态，则渲染的行数据为 tableNode.editRow，否则为 tableNode.data
             // 使用作用域插槽default渲染，没有则使用渲染函数default渲染，没有则直接显示field对应的值
-            if (plc.scopeSlots.default.isExist()) {
-                return plc.scopeSlots.default(renderScope)
+            if (plc.scopeSlots.normal.isExist()) {
+                return plc.scopeSlots.normal(renderScope)
             }
             return !!plc.props.field ? renderScope.row[plc.props.field] : null
         }

@@ -27,7 +27,7 @@ export default designComponent({
         return useExternalPlc({
             props, scopeSlots, event, defaultScopeSlots: {
                 head: () => '#',
-                default: ({node, plc}) => (plc.props as any).start + node.index + 1,
+                normal: ({node, plc}) => (plc.props as any).start + node.index + 1,
                 summary: () => <span className="plc-index-summary-text">{props.summaryText}</span>,
             }
         })

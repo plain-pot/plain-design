@@ -86,7 +86,7 @@ export default designComponent({
                         </PlDropdownMenu>}
                     />
                 ),
-                default: ({node}) => {
+                normal: ({node}) => {
                     return (!node.isSummary || props.summaryExpand) && (<PlButton{...{
                         icon: 'el-icon-arrow-down',
                         mode: 'text',

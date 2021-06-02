@@ -34,20 +34,20 @@ export function useExternalPlc({props, scopeSlots, event, defaultScopeSlots}: {
                 return false
             },
         }),
-        default: Object.assign((scope: TableRenderScope) => {
-            if (scopeSlots.default.isExist()) {
-                return scopeSlots.default(scope)
+        normal: Object.assign((scope: TableRenderScope) => {
+            if (scopeSlots.normal.isExist()) {
+                return scopeSlots.normal(scope)
             }
-            if (!!defaultScopeSlots && defaultScopeSlots.default) {
-                return defaultScopeSlots.default(scope)
+            if (!!defaultScopeSlots && defaultScopeSlots.normal) {
+                return defaultScopeSlots.normal(scope)
             }
             return !scope.plc.props.field ? '' : scope.row[scope.plc.props.field]
         }, {
             isExist: () => {
-                if (scopeSlots.default.isExist()) {
+                if (scopeSlots.normal.isExist()) {
                     return true
                 }
-                if (!!defaultScopeSlots && !!defaultScopeSlots.default) {
+                if (!!defaultScopeSlots && !!defaultScopeSlots.normal) {
                     return true
                 }
                 return false
@@ -60,7 +60,7 @@ export function useExternalPlc({props, scopeSlots, event, defaultScopeSlots}: {
             if (!!defaultScopeSlots && defaultScopeSlots.edit) {
                 return defaultScopeSlots.edit(scope)
             }
-            return formatScopeSlots.default(scope)
+            return formatScopeSlots.normal(scope)
         }, {
             isExist: () => {
                 if (scopeSlots.edit.isExist()) {
@@ -79,7 +79,7 @@ export function useExternalPlc({props, scopeSlots, event, defaultScopeSlots}: {
             if (!!defaultScopeSlots && defaultScopeSlots.summary) {
                 return defaultScopeSlots.summary(scope)
             }
-            return formatScopeSlots.default(scope)
+            return formatScopeSlots.normal(scope)
         }, {
             isExist: () => {
                 if (scopeSlots.summary.isExist()) {

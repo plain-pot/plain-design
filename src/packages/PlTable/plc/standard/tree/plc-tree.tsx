@@ -152,7 +152,7 @@ export default designComponent({
                     />
                     <div className="plc-tree-node-content">{plc.props.title}</div>
                 </>),
-                default: ({node, plc, row}) => {
+                normal: ({node, plc, row}) => {
                     return (
                         <>
                             <div className="plc-tree-node-expander" {...utils.getExpanderAttrs(node)}>

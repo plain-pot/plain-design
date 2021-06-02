@@ -12,7 +12,7 @@ export type ScopeSlotsType<ScopeSlots extends Record<string, (...args: any) => a
 
 export const PlcScopeSlotsOptions = {
     head: {} as PlcPropsHead,                       // 列标题渲染函数
-    default: {} as PlcPropsDefault,                 // 列内容默认渲染函数
+    normal: {} as PlcPropsDefault,                  // 列内容默认渲染函数
     summary: {} as PlcPropsSummary,                 // 列内容在合计行上的渲染函数
     edit: {} as PlcPropsEdit,                       // 列内容在编辑状态下的渲染函数
 }

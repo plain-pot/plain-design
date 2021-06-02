@@ -105,7 +105,7 @@ export default designPage(() => {
                              fixed={'left'}
                              width={state.plc.width}
                              head={({plc}) => (<span>id标题:{plc.props.title}</span>)}
-                             default={({row}) => (<span>id:{row.id}</span>)}
+                             normal={({row}) => (<span>id:{row.id}</span>)}
                              summary={({row}) => (<span>smy:{row.id}</span>)}
                         />
                         <Plc title={'编号'} field={'id'}/>
@@ -135,7 +135,7 @@ export default designPage(() => {
                             field="size"
                             title="大小"
                             head={({plc}) => (<span>size:{plc.props.title}</span>)}
-                            default={({row}) => (<span>size:{row.id}</span>)}
+                            normal={({row}) => (<span>size:{row.id}</span>)}
                             summary={({row}) => (<span>smy size:{row.id}</span>)}
                         />
                         <Plc field="date" title="日期"/>

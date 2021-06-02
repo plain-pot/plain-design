@@ -40,7 +40,7 @@ export default designComponent({
 
         return useExternalPlc({
             props, scopeSlots, event, defaultScopeSlots: {
-                default: () => <PlButton
+                normal: () => <PlButton
                     icon="el-icon-list"
                     mode="text"
                     className="plc-draggier-handler"

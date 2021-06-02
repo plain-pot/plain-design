@@ -90,7 +90,7 @@ export default designComponent({
         const {refer, render} = useExternalPlc({
             props, scopeSlots, event, defaultScopeSlots: {
                 summary: () => null,
-                default: ({node}) => <PlCheckbox
+                normal: ({node}) => <PlCheckbox
                     customReadonly
                     modelValue={isCheck(node)}
                     onClick={() => handler.onClickCheckbox(node)}
