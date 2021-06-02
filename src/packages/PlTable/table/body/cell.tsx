@@ -2,39 +2,36 @@ import {tPlc} from "../../plc/utils/plc.type";
 import {TableNode} from "../use/useTableNode";
 import {useEdit} from "../../../../use/useEdit";
 import {StyleStatus, useStyle} from "../../../../use/useStyle";
-import {ComputedRef} from "plain-design-composition";
+import {ComputedRef, designComponent, PropType, useClasses, useStyles} from "plain-design-composition";
 import {FormAssociateFields, FormValidateTrigger, tFormRuleData} from "../../../PlForm/form.validate";
-import {designComponent, PropType, useStyles} from "plain-design-composition";
 import {PlainTable} from "../../index";
-import {useClasses} from "plain-design-composition";
 import {renderBodyCell} from "../../plc/utils/render";
 import React from "react";
 
 function useCellFormItemValidate(props: { plc: tPlc, node: TableNode }, formRuleData: ComputedRef<tFormRuleData>, associateFields?: FormAssociateFields) {
     const handler = {
-        onEditChange: async () => {
+        validateChange: async (trigger: FormValidateTrigger) => {
             let {plc: {props: {field}}, node} = props
             const {edit, data, editRow, validateErrors} = node
             if (!field) {return}
-            node.validateErrors = await formRuleData.value.methods.validateField({
+            const {fitRuleList, fitRuleMap} = formRuleData.value.methods.getRules({
                 field,
-                trigger: FormValidateTrigger.change,
+                trigger,
+                associateFields,
+            })
+            if (fitRuleList.length === 0) {return}
+
+            node.validateErrors = await formRuleData.value.methods.validateField({
+                rules: fitRuleMap,
                 formData: edit ? editRow : data,
                 allErrors: validateErrors || [],
-                associateFields,
             })
         },
+        onEditChange: async () => {
+            await handler.validateChange(FormValidateTrigger.change)
+        },
         onEditBlur: async () => {
-            let {plc: {props: {field}}, node} = props
-            const {edit, data, editRow, validateErrors} = node
-            if (!field) {return}
-            node.validateErrors = await formRuleData.value.methods.validateField({
-                field,
-                trigger: FormValidateTrigger.blur,
-                formData: edit ? editRow : data,
-                allErrors: validateErrors || [],
-                associateFields,
-            })
+            await handler.validateChange(FormValidateTrigger.blur)
         },
     }
     useEdit({

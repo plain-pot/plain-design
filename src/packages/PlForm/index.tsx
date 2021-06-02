@@ -12,7 +12,6 @@ import {useCollect} from "../../use/useCollect";
 import {PlFormItem} from "../PlFormItem";
 import {PlLoadingMask} from "../PlLoadingMask";
 import {delay} from "plain-utils/utils/delay";
-import {ErrorList} from "async-validator";
 
 export const PlForm = designComponent({
     name: 'pl-form',
@@ -218,37 +217,32 @@ export const PlForm = designComponent({
         }
 
         const validateHandler = {
+            validateChange: async (trigger: FormValidateTrigger, field: string | string[] | undefined) => {
+                if (!field) {return}
+                const {fitRuleList, fitRuleMap} = formRuleData.value.methods.getRules({
+                    field,
+                    trigger,
+                    associateFields: props.associateFields,
+                })
+                if (fitRuleList.length === 0) {return}
+                childState.allErrors = await formRuleData.value.methods.validateField({
+                    formData: props.modelValue,
+                    allErrors: childState.allErrors,
+                    rules: fitRuleMap,
+                })
+            },
             onEditChange: async (field?: string | string[]) => {
                 if (props.validateMode === FormValidateMode.form) {
                     return
                 }
-                if (!field) {return}
-                childState.allErrors = await formRuleData.value.methods.validateField({
-                    formData: props.modelValue,
-                    field,
-                    trigger: FormValidateTrigger.change,
-                    allErrors: childState.allErrors,
-                    associateFields: props.associateFields,
-                })
+                await validateHandler.validateChange(FormValidateTrigger.change, field)
             },
             onBlurChange: async (field?: string | string[]) => {
                 if (!field) {return}
-                childState.allErrors = await formRuleData.value.methods.validateField({
-                    formData: props.modelValue,
-                    field,
-                    trigger: FormValidateTrigger.blur,
-                    allErrors: childState.allErrors,
-                    associateFields: props.associateFields,
-                })
+                await validateHandler.validateChange(FormValidateTrigger.blur, field)
             },
             onFieldChange: async (field: string) => {
-                childState.allErrors = await formRuleData.value.methods.validateField({
-                    formData: props.modelValue,
-                    field,
-                    trigger: FormValidateTrigger.change,
-                    associateFields: props.associateFields,
-                    allErrors: childState.allErrors,
-                })
+                await validateHandler.onEditChange(field)
             },
             onFormDataChange: debounce((val: any) => {
                 const newFormData = val || {}
