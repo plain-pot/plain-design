@@ -50,10 +50,10 @@ export function useTableNode(
                 const {methods: {validate}} = getValidate()
                 const errors = await validate(this.editRow)
                 this.validateErrors = errors
-                return {
+                return !!errors && errors.length > 0 ? {
                     errors: errors,
                     node: this
-                }
+                } : null
             }
             node.saveEdit = async function (newRow) {
                 if (!this.edit) return
