@@ -30,6 +30,7 @@ export const PlcPropsOptions = {
     field: {type: String},                                                  // 列绑定字段
     width: {type: [String, Number], default: 120},                          // 列宽度
     fit: {type: Boolean},                                                   // 列宽自适应(只有一个列能够自适应)
+    hideInForm: {type: Boolean},                                            // 是否再表单编辑中显示
 
     // 编辑相关
     required: {type: Boolean},                                              // 是否必填

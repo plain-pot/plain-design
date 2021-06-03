@@ -14,13 +14,15 @@ export function renderBodyCell(
     {
         node,
         plc,
+        formEdit,
     }: {
         node: TableNode,
         plc: tPlc,
+        formEdit: boolean,
     }
 ) {
-    const editable = getEditable(plc, node)
-    const body = getBodyCell({node, plc, editable})
+    const editable = getEditable(plc, node, formEdit)
+    const body = getBodyCell({node, plc, editable, formEdit})
     return {
         editable,
         body,
@@ -38,10 +40,15 @@ export function renderBodyCell(
  * @author  韦胜健
  * @date    2020/7/21 21:16
  */
-function getEditable(plc: tPlc, node: TableNode) {
+function getEditable(plc: tPlc, node: TableNode, formEdit: boolean) {
     // 行非编辑状态下，定性为不可编辑
     if (!node.edit) {
         return false
+    }
+    if (formEdit) {
+        if (!plc.scopeSlots.form.isExist() && !plc.scopeSlots.edit.isExist()) {
+            return false
+        }
     }
     // 如果没有edit渲染函数以及作用域插槽，那么直接定性为不可编辑
     if (!plc.scopeSlots.edit.isExist()) {
@@ -55,10 +62,12 @@ function getBodyCell(
         node,
         plc,
         editable,
+        formEdit,
     }: {
         node: TableNode,
         plc: tPlc,
         editable: boolean,
+        formEdit: boolean,
     }
 ): VNodeChild {
     let renderScope: TableRenderScope
@@ -80,6 +89,9 @@ function getBodyCell(
         renderScope = {node, plc, row}
 
         if (editable) {
+            if (formEdit && plc.scopeSlots.form.isExist()) {
+                return plc.scopeSlots.form(renderScope)
+            }
             // 当前一定存在 plc.scopedSlots.edit 或者 plc.props.edit，否则 editable不可能为true
             if (plc.scopeSlots.edit.isExist()) {
                 return plc.scopeSlots.edit(renderScope)

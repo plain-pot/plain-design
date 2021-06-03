@@ -76,7 +76,7 @@ export const PltCell = designComponent({
         return {
             render: () => {
                 const {node, plc} = props
-                const {body, editable} = renderBodyCell({node, plc})
+                const {body, editable} = renderBodyCell({node, plc, formEdit: false})
                 const span = !!props.table.props.spanMethod ? props.table.props.spanMethod({node, plc}) : {rowspan: 1, colspan: 1}
 
                 if (span.rowspan === 0 || span.colspan === 0) {

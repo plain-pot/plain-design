@@ -5,6 +5,7 @@ import {PlcScopeSlotsOptions} from "../PlTable/plc/utils/plc.scope-slots";
 import useDialog from "../useDialog";
 import {PlTextareDialog} from "./PlTextareaDialog";
 import React from "react";
+import PlInput from "../PlInput";
 
 export const PlcTextarea = designComponent({
     name: 'plc-textarea',
@@ -34,7 +35,8 @@ export const PlcTextarea = designComponent({
 
         return useExternalPlc({
             props, scopeSlots, event, defaultScopeSlots: {
-                edit: ({plc, row}) => !plc.props.field ? null : <PlTextareDialog v-model={row[plc.props.field]}/>
+                edit: ({plc, row}) => !plc.props.field ? null : <PlTextareDialog v-model={row[plc.props.field]}/>,
+                form: ({plc, row}) => !plc.props.field ? null : <PlInput textarea v-model={row[plc.props.field]}/>
             }
         })
     },

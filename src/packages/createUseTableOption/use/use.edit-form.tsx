@@ -5,6 +5,7 @@ import React from "react";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import PlForm from "../../PlForm";
 import PlFormItem from "../../PlFormItem";
+import {renderBodyCell} from "../../PlTable/plc/utils/render";
 
 export function useTableProEditForm() {
     const $dialog = useDialog()
@@ -17,6 +18,8 @@ export function useTableProEditForm() {
         onCancel: () => void,
     }) => {
         node = cloneTableNode(node)
+        node.edit = true
+        node.editRow = node.data
 
         $dialog({
             status: null,
@@ -33,8 +36,9 @@ export function useTableProEditForm() {
                 return (
                     <div>
                         <PlForm column={1} width={'100%'} centerWhenSingleColumn={false}>
-                            {plcList.map((plc, index) => (
+                            {plcList.filter(i => !i.props.hideInForm).map((plc, index) => (
                                 <PlFormItem key={index} label={plc.props.title}>
+                                    {renderBodyCell({node, plc, formEdit: true}).body}
                                 </PlFormItem>
                             ))}
                         </PlForm>
