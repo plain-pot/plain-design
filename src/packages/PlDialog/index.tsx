@@ -1,5 +1,5 @@
 import './dialog.scss'
-import {computed, designComponent, onBeforeUnmount, reactive, ref, useRefs, watch} from "plain-design-composition";
+import {computed, designComponent, onBeforeUnmount, PropType, reactive, ref, useRefs, watch} from "plain-design-composition";
 import {StyleProps, StyleShape, StyleSize, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
 import {nextIndex} from "plain-design-composition"
@@ -44,6 +44,7 @@ export const PlDialog = designComponent({
         beforeClose: Function,                                                  // 关闭之前的回调
         center: {type: Boolean},                                                // 是否纵向居中对其
         destroyOnClose: {type: Boolean, default: true},                         // 关闭的时候是否销毁内容
+        footAlign: {type: String as PropType<'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'>},
 
         confirmButton: {type: Boolean},                                         // 是否显示确认按钮
         cancelButton: {type: Boolean},                                          // 是否显示取消按钮
@@ -247,7 +248,7 @@ export const PlDialog = designComponent({
                                     <div className="pl-dialog-content" style={contentStyle.value as any}>
                                         {slots.default()}
                                     </div>
-                                    {hasFoot.value && <div className="pl-dialog-foot">
+                                    {hasFoot.value && <div className="pl-dialog-foot" style={{justifyContent: props.footAlign || 'flex-end'}}>
                                         {slots.foot()}
 
                                         {!!props.cancelButton && <PlButton label={props.cancelButtonText} mode="stroke" onClick={methods.cancel}/>}
