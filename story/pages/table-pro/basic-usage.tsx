@@ -35,15 +35,15 @@ export default designPage(() => {
                 <PlcCheckbox title="flag" field="flag"/>
                 <PlcSelect title="selectVal" field="selectVal">
                     <PlSelectOption label="消费者" val="consumer">
-                        <PlIcon icon="el-icon-s-custom" status="primary"/>
+                        <PlIcon icon="el-icon-s-custom" status="primary" style={{marginRight: '4px'}}/>
                         <span>消费者</span>
                     </PlSelectOption>
                     <PlSelectOption label="潜在客户" val="potential">
-                        <PlIcon icon="el-icon-place" status="info"/>
+                        <PlIcon icon="el-icon-place" status="info" style={{marginRight: '4px'}}/>
                         <span>潜在客户</span>
                     </PlSelectOption>
                     <PlSelectOption label="门店" val="store">
-                        <PlIcon icon="el-icon-s-shop" status="error"/>
+                        <PlIcon icon="el-icon-s-shop" status="error" style={{marginRight: '4px'}}/>
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
