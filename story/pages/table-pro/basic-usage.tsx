@@ -8,6 +8,7 @@ import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";
 import {PlcNumber} from "../../../src/packages/PlcNumber";
 import {PlcInput} from "../../../src/packages/PlcInput";
 import {TableRenderScope} from "../../../src/packages/PlTable/plc/utils/plc.type";
+import PlcTextarea from "../../../src/packages/PlcTextarea";
 
 export default designPage(() => {
 
@@ -46,6 +47,7 @@ export default designPage(() => {
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
+                <PlcTextarea title="longText" field="longText"/>
             </PlTablePro>
         </div>
     </>
