@@ -10,6 +10,7 @@ import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {$$dialog} from "../../useDialog";
 import {useAsyncMethods} from "../utils/useAsyncMethods";
 import {useTableProEditForm} from "./use.edit-form";
+import {defer} from "../../../utils/defer";
 
 export function useTableMethods({tableState, config, pagination, hooks, currentNode}: {
     tableState: iTableState,
@@ -164,7 +165,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 }
             }
             const editForm = () => {
-                console.log('表单编辑', newRowData)
+                const dfd = defer()
                 const newNode = freezeState.table.utils.getTreeNodeByData({
                     data: newRowData,
                     level: 1,
@@ -174,13 +175,18 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     node: newNode,
                     title: '新建',
                     plcList: freezeState.table.plcData.value!.flatPlcList,
-                    onConfirm: () => {
-                        console.log('保存表单编辑')
+                    onConfirm: async (newNode) => {
+                        let {request, requestConfig} = utils.getUrlConfig('insert')
+                        requestConfig.body = deepcopy(newNode.editRow)
+                        requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                        const newRowResult = await request!(requestConfig)
+                        tableState.list.unshift(newRowResult.newRow)
+                        dfd.resolve()
                     },
-                    onCancel: () => {
-                        console.log('取消表单编辑')
-                    },
+                    onCancel: dfd.resolve,
                 })
+
+                return dfd.promise
             }
 
             await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
