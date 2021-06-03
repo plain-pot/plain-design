@@ -295,7 +295,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                         requestConfig.body = deepcopy(updateNode.editRow)
                         requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
                         const updateResult = await request!(requestConfig)
-                        console.log({updateResult})
                         await node.saveEdit(updateResult.newRow)
                         dfd.resolve()
                     },
