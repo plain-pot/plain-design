@@ -9,6 +9,7 @@ import {deepcopy} from "plain-utils/object/deepcopy";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {$$dialog} from "../../useDialog";
 import {useAsyncMethods} from "../utils/useAsyncMethods";
+import {useTableProEditForm} from "./use.edit-form";
 
 export function useTableMethods({tableState, config, pagination, hooks, currentNode}: {
     tableState: iTableState,
@@ -22,6 +23,8 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
         effects: null as null | { onSave: () => void, onCancel: () => void },
         table: {} as typeof PlTable.use.class
     }
+
+    const tablePropUseEditForm = useTableProEditForm()
 
     const utils = {
         getUrlConfig: <T extends keyof iTableProDefaultConfig["getDefaultUrlConfig"]>(type: T) => {
@@ -127,12 +130,12 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
         const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
             await editMethods.save()
 
+            let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
+
             const editInline = async () => {
                 tableState.editingWhenAddRow = true
                 tableState.mode = TableMode.insert
-                let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
                 tableState.list.unshift(newRowData)
-                tableState.insertRows = [tableState.list[0]]
                 await nextTick()
                 const newNode = freezeState.table.flatNodes.value[0]
                 newNode.validate()
@@ -153,17 +156,30 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                         newNode.saveEdit(newRowResult.newRow)
                         newNode.closeEdit()
                         tableState.mode = TableMode.normal
-                        tableState.insertRows = []
                     },
                     onCancel: async () => {
                         tableState.mode = TableMode.normal
                         tableState.list.shift()
-                        tableState.insertRows = []
                     },
                 }
             }
             const editForm = () => {
-                console.log('表单编辑')
+                console.log('表单编辑', newRowData)
+                const newNode = freezeState.table.utils.getTreeNodeByData({
+                    data: newRowData,
+                    level: 1,
+                    parentRef: () => null as any,
+                })
+                tablePropUseEditForm.edit({
+                    node: newNode,
+                    title: '新建',
+                    onConfirm: () => {
+                        console.log('保存表单编辑')
+                    },
+                    onCancel: () => {
+                        console.log('取消表单编辑')
+                    },
+                })
             }
 
             await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
@@ -186,7 +202,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             tableState.mode = TableMode.insert
             const newRows = new Array(num).fill(null).map(() => deepcopy((!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))))
             tableState.list.unshift(...newRows)
-            tableState.insertRows = [...tableState.list.slice(0, newRows.length)]
             await nextTick()
             const newNodes = freezeState.table.flatNodes.value.slice(0, newRows.length)
             newNodes.forEach(node => {node.validate()})
@@ -207,14 +222,12 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     await request!(requestConfig)
                     freezeState.effects = null
                     tableState.mode = TableMode.normal
-                    tableState.insertRows = []
 
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
                     tableState.mode = TableMode.normal
                     tableState.list.splice(0, newRows.length)
-                    tableState.insertRows = []
                 },
             }
         }
@@ -238,7 +251,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             if (node.edit) {return}
 
             tableState.mode = TableMode.update
-            tableState.updateRows = [node.data]
             await nextTick()
             node.openEdit()
             node.validate()
@@ -258,12 +270,10 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     node.saveEdit(updateResult.newRow)
                     node.closeEdit()
                     tableState.mode = TableMode.normal
-                    tableState.updateRows = []
                 },
                 onCancel: async () => {
                     tableState.mode = TableMode.normal
                     node.cancelEdit()
-                    tableState.updateRows = []
                 },
             }
         }
@@ -273,7 +283,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
 
             tableState.mode = TableMode.update
             const updateNodes = [...freezeState.table.flatNodes.value]
-            tableState.updateRows = [updateNodes.map(n => n.data)]
             await nextTick()
             updateNodes.forEach(node => {
                 node.openEdit()
@@ -294,7 +303,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     await request!(requestConfig)
                     freezeState.effects = null
                     tableState.mode = TableMode.normal
-                    tableState.updateRows = []
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -302,7 +310,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     updateNodes.forEach(node => {
                         node.cancelEdit()
                     })
-                    tableState.updateRows = []
                 },
             }
         }

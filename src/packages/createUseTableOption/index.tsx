@@ -16,8 +16,6 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             list: [] as any[],
             editingWhenAddRow: false,
             mode: TableMode.normal,
-            insertRows: [],
-            updateRows: [],
             selectRows: [],
             isEditing: computed(() => [TableMode.normal, TableMode.select].indexOf(tableState.mode) === -1),
             currentKey: null,

@@ -169,10 +169,9 @@ export interface iTableState {
     list: any[],
     editingWhenAddRow: boolean,
     mode: TableMode,
-    insertRows: any[],
-    updateRows: any[],
     selectRows: any[],
-    isEditing: boolean,
     currentKey: string | null,
     tableGetter: () => typeof PlTable.use.class | null,
+
+    isEditing: boolean,
 }
