@@ -15,7 +15,7 @@ export default designPage(() => {
     const option = useTableOption({
         title: '示例列表',
         url: '/demo',
-        editType: 'form',
+        // editType: 'form',
         defaultNewRow: {
             count: 100
         },

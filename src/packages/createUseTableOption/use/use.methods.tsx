@@ -252,8 +252,12 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             return editMethods.insert(row)
         }
 
-        const update = async (node: TableNode, editType?: eTableProEditType) => {
+        const update = async (updateNode?: TableNode, editType?: eTableProEditType) => {
             await editMethods.save()
+            const node = updateNode || freezeState.table.getCurrent()
+            if (!node) {
+                throw new Error('update cancel, there are on select node to be update.')
+            }
 
             const editInline = async () => {
                 if (node.edit) {return}
