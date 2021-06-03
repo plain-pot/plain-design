@@ -24,7 +24,7 @@ export default designComponent({
 
                     let content = scopeSlots.normal.isExist() ? scopeSlots.normal(scope) : slots.default()
                     const children = (isFragment(content) ? content.props.children : content) as ReactElement[]
-                    const selectedOption = children.find(child => child.props.val === val)
+                    const selectedOption = !children ? null : children.find(child => child.props.val === val)
 
                     return !selectedOption ? val : (selectedOption.props.children || selectedOption.props.label)
                 },
