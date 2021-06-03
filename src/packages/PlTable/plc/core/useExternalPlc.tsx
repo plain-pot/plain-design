@@ -72,6 +72,25 @@ export function useExternalPlc({props, scopeSlots, event, defaultScopeSlots}: {
                 return false
             },
         }),
+        form: Object.assign((scope: TableRenderScope) => {
+            if (scopeSlots.form.isExist()) {
+                return scopeSlots.form(scope)
+            }
+            if (!!defaultScopeSlots && defaultScopeSlots.form) {
+                return defaultScopeSlots.form(scope)
+            }
+            return formatScopeSlots.edit(scope)
+        }, {
+            isExist: () => {
+                if (scopeSlots.form.isExist() || scopeSlots.edit.isExist()) {
+                    return true
+                }
+                if (!!defaultScopeSlots && (!!defaultScopeSlots.form || !!defaultScopeSlots.edit)) {
+                    return true
+                }
+                return false
+            },
+        }),
         summary: Object.assign((scope: TableRenderScope) => {
             if (scopeSlots.summary.isExist()) {
                 return scopeSlots.summary(scope)
