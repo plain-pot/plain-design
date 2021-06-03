@@ -133,7 +133,6 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             tableState.insertRows = [tableState.list[0]]
             await nextTick()
             const newNode = freezeState.table.flatNodes.value[0]
-            console.log('newNode', {...newNode})
             newNode.validate()
             tableState.editingWhenAddRow = false
 
@@ -182,10 +181,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             tableState.insertRows = [...tableState.list.slice(0, newRows.length)]
             await nextTick()
             const newNodes = freezeState.table.flatNodes.value.slice(0, newRows.length)
-            newNodes.forEach(node => {
-                console.log({...node})
-                node.validate()
-            })
+            newNodes.forEach(node => {node.validate()})
             tableState.editingWhenAddRow = false
 
             freezeState.effects = {
