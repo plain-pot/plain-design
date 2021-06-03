@@ -92,6 +92,11 @@ export interface iTableButtonConfig {
     handler: () => void | Promise<void>,
 }
 
+export enum eTableProEditType {
+    inline = 'inline',
+    form = 'form'
+}
+
 /**
  * TablePro默认配置
  * @author  韦胜健
@@ -105,7 +110,7 @@ export interface iTableProDefaultConfig {
     border?: boolean,
     showRow: number,
     pageSizeOptions: number[],
-    editType: 'inline' | 'form',
+    editType: keyof typeof eTableProEditType,
     loadOnStart?: boolean,
     copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
@@ -129,6 +134,7 @@ export interface iTableProConfig<D = any> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
     pageSize?: number,                                                  // 请求页大小
+    editType?: keyof typeof eTableProEditType,                          // 编辑类型
     defaultEditing?: boolean,                                           // <是否默认开启编辑状态>
     defaultNewRow?: tDefaultNewRow,                                     // 新建行的时候的默认新行数据
     copyExcludeKeys?: string[],                                         // 复制一行的时候，额外的不复制的属性

@@ -1,4 +1,4 @@
-import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
+import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig, eTableProEditType} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
@@ -124,41 +124,49 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
 
     const editMethods = useAsyncMethods((() => {
 
-        const insert = async (newRow?: Record<string, any>) => {
+        const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
             await editMethods.save()
-            tableState.editingWhenAddRow = true
-            tableState.mode = TableMode.insert
-            let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
-            tableState.list.unshift(newRowData)
-            tableState.insertRows = [tableState.list[0]]
-            await nextTick()
-            const newNode = freezeState.table.flatNodes.value[0]
-            newNode.validate()
-            tableState.editingWhenAddRow = false
 
-            freezeState.effects = {
-                onSave: async () => {
-                    const validateResult = await newNode.validate()
-                    if (!!validateResult) {
-                        const {errors, node: {index}} = validateResult
-                        $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
-                        return Promise.reject(validateResult)
-                    }
-                    let {request, requestConfig} = utils.getUrlConfig('insert')
-                    requestConfig.body = deepcopy(newNode.editRow)
-                    requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
-                    const newRowResult = await request!(requestConfig)
-                    newNode.saveEdit(newRowResult.newRow)
-                    newNode.closeEdit()
-                    tableState.mode = TableMode.normal
-                    tableState.insertRows = []
-                },
-                onCancel: async () => {
-                    tableState.mode = TableMode.normal
-                    tableState.list.shift()
-                    tableState.insertRows = []
-                },
+            const editInline = async () => {
+                tableState.editingWhenAddRow = true
+                tableState.mode = TableMode.insert
+                let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
+                tableState.list.unshift(newRowData)
+                tableState.insertRows = [tableState.list[0]]
+                await nextTick()
+                const newNode = freezeState.table.flatNodes.value[0]
+                newNode.validate()
+                tableState.editingWhenAddRow = false
+
+                freezeState.effects = {
+                    onSave: async () => {
+                        const validateResult = await newNode.validate()
+                        if (!!validateResult) {
+                            const {errors, node: {index}} = validateResult
+                            $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
+                            return Promise.reject(validateResult)
+                        }
+                        let {request, requestConfig} = utils.getUrlConfig('insert')
+                        requestConfig.body = deepcopy(newNode.editRow)
+                        requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                        const newRowResult = await request!(requestConfig)
+                        newNode.saveEdit(newRowResult.newRow)
+                        newNode.closeEdit()
+                        tableState.mode = TableMode.normal
+                        tableState.insertRows = []
+                    },
+                    onCancel: async () => {
+                        tableState.mode = TableMode.normal
+                        tableState.list.shift()
+                        tableState.insertRows = []
+                    },
+                }
             }
+            const editForm = () => {
+                console.log('表单编辑')
+            }
+
+            await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
         }
 
         const batchInsert = async () => {
