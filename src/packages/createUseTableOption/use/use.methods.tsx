@@ -8,6 +8,7 @@ import $$message from "../../$$message";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {$$dialog} from "../../useDialog";
+import {useAsyncMethods} from "../utils/useAsyncMethods";
 
 export function useTableMethods({tableState, config, pagination, hooks, currentNode}: {
     tableState: iTableState,
@@ -51,8 +52,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
         },
     }
 
-    const pageMethods = {
-        load: async (loadConfig?: { page?: number, size?: number }) => {
+    const pageMethods = useAsyncMethods((() => {
+
+        const load = async (loadConfig?: { page?: number, size?: number }) => {
             await editMethods.save()
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
@@ -66,13 +68,15 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             rows = await hooks.onLoaded.exec(rows)
             pagination.update({...targetLoadConfig, hasNext, list: rows})
             return rows
-        },
-        reload: async (reloadConfig?: { size?: number }) => {
-            const rows = await pageMethods.load({page: 0, size: !reloadConfig ? undefined : reloadConfig.size})
+        }
+
+        const reload = async (reloadConfig?: { size?: number }) => {
+            const rows = await load({page: 0, size: !reloadConfig ? undefined : reloadConfig.size})
             pagination.updateTotal(null)
             return rows
-        },
-        queryCount: async () => {
+        }
+
+        const queryCount = async () => {
             await editMethods.save()
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, {onlyCount: true})
@@ -80,24 +84,27 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             let {total} = await request(requestConfig)
             pagination.updateTotal(total || null)
             return total
-        },
-        next: async () => {
+        }
+
+        const next = async () => {
             const {page, hasNext} = pagination.pageState
             if (!hasNext) {return}
-            return pageMethods.load({page: page + 1})
-        },
-        prev: async () => {
+            return load({page: page + 1})
+        }
+
+        const prev = async () => {
             let page = pagination.pageState.page - 1
             if (page < 0) {return}
-            return pageMethods.load({page})
-        },
-        jump: async (page: number) => {
+            return load({page})
+        }
+
+        const jump = async (page: number) => {
             if (page < 0) {return}
             if (page > pagination.pageState.page) {
                 if (page === pagination.pageState.page + 1 && pagination.pageState.hasNext) {
-                    return pageMethods.load({page})
+                    return load({page})
                 } else {
-                    const total = await pageMethods.queryCount()
+                    const total = await queryCount()
                     if (!total) {
                         const msg = '查询总数失败！'
                         $$notice.error(msg)
@@ -105,16 +112,19 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     }
                     const totalPage = Math.ceil(total / pagination.pageState.size) - 1
                     if (page > totalPage) {page = totalPage}
-                    return pageMethods.load({page})
+                    return load({page})
                 }
             } else {
-                return pageMethods.load({page})
+                return load({page})
             }
-        },
-    }
+        }
 
-    const editMethods = {
-        insert: async (newRow?: Record<string, any>) => {
+        return {load, reload, queryCount, next, prev, jump,}
+    })())
+
+    const editMethods = useAsyncMethods((() => {
+
+        const insert = async (newRow?: Record<string, any>) => {
             await editMethods.save()
             tableState.editingWhenAddRow = true
             tableState.mode = TableMode.insert
@@ -150,8 +160,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     tableState.insertRows = []
                 },
             }
-        },
-        batchInsert: async () => {
+        }
+
+        const batchInsert = async () => {
             await editMethods.save()
             const num = await new Promise<number>((resolve) => {
                 $$dialog({
@@ -202,8 +213,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     tableState.insertRows = []
                 },
             }
-        },
-        copy: async (row?: Record<string, any>) => {
+        }
+
+        const copy = async (row?: Record<string, any>) => {
             await editMethods.save()
             if (!row) {
                 if (!currentNode.value) {
@@ -214,8 +226,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             const excludeKeys = [...config.copyDefaultExcludeKeys, ...config.copyExcludeKeys || []]
             excludeKeys.forEach(key => delete row![key])
             return editMethods.insert(row)
-        },
-        update: async (node: TableNode) => {
+        }
+
+        const update = async (node: TableNode) => {
             await editMethods.save()
 
             if (node.edit) {return}
@@ -249,8 +262,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     tableState.updateRows = []
                 },
             }
-        },
-        batchUpdate: async () => {
+        }
+
+        const batchUpdate = async () => {
             await editMethods.save()
 
             tableState.mode = TableMode.update
@@ -287,8 +301,9 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                     tableState.updateRows = []
                 },
             }
-        },
-        delete: async () => {
+        }
+
+        const _delete = async () => {
             await editMethods.save()
             if (!currentNode.value) {
                 return $$notice.warn('请选中一行要删除的数据！')
@@ -305,21 +320,30 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 return $$notice.error(`删除失败：${deleteResult.error}`)
             }
             tableState.list.splice(tableState.list.indexOf(data), 1)
-        },
-        cancel: async () => {
+        }
+
+        const cancel = async () => {
             if (!freezeState.effects) {return}
             await freezeState.effects.onCancel()
             freezeState.effects = null
-        },
-        save: async () => {
+        }
+
+        const save = async () => {
             if (!freezeState.effects) {return}
             await freezeState.effects.onSave()
             freezeState.effects = null
-        },
-    }
+        }
+
+        return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save,}
+    })())
 
     hooks.onRefTable.use(table => freezeState.table = table)
     hooks.onDblClickCell.use(node => editMethods.update(node))
+    hooks.onLoading.use(flag => {
+        if (pageMethods.isLoading.all) {return true}
+        if (editMethods.isLoading.all) {return true}
+        return flag
+    })
 
     return {
         editMethods,

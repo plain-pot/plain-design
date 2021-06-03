@@ -1,4 +1,4 @@
-import {designComponent, onMounted, PropType} from "plain-design-composition";
+import {computed, designComponent, onMounted, PropType} from "plain-design-composition";
 import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import PlTable from "../PlTable";
@@ -15,6 +15,7 @@ import {PlcIndex} from "../PlcIndex";
 export const PlTablePro = designComponent({
     props: {
         option: {type: Object as PropType<tTableOption>, required: true},
+        loading: {type: Boolean},
     },
     slots: ['default'],
     setup({props, slots}) {
@@ -33,6 +34,11 @@ export const PlTablePro = designComponent({
             onClickCell: (node: TableNode) => {props.option.hooks.onClickCell.exec(node)},
             onDblClickCell: (node: TableNode) => {props.option.hooks.onDblClickCell.exec(node)},
         }
+
+        const loading = computed(() => {
+            if (props.loading) {return true}
+            return props.option.hooks.onLoading.exec(false)
+        })
 
         return () => (
             <div className="pl-table-pro">
@@ -81,6 +87,7 @@ export const PlTablePro = designComponent({
                     ref={refTable}
                     data={props.option.tableState.list}
                     defaultEditingWhenAddRow={props.option.tableState.editingWhenAddRow}
+                    loading={!!loading.value}
                     currentKey={props.option.tableState.currentKey || undefined}
                     onUpdateCurrentKey={val => props.option.tableState.currentKey = val || null}
                     keyField={props.option.config.keyField}

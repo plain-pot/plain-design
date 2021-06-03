@@ -85,10 +85,14 @@ const useDialog = createUseService({
                     o.status = o.status == undefined ? null : o.status
                     o.confirmButton = true
                     o.cancelButton = true
-                    const {onConfirm} = o
+                    const {onConfirm, onCancel} = o
                     o.onConfirm = () => {
                         dfd.resolve();
                         onConfirm && onConfirm()
+                    }
+                    o.onCancel = () => {
+                        dfd.reject();
+                        onCancel && onCancel()
                     }
                     service(o)
                     return dfd.promise
