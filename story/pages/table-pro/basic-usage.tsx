@@ -47,7 +47,7 @@ export default designPage(() => {
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
-                <PlcTextarea title="longText" field="longText"/>
+                <PlcTextarea title="longText" field="longText" required/>
             </PlTablePro>
         </div>
     </>

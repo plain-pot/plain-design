@@ -61,7 +61,7 @@ const ScanUtils = (() => {
 (async () => {
     const output = resolve("src/styles/data/scan.scss.json")
     const packages = resolve("src/packages")
-    const entry = resolve('src/index.ts')
+    const entry = resolve('src/index.tsx')
     const globalImportFilePath = resolve('src/styles/global-import.scss')
 
     /*文件path映射code对象*/
