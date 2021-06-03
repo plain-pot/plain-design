@@ -69,6 +69,10 @@ export const PltCell = designComponent({
 
         useCellFormItemValidate(props, props.table.formValidate, props.table.props.associateFields)
 
+        const onClick = (e: React.MouseEvent) => {
+            props.plc.event.emit.onClick({e, scope: {row: props.node.data, node: props.node, plc: props.plc}})
+        }
+
         return {
             render: () => {
                 const {node, plc} = props
@@ -83,7 +87,10 @@ export const PltCell = designComponent({
                     const ret = [
                         props.plc.classes.body,
                         props.plc.props.bodyCls,
-                        {'plt-cell-editing': editable,}
+                        {
+                            'plt-cell-editing': editable,
+                            'plt-cell-link': plc.props.link,
+                        }
                     ] as any[]
                     if (!!props.table.props.cellClassFunc) {
                         ret.push(props.table.props.cellClassFunc(node, plc))
@@ -98,7 +105,12 @@ export const PltCell = designComponent({
                 })
 
                 return (
-                    <td rowSpan={span.rowspan} colSpan={span.colspan} className={classes.value} style={styles.value}>
+                    <td
+                        rowSpan={span.rowspan}
+                        colSpan={span.colspan}
+                        className={classes.value}
+                        style={styles.value}
+                        onClick={onClick}>
                         {body}
                     </td>
                 )

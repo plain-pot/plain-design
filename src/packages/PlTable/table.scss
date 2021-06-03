@@ -198,6 +198,11 @@
         padding-left: 0;
       }
     }
+
+    &.plt-cell-link {
+      color: $colorPrimary;
+      cursor: pointer;
+    }
   }
   /*---------------------------------------border-------------------------------------------*/
   .pl-table {

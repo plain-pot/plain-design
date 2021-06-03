@@ -4,6 +4,7 @@ import {ExtractPropTypes, MultipleClass, PropType, StyleProperties} from "plain-
 import {tFormRuleItem} from "../../../PlForm/form.validate";
 import {TableRenderScope} from "./plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import React from "react";
 
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
@@ -12,6 +13,7 @@ export const PlcGroupPropsOptions = {
     align: {type: String as PropType<string | TablePlcAlign>},              // 非编辑状态下文本对其方式
     noPadding: {type: Boolean},                                             // 是否不兼容表格的虚拟滚动功能
     colDraggable: {type: Boolean, default: null},                           // 列是否可以拖拽排序
+    link: {type: Boolean},                                                  // 超链接样式
 
     hide: {type: Boolean},                                                  // 是否隐藏
     order: {type: [String, Number]},                                        // 列排序
@@ -37,7 +39,7 @@ export const PlcPropsOptions = {
 }
 
 export const PlcEmitsOptions = {
-    onClick: (scope: TableRenderScope) => true,
+    onClick: (data: { e: React.MouseEvent, scope: TableRenderScope }) => true,
 }
 
 export type PlcPublicAttrsType = {

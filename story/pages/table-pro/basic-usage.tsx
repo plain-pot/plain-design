@@ -7,6 +7,7 @@ import {PlcSelect} from "../../../src/packages/PlcSelect";
 import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";
 import {PlcNumber} from "../../../src/packages/PlcNumber";
 import {PlcInput} from "../../../src/packages/PlcInput";
+import {TableRenderScope} from "../../../src/packages/PlTable/plc/utils/plc.type";
 
 export default designPage(() => {
 
@@ -18,10 +19,14 @@ export default designPage(() => {
         },
     })
 
+    const onClick = (data: { e: React.MouseEvent, scope: TableRenderScope }) => {
+        console.log({...data.scope.row})
+    }
+
     return () => <>
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
-                <Plc title="id" field="id" width={350}/>
+                <Plc title="id" field="id" width={350} link onClick={onClick}/>
                 <PlcNumber title="count" field="count" required/>
                 <PlcInput title="normalText" field="normalText" required/>
                 <PlcInput title="longText" field="longText"/>
@@ -41,7 +46,6 @@ export default designPage(() => {
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
-
             </PlTablePro>
         </div>
     </>
