@@ -20,6 +20,8 @@ import {PlcNumber} from "../../../src/packages/PlcNumber";
 import {PlcInput} from "../../../src/packages/PlcInput";
 import {PlcIndex} from "../../../src/packages/PlcIndex";
 import {PlcCheck} from "../../../src/packages/PlcCheck";
+import {PlcSelect} from "../../../src/packages/PlcSelect";
+import {PlIcon, PlSelectOption} from "../../../src";
 
 export default designPage(() => {
 
@@ -112,6 +114,16 @@ export default designPage(() => {
                     <PlcRate field={'star'} title={'评分'}/>
                     <PlcToggle field={'flag'} title={'开关'}/>
                     <PlcCheckbox field={'flag'} title={'开关'}/>
+                    <PlcSelect field="flag" title="下拉选择">
+                        <PlSelectOption label="是" val="Y">
+                            <PlIcon icon="el-icon-success" status="success"/>
+                            <span>是</span>
+                        </PlSelectOption>
+                        <PlSelectOption label="否" val="N">
+                            <PlIcon icon="el-icon-error" status="error"/>
+                            <span>否</span>
+                        </PlSelectOption>
+                    </PlcSelect>
                 </PlTable>
             </DemoRow>
         </div>

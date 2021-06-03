@@ -306,6 +306,16 @@
   .plc-index-summary-text {
     font-size: 12px;
   }
+  /*icon*/
+  .plt-cell {
+    & > .pl-icon {
+      vertical-align: -0.3em;
+
+      & + * {
+        margin-left: 4px;
+      }
+    }
+  }
   /*input*/
   .plt-cell {
     & > * {
