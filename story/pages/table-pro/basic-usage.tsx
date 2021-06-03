@@ -21,7 +21,7 @@ export default designPage(() => {
     return () => <>
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
-                <Plc title="id" field="id"/>
+                <Plc title="id" field="id" width={350}/>
                 <PlcNumber title="count" field="count" required/>
                 <PlcInput title="normalText" field="normalText" required/>
                 <PlcInput title="longText" field="longText"/>
