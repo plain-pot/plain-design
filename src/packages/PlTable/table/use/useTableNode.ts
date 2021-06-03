@@ -56,7 +56,7 @@ export function useTableNode(
                 } : null
             }
             node.saveEdit = async function (newRow) {
-                if (!this.edit) return
+                // if (!this.edit) return
                 let {data, editRow} = this
                 newRow = newRow || this.editRow
                 Object.keys({...data, ...editRow, ...newRow}).forEach(k => this.data[k] = newRow![k])

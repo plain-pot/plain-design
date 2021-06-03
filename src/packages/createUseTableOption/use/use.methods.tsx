@@ -252,37 +252,60 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             return editMethods.insert(row)
         }
 
-        const update = async (node: TableNode) => {
+        const update = async (node: TableNode, editType?: eTableProEditType) => {
             await editMethods.save()
 
-            if (node.edit) {return}
-
-            tableState.mode = TableMode.update
-            await nextTick()
-            node.openEdit()
-            node.validate()
-
-            freezeState.effects = {
-                onSave: async () => {
-                    const validateResult = await node.validate()
-                    if (!!validateResult) {
-                        const {errors, node: {index}} = validateResult
-                        $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
-                        return Promise.reject(validateResult)
-                    }
-                    let {request, requestConfig} = utils.getUrlConfig('update')
-                    requestConfig.body = deepcopy(node.editRow)
-                    requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
-                    const updateResult = await request!(requestConfig)
-                    node.saveEdit(updateResult.newRow)
-                    node.closeEdit()
-                    tableState.mode = TableMode.normal
-                },
-                onCancel: async () => {
-                    tableState.mode = TableMode.normal
-                    node.cancelEdit()
-                },
+            const editInline = async () => {
+                if (node.edit) {return}
+                tableState.mode = TableMode.update
+                await nextTick()
+                node.openEdit()
+                node.validate()
+                freezeState.effects = {
+                    onSave: async () => {
+                        const validateResult = await node.validate()
+                        if (!!validateResult) {
+                            const {errors, node: {index}} = validateResult
+                            $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
+                            return Promise.reject(validateResult)
+                        }
+                        let {request, requestConfig} = utils.getUrlConfig('update')
+                        requestConfig.body = deepcopy(node.editRow)
+                        requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
+                        const updateResult = await request!(requestConfig)
+                        node.saveEdit(updateResult.newRow)
+                        node.closeEdit()
+                        tableState.mode = TableMode.normal
+                    },
+                    onCancel: async () => {
+                        tableState.mode = TableMode.normal
+                        node.cancelEdit()
+                    },
+                }
             }
+
+            const editForm = async () => {
+                const dfd = defer()
+                tablePropUseEditForm.edit({
+                    node: node,
+                    title: '编辑',
+                    plcList: freezeState.table.plcData.value!.flatPlcList,
+                    onConfirm: async (updateNode) => {
+                        let {request, requestConfig} = utils.getUrlConfig('update')
+                        requestConfig.body = deepcopy(updateNode.editRow)
+                        requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
+                        const updateResult = await request!(requestConfig)
+                        console.log({updateResult})
+                        await node.saveEdit(updateResult.newRow)
+                        dfd.resolve()
+                    },
+                    onCancel: dfd.resolve,
+                })
+
+                return dfd.promise
+            }
+
+            await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
         }
 
         const batchUpdate = async () => {
