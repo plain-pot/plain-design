@@ -66,14 +66,22 @@ export default createDefaultService({
         })
 
         const handler = {
+            done: (isConfirm: boolean) => {
+                const {closeOnCancel, closeOnConfirm} = targetOption.value.option!.dialogProps!
+                if (isConfirm && closeOnConfirm !== false) {
+                    isShow.value = false
+                } else if (!isConfirm && closeOnCancel !== false) {
+                    isShow.value = false
+                }
+            },
             confirm: () => {
                 const {onConfirm, editType, editReadonly, editRequired} = targetOption.value.option
                 if (!onConfirm) {
-                    isShow.value = false
+                    handler.done(true)
                     return
                 }
                 if (!editType || editReadonly) {
-                    isShow.value = false
+                    handler.done(true)
                     return onConfirm(state.editValue)
                 }
                 const {editValue} = state
@@ -81,14 +89,14 @@ export default createDefaultService({
                     if (editRequired && (!editValue || !editValue.trim())) {
                         return $$message.error('请输入文本！')
                     } else {
-                        isShow.value = false
+                        handler.done(true)
                         return onConfirm(editValue.trim())
                     }
                 } else {
                     if (editRequired && isNaN(Number(editValue))) {
                         return $$message.error('请输入数字！')
                     } else {
-                        isShow.value = false
+                        handler.done(true)
                         return onConfirm(editValue == null ? null : Number(editValue) as any)
                     }
                 }
@@ -97,7 +105,7 @@ export default createDefaultService({
                 if (!!targetOption.value.option.onCancel) {
                     targetOption.value.option.onCancel()
                 }
-                isShow.value = false
+                handler.done(false)
             },
         }
 
