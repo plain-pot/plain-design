@@ -19,6 +19,7 @@ export default designComponent({
             width: 60,
             align: 'center',
             noPadding: true,
+            hideInForm: true,
         }),
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
         summaryExpand: {type: Boolean},

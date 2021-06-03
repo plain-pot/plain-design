@@ -21,6 +21,7 @@ export default designComponent({
             width: 40,
             align: 'center',
             noPadding: true,
+            hideInForm: true,
         }),
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
         isCheckable: Function as PropType<(node: TableNode) => boolean>,// 是否可选

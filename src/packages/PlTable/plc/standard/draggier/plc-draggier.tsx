@@ -17,6 +17,7 @@ export default designComponent({
         width: 40,
         align: 'center',
         noPadding: true,
+        hideInForm: true,
     }),
     emits: PlcEmitsOptions,
     scopeSlots: PlcScopeSlotsOptions,

@@ -31,6 +31,7 @@ export default designComponent({
             width: size,
             noPadding: true,
             bodyCls: 'plc-tree-node',
+            hideInForm: true,
         }),
         contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
         rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序

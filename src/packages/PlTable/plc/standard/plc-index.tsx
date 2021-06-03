@@ -13,6 +13,7 @@ export default designComponent({
             width: 45,
             align: 'center',
             noPadding: true,
+            hideInForm: true,
         }),
         summaryText: {type: String, default: '合计'},
         start: {type: Number, default: 0},
