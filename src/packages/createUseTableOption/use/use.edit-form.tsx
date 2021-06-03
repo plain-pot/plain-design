@@ -37,6 +37,7 @@ export function useTableProEditForm() {
                 destroyOnClose: false,
                 closeOnCancel: false,
                 closeOnConfirm: false,
+                footAlign: 'flex-start',
             },
             title,
             render() {
