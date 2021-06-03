@@ -10,6 +10,7 @@ import PlIcon from "../PlIcon";
 import {StyleShape} from "../../use/useStyle";
 import PlNumber from "../PlNumber";
 import $$message from "../$$message";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 /**
  * 用来区分 DialogServiceOption中的选项与pl-dialog组件的属性
@@ -48,22 +49,19 @@ export default createDefaultService({
 
         const targetOption = computed(() => {
             let option = {} as DialogServiceFormatOption
-            let binding = {} as Partial<typeof PlDialog.use.props>
+            let dialogProps = deepcopy(state.option.dialogProps || {})
 
             Object.keys(state.option).forEach((key) => {
                 if (OptionKeys.indexOf(key) > -1) {
                     (option as any)[key] = (state.option as any)[key]
                 } else {
-                    (binding as any)[key] = (state.option as any)[key]
+                    (dialogProps as any)[key] = (state.option as any)[key]
                 }
             })
-            if (!!state.option.dialogProps) {
-                Object.assign(binding, state.option.dialogProps)
-            }
+            option.dialogProps = dialogProps
 
             return {
                 option,
-                binding,
             }
         })
 
@@ -132,7 +130,8 @@ export default createDefaultService({
                 isOpen: isShow,
             },
             render: () => {
-                let {option, binding} = targetOption.value
+                let {option} = targetOption.value
+                let binding = option.dialogProps
                 let status = option.status
                 let serviceClass = 'pl-dialog-service';
 
@@ -187,6 +186,15 @@ export default createDefaultService({
                 /*---------------------------------------foot-------------------------------------------*/
                 let foot = !option.renderFoot ? null : option.renderFoot()
 
+                const width = (() => {
+                    if (!!option.dialogProps && option.dialogProps.width !== undefined) {return option.dialogProps.width}
+                    if (option.editType === DialogServiceEditType.textarea) {
+                        return ((option.dialogProps || {}).width || '500px')
+                    } else {
+                        return 500
+                    }
+                })()
+
                 return (
                     <PlDialog
                         serviceClass={serviceClass}
@@ -199,7 +207,7 @@ export default createDefaultService({
                         closeOnCancel={false}
 
                         {...binding}
-                        width={option.editType === DialogServiceEditType.textarea ? ((option.dialogProps || {}).width || '500px') : "500"}
+                        width={width}
                         shape={binding.shape || StyleShape.square}
                     >
                         {{

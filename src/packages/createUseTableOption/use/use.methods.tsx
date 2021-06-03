@@ -173,6 +173,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
                 tablePropUseEditForm.edit({
                     node: newNode,
                     title: '新建',
+                    plcList: freezeState.table.plcData.value!.flatPlcList,
                     onConfirm: () => {
                         console.log('保存表单编辑')
                     },

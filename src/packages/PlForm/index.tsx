@@ -133,7 +133,7 @@ export const PlForm = designComponent({
             if (!label) {return}
             const {column, columnGutter} = numberState
             style.width = unit((col! + columnGutter) * column)
-            style.left = `${(!props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
+            style.left = `${(props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
         })
         /*---------------------------------------validate-------------------------------------------*/
 

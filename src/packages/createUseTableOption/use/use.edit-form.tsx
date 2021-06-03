@@ -2,13 +2,17 @@ import useDialog from "../../useDialog";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {cloneTableNode} from "../utils/cloneTableNode";
 import React from "react";
+import {tPlc} from "../../PlTable/plc/utils/plc.type";
+import PlForm from "../../PlForm";
+import PlFormItem from "../../PlFormItem";
 
 export function useTableProEditForm() {
     const $dialog = useDialog()
 
-    const edit = ({node, title, onConfirm, onCancel}: {
+    const edit = ({node, title, plcList, onConfirm, onCancel}: {
         node: TableNode,
         title: string,
+        plcList: tPlc[],
         onConfirm: () => void,
         onCancel: () => void,
     }) => {
@@ -21,12 +25,19 @@ export function useTableProEditForm() {
                 horizontal: 'end',
                 fullHeight: true,
                 transition: 'pl-transition-dialog-right',
+                width: null as any,
+                destroyOnClose: false,
             },
             title,
             render() {
                 return (
                     <div>
-                        表单编辑
+                        <PlForm column={1} width={'100%'} centerWhenSingleColumn={false}>
+                            {plcList.map((plc, index) => (
+                                <PlFormItem key={index} label={plc.props.title}>
+                                </PlFormItem>
+                            ))}
+                        </PlForm>
                     </div>
                 )
             },

@@ -28,13 +28,12 @@ export default designPage(() => {
     return () => <>
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
-                <Plc title="id" field="id" width={350} link onClick={onClick}/>
-                <PlcNumber title="count" field="count" required/>
-                <PlcInput title="normalText" field="normalText" required/>
-                <PlcInput title="longText" field="longText"/>
-                <PlcNumber title="numberVal" field="numberVal" required/>
-                <PlcCheckbox title="flag" field="flag"/>
-                <PlcSelect title="selectVal" field="selectVal">
+                <Plc title="编号id" field="id" width={350} link onClick={onClick}/>
+                <PlcNumber title="计数count" field="count" required/>
+                <PlcInput title="文本normalText" field="normalText" required/>
+                <PlcNumber title="数字numberVal" field="numberVal" required/>
+                <PlcCheckbox title="复选框flag" field="flag"/>
+                <PlcSelect title="下拉框selectVal" field="selectVal">
                     <PlSelectOption label="消费者" val="consumer">
                         <PlIcon icon="el-icon-s-custom" status="primary" style={{marginRight: '4px'}}/>
                         <span>消费者</span>
@@ -48,7 +47,7 @@ export default designPage(() => {
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
-                <PlcTextarea title="longText" field="longText" required/>
+                <PlcTextarea title="长文本longText" field="longText" required/>
             </PlTablePro>
         </div>
     </>

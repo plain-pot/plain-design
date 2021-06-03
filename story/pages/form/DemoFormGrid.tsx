@@ -32,7 +32,7 @@ export default designPage(() => {
     return () => (
         <div>
             <DemoRow title={'单列表单'}>
-                <PlForm column={1}>
+                <PlForm column={1} centerWhenSingleColumn>
                     <PlFormItem label={'客户名称'} field={'name'}>
                         <PlInput v-model={formData.name}/>
                     </PlFormItem>
