@@ -232,17 +232,14 @@ export const PlForm = designComponent({
                 })
             },
             onEditChange: async (field?: string | string[]) => {
-                if (props.validateMode === FormValidateMode.form) {
-                    return
-                }
+                if (props.validateMode === FormValidateMode.form) {return}
                 await validateHandler.validateChange(FormValidateTrigger.change, field)
             },
             onBlurChange: async (field?: string | string[]) => {
-                if (!field) {return}
                 await validateHandler.validateChange(FormValidateTrigger.blur, field)
             },
             onFieldChange: async (field: string) => {
-                await validateHandler.onEditChange(field)
+                await validateHandler.validateChange(FormValidateTrigger.change, field)
             },
             onFormDataChange: debounce((val: any) => {
                 const newFormData = val || {}
