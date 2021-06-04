@@ -95,9 +95,9 @@ export const PlTablePro = designComponent({
                     onDblclickCell={handler.onDblClickCell}
                 >
                     <PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
-                    {slots.default()}
+                    {props.option.hooks.onColumns.exec(slots.default())}
                 </PlTable>
-                {props.option.hooks.onColumns.exec(props.option.pagination.render())}
+                {props.option.pagination.render()}
             </div>
         )
     },

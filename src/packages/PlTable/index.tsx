@@ -160,4 +160,4 @@ export default PlTable
 
 export const PlainTable = Object as PropType<typeof PlTable.use.class>
 
-export function injectPlainTable() {return inject('@@pl-table') as typeof PlTable.use.class}
+export function injectPlainTable() {return PlTable.use.inject()}

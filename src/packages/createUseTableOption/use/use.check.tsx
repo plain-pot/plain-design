@@ -3,7 +3,7 @@ import {tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTableOptionHooks} from "./use.hooks";
 import {PlcCheck} from "../../PlcCheck";
 import React from "react";
-import {tTableOptionConfirm} from "./use.confirm";
+import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 
 export function useTableOptionCheck({hooks, config, confirm}: {
     hooks: tTableOptionHooks,
@@ -40,7 +40,19 @@ export function useTableOptionCheck({hooks, config, confirm}: {
     const uncheckAll = () => {console.log('取消选中当前页')}
     const reverse = () => {console.log('反选当前页')}
     const toggle = () => {console.log('切换选中状态')}
-    const getCheckedRows = () => {console.log('获取选中行')}
+    const openToCheck = () => {
+        open()
+        confirm.open(eTableProStatus.select, {
+            onConfirm: () => {
+                console.log('选择完毕')
+                close()
+            },
+            onCancel: () => {
+                console.log('取消选择')
+                close()
+            },
+        })
+    }
 
     return {
         open,
@@ -52,7 +64,7 @@ export function useTableOptionCheck({hooks, config, confirm}: {
         uncheckAll,
         reverse,
         toggle,
-        getCheckedRows,
+        openToCheck,
     }
 }
 

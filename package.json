@@ -55,7 +55,7 @@
     "html-webpack-plugin": "^4.5.2",
     "mini-css-extract-plugin": "^1.4.0",
     "mockjs": "^1.1.0",
-    "plain-design-composition": "0.0.93",
+    "plain-design-composition": "0.0.96",
     "postcss": "^8.2.6",
     "postcss-loader": "^4.2.0",
     "react": "^17.0.2",

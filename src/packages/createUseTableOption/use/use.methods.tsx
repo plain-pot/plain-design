@@ -337,12 +337,14 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
         const batchModify = () => {
             console.log('批量修改')
-            const rows = check.getCheckedRows()
+            const rows = check.openToCheck()
             console.log({rows})
         }
 
         const batchDelete = () => {
             console.log('批量删除')
+            const rows = check.openToCheck()
+            console.log({rows})
         }
 
         const _delete = async () => {
