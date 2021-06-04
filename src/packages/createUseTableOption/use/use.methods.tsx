@@ -193,12 +193,13 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
         const batchInsert = async () => {
             await editMethods.save()
-            const num = await new Promise<number>((resolve) => {
+            const num = await new Promise<number>((resolve, reject) => {
                 $$dialog({
                     editRequired: true,
                     editType: 'number',
                     editValue: 10,
                     onConfirm: val => resolve(val as any),
+                    onCancel: reject,
                     confirmButton: true,
                     cancelButton: true,
                 })
@@ -340,6 +341,10 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             console.log({rows})
         }
 
+        const batchDelete = () => {
+            console.log('批量删除')
+        }
+
         const _delete = async () => {
             await editMethods.save()
             if (!currentNode.value) {
@@ -362,7 +367,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         const cancel = async () => {await confirm.close.cancel()}
         const save = async () => {await confirm.close.confirm()}
 
-        return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save, batchModify}
+        return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save, batchModify, batchDelete}
     })())
 
     hooks.onRefTable.use(table => freezeState.table = table)
