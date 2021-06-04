@@ -11,13 +11,15 @@ import {$$dialog} from "../../useDialog";
 import {useAsyncMethods} from "../utils/useAsyncMethods";
 import {useTableProEditForm} from "./use.edit-form";
 import {defer} from "../../../utils/defer";
+import {tTableOptionCheck} from "./use.check";
 
-export function useTableMethods({tableState, config, pagination, hooks, currentNode}: {
+export function useTableMethods({tableState, config, pagination, hooks, currentNode, check}: {
     tableState: iTableState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableOptionHooks,
     currentNode: { value: TableNode | null | undefined },
+    check: tTableOptionCheck,
 }) {
 
     const freezeState = {
@@ -347,6 +349,12 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             }
         }
 
+        const batchModify = () => {
+            console.log('批量修改')
+            const rows = check.getCheckedRows()
+            console.log({rows})
+        }
+
         const _delete = async () => {
             await editMethods.save()
             if (!currentNode.value) {
@@ -378,7 +386,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
             freezeState.effects = null
         }
 
-        return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save,}
+        return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save, batchModify}
     })())
 
     hooks.onRefTable.use(table => freezeState.table = table)

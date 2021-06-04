@@ -72,7 +72,7 @@ export const PlTablePro = designComponent({
                                             <PlDropdownOption label="批量新建" icon="el-icon-document-add" onClick={props.option.editMethods.batchInsert}/>
                                             <PlDropdownOption label="批量编辑" icon="el-icon-edit-outline" onClick={props.option.editMethods.batchUpdate}/>
                                             <PlDropdownOption label="表单编辑" icon="el-icon-document" onClick={() => props.option.editMethods.update(undefined, eTableProEditType.form)}/>
-                                            <PlDropdownOption label="批量修改" icon="el-icon-edit"/>
+                                            <PlDropdownOption label="批量修改" icon="el-icon-edit" onClick={props.option.editMethods.batchModify}/>
                                             <PlDropdownOption label="高级筛选" icon="el-icon-brush"/>
                                             <PlDropdownOption label="高级排序" icon="el-icon-sort"/>
                                             <PlDropdownOption label="个性设置" icon="el-icon-setting"/>
