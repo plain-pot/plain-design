@@ -1,9 +1,10 @@
-import {iTableProConfig, iTableProDefaultConfig, iTableState, TableMode, tTableOptionConfig} from "./createUseTableOption.utils";
+import {iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
 import {computed, reactive} from "plain-design-composition";
 import {useTableOptionCheck} from "./use/use.check";
+import {useTableOptionConfirm} from "./use/use.confirm";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -16,9 +17,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const tableState: iTableState = reactive({
             list: [] as any[],
             editingWhenAddRow: false,
-            mode: TableMode.normal,
             selectRows: [],
-            isEditing: computed(() => [TableMode.normal, TableMode.select].indexOf(tableState.mode) === -1),
             currentKey: null,
             tableGetter: () => null,
         })
@@ -31,9 +30,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         })
 
         const hooks = useTableOptionHooks({config})
-
-        const check = useTableOptionCheck({config, hooks})
-
+        const confirm = useTableOptionConfirm({hooks})
+        const check = useTableOptionCheck({config, hooks, confirm})
         const pagination = useTableOptionPagination({
             tableState,
             config,
@@ -42,8 +40,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onJump: (page) => pageMethods.jump(page),
             onSizeChange: size => pageMethods.reload({size}),
         })
-
-        const {pageMethods, editMethods} = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check})
+        const {pageMethods, editMethods} = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows

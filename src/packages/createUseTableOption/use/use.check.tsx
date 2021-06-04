@@ -3,10 +3,12 @@ import {tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTableOptionHooks} from "./use.hooks";
 import {PlcCheck} from "../../PlcCheck";
 import React from "react";
+import {tTableOptionConfirm} from "./use.confirm";
 
-export function useTableOptionCheck({hooks, config}: {
+export function useTableOptionCheck({hooks, config, confirm}: {
     hooks: tTableOptionHooks,
-    config: tTableOptionConfig
+    config: tTableOptionConfig,
+    confirm: tTableOptionConfirm,
 }) {
 
     const state = reactive({

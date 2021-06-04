@@ -158,20 +158,10 @@ export interface iTableProConfig<D = any> {
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
 
-export enum TableMode {
-    normal = 'normal',
-    insert = 'insert',
-    update = 'update',
-    select = 'select',
-}
-
 export interface iTableState {
     list: any[],
     editingWhenAddRow: boolean,
-    mode: TableMode,
     selectRows: any[],
     currentKey: string | null,
     tableGetter: () => typeof PlTable.use.class | null,
-
-    isEditing: boolean,
 }

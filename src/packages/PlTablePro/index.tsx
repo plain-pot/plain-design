@@ -49,10 +49,7 @@ export const PlTablePro = designComponent({
                         <span>{props.option.config.title}</span>
                     </span>
                     <div className="pl-table-pro-operation">
-                        {props.option.tableState.isEditing ? <>
-                                <PlButton label={'取消'} icon="el-icon-close-bold" mode="stroke" onClick={() => props.option.editMethods.cancel()}/>
-                                <PlButton label={'保存'} icon="el-icon-check-bold" onClick={() => props.option.editMethods.save()}/>
-                            </> :
+                        {props.option.hooks.onButtons.exec(
                             <PlButtonGroup>
                                 <PlButton label={'新建'} icon="el-icon-document-add" onClick={() => props.option.editMethods.insert()}/>
                                 <PlButton label={'复制'} icon="el-icon-document-copy" onClick={() => props.option.editMethods.copy()}/>
@@ -81,7 +78,8 @@ export const PlTablePro = designComponent({
                                         </PlDropdownMenu>
                                     }}
                                 </PlDropdown>
-                            </PlButtonGroup>}
+                            </PlButtonGroup>
+                        )}
                     </div>
                 </div>
                 <PlTable

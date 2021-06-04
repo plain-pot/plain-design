@@ -1,4 +1,4 @@
-import {TableMode, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig, eTableProEditType} from "../createUseTableOption.utils";
+import {eTableProEditType, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
@@ -12,14 +12,16 @@ import {useAsyncMethods} from "../utils/useAsyncMethods";
 import {useTableOptionEditForm} from "./use.edit-form";
 import {defer} from "../../../utils/defer";
 import {tTableOptionCheck} from "./use.check";
+import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 
-export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check}: {
+export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm}: {
     tableState: iTableState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableOptionHooks,
     currentNode: { value: TableNode | null | undefined },
     check: tTableOptionCheck,
+    confirm: tTableOptionConfirm,
 }) {
 
     const freezeState = {
@@ -132,20 +134,18 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
         const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
             await editMethods.save()
-
             let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
 
             const editInline = async () => {
                 tableState.editingWhenAddRow = true
-                tableState.mode = TableMode.insert
                 tableState.list.unshift(newRowData)
                 await nextTick()
                 const newNode = freezeState.table.flatNodes.value[0]
                 newNode.validate()
                 tableState.editingWhenAddRow = false
 
-                freezeState.effects = {
-                    onSave: async () => {
+                confirm.confirm(eTableProStatus.insert, {
+                    onConfirm: async () => {
                         const validateResult = await newNode.validate()
                         if (!!validateResult) {
                             const {errors, node: {index}} = validateResult
@@ -158,13 +158,11 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         const newRowResult = await request!(requestConfig)
                         newNode.saveEdit(newRowResult.newRow)
                         newNode.closeEdit()
-                        tableState.mode = TableMode.normal
                     },
                     onCancel: async () => {
-                        tableState.mode = TableMode.normal
                         tableState.list.shift()
                     },
-                }
+                })
             }
             const editForm = () => {
                 const dfd = defer()
@@ -208,7 +206,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             })
 
             tableState.editingWhenAddRow = true
-            tableState.mode = TableMode.insert
             const newRows = new Array(num).fill(null).map(() => deepcopy((!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))))
             tableState.list.unshift(...newRows)
             await nextTick()
@@ -216,8 +213,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             newNodes.forEach(node => {node.validate()})
             tableState.editingWhenAddRow = false
 
-            freezeState.effects = {
-                onSave: async () => {
+            confirm.confirm(eTableProStatus.batchInsert, {
+                onConfirm: async () => {
                     const validateResults = (await Promise.all(newNodes.map(node => node.validate()))).filter(Boolean)
                     if (validateResults.length > 0) {
                         const {errors, node: {index}} = validateResults[0]!
@@ -230,15 +227,13 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
                     freezeState.effects = null
-                    tableState.mode = TableMode.normal
 
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
-                    tableState.mode = TableMode.normal
                     tableState.list.splice(0, newRows.length)
                 },
-            }
+            })
         }
 
         const copy = async (row?: Record<string, any>) => {
@@ -263,12 +258,11 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
             const editInline = async () => {
                 if (node.edit) {return}
-                tableState.mode = TableMode.update
                 await nextTick()
-                node.openEdit()
+                node.enableEdit()
                 node.validate()
-                freezeState.effects = {
-                    onSave: async () => {
+                confirm.confirm(eTableProStatus.update, {
+                    onConfirm: async () => {
                         const validateResult = await node.validate()
                         if (!!validateResult) {
                             const {errors, node: {index}} = validateResult
@@ -281,13 +275,11 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         const updateResult = await request!(requestConfig)
                         node.saveEdit(updateResult.newRow)
                         node.closeEdit()
-                        tableState.mode = TableMode.normal
                     },
                     onCancel: async () => {
-                        tableState.mode = TableMode.normal
                         node.cancelEdit()
                     },
-                }
+                })
             }
 
             const editForm = async () => {
@@ -316,15 +308,14 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         const batchUpdate = async () => {
             await editMethods.save()
 
-            tableState.mode = TableMode.update
             const updateNodes = [...freezeState.table.flatNodes.value]
             await nextTick()
             updateNodes.forEach(node => {
-                node.openEdit()
+                node.enableEdit()
                 node.validate()
             })
-            freezeState.effects = {
-                onSave: async () => {
+            confirm.confirm(eTableProStatus.batchUpdate, {
+                onConfirm: async () => {
                     const validateResults = (await Promise.all(updateNodes.map(node => node.validate()))).filter(Boolean)
                     if (validateResults.length > 0) {
                         const {errors, node: {index}} = validateResults[0]!
@@ -337,16 +328,14 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
                     freezeState.effects = null
-                    tableState.mode = TableMode.normal
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
-                    tableState.mode = TableMode.normal
                     updateNodes.forEach(node => {
                         node.cancelEdit()
                     })
                 },
-            }
+            })
         }
 
         const batchModify = () => {
