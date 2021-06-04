@@ -1,9 +1,9 @@
 import {iTableProConfig, iTableProDefaultConfig, iTableState, TableMode, tTableOptionConfig} from "./createUseTableOption.utils";
-import {useTablePagination} from "./use/use.paginaiton";
-import {useTableMethods} from "./use/use.methods";
+import {useTableOptionPagination} from "./use/use.paginaiton";
+import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
 import {computed, reactive} from "plain-design-composition";
-import {useTableProCheck} from "./use/use.check";
+import {useTableOptionCheck} from "./use/use.check";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -32,9 +32,9 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         const hooks = useTableOptionHooks({config})
 
-        const check = useTableProCheck({config, hooks})
+        const check = useTableOptionCheck({config, hooks})
 
-        const pagination = useTablePagination({
+        const pagination = useTableOptionPagination({
             tableState,
             config,
             onPrev: () => pageMethods.prev(),
@@ -43,7 +43,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onSizeChange: size => pageMethods.reload({size}),
         })
 
-        const {pageMethods, editMethods} = useTableMethods({config, pagination, hooks, tableState, currentNode, check})
+        const {pageMethods, editMethods} = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows

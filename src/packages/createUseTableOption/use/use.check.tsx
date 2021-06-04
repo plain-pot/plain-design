@@ -4,7 +4,7 @@ import {tTableOptionHooks} from "./use.hooks";
 import {PlcCheck} from "../../PlcCheck";
 import React from "react";
 
-export function useTableProCheck({hooks, config}: {
+export function useTableOptionCheck({hooks, config}: {
     hooks: tTableOptionHooks,
     config: tTableOptionConfig
 }) {
@@ -54,4 +54,4 @@ export function useTableProCheck({hooks, config}: {
     }
 }
 
-export type tTableOptionCheck = ReturnType<typeof useTableProCheck>
+export type tTableOptionCheck = ReturnType<typeof useTableOptionCheck>

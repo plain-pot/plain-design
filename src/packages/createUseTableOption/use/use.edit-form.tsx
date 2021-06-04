@@ -10,7 +10,7 @@ import {tFormPropRules} from "../../PlForm/form.validate";
 import {reactive, useRefs, watch} from "plain-design-composition";
 import {deepcopy} from "plain-utils/object/deepcopy";
 
-export function useTableProEditForm() {
+export function useTableOptionEditForm() {
     const $dialog = useDialog()
     const {refs, onRef} = useRefs({form: PlForm})
 

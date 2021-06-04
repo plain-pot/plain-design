@@ -9,11 +9,11 @@ import {deepcopy} from "plain-utils/object/deepcopy";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {$$dialog} from "../../useDialog";
 import {useAsyncMethods} from "../utils/useAsyncMethods";
-import {useTableProEditForm} from "./use.edit-form";
+import {useTableOptionEditForm} from "./use.edit-form";
 import {defer} from "../../../utils/defer";
 import {tTableOptionCheck} from "./use.check";
 
-export function useTableMethods({tableState, config, pagination, hooks, currentNode, check}: {
+export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check}: {
     tableState: iTableState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
@@ -27,7 +27,7 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
         table: {} as typeof PlTable.use.class
     }
 
-    const tablePropUseEditForm = useTableProEditForm()
+    const tablePropUseEditForm = useTableOptionEditForm()
 
     const utils = {
         getUrlConfig: <T extends keyof iTableProDefaultConfig["getDefaultUrlConfig"]>(type: T) => {
@@ -403,4 +403,4 @@ export function useTableMethods({tableState, config, pagination, hooks, currentN
     }
 }
 
-export type tTableMethods = ReturnType<typeof useTableMethods>
+export type tTableMethods = ReturnType<typeof useTableOptionMethods>

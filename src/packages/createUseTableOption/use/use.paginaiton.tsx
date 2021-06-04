@@ -3,7 +3,7 @@ import {tTableOptionConfig} from "../createUseTableOption.utils";
 import PlPagination from "../../PlPagination";
 import React from "react";
 
-export function useTablePagination({tableState, config, onPrev, onNext, onJump, onSizeChange}: {
+export function useTableOptionPagination({tableState, config, onPrev, onNext, onJump, onSizeChange}: {
     tableState: { list: any[] },
     config: tTableOptionConfig,
 
@@ -66,4 +66,4 @@ export function useTablePagination({tableState, config, onPrev, onNext, onJump, 
     return {pageState, update, render, updateTotal}
 }
 
-export type tTablePagination = ReturnType<typeof useTablePagination>
+export type tTablePagination = ReturnType<typeof useTableOptionPagination>
