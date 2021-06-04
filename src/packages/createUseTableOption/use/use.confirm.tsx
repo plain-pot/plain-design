@@ -24,15 +24,15 @@ export function useTableOptionConfirm({hooks}: { hooks: tTableOptionHooks }) {
         innerHandler: null as null | iHandler,
     })
 
-    const handler = {
-        onConfirm: async () => {
+    const close = {
+        confirm: async () => {
             if (!!state.innerHandler && !!state.innerHandler.onConfirm) {
                 await state.innerHandler.onConfirm()
             }
             state.status = eTableProStatus.normal
             state.innerHandler = null
         },
-        onCancel: async () => {
+        cancel: async () => {
             if (!!state.innerHandler && !!state.innerHandler.onCancel) {
                 await state.innerHandler.onCancel()
             }
@@ -44,19 +44,20 @@ export function useTableOptionConfirm({hooks}: { hooks: tTableOptionHooks }) {
     hooks.onButtons.use((prev) => {
         if (state.status === eTableProStatus.normal) {return prev}
         return <>
-            <PlButton label={'取消'} icon="el-icon-close-bold" mode="stroke" onClick={handler.onCancel}/>
-            <PlButton label={'保存'} icon="el-icon-check-bold" onClick={handler.onConfirm}/>
+            <PlButton label={'取消'} icon="el-icon-close-bold" mode="stroke" asyncHandler={close.cancel}/>
+            <PlButton label={'保存'} icon="el-icon-check-bold" asyncHandler={close.confirm}/>
         </>
     })
 
-    const confirm = (status: eTableProStatus, handler: iHandler) => {
+    const open = (status: eTableProStatus, handler: iHandler) => {
         state.status = status
         state.innerHandler = handler
     }
 
     return {
         state,
-        confirm,
+        open,
+        close,
     }
 }
 

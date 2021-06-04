@@ -25,7 +25,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 }) {
 
     const freezeState = {
-        effects: null as null | { onSave: () => void, onCancel: () => void },
         table: {} as typeof PlTable.use.class
     }
 
@@ -144,7 +143,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 newNode.validate()
                 tableState.editingWhenAddRow = false
 
-                confirm.confirm(eTableProStatus.insert, {
+                confirm.open(eTableProStatus.insert, {
                     onConfirm: async () => {
                         const validateResult = await newNode.validate()
                         if (!!validateResult) {
@@ -213,7 +212,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             newNodes.forEach(node => {node.validate()})
             tableState.editingWhenAddRow = false
 
-            confirm.confirm(eTableProStatus.batchInsert, {
+            confirm.open(eTableProStatus.batchInsert, {
                 onConfirm: async () => {
                     const validateResults = (await Promise.all(newNodes.map(node => node.validate()))).filter(Boolean)
                     if (validateResults.length > 0) {
@@ -226,8 +225,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // todo
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
-                    freezeState.effects = null
-
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -261,7 +258,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 await nextTick()
                 node.enableEdit()
                 node.validate()
-                confirm.confirm(eTableProStatus.update, {
+                confirm.open(eTableProStatus.update, {
                     onConfirm: async () => {
                         const validateResult = await node.validate()
                         if (!!validateResult) {
@@ -314,7 +311,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 node.enableEdit()
                 node.validate()
             })
-            confirm.confirm(eTableProStatus.batchUpdate, {
+            confirm.open(eTableProStatus.batchUpdate, {
                 onConfirm: async () => {
                     const validateResults = (await Promise.all(updateNodes.map(node => node.validate()))).filter(Boolean)
                     if (validateResults.length > 0) {
@@ -327,7 +324,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // todo
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
-                    freezeState.effects = null
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -363,17 +359,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             tableState.list.splice(tableState.list.indexOf(data), 1)
         }
 
-        const cancel = async () => {
-            if (!freezeState.effects) {return}
-            await freezeState.effects.onCancel()
-            freezeState.effects = null
-        }
-
-        const save = async () => {
-            if (!freezeState.effects) {return}
-            await freezeState.effects.onSave()
-            freezeState.effects = null
-        }
+        const cancel = async () => {await confirm.close.cancel()}
+        const save = async () => {await confirm.close.confirm()}
 
         return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save, batchModify}
     })())
