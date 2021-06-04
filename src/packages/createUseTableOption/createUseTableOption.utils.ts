@@ -143,6 +143,7 @@ export interface iTableProConfig<D = any> {
     multipleCheck?: boolean,                                            // 是否显示多选列
     title?: string,                                                     // 标题
     render?: () => ReactFragment,                                       // 自定义内容
+    isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑

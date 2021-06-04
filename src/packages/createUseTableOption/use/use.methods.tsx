@@ -62,7 +62,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
     const pageMethods = useAsyncMethods((() => {
 
         const load = async (loadConfig?: { page?: number, size?: number }) => {
-            await editMethods.save()
+            if (confirm.state.status !== eTableProStatus.select) {await editMethods.save()}
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
@@ -84,7 +84,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         const queryCount = async () => {
-            await editMethods.save()
+            if (confirm.state.status !== eTableProStatus.select) {await editMethods.save()}
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, {onlyCount: true})
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
@@ -373,7 +373,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
     })())
 
     hooks.onRefTable.use(table => freezeState.table = table)
-    hooks.onDblClickCell.use(node => editMethods.update(node))
+    hooks.onDblClickCell.use(node => {confirm.state.status !== eTableProStatus.select && editMethods.update(node)})
     hooks.onLoading.use(flag => {
         if (pageMethods.isLoading.all) {return true}
         if (editMethods.isLoading.all) {return true}
