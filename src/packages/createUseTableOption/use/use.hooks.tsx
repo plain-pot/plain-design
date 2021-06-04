@@ -2,6 +2,7 @@ import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTable
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
 import {reactive, shallowReactive} from "plain-design-composition";
+import {ReactNode} from "react";
 
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
@@ -99,6 +100,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         /*表格相关*/
         onRefTable: createSyncHooks<(table: typeof PlTable.use.class) => void>(),                   // 获取table对象的引用
         onLoading: createSyncHooks<(flag: boolean) => void>(true),                         // 当前是否开启加载状态
+        onColumns: createSyncHooks<(children: ReactNode) => void>(true),                    // 渲染Table的内容
         // onCollectRenderColumns: createHooks<(renderColumns: iRenderColumn[]) => void>(),            // 异步钩子，获取到列信息的时候
         // onColumns: createSyncHooks<(content: ReactNodeArray) => void>(),                            // 同步钩子，用来处理列信息
         // onButtons: createSyncHooks<(buttons: iO2TableButtonConfig[]) => void>(),                    // 同步钩子，用来处理按钮信息

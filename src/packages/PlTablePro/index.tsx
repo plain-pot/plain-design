@@ -98,7 +98,7 @@ export const PlTablePro = designComponent({
                     <PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {slots.default()}
                 </PlTable>
-                {props.option.pagination.render()}
+                {props.option.hooks.onColumns.exec(props.option.pagination.render())}
             </div>
         )
     },
