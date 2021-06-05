@@ -354,7 +354,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         const batchModify = async () => {
-            const rows = await check.openToCheck()
+            // const rows = await check.openToCheck()
             const newNode = freezeState.table.utils.getTreeNodeByData({
                 data: {},
                 level: 1,
