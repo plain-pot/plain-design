@@ -354,18 +354,24 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         const batchModify = async () => {
-            // const rows = await check.openToCheck()
+            const rows = await check.openToCheck()
             const newNode = freezeState.table.utils.getTreeNodeByData({
                 data: {},
                 level: 1,
                 parentRef: () => null as any,
             })
             tableOptionModifyForm.modify({
-                node: newNode,
+                modifyNode: newNode,
                 title: '批量修改',
                 plcList: freezeState.table.plcData.value!.flatPlcList,
-                onConfirm: async () => {
-                    console.log('confirm modify', {...newNode.editRow})
+                onConfirm: async (node) => {
+                    let {request, requestConfig} = utils.getUrlConfig('batchUpdate')
+                    requestConfig.body = deepcopy(rows.map(row => ({
+                        id: row.id,
+                        ...node.editRow,
+                    })))
+                    await request!(requestConfig)
+                    await pageMethods.reload()
                 },
             })
         }
