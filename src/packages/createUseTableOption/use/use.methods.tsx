@@ -358,9 +358,16 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         const batchDelete = async () => {
-            console.log('批量删除')
             const rows = await check.openToCheck()
-            console.log({rows: deepcopy(rows)})
+            let {request, requestConfig} = utils.getUrlConfig('delete')
+            requestConfig.body = deepcopy({id: rows.map(row => row.id)})
+            requestConfig = await hooks.onBeforeDelete.exec(requestConfig)
+            const deleteResult = await request!(requestConfig)
+            if (!!deleteResult.error) {
+                return $$notice.error(`删除失败：${deleteResult.error}`)
+            }
+            $$notice.success(`删除成功！`)
+            await pageMethods.load()
         }
 
         return {
