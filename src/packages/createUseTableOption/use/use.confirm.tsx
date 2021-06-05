@@ -15,6 +15,8 @@ export enum eTableProStatus {
 interface iHandler {
     onConfirm?: () => void,
     onCancel?: () => void,
+    confirmText?: string,
+    cancelText?: string,
 }
 
 export function useTableOptionConfirm({hooks}: { hooks: tTableOptionHooks }) {
@@ -44,8 +46,8 @@ export function useTableOptionConfirm({hooks}: { hooks: tTableOptionHooks }) {
     hooks.onButtons.use((prev) => {
         if (state.status === eTableProStatus.normal) {return prev}
         return <>
-            <PlButton label={'取消'} icon="el-icon-close-bold" mode="stroke" asyncHandler={close.cancel}/>
-            <PlButton label={'保存'} icon="el-icon-check-bold" asyncHandler={close.confirm}/>
+            <PlButton label={(state.innerHandler || {}).cancelText || '取消'} icon="el-icon-close-bold" mode="stroke" asyncHandler={close.cancel}/>
+            <PlButton label={(state.innerHandler || {}).confirmText || '保存'} icon="el-icon-check-bold" asyncHandler={close.confirm}/>
         </>
     })
 

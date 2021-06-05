@@ -194,6 +194,7 @@ export function useTableOptionCheck({hooks, config, confirm}: {
         const dfd = defer<PlainObject[]>()
         showCheckbox()
         confirm.open(eTableProStatus.select, {
+            confirmText: '确定',
             onConfirm: () => {
                 const selectedRows = refs.check!.getSelected()
                 if (selectedRows.length === 0) {
