@@ -13,6 +13,7 @@ import {useTableOptionEditForm} from "./use.edit-form";
 import {defer} from "../../../utils/defer";
 import {tTableOptionCheck} from "./use.check";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
+import {useTableOptionModifyForm} from "./use.modify-form";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm}: {
     tableState: iTableState,
@@ -28,7 +29,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         table: {} as typeof PlTable.use.class
     }
 
-    const tablePropUseEditForm = useTableOptionEditForm()
+    const tableOptionEditForm = useTableOptionEditForm()
+    const tableOptionModifyForm = useTableOptionModifyForm()
 
     const utils = {
         getUrlConfig: <T extends keyof iTableProDefaultConfig["getDefaultUrlConfig"]>(type: T) => {
@@ -195,7 +197,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     level: 1,
                     parentRef: () => null as any,
                 })
-                tablePropUseEditForm.edit({
+                tableOptionEditForm.edit({
                     node: newNode,
                     title: '新建',
                     plcList: freezeState.table.plcData.value!.flatPlcList,
@@ -302,7 +304,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             }
 
             const editForm = async () => {
-                tablePropUseEditForm.edit({
+                tableOptionEditForm.edit({
                     node: node,
                     title: '编辑',
                     plcList: freezeState.table.plcData.value!.flatPlcList,
@@ -352,9 +354,20 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         const batchModify = async () => {
-            console.log('批量修改')
             const rows = await check.openToCheck()
-            console.log({rows})
+            const newNode = freezeState.table.utils.getTreeNodeByData({
+                data: {},
+                level: 1,
+                parentRef: () => null as any,
+            })
+            tableOptionModifyForm.modify({
+                node: newNode,
+                title: '批量修改',
+                plcList: freezeState.table.plcData.value!.flatPlcList,
+                onConfirm: async () => {
+                    console.log('confirm modify', {...newNode.editRow})
+                },
+            })
         }
 
         const batchDelete = async () => {
