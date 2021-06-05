@@ -156,7 +156,7 @@ export const PlFormItem = designComponent({
          */
         if (!staticWidth.value && hasLabel.value) {
             onBeforeMount(() => {
-                state.labelWidth = refs.label!.scrollWidth
+                state.labelWidth = refs.label!.scrollWidth + 16
             })
         }
 
@@ -195,8 +195,10 @@ export const PlFormItem = designComponent({
             render: () => (
                 <div className={classes.value} style={styles.value}>
                     {(!!props.label || slots.labelContent.isExist()) && (
-                        <div className="pl-form-item-label" style={labelStyles.value} ref={onRef.label}>
-                            {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ':'}
+                        <div className="pl-form-item-label" style={labelStyles.value}>
+                            <div ref={onRef.label} className="pl-form-item-label-inner">
+                                {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ':'}
+                            </div>
                         </div>
                     )}
                     <div className="pl-form-item-body" style={bodyStyles.value}>
