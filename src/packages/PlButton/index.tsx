@@ -17,7 +17,7 @@ console.log('load button component')
 export const PlButton = designComponent({
     name: 'pl-button',
     props: {
-        mode: {type: String, default: 'fill'},                  // fill,stroke,text
+        mode: {type: String},                                   // fill,stroke,text
         label: {type: String},                                  // 按钮文本
         width: {type: [String, Number]},                        // 按钮宽度
         icon: {type: String},                                   // 按钮图标
@@ -50,7 +50,7 @@ export const PlButton = designComponent({
         const {editState, editComputed} = useEdit()
         const buttonGroup = ButtonModeProvider.inject()
         const otherComputed = computed(() => ({
-            mode: !!buttonGroup ? buttonGroup.value.mode : props.mode
+            mode: props.mode || (!!buttonGroup ? buttonGroup.value.mode : 'fill')
             // mode: 'fill',
         }))
         const state = reactive({
