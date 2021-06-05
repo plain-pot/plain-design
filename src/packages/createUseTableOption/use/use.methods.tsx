@@ -129,10 +129,36 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         return {load, reload, queryCount, next, prev, jump,}
     })())
 
-    const editMethods = useAsyncMethods((() => {
+    const editMethods = (() => {
+        const loadingMethods = useAsyncMethods((() => {
+
+            const cancel = async () => {await confirm.close.cancel()}
+            const save = async () => {await confirm.close.confirm()}
+
+            const _delete = async () => {
+                await loadingMethods.save()
+                if (!currentNode.value) {
+                    return $$notice.warn('请选中一行要删除的数据！')
+                }
+                const {page, size} = pagination.pageState
+                const {data, index} = currentNode.value
+                await $$dialog.confirm(`确定要删除第${page * size + index + 1}条数据吗？`)
+
+                let {request, requestConfig} = utils.getUrlConfig('delete')
+                requestConfig.body = deepcopy(data)
+                requestConfig = await hooks.onBeforeDelete.exec(requestConfig)
+                const deleteResult = await request!(requestConfig)
+                if (!!deleteResult.error) {
+                    return $$notice.error(`删除失败：${deleteResult.error}`)
+                }
+                tableState.list.splice(tableState.list.indexOf(data), 1)
+            }
+
+            return {save, cancel, delete: _delete}
+        })())
 
         const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
-            await editMethods.save()
+            await loadingMethods.save()
             let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
 
             const editInline = async () => {
@@ -164,7 +190,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 })
             }
             const editForm = () => {
-                const dfd = defer()
                 const newNode = freezeState.table.utils.getTreeNodeByData({
                     data: newRowData,
                     level: 1,
@@ -180,19 +205,15 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                         const newRowResult = await request!(requestConfig)
                         tableState.list.unshift(newRowResult.newRow)
-                        dfd.resolve()
                     },
-                    onCancel: dfd.resolve,
                 })
-
-                return dfd.promise
             }
 
             await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
         }
 
         const batchInsert = async () => {
-            await editMethods.save()
+            await loadingMethods.save()
             const num = await new Promise<number>((resolve, reject) => {
                 $$dialog({
                     editRequired: true,
@@ -235,7 +256,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         const copy = async (row?: Record<string, any>) => {
-            await editMethods.save()
+            await loadingMethods.save()
             if (!row) {
                 if (!currentNode.value) {
                     return $$notice.warn('请选中一行要删除的数据！')
@@ -244,11 +265,11 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             }
             const excludeKeys = [...config.copyDefaultExcludeKeys, ...config.copyExcludeKeys || []]
             excludeKeys.forEach(key => delete row![key])
-            return editMethods.insert(row)
+            return insert(row)
         }
 
         const update = async (updateNode?: TableNode, editType?: eTableProEditType) => {
-            await editMethods.save()
+            await loadingMethods.save()
             const node = updateNode || freezeState.table.getCurrent()
             if (!node) {
                 throw new Error('update cancel, there are on select node to be update.')
@@ -281,7 +302,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             }
 
             const editForm = async () => {
-                const dfd = defer()
                 tablePropUseEditForm.edit({
                     node: node,
                     title: '编辑',
@@ -292,19 +312,15 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
                         const updateResult = await request!(requestConfig)
                         await node.saveEdit(updateResult.newRow)
-                        dfd.resolve()
                     },
-                    onCancel: dfd.resolve,
                 })
-
-                return dfd.promise
             }
 
             await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
         }
 
         const batchUpdate = async () => {
-            await editMethods.save()
+            await loadingMethods.save()
 
             const updateNodes = [...freezeState.table.flatNodes.value]
             await nextTick()
@@ -335,42 +351,25 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             })
         }
 
-        const batchModify = () => {
+        const batchModify = async () => {
             console.log('批量修改')
-            const rows = check.openToCheck()
+            const rows = await check.openToCheck()
             console.log({rows})
         }
 
-        const batchDelete = () => {
+        const batchDelete = async () => {
             console.log('批量删除')
-            const rows = check.openToCheck()
-            console.log({rows})
+            const rows = await check.openToCheck()
+            console.log({rows: deepcopy(rows)})
         }
 
-        const _delete = async () => {
-            await editMethods.save()
-            if (!currentNode.value) {
-                return $$notice.warn('请选中一行要删除的数据！')
-            }
-            const {page, size} = pagination.pageState
-            const {data, index} = currentNode.value
-            await $$dialog.confirm(`确定要删除第${page * size + index + 1}条数据吗？`)
+        return {
+            insert, batchInsert, copy, update, batchUpdate, batchModify, batchDelete,
 
-            let {request, requestConfig} = utils.getUrlConfig('delete')
-            requestConfig.body = deepcopy(data)
-            requestConfig = await hooks.onBeforeDelete.exec(requestConfig)
-            const deleteResult = await request!(requestConfig)
-            if (!!deleteResult.error) {
-                return $$notice.error(`删除失败：${deleteResult.error}`)
-            }
-            tableState.list.splice(tableState.list.indexOf(data), 1)
+            ...loadingMethods,
         }
 
-        const cancel = async () => {await confirm.close.cancel()}
-        const save = async () => {await confirm.close.confirm()}
-
-        return {insert, batchInsert, copy, update, batchUpdate, delete: _delete, cancel, save, batchModify, batchDelete}
-    })())
+    })()
 
     hooks.onRefTable.use(table => freezeState.table = table)
     hooks.onDblClickCell.use(node => {confirm.state.status !== eTableProStatus.select && editMethods.update(node)})

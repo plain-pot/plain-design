@@ -1,7 +1,6 @@
-import {computed, designComponent, getCurrentDesignInstance, onBeforeUnmount, PropType, reactive} from "plain-design-composition";
+import {computed, designComponent, onBeforeUnmount, PropType, reactive, useRefs} from "plain-design-composition";
 import {PlainObject, tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTableOptionHooks} from "./use.hooks";
-import {PlcCheck} from "../../PlcCheck";
 import React from "react";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {createPlcPropOptions, PlcEmitsOptions} from "../../PlTable/plc/utils/plc.utils";
@@ -9,14 +8,15 @@ import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {PlcScopeSlotsOptions} from "../../PlTable/plc/utils/plc.scope-slots";
 import {injectPlainTable} from "../../PlTable";
 import {CheckboxStatus} from "../../../utils/constant";
-import {toArray} from "../../../utils/toArray";
 import {useExternalPlc} from "../../PlTable/plc/core/useExternalPlc";
 import {PlCheckbox} from "../../PlCheckbox";
 import PlDropdown from "../../PlDropdown";
 import PlDropdownMenu from "../../PlDropdownMenu";
 import PlDropdownOption from "../../PlDropdownOption";
+import {defer} from "../../../utils/defer";
+import useMessage from "../../useMessage";
 
-const PlcProChecj = designComponent({
+const PlcProCheck = designComponent({
     name: 'plc-pro-check',
     props: {
         ...createPlcPropOptions({
@@ -38,12 +38,12 @@ const PlcProChecj = designComponent({
         const table = injectPlainTable()
         const state = reactive({
             /*当前选中行数组*/
-            selected: [] as PlainObject[],
+            selectedRows: [] as PlainObject[],
         })
         /*获取对象的key*/
         const getKey = (row: any) => row[props.keyField]
         /*选中行数组的key数组*/
-        const selectedKeys = computed(() => state.selected.map(item => getKey(item)))
+        const selectedKeys = computed(() => state.selectedRows.map(row => getKey(row)))
         /*当前状态，全选，全不选还是半选*/
         const status = computed(() => {
             let hasCheck = null as null | boolean;
@@ -69,7 +69,7 @@ const PlcProChecj = designComponent({
         /*切换选中状态*/
         const toggle = (node: TableNode) => {
             const index = selectedKeys.value.indexOf(getKey(node.data))
-            index > -1 ? state.selected.splice(index, 1) : state.selected.push(node.data)
+            index > -1 ? state.selectedRows.splice(index, 1) : state.selectedRows.push(node.data)
         }
         const handler = {
             /*处理点击复选框按钮动作*/
@@ -77,32 +77,37 @@ const PlcProChecj = designComponent({
         }
         const methods = {
             /*获取选中行数据*/
-            getSelected: () => state.selected,
+            getSelected: () => state.selectedRows,
             /*清空当前也选中行*/
             clearAll: () => {
                 const currentPageKeys = table.flatNodes.value.map(node => getKey(node.data))
-                state.selected = state.selected.filter(i => currentPageKeys.indexOf(getKey(i) === -1))
+                state.selectedRows = state.selectedRows.filter(row => currentPageKeys.indexOf(getKey(row) === -1))
             },
             /*选中当前页*/
             checkAll: () => {
                 const add = table.flatNodes.value.filter(node => selectedKeys.value.indexOf(getKey(node.data) === -1))
-                state.selected.push(...add)
+                state.selectedRows.push(...add)
             },
             /*反选当前页*/
             reverse: () => {
-                state.selected = table.flatNodes.value
-                    .filter(node => isCheckable(node) && selectedKeys.value.indexOf(node.key) === -1)
-            },
-            /*添加选中行*/
-            addSelected: (key: string | number | (string | number)[]) => {
-                const keys = toArray(key)
-                const nodes = keys.map(k => table.state.nodeMap[k]).filter(Boolean)
-                state.selected = [...state.selected, ...nodes]
-            },
-            /*移除选中行*/
-            removeSelected: (key: string | number | (string | number)[]) => {
-                const keys = toArray(key)
-                state.selected = state.selected.filter(node => keys.indexOf(node.key) === -1)
+                const add: any[] = []
+
+                const flatNodes = [...table.flatNodes.value]
+                let flatLen = flatNodes.length
+                let index = 0
+                let current = flatNodes[index]
+                while (index <= flatLen) {
+                    if (selectedKeys.value.indexOf(getKey(current.data)) > -1) {
+                        flatNodes.splice(index, 1)
+                        index--
+                        flatLen--
+                    } else {
+                        add.push(current.data)
+                    }
+                    index++
+                    current = flatNodes[index]
+                }
+                state.selectedRows.push(...add)
             },
         }
         if (props.toggleOnClickRow) {
@@ -124,9 +129,9 @@ const PlcProChecj = designComponent({
                         {...{placement: 'bottom-center'}}
                         default={() => <PlCheckbox checkStatus={status.value}/>}
                         popper={() => <PlDropdownMenu>
-                            <PlDropdownOption label="全部选中" icon="el-icon-check-bold" onClick={methods.checkAll}/>
-                            <PlDropdownOption label="全部取消" icon="el-icon-close-bold" onClick={methods.clearAll}/>
-                            <PlDropdownOption label="全部反选" icon="el-icon-refresh" onClick={methods.reverse}/>
+                            <PlDropdownOption label="全选当前页" icon="el-icon-check-bold" onClick={methods.checkAll}/>
+                            <PlDropdownOption label="取消当前页" icon="el-icon-close-bold" onClick={methods.clearAll}/>
+                            <PlDropdownOption label="反选当前页" icon="el-icon-refresh" onClick={methods.reverse}/>
                         </PlDropdownMenu>}
                     />
                 )
@@ -152,26 +157,30 @@ export function useTableOptionCheck({hooks, config, confirm}: {
     confirm: tTableOptionConfirm,
 }) {
 
+    const $message = useMessage()
+
     const state = reactive({
         showCheck: false,
     })
+    const {refs, onRef} = useRefs({check: PlcProCheck})
 
     hooks.onColumns.use((content) => {
         if (!state.showCheck) {
             return content
         }
         return <>
-            <PlcCheck key="pro-checkbox"/>
+            <PlcProCheck
+                ref={onRef.check}
+                key="pro-checkbox"
+                toggleOnClickRow
+                keyField={config.keyField}/>
             {content}
         </>
     })
 
-    const open = () => {
-        state.showCheck = true
-    }
-    const close = () => {
-        state.showCheck = false
-    }
+    const showCheckbox = () => {state.showCheck = true}
+    const hideCheckbox = () => {state.showCheck = false}
+
     const clear = () => {
         console.log('清空选择')
     }
@@ -182,17 +191,23 @@ export function useTableOptionCheck({hooks, config, confirm}: {
     const reverse = () => {console.log('反选当前页')}
     const toggle = () => {console.log('切换选中状态')}
     const openToCheck = () => {
-        open()
+        const dfd = defer<PlainObject[]>()
+        showCheckbox()
         confirm.open(eTableProStatus.select, {
             onConfirm: () => {
-                console.log('选择完毕')
-                close()
+                const selectedRows = refs.check!.getSelected()
+                if (selectedRows.length === 0) {
+                    throw $message.warn('请至少选中一行数据！')
+                }
+                dfd.resolve(selectedRows)
+                hideCheckbox()
             },
             onCancel: () => {
                 console.log('取消选择')
-                close()
+                hideCheckbox()
             },
         })
+        return dfd.promise
     }
 
     return {

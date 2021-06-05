@@ -19,7 +19,7 @@ export function useTableOptionEditForm() {
         title: string,
         plcList: tPlc[],
         onConfirm: (node: TableNode) => void,
-        onCancel: () => void,
+        onCancel?: () => void,
         rules?: tFormPropRules,
     }) => {
         node = reactive(cloneTableNode(node))
@@ -72,7 +72,7 @@ export function useTableOptionEditForm() {
             },
             onCancel: () => {
                 dialog.close()
-                onCancel()
+                !!onCancel && onCancel()
             },
             confirmButton: true,
             cancelButton: true,
