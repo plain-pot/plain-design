@@ -216,7 +216,7 @@ export default createDefaultService({
 
                         {...binding}
                         width={width}
-                        shape={binding.shape || StyleShape.square}
+                        shape={binding.shape}
                     >
                         {{
                             default: content,

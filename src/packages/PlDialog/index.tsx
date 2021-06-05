@@ -77,7 +77,7 @@ export const PlDialog = designComponent({
             loading: false,
         })
         const isLoading = computed(() => state.loading || props.loading)
-        const {styleComputed} = useStyle({status: undefined, shape: StyleShape.square})
+        const {styleComputed} = useStyle({status: undefined})
         const model = ref(false)
 
         /*---------------------------------------computer-------------------------------------------*/
