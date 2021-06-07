@@ -31,8 +31,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             return table.getNode(tableState.currentKey)
         })
 
-        const command = useTableOptionCommand()
         const hooks = useTableOptionHooks({config})
+        const command = useTableOptionCommand({hooks})
         const confirm = useTableOptionConfirm({hooks})
         const check = useTableOptionCheck({config, hooks, confirm})
         const pagination = useTableOptionPagination({

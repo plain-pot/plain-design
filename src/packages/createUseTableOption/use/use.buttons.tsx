@@ -31,6 +31,11 @@ export function useTableOptionButtons({hooks, methods, command}: { hooks: tTable
         const icon = () => btn.icon == null ? null : (typeof btn.icon === "string" ? btn.icon : btn.icon())
         const show = () => btn.show == null ? true : (typeof btn.show === "boolean" ? btn.show : btn.show())
         const disabled = () => btn.disabled == null ? undefined : (typeof btn.disabled === "boolean" ? btn.disabled : btn.disabled())
+
+        if (!!btn.command) {
+            toArray(btn.command).forEach(name => command.on(name, () => btn.handler()))
+        }
+
         return {
             button: () => !show() ? null : (
                 <PlButton
