@@ -8,6 +8,12 @@
 
     .pl-table-pro-setting-nav {
       background-color: $nav-bg;
+      display: flex;
+      flex-direction: column;
+
+      .pl-table-pro-setting-nav-item:last-child {
+        flex: 1;
+      }
 
       .pl-table-pro-setting-nav-item {
         padding: 12px 24px;
@@ -46,6 +52,8 @@
             border-bottom-right-radius: 17px;
             background-color: $nav-bg;
             content: '';
+            border-bottom: solid 1px $ibl;
+            border-right: solid 1px $ibl;
           }
         }
 
@@ -59,11 +67,14 @@
             border-top-right-radius: 17px;
             background-color: $nav-bg;
             content: '';
+            border-top: solid 1px $ibl;
+            border-right: solid 1px $ibl;
           }
         }
 
         &:not(.pl-table-pro-setting-nav-item-prev):not(.pl-table-pro-setting-nav-item-next):not(.pl-table-pro-setting-nav-item-active) {
           background-color: $nav-bg;
+          border-right: solid 1px $ibl;
         }
       }
     }
