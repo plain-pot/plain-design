@@ -7,6 +7,8 @@ import {PlainTable} from "../../index";
 import {PlainScroll} from "../../../PlScroll";
 import {classnames} from "plain-design-composition";
 import React from "react";
+import {toArray} from "../../../../utils/toArray";
+import PlIcon from "../../../PlIcon";
 
 export const PltHeadCell = designComponent({
     name: 'plt-head-cell',
@@ -23,6 +25,15 @@ export const PltHeadCell = designComponent({
             plc: props.tablePlc,
             scrollRefer: props.scroll,
         })))
+
+        const sort = computed(() => {
+            const {tablePlc, table} = props
+            if (!table.props.sort) {return null}
+            if (tablePlc.group) {return null}
+            const sortObj = toArray(props.table.props.sort!).find(i => i.field === tablePlc.props.field)
+            if (!sortObj) {return null}
+            return sortObj.desc
+        })
 
         return {
             render: () => {
@@ -44,6 +55,14 @@ export const PltHeadCell = designComponent({
                     >
                         {content}
                         <span className="plt-head-cell-indicator" onMouseDown={resizeHandler.mousedown}/>
+                        {sort.value != null && (
+                            <div className={`plt-head-cell-sorter plt-head-cell-sorter-${sort.value ? 'desc' : 'asc'}`}>
+                                <div className="plt-head-cell-sorter-inner">
+                                    <PlIcon icon="el-icon-caret-top"/>
+                                    <PlIcon icon="el-icon-caret-bottom"/>
+                                </div>
+                            </div>
+                        )}
                     </td>
                 )
             }

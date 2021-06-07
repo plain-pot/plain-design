@@ -134,6 +134,48 @@
         transition: opacity 500ms $transition;
         z-index: 1;
       }
+
+      .plt-head-cell-sorter {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .plt-head-cell-sorter-inner {
+          display: flex;
+          flex-direction: column;
+          color: rgba(black, 0.4);
+
+          .pl-icon:first-child {
+            position: relative;
+            top: 3px;
+          }
+
+          .pl-icon:last-child {
+            position: relative;
+            bottom: 3px;
+          }
+        }
+
+        &.plt-head-cell-sorter-asc {
+          .plt-head-cell-sorter-inner {
+            .pl-icon:first-child {
+              color: rgba(black, 0.8);
+            }
+          }
+        }
+
+        &.plt-head-cell-sorter-desc {
+          .plt-head-cell-sorter-inner {
+            .pl-icon:last-child {
+              color: rgba(black, 0.8);
+            }
+          }
+        }
+      }
     }
   }
   /*---------------------------------------body-------------------------------------------*/
