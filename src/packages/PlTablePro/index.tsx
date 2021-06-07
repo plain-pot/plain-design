@@ -54,7 +54,7 @@ export const PlTablePro = designComponent({
                                 {props.option.buttons.btns.insert.button()}
                                 {props.option.buttons.btns.copy.button()}
                                 {props.option.buttons.btns.delete.button()}
-                                <PlDropdown placement="bottom-end" width="100">
+                                <PlDropdown placement="bottom-end" width="190" height={null as any}>
                                     {{
                                         reference: ({open}) => (
                                             <PlButton>
