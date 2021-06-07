@@ -1,4 +1,4 @@
-import {iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
+import {iTableProConfig, iTableProConfigSortObj, iTableProDefaultConfig, iTableState, tTableOptionChangeSort, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
@@ -8,6 +8,7 @@ import {useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";
 import {useTableOptionButtons} from "./use/use.buttons";
 import {useTableOptionSetting} from "./use/setting/use.setting";
+import {toArray} from "../../utils/toArray";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -24,6 +25,16 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             currentKey: null,
             tableGetter: () => null,
         })
+
+        const changeSort: tTableOptionChangeSort = (data) => {
+            let sortData: iTableProConfigSortObj[] = []
+            if (typeof data === "function") {
+                sortData.push(...data(toArray(config.sort)))
+            } else {
+                sortData.push(...data)
+            }
+            config.sort = sortData
+        }
 
         const currentNode = computed(() => {
             const table = tableState.tableGetter()
@@ -46,7 +57,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         })
         const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm})
         const {pageMethods, editMethods} = methods
-        const setting = useTableOptionSetting({hooks, config})
+        const setting = useTableOptionSetting({hooks, config, changeSort, methods})
         const buttons = useTableOptionButtons({hooks, methods, command, setting})
 
         hooks.onLoaded.use(rows => {

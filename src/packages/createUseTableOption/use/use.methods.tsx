@@ -414,4 +414,4 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
     }
 }
 
-export type tTableMethods = ReturnType<typeof useTableOptionMethods>
+export type tTableOptionMethods = ReturnType<typeof useTableOptionMethods>

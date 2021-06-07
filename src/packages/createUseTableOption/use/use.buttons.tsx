@@ -1,7 +1,7 @@
 import React from "react";
 import PlButton from "../../PlButton";
 import PlDropdownOption from "../../PlDropdownOption";
-import {tTableMethods} from "./use.methods";
+import {tTableOptionMethods} from "./use.methods";
 import {eTableProEditType} from "../createUseTableOption.utils";
 import {toArray} from "../../../utils/toArray";
 import {tTableOptionHooks} from "./use.hooks";
@@ -18,7 +18,7 @@ export interface iTableOptionButton {
     command?: string | string[],
 }
 
-export function useTableOptionButtons({hooks, methods, command, setting}: { hooks: tTableOptionHooks, methods: tTableMethods, command: tTableOptionCommand, setting: tTableOptionSetting }) {
+export function useTableOptionButtons({hooks, methods, command, setting}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, command: tTableOptionCommand, setting: tTableOptionSetting }) {
 
     const state = {
         tableEl: null as null | HTMLDivElement,

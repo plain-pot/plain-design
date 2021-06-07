@@ -3,10 +3,16 @@ import useDialog from "../../../useDialog";
 import TableOptionSetting, {eTableOptionSettingView} from './TableOptionSetting'
 import {tTableOptionHooks} from "../use.hooks";
 import PlTable from "../../../PlTable";
-import {tTableOptionConfig} from "../../createUseTableOption.utils";
+import {tTableOptionChangeSort, tTableOptionConfig} from "../../createUseTableOption.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {tTableOptionMethods} from "../use.methods";
 
-export function useTableOptionSetting({hooks, config}: { hooks: tTableOptionHooks, config: tTableOptionConfig }) {
+export function useTableOptionSetting({hooks, config, changeSort, methods}: {
+    hooks: tTableOptionHooks,
+    config: tTableOptionConfig,
+    changeSort: tTableOptionChangeSort,
+    methods: tTableOptionMethods,
+}) {
 
     const $dialog = useDialog()
 
@@ -36,7 +42,8 @@ export function useTableOptionSetting({hooks, config}: { hooks: tTableOptionHook
                     plcList={state.table.plcData.value!.flatPlcList}
                     sortData={config.sort}
                     onApplySort={(sorts) => {
-                        console.log(deepcopy(sorts))
+                        changeSort(deepcopy(sorts))
+                        methods.pageMethods.reload()
                     }}
                 />),
             cancelButton: true,

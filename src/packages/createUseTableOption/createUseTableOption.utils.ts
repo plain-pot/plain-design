@@ -171,6 +171,8 @@ export interface iTableProConfig<D = any> {
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
 
+export type tTableOptionChangeSort = (sort: iTableProConfigSortObj[] | ((sort: iTableProConfigSortObj[]) => iTableProConfigSortObj[])) => void
+
 export interface iTableState {
     list: any[],
     editingWhenAddRow: boolean,
