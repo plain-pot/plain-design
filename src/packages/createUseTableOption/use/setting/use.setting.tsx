@@ -1,11 +1,12 @@
 import React from "react";
 import useDialog from "../../../useDialog";
 import TableOptionSetting, {eTableOptionSettingView} from './TableOptionSetting'
-import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {tTableOptionHooks} from "../use.hooks";
 import PlTable from "../../../PlTable";
+import {tTableOptionConfig} from "../../createUseTableOption.utils";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
-export function useTableOptionSetting({hooks}: { hooks: tTableOptionHooks }) {
+export function useTableOptionSetting({hooks, config}: { hooks: tTableOptionHooks, config: tTableOptionConfig }) {
 
     const $dialog = useDialog()
 
@@ -29,7 +30,15 @@ export function useTableOptionSetting({hooks}: { hooks: tTableOptionHooks }) {
                 contentPadding: false
             },
             title: '设置',
-            render: () => (<TableOptionSetting initView={view} plcList={state.table.plcData.value!.flatPlcList}/>),
+            render: () => (
+                <TableOptionSetting
+                    initView={view}
+                    plcList={state.table.plcData.value!.flatPlcList}
+                    sortData={config.sort}
+                    onApplySort={(sorts) => {
+                        console.log(deepcopy(sorts))
+                    }}
+                />),
             cancelButton: true,
             cancelButtonText: '关闭',
         })

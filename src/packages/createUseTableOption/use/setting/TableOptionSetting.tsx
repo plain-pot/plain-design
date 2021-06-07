@@ -10,9 +10,11 @@ import PlDropdown from "../../../PlDropdown";
 import PlButton from "../../../PlButton";
 import PlIcon from "../../../PlIcon";
 import PlDropdownMenu from "../../../PlDropdownMenu";
-import PlButtonGroup from "../../../PlButtonGroup";
 import PlDropdownOption from "../../../PlDropdownOption";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
+import {iTableProConfigSortObj} from "../../createUseTableOption.utils";
+import {deepcopy} from "plain-utils/object/deepcopy";
+import {toArray} from "../../../../utils/toArray";
 
 export enum eTableOptionSettingView {
     filter = 'filter',
@@ -26,17 +28,33 @@ export default designComponent({
     props: {
         initView: {type: String as PropType<eTableOptionSettingView>, required: true},
         plcList: {type: Array as PropType<tPlc[]>, required: true},
+        sortData: {type: Array as PropType<iTableProConfigSortObj | iTableProConfigSortObj[]>, required: true},
     },
-    setup({props}) {
+    emits: {
+        onApplySort: (sorts: iTableProConfigSortObj[]) => true,
+    },
+    setup({props, event: {emit}}) {
 
         const state = reactive({
             view: props.initView,
-            data: {
-                sort: [
-                    {label: '创建时间', field: 'createdAt', desc: true},
-                    {label: '更新时间', field: 'updatedAt', desc: true},
-                    {label: '数字', field: 'numberVal', desc: true},
-                ],
+        })
+
+        const sortState = reactive({
+            data: deepcopy(toArray(props.sortData).map(i => ({
+                ...i,
+                desc: i.desc !== false,
+                label: (() => {
+                    const plc = props.plcList.find(plc => plc.props.field === i.field)
+                    let label = !plc ? null : plc.props.title
+                    if (!label) {
+                        if (i.field === 'createdAt') {label = '创建时间'}
+                        if (i.field === 'updatedAt') {label = '更新时间'}
+                    }
+                    return label
+                })(),
+            }))).filter(i => !!i.label),
+            apply: () => {
+                emit.onApplySort(sortState.data)
             }
         })
 
@@ -72,7 +90,7 @@ export default designComponent({
                                                 <PlDropdownOption label={plc.props.title} key={index} onClick={(e) => {
                                                     e.stopPropagation()
                                                     e.preventDefault()
-                                                    state.data.sort.push({
+                                                    sortState.data.push({
                                                         field: plc.props.field!,
                                                         label: plc.props.title!,
                                                         desc: true,
@@ -82,10 +100,10 @@ export default designComponent({
                                         </PlDropdownMenu>
                                     }}
                                 </PlDropdown>
-                                <PlButton label="应用"/>
+                                <PlButton label="应用" onClick={sortState.apply}/>
                             </div>
 
-                            <PlTable v-model-data={state.data.sort} showRows={state.data.sort.length}>
+                            <PlTable v-model-data={sortState.data} showRows={sortState.data.length}>
                                 <PlcIndex/>
                                 <PlcDraggier/>
                                 <Plc title="排序字段" field="label"/>
@@ -102,7 +120,7 @@ export default designComponent({
                                 <Plc align="center">
                                     {{
                                         normal: ({node}) => (
-                                            <PlButton label="删除" mode="text" status="error" onClick={() => state.data.sort.splice(node.index, 1)}/>
+                                            <PlButton label="删除" mode="text" status="error" onClick={() => sortState.data.splice(node.index, 1)}/>
                                         )
                                     }}
                                 </Plc>
