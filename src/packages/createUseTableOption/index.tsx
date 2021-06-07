@@ -5,6 +5,8 @@ import {useTableOptionHooks} from "./use/use.hooks";
 import {computed, reactive} from "plain-design-composition";
 import {useTableOptionCheck} from "./use/use.check";
 import {useTableOptionConfirm} from "./use/use.confirm";
+import {useTableOptionCommand} from "./use/use.command";
+import {useTableOptionButtons} from "./use/use.buttons";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -29,6 +31,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             return table.getNode(tableState.currentKey)
         })
 
+        const command = useTableOptionCommand()
         const hooks = useTableOptionHooks({config})
         const confirm = useTableOptionConfirm({hooks})
         const check = useTableOptionCheck({config, hooks, confirm})
@@ -40,7 +43,9 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onJump: (page) => pageMethods.jump(page),
             onSizeChange: size => pageMethods.reload({size}),
         })
-        const {pageMethods, editMethods} = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm})
+        const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm})
+        const {pageMethods, editMethods} = methods
+        const buttons = useTableOptionButtons({methods})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
@@ -57,6 +62,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             hooks,
             currentNode,
             check,
+            buttons,
         }
     }
 }

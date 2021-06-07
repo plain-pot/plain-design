@@ -51,9 +51,9 @@ export const PlTablePro = designComponent({
                     <div className="pl-table-pro-operation">
                         {props.option.hooks.onButtons.exec(
                             <PlButtonGroup>
-                                <PlButton label={'新建'} icon="el-icon-document-add" onClick={() => props.option.editMethods.insert()}/>
-                                <PlButton label={'复制'} icon="el-icon-document-copy" onClick={() => props.option.editMethods.copy()}/>
-                                <PlButton label={'删除'} icon="el-icon-document-remove" onClick={() => props.option.editMethods.delete()}/>
+                                {props.option.buttons.btns.insert.button()}
+                                {props.option.buttons.btns.copy.button()}
+                                {props.option.buttons.btns.delete.button()}
                                 <PlDropdown placement="bottom-end" width="100">
                                     {{
                                         reference: ({open}) => (
@@ -66,16 +66,16 @@ export const PlTablePro = designComponent({
                                             </PlButton>
                                         ),
                                         popper: <PlDropdownMenu>
-                                            <PlDropdownOption label="表单编辑" icon="el-icon-document" onClick={() => props.option.editMethods.update(undefined, eTableProEditType.form)}/>
-                                            <PlDropdownOption label="批量新建" icon="el-icon-document-add" onClick={props.option.editMethods.batchInsert}/>
-                                            <PlDropdownOption label="批量编辑" icon="el-icon-edit-outline" onClick={props.option.editMethods.batchUpdate}/>
-                                            <PlDropdownOption label="批量删除" icon="el-icon-document-remove" onClick={props.option.editMethods.batchDelete}/>
-                                            <PlDropdownOption label="批量修改" icon="el-icon-edit" onClick={props.option.editMethods.batchModify}/>
-                                            <PlDropdownOption label="高级筛选" icon="el-icon-brush"/>
-                                            <PlDropdownOption label="高级排序" icon="el-icon-sort"/>
-                                            <PlDropdownOption label="个性设置" icon="el-icon-setting"/>
-                                            <PlDropdownOption label="导入数据" icon="el-icon-download"/>
-                                            <PlDropdownOption label="导出数据" icon="el-icon-upload1"/>
+                                            {props.option.buttons.btns.editForm.dropdown()}
+                                            {props.option.buttons.btns.batchInsert.dropdown()}
+                                            {props.option.buttons.btns.batchUpdate.dropdown()}
+                                            {props.option.buttons.btns.batchDelete.dropdown()}
+                                            {props.option.buttons.btns.batchModify.dropdown()}
+                                            {props.option.buttons.btns.seniorFilter.dropdown()}
+                                            {props.option.buttons.btns.seniorSort.dropdown()}
+                                            {props.option.buttons.btns.setting.dropdown()}
+                                            {props.option.buttons.btns.importData.dropdown()}
+                                            {props.option.buttons.btns.exportData.dropdown()}
                                         </PlDropdownMenu>
                                     }}
                                 </PlDropdown>
