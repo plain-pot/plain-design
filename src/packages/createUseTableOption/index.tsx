@@ -7,6 +7,7 @@ import {useTableOptionCheck} from "./use/use.check";
 import {useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";
 import {useTableOptionButtons} from "./use/use.buttons";
+import {useTableOptionSetting} from "./use/use.setting";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -45,7 +46,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         })
         const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm})
         const {pageMethods, editMethods} = methods
-        const buttons = useTableOptionButtons({hooks, methods, command})
+        const setting = useTableOptionSetting()
+        const buttons = useTableOptionButtons({hooks, methods, command, setting})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows

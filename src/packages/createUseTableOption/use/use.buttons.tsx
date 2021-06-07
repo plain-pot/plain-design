@@ -6,6 +6,7 @@ import {eTableProEditType} from "../createUseTableOption.utils";
 import {toArray} from "../../../utils/toArray";
 import {tTableOptionHooks} from "./use.hooks";
 import {tTableOptionCommand} from "./use.command";
+import {eTableOptionSettingView, tTableOptionSetting} from "./use.setting";
 
 export interface iTableOptionButton {
     label: string | (() => string),
@@ -16,7 +17,7 @@ export interface iTableOptionButton {
     command?: string | string[],
 }
 
-export function useTableOptionButtons({hooks, methods, command}: { hooks: tTableOptionHooks, methods: tTableMethods, command: tTableOptionCommand }) {
+export function useTableOptionButtons({hooks, methods, command, setting}: { hooks: tTableOptionHooks, methods: tTableMethods, command: tTableOptionCommand, setting: tTableOptionSetting }) {
 
     const state = {
         tableEl: null as null | HTMLDivElement,
@@ -66,7 +67,7 @@ export function useTableOptionButtons({hooks, methods, command}: { hooks: tTable
         batchDelete: registry({label: '批量删除', icon: 'el-icon-document-remove', handler: () => methods.editMethods.batchDelete(), command: 'ctrl+d'}),
         batchModify: registry({label: '批量修改', icon: 'el-icon-edit', handler: () => methods.editMethods.batchModify(), command: 'ctrl+m'}),
         seniorFilter: registry({label: '高级筛选', icon: 'el-icon-brush', handler: () => {console.log('高级筛选')}, command: 'ctrl+f'}),
-        seniorSort: registry({label: '高级排序', icon: 'el-icon-sort', handler: () => {console.log('高级排序')}, command: 'ctrl+g'}),
+        seniorSort: registry({label: '高级排序', icon: 'el-icon-sort', handler: () => {setting.openSetting(eTableOptionSettingView.sort)}, command: 'ctrl+g'}),
         setting: registry({label: '个性设置', icon: 'el-icon-setting', handler: () => {console.log('个性设置')}, command: 'ctrl+r'}),
         importData: registry({label: '导入数据', icon: 'el-icon-download', handler: () => {}, command: 'ctrl+j'}),
         exportData: registry({label: '导出数据', icon: 'el-icon-upload1', handler: () => {}, command: 'ctrl+k'}),
