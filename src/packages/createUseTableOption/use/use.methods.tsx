@@ -10,8 +10,7 @@ import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {$$dialog} from "../../useDialog";
 import {useAsyncMethods} from "../utils/useAsyncMethods";
 import {useTableOptionEditForm} from "./use.edit-form";
-import {defer} from "../../../utils/defer";
-import {tTableOptionCheck} from "./use.check";
+import {tTableOptionCheck} from "./check/use.check";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
 

@@ -1,5 +1,6 @@
 import React from "react";
-import useDialog from "../../useDialog";
+import useDialog from "../../../useDialog";
+import {designComponent} from "plain-design-composition";
 
 export enum eTableOptionSettingView {
     filter = 'filter',
@@ -8,6 +9,17 @@ export enum eTableOptionSettingView {
     import = 'import',
     export = 'export',
 }
+
+const TableOptionSetting = designComponent({
+    props: {},
+    setup({props}) {
+        return () => (
+            <div className="pl-table-pro-setting">
+                设置内容
+            </div>
+        )
+    },
+})
 
 export function useTableOptionSetting() {
 
@@ -28,11 +40,7 @@ export function useTableOptionSetting() {
                 footAlign: 'flex-start',
             },
             title: '设置',
-            render: () => (
-                <div>
-                    设置内容
-                </div>
-            ),
+            render: () => (<TableOptionSetting/>),
             confirmButton: true,
             cancelButton: true,
             onConfirm: () => {

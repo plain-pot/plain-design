@@ -1,20 +1,20 @@
 import {computed, designComponent, onBeforeUnmount, PropType, reactive, useRefs} from "plain-design-composition";
-import {PlainObject, tTableOptionConfig} from "../createUseTableOption.utils";
-import {tTableOptionHooks} from "./use.hooks";
+import {PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils";
+import {tTableOptionHooks} from "../use.hooks";
 import React from "react";
-import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
-import {createPlcPropOptions, PlcEmitsOptions} from "../../PlTable/plc/utils/plc.utils";
-import {TableNode} from "../../PlTable/table/use/useTableNode";
-import {PlcScopeSlotsOptions} from "../../PlTable/plc/utils/plc.scope-slots";
-import {injectPlainTable} from "../../PlTable";
-import {CheckboxStatus} from "../../../utils/constant";
-import {useExternalPlc} from "../../PlTable/plc/core/useExternalPlc";
-import {PlCheckbox} from "../../PlCheckbox";
-import PlDropdown from "../../PlDropdown";
-import PlDropdownMenu from "../../PlDropdownMenu";
-import PlDropdownOption from "../../PlDropdownOption";
-import {defer} from "../../../utils/defer";
-import useMessage from "../../useMessage";
+import {eTableProStatus, tTableOptionConfirm} from "../use.confirm";
+import {createPlcPropOptions, PlcEmitsOptions} from "../../../PlTable/plc/utils/plc.utils";
+import {TableNode} from "../../../PlTable/table/use/useTableNode";
+import {PlcScopeSlotsOptions} from "../../../PlTable/plc/utils/plc.scope-slots";
+import {injectPlainTable} from "../../../PlTable";
+import {CheckboxStatus} from "../../../../utils/constant";
+import {useExternalPlc} from "../../../PlTable/plc/core/useExternalPlc";
+import {PlCheckbox} from "../../../PlCheckbox";
+import PlDropdown from "../../../PlDropdown";
+import PlDropdownMenu from "../../../PlDropdownMenu";
+import PlDropdownOption from "../../../PlDropdownOption";
+import {defer} from "../../../../utils/defer";
+import useMessage from "../../../useMessage";
 
 const PlcProCheck = designComponent({
     name: 'plc-pro-check',

@@ -3,11 +3,11 @@ import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
 import {computed, reactive} from "plain-design-composition";
-import {useTableOptionCheck} from "./use/use.check";
+import {useTableOptionCheck} from "./use/check/use.check";
 import {useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";
 import {useTableOptionButtons} from "./use/use.buttons";
-import {useTableOptionSetting} from "./use/use.setting";
+import {useTableOptionSetting} from "./use/setting/use.setting";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {

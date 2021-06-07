@@ -6,7 +6,7 @@ import {eTableProEditType} from "../createUseTableOption.utils";
 import {toArray} from "../../../utils/toArray";
 import {tTableOptionHooks} from "./use.hooks";
 import {tTableOptionCommand} from "./use.command";
-import {eTableOptionSettingView, tTableOptionSetting} from "./use.setting";
+import {eTableOptionSettingView, tTableOptionSetting} from "./setting/use.setting";
 
 export interface iTableOptionButton {
     label: string | (() => string),
