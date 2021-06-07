@@ -72,6 +72,10 @@ export function useTableOptionButtons({hooks, methods, command}: { hooks: tTable
         exportData: registry({label: '导出数据', icon: 'el-icon-upload1', handler: () => {}, command: 'ctrl+k'}),
     }
 
+    command.on('esc', () => methods.editMethods.cancel())
+    command.on('ctrl+s', () => methods.editMethods.save())
+
+
     return {
         registry,
         btns,
