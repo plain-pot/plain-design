@@ -6,12 +6,11 @@ import './table-pro.scss'
 import PlButton from "../PlButton";
 import PlDropdown from "../PlDropdown";
 import PlDropdownMenu from "../PlDropdownMenu";
-import PlDropdownOption from "../PlDropdownOption";
 import PlIcon from "../PlIcon";
 import PlButtonGroup from "../PlButtonGroup";
 import {TableNode} from "../PlTable/table/use/useTableNode";
 import {PlcIndex} from "../PlcIndex";
-import {eTableProEditType} from "../createUseTableOption/createUseTableOption.utils";
+import {toArray} from "../../utils/toArray";
 
 export const PlTablePro = designComponent({
     props: {
@@ -93,6 +92,7 @@ export const PlTablePro = designComponent({
                     keyField={props.option.config.keyField}
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
+                    sort={toArray(props.option.config.sort).map(({field, desc}) => ({field, desc: desc !== false}))}
                 >
                     <PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {props.option.hooks.onColumns.exec(slots.default())}
