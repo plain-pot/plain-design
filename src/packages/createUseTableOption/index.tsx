@@ -46,7 +46,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         })
         const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm})
         const {pageMethods, editMethods} = methods
-        const setting = useTableOptionSetting()
+        const setting = useTableOptionSetting({hooks})
         const buttons = useTableOptionButtons({hooks, methods, command, setting})
 
         hooks.onLoaded.use(rows => {

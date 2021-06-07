@@ -5,6 +5,14 @@ import PlTable from "../../../PlTable";
 import {Plc} from "../../../Plc";
 import {PlcDraggier} from "../../../PlcDraggier";
 import {PlcIndex} from "../../../PlcIndex";
+import PlToggle from "../../../PlToggle";
+import PlDropdown from "../../../PlDropdown";
+import PlButton from "../../../PlButton";
+import PlIcon from "../../../PlIcon";
+import PlDropdownMenu from "../../../PlDropdownMenu";
+import PlButtonGroup from "../../../PlButtonGroup";
+import PlDropdownOption from "../../../PlDropdownOption";
+import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 
 export enum eTableOptionSettingView {
     filter = 'filter',
@@ -17,11 +25,19 @@ export enum eTableOptionSettingView {
 export default designComponent({
     props: {
         initView: {type: String as PropType<eTableOptionSettingView>, required: true},
+        plcList: {type: Array as PropType<tPlc[]>, required: true},
     },
     setup({props}) {
 
         const state = reactive({
             view: props.initView,
+            data: {
+                sort: [
+                    {label: '创建时间', field: 'createdAt', desc: true},
+                    {label: '更新时间', field: 'updatedAt', desc: true},
+                    {label: '数字', field: 'numberVal', desc: true},
+                ],
+            }
         })
 
         const renderer = [
@@ -38,12 +54,61 @@ export default designComponent({
                 view: eTableOptionSettingView.sort,
                 render: () => {
                     return (
-                        <PlTable>
-                            <PlcIndex/>
-                            <PlcDraggier/>
-                            <Plc title="排序字段" field="field"/>
-                            <Plc title="排序方式" field="desc"/>
-                        </PlTable>
+                        <div>
+                            <div className="pl-table-pro-setting-content-header">
+                                <PlDropdown>
+                                    {{
+                                        reference: ({open}) => (
+                                            <PlButton style={{marginBottom: '16px'}}>
+                                                <span>新增排序字段</span>
+                                                <PlIcon icon={'el-icon-arrow-down'} style={{
+                                                    transition: 'transform 200ms linear',
+                                                    transform: `rotateX(${open ? 180 : 0}deg)`,
+                                                }}/>
+                                            </PlButton>
+                                        ),
+                                        popper: <PlDropdownMenu>
+                                            {props.plcList.filter(i => !!i.props.field && !!i.props.title).map((plc, index) => (
+                                                <PlDropdownOption label={plc.props.title} key={index} onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    e.preventDefault()
+                                                    state.data.sort.push({
+                                                        field: plc.props.field!,
+                                                        label: plc.props.title!,
+                                                        desc: true,
+                                                    })
+                                                }}/>
+                                            ))}
+                                        </PlDropdownMenu>
+                                    }}
+                                </PlDropdown>
+                                <PlButton label="应用"/>
+                            </div>
+
+                            <PlTable v-model-data={state.data.sort} showRows={state.data.sort.length}>
+                                <PlcIndex/>
+                                <PlcDraggier/>
+                                <Plc title="排序字段" field="label"/>
+                                <Plc title="排序方式" field="desc">
+                                    {{
+                                        normal: ({row}) => (
+                                            <div>
+                                                <PlToggle v-model={row.desc} size="mini"/>
+                                                <span style={{marginLeft: '4px'}}>{row.desc ? '降序' : '升序'}</span>
+                                            </div>
+                                        )
+                                    }}
+                                </Plc>
+                                <Plc align="center">
+                                    {{
+                                        normal: ({node}) => (
+                                            <PlButton label="删除" mode="text" status="error" onClick={() => state.data.sort.splice(node.index, 1)}/>
+                                        )
+                                    }}
+                                </Plc>
+                            </PlTable>
+
+                        </div>
                     )
                 },
             },

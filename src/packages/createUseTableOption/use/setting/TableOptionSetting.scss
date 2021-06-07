@@ -83,8 +83,16 @@
       }
 
       &::-webkit-scrollbar-thumb {
-        background: rgba(black, 0.5);
+        background: rgba(black, 0.25);
         border-radius: 6px;
+      }
+
+      .pl-table-pro-setting-content-header {
+        text-align: right;
+
+        & > .pl-button + .pl-button {
+          margin-left: 8px;
+        }
       }
     }
   }

@@ -1,13 +1,22 @@
 import React from "react";
 import useDialog from "../../../useDialog";
 import TableOptionSetting, {eTableOptionSettingView} from './TableOptionSetting'
+import {tPlc} from "../../../PlTable/plc/utils/plc.type";
+import {tTableOptionHooks} from "../use.hooks";
+import PlTable from "../../../PlTable";
 
-export function useTableOptionSetting() {
+export function useTableOptionSetting({hooks}: { hooks: tTableOptionHooks }) {
 
     const $dialog = useDialog()
 
+    const state = {
+        table: {} as typeof PlTable.use.class,
+    }
+
+    hooks.onRefTable.use(table => {state.table = table})
+
     const openSetting = (view: eTableOptionSettingView) => {
-        const dialog = $dialog({
+        $dialog({
             status: null,
             dialogProps: {
                 wrapperPadding: false,
@@ -16,22 +25,13 @@ export function useTableOptionSetting() {
                 transition: 'pl-transition-dialog-right',
                 width: null as any,
                 // destroyOnClose: false,
-                closeOnCancel: false,
-                closeOnConfirm: false,
                 footAlign: 'flex-start',
                 contentPadding: false
             },
             title: '设置',
-            render: () => (<TableOptionSetting initView={view}/>),
-            confirmButton: true,
+            render: () => (<TableOptionSetting initView={view} plcList={state.table.plcData.value!.flatPlcList}/>),
             cancelButton: true,
-            onConfirm: () => {
-                console.log('xxx')
-            },
-            onCancel: () => {
-                console.log('ccc')
-                dialog.close()
-            },
+            cancelButtonText: '关闭',
         })
     }
 
