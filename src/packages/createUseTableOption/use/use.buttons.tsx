@@ -6,7 +6,8 @@ import {eTableProEditType} from "../createUseTableOption.utils";
 import {toArray} from "../../../utils/toArray";
 import {tTableOptionHooks} from "./use.hooks";
 import {tTableOptionCommand} from "./use.command";
-import {eTableOptionSettingView, tTableOptionSetting} from "./setting/use.setting";
+import {tTableOptionSetting} from "./setting/use.setting";
+import {eTableOptionSettingView} from "./setting/TableOptionSetting";
 
 export interface iTableOptionButton {
     label: string | (() => string),
@@ -61,20 +62,20 @@ export function useTableOptionButtons({hooks, methods, command, setting}: { hook
         insert: registry({label: '新建', icon: 'el-icon-document-add', handler: () => methods.editMethods.insert(),}),
         copy: registry({label: '复制', icon: 'el-icon-document-copy', handler: () => methods.editMethods.copy()}),
         delete: registry({label: '删除', icon: 'el-icon-document-remove', handler: () => methods.editMethods.delete()}),
-        editForm: registry({label: '表单编辑', icon: 'el-icon-document', handler: () => methods.editMethods.update(undefined, eTableProEditType.form), command: 'ctrl+e'}),
-        batchInsert: registry({label: '批量新建', icon: 'el-icon-document-add', handler: () => methods.editMethods.batchInsert(), command: 'ctrl+i'}),
-        batchUpdate: registry({label: '批量编辑', icon: 'el-icon-edit-outline', handler: () => methods.editMethods.batchUpdate(), command: 'ctrl+u'}),
-        batchDelete: registry({label: '批量删除', icon: 'el-icon-document-remove', handler: () => methods.editMethods.batchDelete(), command: 'ctrl+d'}),
-        batchModify: registry({label: '批量修改', icon: 'el-icon-edit', handler: () => methods.editMethods.batchModify(), command: 'ctrl+m'}),
-        seniorFilter: registry({label: '高级筛选', icon: 'el-icon-brush', handler: () => {console.log('高级筛选')}, command: 'ctrl+f'}),
-        seniorSort: registry({label: '高级排序', icon: 'el-icon-sort', handler: () => {setting.openSetting(eTableOptionSettingView.sort)}, command: 'ctrl+g'}),
-        setting: registry({label: '个性设置', icon: 'el-icon-setting', handler: () => {console.log('个性设置')}, command: 'ctrl+r'}),
-        importData: registry({label: '导入数据', icon: 'el-icon-download', handler: () => {}, command: 'ctrl+j'}),
-        exportData: registry({label: '导出数据', icon: 'el-icon-upload1', handler: () => {}, command: 'ctrl+k'}),
+        editForm: registry({label: '表单编辑', icon: 'el-icon-document', handler: () => methods.editMethods.update(undefined, eTableProEditType.form), command: 'alt+e'}),
+        batchInsert: registry({label: '批量新建', icon: 'el-icon-document-add', handler: () => methods.editMethods.batchInsert(), command: 'alt+i'}),
+        batchUpdate: registry({label: '批量编辑', icon: 'el-icon-edit-outline', handler: () => methods.editMethods.batchUpdate(), command: 'alt+u'}),
+        batchDelete: registry({label: '批量删除', icon: 'el-icon-document-remove', handler: () => methods.editMethods.batchDelete(), command: 'alt+d'}),
+        batchModify: registry({label: '批量修改', icon: 'el-icon-edit', handler: () => methods.editMethods.batchModify(), command: 'alt+m'}),
+        seniorFilter: registry({label: '高级筛选', icon: 'el-icon-brush', handler: () => {setting.openSetting(eTableOptionSettingView.filter)}, command: 'alt+f'}),
+        seniorSort: registry({label: '高级排序', icon: 'el-icon-sort', handler: () => {setting.openSetting(eTableOptionSettingView.sort)}, command: 'alt+g'}),
+        setting: registry({label: '个性设置', icon: 'el-icon-setting', handler: () => {setting.openSetting(eTableOptionSettingView.config)}, command: 'alt+r'}),
+        importData: registry({label: '导入数据', icon: 'el-icon-download', handler: () => {setting.openSetting(eTableOptionSettingView.import)}, command: 'alt+j'}),
+        exportData: registry({label: '导出数据', icon: 'el-icon-upload1', handler: () => {setting.openSetting(eTableOptionSettingView.export)}, command: 'alt+k'}),
     }
 
     command.on('esc', () => methods.editMethods.cancel())
-    command.on('ctrl+s', () => methods.editMethods.save())
+    command.on('alt+s', () => methods.editMethods.save())
 
 
     return {

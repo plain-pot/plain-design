@@ -1,14 +1,6 @@
 import React from "react";
 import useDialog from "../../../useDialog";
-import TableOptionSetting from './TableOptionSetting'
-
-export enum eTableOptionSettingView {
-    filter = 'filter',
-    sort = 'sort',
-    config = 'config',
-    import = 'import',
-    export = 'export',
-}
+import TableOptionSetting, {eTableOptionSettingView} from './TableOptionSetting'
 
 export function useTableOptionSetting() {
 
@@ -27,9 +19,10 @@ export function useTableOptionSetting() {
                 closeOnCancel: false,
                 closeOnConfirm: false,
                 footAlign: 'flex-start',
+                contentPadding: false
             },
             title: '设置',
-            render: () => (<TableOptionSetting/>),
+            render: () => (<TableOptionSetting initView={view}/>),
             confirmButton: true,
             cancelButton: true,
             onConfirm: () => {
