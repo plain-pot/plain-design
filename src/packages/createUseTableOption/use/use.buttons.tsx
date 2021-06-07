@@ -5,6 +5,7 @@ import {tTableMethods} from "./use.methods";
 import {eTableProEditType} from "../createUseTableOption.utils";
 import {toArray} from "../../../utils/toArray";
 import {tTableOptionHooks} from "./use.hooks";
+import {tTableOptionCommand} from "./use.command";
 
 export interface iTableOptionButton {
     label: string | (() => string),
@@ -15,7 +16,7 @@ export interface iTableOptionButton {
     command?: string | string[],
 }
 
-export function useTableOptionButtons({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableMethods }) {
+export function useTableOptionButtons({hooks, methods, command}: { hooks: tTableOptionHooks, methods: tTableMethods, command: tTableOptionCommand }) {
 
     const state = {
         tableEl: null as null | HTMLDivElement,

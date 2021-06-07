@@ -11,3 +11,5 @@ export function useTableOptionCommand() {
     return {}
 
 }
+
+export type tTableOptionCommand = ReturnType<typeof useTableOptionCommand>
