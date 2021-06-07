@@ -42,7 +42,7 @@ export function useTableOptionSetting({hooks, config, changeSort, methods}: {
                     plcList={state.table.plcData.value!.flatPlcList}
                     sortData={config.sort}
                     onApplySort={(sorts) => {
-                        changeSort(deepcopy(sorts))
+                        changeSort(sorts.map(({field, desc}) => ({field, desc})))
                         methods.pageMethods.reload()
                     }}
                 />),
