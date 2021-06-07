@@ -73,6 +73,8 @@
       overflow-y: scroll;
       overflow-x: hidden;
       width: 500px;
+      box-sizing: border-box;
+      padding: 16px;
 
       &::-webkit-scrollbar {
         background: white;

@@ -1,7 +1,10 @@
 import {classnames, designComponent, PropType, reactive} from "plain-design-composition";
 import React from "react";
 import './TableOptionSetting.scss'
-import {render} from "react-dom";
+import PlTable from "../../../PlTable";
+import {Plc} from "../../../Plc";
+import {PlcDraggier} from "../../../PlcDraggier";
+import {PlcIndex} from "../../../PlcIndex";
 
 export enum eTableOptionSettingView {
     filter = 'filter',
@@ -34,7 +37,14 @@ export default designComponent({
                 title: '高级排序',
                 view: eTableOptionSettingView.sort,
                 render: () => {
-                    return '==>>高级筛选'
+                    return (
+                        <PlTable>
+                            <PlcIndex/>
+                            <PlcDraggier/>
+                            <Plc title="排序字段" field="field"/>
+                            <Plc title="排序方式" field="desc"/>
+                        </PlTable>
+                    )
                 },
             },
             {

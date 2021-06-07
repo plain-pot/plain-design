@@ -15,7 +15,7 @@ export function useTableOptionSetting() {
                 fullHeight: true,
                 transition: 'pl-transition-dialog-right',
                 width: null as any,
-                destroyOnClose: false,
+                // destroyOnClose: false,
                 closeOnCancel: false,
                 closeOnConfirm: false,
                 footAlign: 'flex-start',
