@@ -1,6 +1,6 @@
 import React from "react";
 import useDialog from "../../../useDialog";
-import {designComponent} from "plain-design-composition";
+import TableOptionSetting from './TableOptionSetting'
 
 export enum eTableOptionSettingView {
     filter = 'filter',
@@ -9,17 +9,6 @@ export enum eTableOptionSettingView {
     import = 'import',
     export = 'export',
 }
-
-const TableOptionSetting = designComponent({
-    props: {},
-    setup({props}) {
-        return () => (
-            <div className="pl-table-pro-setting">
-                设置内容
-            </div>
-        )
-    },
-})
 
 export function useTableOptionSetting() {
 
