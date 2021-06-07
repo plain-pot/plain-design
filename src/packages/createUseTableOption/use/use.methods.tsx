@@ -13,6 +13,7 @@ import {useTableOptionEditForm} from "./use.edit-form";
 import {tTableOptionCheck} from "./check/use.check";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
+import {toArray} from "../../../utils/toArray";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm}: {
     tableState: iTableState,
@@ -67,7 +68,10 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
+                orders: [] as [string, 'asc' | 'desc'][],
             }
+            targetLoadConfig.orders = toArray(config.sort).map(i => [i.field, i.desc === false ? 'asc' : 'desc'])
+
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, targetLoadConfig)
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)

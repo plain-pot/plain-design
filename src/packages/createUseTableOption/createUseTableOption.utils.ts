@@ -92,6 +92,16 @@ export interface iTableButtonConfig {
     handler: () => void | Promise<void>,
 }
 
+/**
+ * 排序设置参数对象
+ * @author  韦胜健
+ * @date    2021/6/7 17:15
+ */
+export interface iTableProConfigSortObj {
+    field: string,
+    desc?: boolean
+}
+
 export enum eTableProEditType {
     inline = 'inline',
     form = 'form'
@@ -112,7 +122,8 @@ export interface iTableProDefaultConfig {
     pageSizeOptions: number[],
     editType: keyof typeof eTableProEditType,
     loadOnStart?: boolean,
-    copyDefaultExcludeKeys: string[],                                          // 复制一行的时候，不复制的属性
+    copyDefaultExcludeKeys: string[],                                   // 复制一行的时候，不复制的属性
+    sort: iTableProConfigSortObj | iTableProConfigSortObj[],            // 排序方式
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
@@ -144,6 +155,7 @@ export interface iTableProConfig<D = any> {
     title?: string,                                                     // 标题
     render?: () => ReactFragment,                                       // 自定义内容
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
+    sort?: iTableProConfigSortObj | iTableProConfigSortObj[],           // 排序方式
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
