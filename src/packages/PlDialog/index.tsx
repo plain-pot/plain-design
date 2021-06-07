@@ -114,7 +114,7 @@ export const PlDialog = designComponent({
         })
 
         const contentStyle = computed(() => {
-            let height = props.fullHeight ? `calc(100vh - ${(!!hasHead.value ? 40 : 0) + (hasFoot.value ? 60 : 0)}px)` : props.height
+            let height = props.fullHeight ? `calc(100vh - ${(!!hasHead.value ? 45 : 0) + (hasFoot.value ? 50 : 0)}px)` : props.height
             let width = props.fullWidth ? '100vw' : props.width
 
             let minHeight = props.minHeight !== undefined ? props.minHeight : height !== undefined ? null : '120px'
