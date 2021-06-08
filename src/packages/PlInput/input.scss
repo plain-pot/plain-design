@@ -245,6 +245,7 @@
       color: $icc;
       font-size: 12px;
       transition: all 300ms linear;
+      z-index: 1;
 
       display: flex;
       align-items: center;
@@ -381,7 +382,7 @@
     }
   }
 
-  .pl-input-group {
+  .pl-input-container {
     width: 100%;
     display: table;
 
