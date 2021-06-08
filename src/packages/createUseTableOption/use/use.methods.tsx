@@ -52,7 +52,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             })();
             return {
                 /*用来发送请求的request函数*/
-                request: request as any as Required<ReturnType<iTableProDefaultConfig["getDefaultUrlConfig"][T]>>["request"],
+                request: request as any as ReturnType<iTableProDefaultConfig["getDefaultUrlConfig"][T]>["request"],
                 /*请求参数，如果是GET请求，则为config.query，否则为config.body*/
                 requestData,
                 /*请求配置对象*/
