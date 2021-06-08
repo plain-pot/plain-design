@@ -28,33 +28,49 @@ export function useTableOptionButtons({hooks, methods, command, setting}: { hook
         state.tableEl = table.refs.el!
     })
 
+    function format(btn: iTableOptionButton) {
+        const label = typeof btn.label === "string" ? btn.label : btn.label()
+        const icon = btn.icon == null ? null : (typeof btn.icon === "string" ? btn.icon : btn.icon())
+        const show = btn.show == null ? true : (typeof btn.show === "boolean" ? btn.show : btn.show())
+        const disabled = btn.disabled == null ? undefined : (typeof btn.disabled === "boolean" ? btn.disabled : btn.disabled())
+        return {
+            ...btn,
+            label,
+            icon,
+            show,
+            disabled
+        }
+    }
+
     const registry = (btn: iTableOptionButton) => {
-        const label = () => typeof btn.label === "string" ? btn.label : btn.label()
-        const icon = () => btn.icon == null ? null : (typeof btn.icon === "string" ? btn.icon : btn.icon())
-        const show = () => btn.show == null ? true : (typeof btn.show === "boolean" ? btn.show : btn.show())
-        const disabled = () => btn.disabled == null ? undefined : (typeof btn.disabled === "boolean" ? btn.disabled : btn.disabled())
 
         if (!!btn.command) {
             toArray(btn.command).forEach(name => command.on(name, () => btn.handler()))
         }
 
         return {
-            button: () => !show() ? null : (
-                <PlButton
-                    label={label()}
-                    icon={icon() || undefined}
-                    disabled={disabled()}
-                    onClick={btn.handler}
-                />
-            ),
-            dropdown: () => !show() ? null : (
-                <PlDropdownOption
-                    label={label() + (!btn.command ? '' : `（${toArray(btn.command!).map(i => i.toUpperCase()).join(',')}）`)}
-                    icon={icon() || undefined}
-                    disabled={disabled()}
-                    onClick={btn.handler}
-                />
-            ),
+            button: () => {
+                const {show, label, disabled, icon} = format(btn)
+                return !show ? null : (
+                    <PlButton
+                        label={label}
+                        icon={icon || undefined}
+                        disabled={disabled}
+                        onClick={btn.handler}
+                    />
+                )
+            },
+            dropdown: () => {
+                const {show, label, disabled, icon} = format(btn)
+                return !show ? null : (
+                    <PlDropdownOption
+                        label={label + (!btn.command ? '' : `（${toArray(btn.command!).map(i => i.toUpperCase()).join(',')}）`)}
+                        icon={icon || undefined}
+                        disabled={disabled}
+                        onClick={btn.handler}
+                    />
+                )
+            },
         }
     }
 
