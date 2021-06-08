@@ -303,7 +303,7 @@ export const PlInput = designComponent({
                     } else {
                         /*输入框组*/
                         return (
-                            <div className="pl-input-group">
+                            <div className="pl-input-container">
                                 {slots.prepend.isExist() && <div className="pl-input-prepend">{slots.prepend()}</div>}
                                 {input}
                                 {slots.append.isExist() && <div className="pl-input-append">{slots.append()}</div>}
