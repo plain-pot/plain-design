@@ -155,7 +155,8 @@ const MenuData: MenuGroup[] = [
     },
     {
         name: 'table-pro', children: [
-            {name: '基本用法', title: 'pl-table-pro', page: '/table-pro/basic-usage', complete: true},
+            {name: 'TablePro', title: 'pl-table-pro', page: '/table-pro/basic-usage', complete: true},
+            {name: 'Filter', title: 'pl-filter', page: '/table-pro/pro-filter', complete: true},
         ]
     },
     /*{
