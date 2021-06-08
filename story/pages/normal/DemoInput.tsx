@@ -7,6 +7,7 @@ import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {delay} from "plain-utils/utils/delay";
 import {StoryStatus} from "../../story.utils";
 import $$message from "../../../src/packages/$$message";
+import {PlDropdownOption, PlDropdownMenu, PlIcon, PlDropdown} from "../../../src";
 
 export default designPage(() => {
 
@@ -15,6 +16,11 @@ export default designPage(() => {
             2: '一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，一段很长很长的文本，'
         } as any,
         passwordVisible: true,
+        show: {
+            prepend: true,
+            append: true,
+        },
+        dropdownValue: 'http'
     })
 
     const asyncHandler = async (e: any) => {
@@ -119,6 +125,33 @@ export default designPage(() => {
                 <DemoRow title={'块级元素'}>
                     <PlInput block style={{marginBottom: '12px'}}/>
                     <PlInput block textarea/>
+                </DemoRow>
+
+                <DemoRow title="输入框组">
+                    <div>
+                        <PlCheckbox label={'show prepend'} v-model={state.show.prepend}/>
+                        <PlCheckbox label={'show append'} v-model={state.show.append}/>
+                    </div>
+                    <PlInput style={{margin: '8px 0'}}>
+                        {{
+                            prepend: !state.show.prepend ? undefined : <>
+                                <div style={{width: '75px', textAlign: 'left'}}>
+                                    <PlDropdown width={null as any}>
+                                        {{
+                                            default: <div>
+                                                {!!state.dropdownValue && <span>{state.dropdownValue}://</span>}
+                                                <PlIcon icon={'el-icon-arrow-down'}/>
+                                            </div>,
+                                            popper: <PlDropdownMenu>
+                                                {['http', 'https', 'ftp', 'ssh'].map(item => <PlDropdownOption label={item} key={item} onClick={() => state.dropdownValue = item}/>)}
+                                            </PlDropdownMenu>
+                                        }}
+                                    </PlDropdown>
+                                </div>
+                            </>,
+                            append: !state.show.append ? undefined : <div>append content</div>
+                        }}
+                    </PlInput>
                 </DemoRow>
 
                 <DemoRow title={'设置宽度'}>

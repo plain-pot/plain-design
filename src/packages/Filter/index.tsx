@@ -3,6 +3,8 @@ import React from "react";
 import {FilterConfig, iFilterOption} from "./FilterConfig";
 import PlSelect from "../PlSelect";
 import PlSelectOption from "../PlSelectOption";
+import PlInputGroup from "../PlInputGroup";
+import PlButton from "../PlButton";
 
 export const PlFilter = designComponent({
     props: {
@@ -27,12 +29,15 @@ export const PlFilter = designComponent({
         })
 
         return () => {
-            return <>
-                <PlSelect v-model={props.filterOption.handlerName} inputProps={{width: 100}}>
-                    {optionData.value.handlers.map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
-                </PlSelect>
-                {optionData.value.option.handler.render(optionData.value.option, emit.onConfirm)}
-            </>
+            return (
+                <PlInputGroup>
+                    <PlSelect v-model={props.filterOption.handlerName} inputProps={{width: 100}}>
+                        {optionData.value.handlers.map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
+                    </PlSelect>
+                    {optionData.value.option.handler.render(optionData.value.option, emit.onConfirm)}
+                    <PlButton label="搜索"/>
+                </PlInputGroup>
+            )
         }
     },
 })
