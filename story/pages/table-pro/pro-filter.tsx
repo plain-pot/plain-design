@@ -14,6 +14,7 @@ export default designPage(() => {
     return () => <>
         <div style={{padding: '16px', backgroundColor: 'white'}}>
             <PlFilter filterOption={state.filterOption}/>
+            <span>搜索</span>
         </div>
     </>
 })
