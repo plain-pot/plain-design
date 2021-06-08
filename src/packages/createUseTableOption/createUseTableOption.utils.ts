@@ -127,12 +127,12 @@ export interface iTableProDefaultConfig {
     // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
-        insert?: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,
-        batchInsert?: (data: tUrlConfig<tBatchInsertResponse>) => tUrlConfigFormat<tBatchInsertResponse>,
-        update?: (data: tUrlConfig<tUpdateResponse>) => tUrlConfigFormat<tUpdateResponse>,
-        batchUpdate?: (data: tUrlConfig<tBatchUpdateResponse>) => tUrlConfigFormat<tBatchUpdateResponse>,
-        delete?: (data: tUrlConfig<tDeleteResponse>) => tUrlConfigFormat<tDeleteResponse>,
-        batchDelete?: (data: tUrlConfig<tDeleteResponse>) => tUrlConfigFormat<tDeleteResponse>,
+        insert: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,
+        batchInsert: (data: tUrlConfig<tBatchInsertResponse>) => tUrlConfigFormat<tBatchInsertResponse>,
+        update: (data: tUrlConfig<tUpdateResponse>) => tUrlConfigFormat<tUpdateResponse>,
+        batchUpdate: (data: tUrlConfig<tBatchUpdateResponse>) => tUrlConfigFormat<tBatchUpdateResponse>,
+        delete: (data: tUrlConfig<tDeleteResponse>) => tUrlConfigFormat<tDeleteResponse>,
+        batchDelete: (data: tUrlConfig<tDeleteResponse>) => tUrlConfigFormat<tDeleteResponse>,
     },
 }
 
