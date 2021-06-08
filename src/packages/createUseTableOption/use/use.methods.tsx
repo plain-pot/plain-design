@@ -381,7 +381,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
         const batchDelete = async () => {
             const rows = await check.openToCheck()
-            let {request, requestConfig} = utils.getUrlConfig('delete')
+            let {request, requestConfig} = utils.getUrlConfig('batchDelete')
             requestConfig.body = deepcopy({id: rows.map(row => row.id)})
             requestConfig = await hooks.onBeforeDelete.exec(requestConfig)
             const deleteResult = await request!(requestConfig)
