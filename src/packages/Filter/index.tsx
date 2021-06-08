@@ -31,7 +31,7 @@ export const PlFilter = designComponent({
         return () => {
             return (
                 <PlInputGroup>
-                    <PlSelect v-model={props.filterOption.handlerName} inputProps={{width: 100}}>
+                    <PlSelect v-model={props.filterOption.handlerName} inputProps={{width: 100}} filterable={false}>
                         {optionData.value.handlers.map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
                     </PlSelect>
                     {optionData.value.option.handler.render(optionData.value.option, emit.onConfirm)}
