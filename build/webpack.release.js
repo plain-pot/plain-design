@@ -10,7 +10,7 @@ const outputDir = 'dist'
 module.exports = {
     mode: 'production',
     entry: {
-        index: resolve('src/index.tsx'),
+        index: resolve('src/index.ts'),
     },
     externals: {
         'plain-design-composition': {
