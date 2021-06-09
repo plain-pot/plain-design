@@ -406,7 +406,7 @@
       "codes": [
         ".pl-table-pro-pagination {\r\n  padding: 16px 24px;\r\n\r\n  .pl-pagination {\r\n    justify-content: flex-end;\r\n  }\r\n}\r\n\r\n.pl-table-pro-head {\r\n  font-size: 14px;\r\n  height: 56px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  padding: 0 24px;\r\n\r\n  .pl-table-pro-title {\r\n    .pl-icon {\r\n      margin-right: 4px;\r\n    }\r\n  }\r\n\r\n  .pl-table-pro-operation {\r\n    & > .pl-button {\r\n      margin-left: 4px;\r\n    }\r\n  }\r\n}"
       ],
-      "seq": 9999
+      "seq": 100
     },
     {
       "name": "no component!",
