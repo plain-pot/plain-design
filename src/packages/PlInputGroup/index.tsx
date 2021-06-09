@@ -1,13 +1,21 @@
-import {designComponent} from "plain-design-composition";
+import {designComponent, useClasses} from "plain-design-composition";
 import React from "react";
 import './input-group.scss'
 
 export const PlInputGroup = designComponent({
-    props: {},
+    props: {
+        block: {type: Boolean}
+    },
     slots: ['default'],
     setup({props, slots}) {
+
+        const classes = useClasses(() => [
+            'pl-input-group',
+            {'pl-input-group-block': props.block}
+        ])
+
         return () => (
-            <div className="pl-input-group">
+            <div className={classes.value}>
                 {slots.default()}
             </div>
         )

@@ -7,7 +7,7 @@ import {PlCheckbox} from "../../../src/packages/PlCheckbox";
 import {delay} from "plain-utils/utils/delay";
 import {StoryStatus} from "../../story.utils";
 import $$message from "../../../src/packages/$$message";
-import {PlDropdownOption, PlDropdownMenu, PlIcon, PlDropdown} from "../../../src";
+import {PlSelectOption, PlSelect, PlInputGroup, PlDropdownOption, PlDropdownMenu, PlIcon, PlDropdown, PlButton} from "../../../src";
 
 export default designPage(() => {
 
@@ -20,7 +20,12 @@ export default designPage(() => {
             prepend: true,
             append: true,
         },
-        dropdownValue: 'http'
+        dropdownValue: 'http',
+        groupValue: {
+            acceptType: 'weixin',
+            acceptAccount: 'immediate',
+            amount: 100,
+        },
     })
 
     const asyncHandler = async (e: any) => {
@@ -152,6 +157,38 @@ export default designPage(() => {
                             append: !state.show.append ? undefined : <div>append content</div>
                         }}
                     </PlInput>
+                </DemoRow>
+
+                <DemoRow title="输入框组">
+                    <PlInputGroup>
+                        <PlSelect v-model={state.groupValue.acceptType} inputProps={{width: '100px'}}>
+                            <PlSelectOption label="微信" val="weixin"/>
+                            <PlSelectOption label="支付宝" val="alipay"/>
+                            <PlSelectOption label="银联" val="yinlian"/>
+                        </PlSelect>
+                        <PlInput fillGroup v-model={state.groupValue.amount} style={{flex: '1'}}/>
+                        <PlSelect inputProps={{width: '100px'}} modelValue={"immediate"} v-model={state.groupValue.acceptAccount}>
+                            <PlSelectOption label="立即转账" val="immediate"/>
+                            <PlSelectOption label="定时转账" val="onTime"/>
+                        </PlSelect>
+                        <PlButton label="确定"/>
+                    </PlInputGroup>
+                    输入框组右边的内容
+                    <div style={{marginTop: '16px'}}>
+                        <PlInputGroup block>
+                            <PlSelect v-model={state.groupValue.acceptType} inputProps={{width: '100px'}}>
+                                <PlSelectOption label="微信" val="weixin"/>
+                                <PlSelectOption label="支付宝" val="alipay"/>
+                                <PlSelectOption label="银联" val="yinlian"/>
+                            </PlSelect>
+                            <PlInput fillGroup v-model={state.groupValue.amount} style={{flex: '1'}}/>
+                            <PlSelect inputProps={{width: '100px'}} modelValue={"immediate"} v-model={state.groupValue.acceptAccount}>
+                                <PlSelectOption label="立即转账" val="immediate"/>
+                                <PlSelectOption label="定时转账" val="onTime"/>
+                            </PlSelect>
+                            <PlButton label="确定"/>
+                        </PlInputGroup>
+                    </div>
                 </DemoRow>
 
                 <DemoRow title={'设置宽度'}>
