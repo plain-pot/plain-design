@@ -73,6 +73,7 @@ import PlTriangle from "./packages/PlTriangle";
 import PlUpload from "./packages/PlUpload";
 import PlVirtualList from "./packages/PlVirtualList";
 import PlVirtualTable from "./packages/PlVirtualTable";
+import PlInputGroup from "./packages/PlInputGroup";
 
 import useColorPicker from "./packages/useColorPicker";
 import useContextmenu from "./packages/useContextmenu";
@@ -176,6 +177,7 @@ export {
     PlUpload,
     PlVirtualList,
     PlVirtualTable,
+    PlInputGroup,
 
     useColorPicker,
     useContextmenu,
