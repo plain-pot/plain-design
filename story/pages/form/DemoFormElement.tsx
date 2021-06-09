@@ -108,13 +108,13 @@ export default designPage(() => {
                     <PlFormItem label={'普通文本域'} field={'field2'} required>
                         <PlInput v-model={formData.field2} textarea placeholder={'请输入文本域'}/>
                     </PlFormItem>
-                    <PlFormItem label={'数字框'} field={'field3'} rules={{max: 100, message: '最大值100'}} required>
+                    <PlFormItem label={'数字框'} field={'field3'} rules={{type: 'number', max: 100, message: '最大值100'}} required>
                         {{
                             default: <PlNumber v-model={formData.field3} block placeholder={'请输入数字'}/>,
                             suffix: <PlTooltip title={'提示'}><PlIcon icon={'el-icon-question'}/></PlTooltip>,
                         }}
                     </PlFormItem>
-                    <PlFormItem label={'复选框'} field={'field5'} rules={{min: 1, max: 3}} required>
+                    <PlFormItem label={'复选框'} field={'field5'} rules={{min: 1, max: 3, type: 'array', message: '1-3个元素'}} required>
                         <PlCheckboxGroup v-model={formData.field5} itemWidth={'50%'}>
                             <PlCheckbox checkboxForAll label="全部"/>
                             <PlCheckbox label="大客户" val="large"/>
@@ -123,12 +123,12 @@ export default designPage(() => {
                             <PlCheckbox label="赢单客户" val="order"/>
                         </PlCheckboxGroup>
                     </PlFormItem>
-                    <PlFormItem label={'下拉选项'} field={'field6'} required rules={{message: '只能选择二级',}}>
+                    <PlFormItem label={'下拉选项'} field={'field6'} required rules={{message: '只能选择二级', type: 'enum', enum: ['2']}}>
                         <PlSelect v-model={formData.field6} placeholder={'请选择'}>
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
                     </PlFormItem>
-                    <PlFormItem label={'下拉选项（多选）'} field={'field62'} required rules={{required: true, min: 1, message: '最少选择一项'}}>
+                    <PlFormItem label={'下拉选项（多选）'} field={'field62'} required rules={{required: true, type: 'array', min: 1, message: '最少选择一项'}}>
                         <PlSelect v-model={formData.field62} placeholder={'请选择'} multiple>
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
@@ -150,16 +150,16 @@ export default designPage(() => {
                             <PlRadio label="未知" val="NO"/>
                         </PlRadioGroup>
                     </PlFormItem>
-                    <PlFormItem label={'开关按钮'} field={'field10'} rules={{message: '请阅读并同意使用协议'}}>
+                    <PlFormItem label={'开关按钮'} field={'field10'} rules={{message: '请阅读并同意使用协议', type: 'enum', enum: [true]}}>
                         <PlToggle v-model={formData.field10}/>
                     </PlFormItem>
-                    <PlFormItem label={'滑块'} field={'field11'} required rules={{min: 50, message: '最小值50'}}>
+                    <PlFormItem label={'滑块'} field={'field11'} required rules={{min: 50, type: 'number', message: '最小值50'}}>
                         <PlSlider v-model={formData.field11}/>
                     </PlFormItem>
-                    <PlFormItem label={'标签输入框'} field={'field12'} required rules={[{min: 3, message: '最少输入3个标签'}, {max: 5, message: '最多5个标签'}]}>
+                    <PlFormItem label={'标签输入框'} field={'field12'} required rules={[{min: 3, type: 'array', message: '最少输入3个标签'}, {max: 5, type: 'array', message: '最多5个标签'}]}>
                         <PlTagInput v-model={formData.field12} placeholder={'请选择'}/>
                     </PlFormItem>
-                    <PlFormItem label={'评分'} field={'field13'} required rules={{min: 1, message: '最低1分'}}>
+                    <PlFormItem label={'评分'} field={'field13'} required rules={{min: 1, type: 'number', message: '最低1分'}}>
                         <PlRate v-model={formData.field13}/>
                     </PlFormItem>
                     <PlFormItem label={'颜色选择器'} field={'field14'} rules={{required: true, message: '颜色不能为空'}}>
