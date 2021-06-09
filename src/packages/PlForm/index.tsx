@@ -238,23 +238,27 @@ export const PlForm = designComponent({
             onBlurChange: async (field?: string | string[]) => {
                 await validateHandler.validateChange(FormValidateTrigger.blur, field)
             },
-            onFieldChange: async (field: string) => {
+            onFieldChange: async (field: string | string[]) => {
                 await validateHandler.validateChange(FormValidateTrigger.change, field)
             },
             onFormDataChange: debounce((val: any) => {
                 const newFormData = val || {}
                 const oldFormData = freezeState.oldFormData || {}
                 const fields = Object.keys({...newFormData, ...oldFormData})
+                const changeFields: string[] = []
 
                 fields.forEach(field => {
                     let newVal = newFormData[field]
                     let oldVal = oldFormData[field]
                     if (newVal !== oldVal) {
+                        changeFields.push(field)
                         emit.onFieldValueChange(field, newVal, oldVal)
-                        validateHandler.onFieldChange(field)
                     }
                 })
                 freezeState.oldFormData = {...val || {}}
+                if (changeFields.length > 0) {
+                    validateHandler.onFieldChange(changeFields)
+                }
             }, 150, false)
         }
 
