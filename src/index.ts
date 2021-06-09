@@ -84,6 +84,22 @@ import useNotice from "./packages/useNotice";
 import usePopper from "./packages/usePopper";
 import createUseTableOption from "./packages/createUseTableOption";
 
+import PlcCheck from './packages/PlcCheck'
+import PlcCheckbox from './packages/PlcCheckbox'
+import {PlcColorPicker} from "./packages/PlcColorPicker";
+import {PlcDate} from "./packages/PlcDate";
+import {PlcDraggier} from "./packages/PlcDraggier";
+import {PlcExpand} from "./packages/PlcExpand";
+import {PlcGroup} from "./packages/PlcGroup";
+import {PlcIndex} from "./packages/PlcIndex";
+import {PlcInput} from "./packages/PlcInput";
+import {PlcNumber} from "./packages/PlcNumber";
+import {PlcRate} from "./packages/PlcRate";
+import {PlcSelect} from "./packages/PlcSelect";
+import PlcTextarea from "./packages/PlcTextarea";
+import {PlcToggle} from "./packages/PlcToggle";
+import {PlcTree} from "./packages/PlcTree";
+
 export {
     $$contextmenu,
     $$dialog,
@@ -170,4 +186,20 @@ export {
     useNotice,
     usePopper,
     createUseTableOption,
+
+    PlcCheck,
+    PlcCheckbox,
+    PlcColorPicker,
+    PlcDate,
+    PlcDraggier,
+    PlcExpand,
+    PlcGroup,
+    PlcIndex,
+    PlcInput,
+    PlcNumber,
+    PlcRate,
+    PlcSelect,
+    PlcTextarea,
+    PlcToggle,
+    PlcTree,
 }
