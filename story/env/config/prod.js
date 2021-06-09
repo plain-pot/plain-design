@@ -1,3 +1,3 @@
 module.exports = {
-    base: 'http://tencent.com:7001',
+    base: 'http://1.116.13.72:7001',
 }
