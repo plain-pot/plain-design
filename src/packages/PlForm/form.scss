@@ -121,6 +121,10 @@
   .pl-form {
     .pl-form-item-body {
 
+      .pl-slider, .pl-toggle {
+        align-self: center;
+      }
+
       /*input*/
       & > .pl-input, & > .pl-textarea {
         flex: 1;
