@@ -20,7 +20,6 @@ export const PlInputInnerTags = designComponent({
             },
             render: () => (
                 <div className="pl-input-inner-tags" ref={onRef.el}>
-                    <span className="pl-input-inner-tag-item pl-input-inner-tag-item-takeover">&nbsp;</span>
                     {(!props.data || props.data.length === 0) && (
                         <span className="pl-input-custom-placeholder">{props.placeholder}</span>
                     )}
@@ -32,6 +31,7 @@ export const PlInputInnerTags = designComponent({
                         ))
                     }
                     {props.collapseTags && props.data!.length > 3 && <span className="pl-input-inner-tag-item">+{props.data!.length - 3}</span>}
+                    <span className="pl-input-inner-tag-item pl-input-inner-tag-item-takeover">&nbsp;</span>
                 </div>
             )
         }

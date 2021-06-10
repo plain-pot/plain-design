@@ -528,6 +528,7 @@
   .pl-input {
     &.pl-input-tags {
       user-select: none;
+      vertical-align: top;
 
       .pl-input-inner {
         padding-left: 3px !important;
