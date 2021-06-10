@@ -77,33 +77,23 @@ export default designComponent({
             /*清空当前也选中行*/
             clearAll: () => {
                 const currentPageKeys = table.flatNodes.value.map(node => getKey(node.data))
-                state.selectedRows = state.selectedRows.filter(row => currentPageKeys.indexOf(getKey(row) === -1))
+                state.selectedRows = state.selectedRows.filter(row => currentPageKeys.indexOf(getKey(row)) === -1)
             },
             /*选中当前页*/
             checkAll: () => {
-                const add = table.flatNodes.value.filter(node => selectedKeys.value.indexOf(getKey(node.data) === -1))
+                const add = table.flatNodes.value.filter(node => selectedKeys.value.indexOf(getKey(node.data) === -1)).map(i => i.data)
                 state.selectedRows.push(...add)
             },
             /*反选当前页*/
             reverse: () => {
                 const add: any[] = []
+                const removeKeys: string[] = []
 
-                const flatNodes = [...table.flatNodes.value]
-                let flatLen = flatNodes.length
-                let index = 0
-                let current = flatNodes[index]
-                while (index <= flatLen) {
-                    if (selectedKeys.value.indexOf(getKey(current.data)) > -1) {
-                        flatNodes.splice(index, 1)
-                        index--
-                        flatLen--
-                    } else {
-                        add.push(current.data)
-                    }
-                    index++
-                    current = flatNodes[index]
-                }
-                state.selectedRows.push(...add)
+                table.flatNodes.value.forEach(({data}) => {
+                    const key = getKey(data)
+                    selectedKeys.value.indexOf(key) > -1 ? removeKeys.push(key) : add.push(data)
+                })
+                state.selectedRows = state.selectedRows.filter(i => removeKeys.indexOf(getKey(i)) === -1).concat(add)
             },
         }
         if (props.toggleOnClickRow) {
