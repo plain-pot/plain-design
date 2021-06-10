@@ -37,12 +37,5 @@ export default designPage(() => {
             <PlFilter filterOption={state.selectFilterOption}/>
             {JSON.stringify(state.selectFilterOption)}
         </DemoRow>
-        <DemoRow>
-            <div className="filter-group">
-                <div className="filter-child-1">child 1</div>
-                <div className="filter-child-2">child 2</div>
-                <div className="filter-child-3">child 3</div>
-            </div>
-        </DemoRow>
     </>
 })
