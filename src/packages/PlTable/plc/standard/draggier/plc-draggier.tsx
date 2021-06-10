@@ -21,7 +21,7 @@ export default designComponent({
     }),
     emits: PlcEmitsOptions,
     scopeSlots: PlcScopeSlotsOptions,
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
         const table = injectPlainTable()
         const {getScroll} = useTableGetScroll(table.event.on.onVirtualMounted)
         const handler = computed(() => useListDraggier({
@@ -40,7 +40,7 @@ export default designComponent({
         }
 
         return useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, slots, event, defaultScopeSlots: {
                 normal: () => <PlButton
                     icon="el-icon-list"
                     mode="text"

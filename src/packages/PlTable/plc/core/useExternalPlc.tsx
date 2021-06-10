@@ -1,13 +1,14 @@
 import {ExtractPropTypes} from "plain-design-composition";
 import {PlcPropsOptions} from "../utils/plc.utils";
-import {PlcScopeSlotsOptions, tPlcScopeSlots} from "../utils/plc.scope-slots";
+import {PlcScopeSlotsOptions, tPlcScopeSlots, tPlcSlots} from "../utils/plc.scope-slots";
 import {TableRenderScope, tPlcEvent, tPlcType} from "../utils/plc.type";
 import {useBasePlc} from "./useBasePlc";
 
 type tPlcDefaultScopeSlotsOptions = Partial<typeof PlcScopeSlotsOptions>
 
-export function useExternalPlc({props, scopeSlots, event, defaultScopeSlots}: {
+export function useExternalPlc({props, slots, scopeSlots, event, defaultScopeSlots}: {
     event: tPlcEvent,
+    slots: tPlcSlots,
     props: ExtractPropTypes<typeof PlcPropsOptions>,
     scopeSlots: tPlcScopeSlots,
     defaultScopeSlots?: tPlcDefaultScopeSlotsOptions,
@@ -113,7 +114,7 @@ export function useExternalPlc({props, scopeSlots, event, defaultScopeSlots}: {
     }
 
     const {render, refer} = useBasePlc({
-        props, event,
+        props, event, slots,
         scopeSlots: formatScopeSlots,
     })
 

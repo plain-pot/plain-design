@@ -13,9 +13,9 @@ export default designComponent({
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
         return useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, slots, event, defaultScopeSlots: {
                 edit: ({row, plc}) => !plc.props.field ? null : <PlDate v-model={row[plc.props.field]}/>
             }
         })

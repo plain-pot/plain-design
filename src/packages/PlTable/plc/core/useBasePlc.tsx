@@ -1,14 +1,15 @@
 import {computed, ExtractPropTypes, reactive, useNumber, useRefs} from "plain-design-composition";
 import {PlcPropsOptions, PlcPublicAttrs} from "../utils/plc.utils";
-import {tPlcScopeSlots} from "../utils/plc.scope-slots";
+import {tPlcScopeSlots, tPlcSlots} from "../utils/plc.scope-slots";
 import {PlcCollector} from "./PlcGroup";
 import {tPlc, tPlcEvent} from "../utils/plc.type";
-import React from "react";
+import React, {ReactNode} from "react";
 import {getPropsState, usePropsState} from "../utils/usePropsState";
 import PlTable from "../../index";
 
-export function useBasePlc({props, scopeSlots, event}: {
+export function useBasePlc({props, scopeSlots, event, slots}: {
     props: ExtractPropTypes<typeof PlcPropsOptions>,
+    slots: tPlcSlots,
     scopeSlots: tPlcScopeSlots,
     event: tPlcEvent,
 }) {
@@ -30,6 +31,7 @@ export function useBasePlc({props, scopeSlots, event}: {
         ...PlcPublicAttrs,
         group: false,
         props: propsState,
+        slots,
         scopeSlots,
         event,
         refer: () => plc,

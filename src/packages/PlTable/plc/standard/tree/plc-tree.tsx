@@ -47,7 +47,7 @@ export default designComponent({
         ...PlcScopeSlotsOptions,
         content: (scope: { node: TableNode, plc: tPlc, row: SimpleObject }) => null,
     },
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
 
 
         const table = injectPlainTable()
@@ -136,7 +136,7 @@ export default designComponent({
         }
 
         const {refer, render} = useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, slots, event, defaultScopeSlots: {
                 summary: () => null,
                 head: ({plc}) => (<>
                     <PlDropdown

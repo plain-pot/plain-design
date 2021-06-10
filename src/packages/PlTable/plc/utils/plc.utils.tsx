@@ -5,6 +5,7 @@ import {tFormRuleItem} from "../../../PlForm/form.validate";
 import {TableRenderScope} from "./plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import React from "react";
+import {iFilterOption, tFilterConfig} from "../../../PlFilter/FilterConfig";
 
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
@@ -25,6 +26,13 @@ export const PlcGroupPropsOptions = {
     bodyCls: {},                                                            // 给表体添加的class
 }
 
+export function createFilterConfigProp(defaultGetter?: (filter: iFilterOption) => any) {
+    return {
+        type: [Function, Object] as PropType<tFilterConfig | (() => tFilterConfig)>,
+        default: !defaultGetter ? undefined : () => defaultGetter
+    }
+}
+
 export const PlcPropsOptions = {
     ...PlcGroupPropsOptions,
     field: {type: String},                                                  // 列绑定字段
@@ -40,8 +48,8 @@ export const PlcPropsOptions = {
 
     // 筛选先关
     filterName: {type: String, default: 'text'},
-    filterHandler: {type: String, default: 'extract'},
-
+    filterHandler: {type: String, default: '类似'},
+    filterConfig: createFilterConfigProp(),
 }
 
 export const PlcEmitsOptions = {

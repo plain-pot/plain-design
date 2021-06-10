@@ -10,8 +10,8 @@ export const Plc = designComponent({
     props: PlcPropsOptions,
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
-    setup({props, scopeSlots, event}) {
-        return useBasePlc({props, scopeSlots, event})
+    setup({props, slots, scopeSlots, event}) {
+        return useBasePlc({props, scopeSlots, event, slots})
     },
     expose: {
         applyPropsState,

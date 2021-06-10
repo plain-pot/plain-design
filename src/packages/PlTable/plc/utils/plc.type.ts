@@ -2,7 +2,7 @@ import {SimpleObject} from "../../../../shims";
 import {ExtractPropTypes} from "plain-design-composition";
 import {TableNode} from "../../table/use/useTableNode";
 import {PlcEmitsOptions, PlcGroupPropsOptions, PlcPropsOptions, PlcPublicAttrsType} from "./plc.utils";
-import {PlcPropsHead, tPlcScopeSlots} from "./plc.scope-slots";
+import {PlcPropsHead, tPlcScopeSlots, tPlcSlots} from "./plc.scope-slots";
 import {ComponentEvent} from "plain-design-composition/src/composition/emit.type";
 
 export type TableRenderScope = { plc: tPlc, node: TableNode, row: SimpleObject }
@@ -24,6 +24,7 @@ export type tPlcGroup = PlcPublicAttrsType & {
 export type tPlc = PlcPublicAttrsType & {
     group: false,
     props: PlcPropsType,
+    slots: tPlcSlots,
     scopeSlots: tPlcScopeSlots,
     event: tPlcEvent,
     refer: () => tPlc,

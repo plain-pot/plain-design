@@ -29,7 +29,7 @@ export default designComponent({
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
 
         const table = injectPlainTable()
         const state = reactive({
@@ -102,7 +102,7 @@ export default designComponent({
         }
 
         const {refer, render} = useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, slots, event, defaultScopeSlots: {
                 summary: () => null,
                 normal: ({node}) => <PlCheckbox
                     customReadonly

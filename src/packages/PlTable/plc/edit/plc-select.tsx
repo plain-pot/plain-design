@@ -1,7 +1,7 @@
-import React, {ReactChild, ReactElement, ReactNode} from "react";
+import React, {ReactElement} from "react";
 import PlSelect from "../../../PlSelect";
 import {designComponent} from "plain-design-composition";
-import {PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
+import {createFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
 import {isFragment} from 'react-is'
@@ -10,13 +10,16 @@ export default designComponent({
     name: 'plc-select',
     props: {
         ...PlcPropsOptions,
+        filterName: {type: String, default: 'select'},
+        filterHandler: {type: String, default: '等于'},
+        filterConfig: createFilterConfigProp(filter => ({options: filter.plc!.slots.options()})),
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
-    slots: ['default'],
+    slots: ['default', 'options'],
     setup({props, scopeSlots, event, slots}) {
         return useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, slots, scopeSlots, event, defaultScopeSlots: {
                 summary: () => null,
                 normal: (scope) => {
                     if (!props.field) {return null}

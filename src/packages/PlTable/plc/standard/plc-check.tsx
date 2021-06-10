@@ -28,7 +28,7 @@ export default designComponent({
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
 
         const table = injectPlainTable()
         const proxy = getCurrentDesignInstance().proxy!
@@ -89,7 +89,7 @@ export default designComponent({
         Object.assign(proxy, methods)
 
         const {refer, render} = useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, event, slots, defaultScopeSlots: {
                 summary: () => null,
                 normal: ({node}) => <PlCheckbox
                     customReadonly

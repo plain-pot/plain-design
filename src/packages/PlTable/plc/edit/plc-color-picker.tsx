@@ -13,9 +13,9 @@ export default designComponent({
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
         return useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, event, slots, defaultScopeSlots: {
                 normal: ({row, plc}) => {
                     return !!plc.props.field && <>
                         <PlColorButton color={row[plc.props.field]} style={{marginRight: '6px'}}/>

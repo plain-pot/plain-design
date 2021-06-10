@@ -29,7 +29,7 @@ export default designComponent({
         ...PlcScopeSlotsOptions,
         expand: (scope: { node: TableNode, row: SimpleObject }) => null,
     },
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
 
         const table = injectPlainTable()
         /*告诉 table，不能启用虚拟滚动*/
@@ -76,7 +76,7 @@ export default designComponent({
         }
 
         const {refer, render} = useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, slots, event, defaultScopeSlots: {
                 head: () => (
                     <PlDropdown
                         {...{placement: "bottom-center"}}

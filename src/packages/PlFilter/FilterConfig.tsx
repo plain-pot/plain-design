@@ -4,6 +4,7 @@ import {ReactNode} from "react";
 import PlInput from "../PlInput";
 import {FilterTextContains} from "./editor/FilterTextContains";
 import PlSelect from "../PlSelect";
+import {tPlc} from "../PlTable/plc/utils/plc.type";
 
 export type tFilterConfig = Record<string, any>
 
@@ -49,6 +50,7 @@ export interface iFilterOption {
     filterName: string,
     handlerName: string,
     filterConfig: tFilterConfig,
+    plc?: tPlc,
 }
 
 export interface iFilterTargetOption {

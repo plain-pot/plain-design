@@ -20,3 +20,5 @@ export const PlcScopeSlotsOptions = {
 }
 
 export type tPlcScopeSlots = ScopeSlotsType<typeof PlcScopeSlotsOptions>
+
+export type tPlcSlots = Record<string, ((defaultSlot?: ReactNode) => ReactNode) & { isExist: () => boolean }>

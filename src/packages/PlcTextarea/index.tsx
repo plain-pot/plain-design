@@ -18,7 +18,7 @@ export const PlcTextarea = designComponent({
     },
     emits: PlcEmitsOptions,
     scopeSlots: PlcScopeSlotsOptions,
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
 
         const $dialog = useDialog()
 
@@ -34,7 +34,7 @@ export const PlcTextarea = designComponent({
         })
 
         return useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, slots, event, defaultScopeSlots: {
                 edit: ({plc, row}) => !plc.props.field ? null : <PlTextareDialog v-model={row[plc.props.field]}/>,
                 form: ({plc, row}) => !plc.props.field ? null : <PlInput nativeAttrs={{rows: 4}} textarea v-model={row[plc.props.field]}/>
             }

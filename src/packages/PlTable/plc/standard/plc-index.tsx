@@ -24,9 +24,9 @@ export default designComponent({
     emits: {
         ...PlcEmitsOptions,
     },
-    setup({props, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event}) {
         return useExternalPlc({
-            props, scopeSlots, event, defaultScopeSlots: {
+            props, scopeSlots, event, slots, defaultScopeSlots: {
                 head: () => '#',
                 normal: ({node, plc}) => (plc.props as any).start + node.index + 1,
                 summary: () => <span className="plc-index-summary-text">{props.summaryText}</span>,
