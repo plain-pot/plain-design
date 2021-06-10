@@ -31,7 +31,12 @@ export const PlFilter = designComponent({
         return () => {
             return (
                 <PlInputGroup>
-                    <PlSelect v-model={props.filterOption.handlerName} inputProps={{width: 100, clearIcon: false}} filterable={false}>
+                    <PlSelect
+                        v-model={props.filterOption.handlerName}
+                        inputProps={{width: 100, clearIcon: false}}
+                        filterable={false}
+                        onChange={() => props.filterOption.value = null}
+                    >
                         {optionData.value.handlers.map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
                     </PlSelect>
                     <React.Fragment key={props.filterOption.handlerName}>
