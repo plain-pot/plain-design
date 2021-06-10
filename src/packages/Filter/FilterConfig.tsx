@@ -27,9 +27,6 @@ export interface iFilterData {
 
 export interface iFilterValue {
     value?: any,
-    values?: any[],
-    start?: any,
-    end?: any,
 }
 
 export interface iRegistryFilterHandler {
@@ -111,12 +108,12 @@ FilterConfig.touchFilter('text')
         transform: ({filterValue, field}) => !filterValue.value ? null : ({field, value: filterValue.value, operator: eFilterOperator["~"]})
     })
     .setHandler('包含', {
-        render: ({filterValue}) => <FilterTextContains v-model={filterValue.values}/>,
-        transform: ({filterValue, field}) => !filterValue.values || filterValue.values.length === 0 ? null : ({field, value: filterValue.values, operator: eFilterOperator["in"]})
+        render: ({filterValue}) => <FilterTextContains v-model={filterValue.value}/>,
+        transform: ({filterValue, field}) => !filterValue.value || filterValue.value.length === 0 ? null : ({field, value: filterValue.value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
-        render: ({filterValue}) => <FilterTextContains v-model={filterValue.values}/>,
-        transform: ({filterValue, field}) => !filterValue.values || filterValue.values.length === 0 ? null : ({field, value: filterValue.values, operator: eFilterOperator["not in"]})
+        render: ({filterValue}) => <FilterTextContains v-model={filterValue.value}/>,
+        transform: ({filterValue, field}) => !filterValue.value || filterValue.value.length === 0 ? null : ({field, value: filterValue.value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
         render: (fv) => <PlInput placeholder="为空" disabled/>,

@@ -43,6 +43,7 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
     }
 
     hooks.onRefTable.use((table) => {
+        if (!table) {return}
         const el = table.refs.el!
         el.addEventListener('mouseenter', () => {
             document.body.addEventListener('keydown', onKeydown, true)

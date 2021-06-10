@@ -25,7 +25,7 @@ export function useTableOptionButtons({hooks, methods, command, setting}: { hook
     }
 
     hooks.onRefTable.use((table) => {
-        state.tableEl = table.refs.el!
+        !!table && (state.tableEl = table.refs.el!)
     })
 
     function format(btn: iTableOptionButton) {
