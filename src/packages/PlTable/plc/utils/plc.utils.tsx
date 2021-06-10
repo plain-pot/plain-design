@@ -37,6 +37,11 @@ export const PlcPropsOptions = {
     rules: {type: [Object, Array] as PropType<tFormRuleItem | tFormRuleItem[]>},// 校验规则
     editable: {type: [Boolean, Function] as PropType<PlcPropsEditable>, default: true},// 是否可编辑
     addEditPadding: {type: Boolean},                                        // 处于编辑状态的时候，是否添加内编辑，只有当行状态为编辑状态，并且列有edit渲染函数或者作用域插槽时，才符合“处于编辑状态”的条件
+
+    // 筛选先关
+    filterName: {type: String, default: 'text'},
+    filterHandler: {type: String, default: 'extract'},
+
 }
 
 export const PlcEmitsOptions = {

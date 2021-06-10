@@ -1,8 +1,8 @@
 import {designPage, reactive} from "plain-design-composition";
 import React from "react";
-import PlFilter from "../../../src/packages/Filter";
 import {DemoRow} from "../../components/DemoRow";
 import {PlSelectOption} from "../../../src";
+import PlFilter from "../../../src/packages/PlFilter";
 
 export default designPage(() => {
     const state = reactive({
