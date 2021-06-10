@@ -6,7 +6,7 @@ export const PlInputInnerTags = designComponent({
     props: {
         data: {type: Array},
         collapseTags: {type: Boolean, default: true},
-        placeholder: {type: String}
+        placeholder: {type: [String, Number]}
     },
     scopeSlots: {
         default: (scope: { item: any, index: number }) => {},

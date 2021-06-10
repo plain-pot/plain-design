@@ -23,7 +23,7 @@ const Props = {
 
     modelValue: {type: [String, Number, Array]},
     filterable: {type: Boolean, default: true},                     // 是否可以输入筛选
-    inputProps: {type: Object},                                     // input组件绑定属性对象
+    inputProps: {type: Object as PropType<Partial<typeof PlInput.use.props>>},                                     // input组件绑定属性对象
 
     multiple: {type: Boolean},                                      // 是否多选
     multipleMaxLimit: {type: Number},                               // 多选最多选择个数
@@ -139,7 +139,7 @@ export const PlSelect = designComponent({
                         return item.props.label
                     }
                 }
-                return model.value
+                return model.value as string
             } else {
                 let strings: string[] = []
                 if (!!model.value && Array.isArray(model.value)) {
@@ -197,7 +197,7 @@ export const PlSelect = designComponent({
                 modelValue: (props.filterable && agentState.isShow.value) ? filterText.value! : displayValue.value as string,
                 placeValue: displayValue.value as string,
                 inputReadonly: !props.filterable,
-                placeholder: placeholderValue.value,
+                placeholder: placeholderValue.value as string,
                 suffixIcon: 'el-icon-arrow-down',
                 clearIcon: true,
                 isFocus: agentState.state.focusCounter > 0,
@@ -293,7 +293,7 @@ export const PlSelect = designComponent({
                             <PlInputInnerTags
                                 data={multipleTags.value}
                                 collapseTags={props.collapseTags}
-                                placeholder={inputBinding.value.placeholder}
+                                placeholder={inputBinding.value.placeholder!}
                                 default={({item, index}: { item: SelectOption, index: number }) => (
                                     <React.Fragment key={index}>
                                         <span>{item.props.label}</span>,

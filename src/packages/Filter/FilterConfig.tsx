@@ -3,6 +3,7 @@ import React from "react";
 import {ReactNode} from "react";
 import PlInput from "../PlInput";
 import {FilterTextContains} from "./editor/FilterTextContains";
+import PlSelect from "../PlSelect";
 
 export type tFilterConfig = Record<string, any>
 
@@ -44,15 +45,16 @@ export interface iRegistryFilter {
 
 export interface iFilterOption {
     field: string,
+    value?: any,
     filterName: string,
     handlerName: string,
-    filterValue: iFilterValue,
-    filterConfig?: tFilterConfig,
+    filterConfig: tFilterConfig,
 }
 
-export interface iFilterTargetOption extends iFilterOption {
+export interface iFilterTargetOption {
     filter: iRegistryFilter,
     handler: iRegistryFilterHandler,
+    option: iFilterOption,
 }
 
 export const FilterConfig = (() => {
@@ -87,7 +89,7 @@ export const FilterConfig = (() => {
         if (!filter) {return }
         const handler = filter.getHandler(opt.handlerName)
         if (!handler) {return }
-        return {...opt, filter, handler,}
+        return {filter, handler, option: opt}
     }
 
     return {
@@ -100,27 +102,49 @@ export const FilterConfig = (() => {
 
 FilterConfig.touchFilter('text')
     .setHandler('类似', {
-        render: ({filterValue}, emitConfirm) => <PlInput v-model={filterValue.value} onEnter={emitConfirm}/>,
-        transform: ({filterValue, field}) => !filterValue.value ? null : ({field, value: filterValue.value, operator: eFilterOperator["="]})
+        render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["~"]})
     })
     .setHandler('等于', {
-        render: ({filterValue}, emitConfirm) => <PlInput v-model={filterValue.value} onEnter={emitConfirm}/>,
-        transform: ({filterValue, field}) => !filterValue.value ? null : ({field, value: filterValue.value, operator: eFilterOperator["~"]})
+        render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["="]})
     })
     .setHandler('包含', {
-        render: ({filterValue}) => <FilterTextContains v-model={filterValue.value}/>,
-        transform: ({filterValue, field}) => !filterValue.value || filterValue.value.length === 0 ? null : ({field, value: filterValue.value, operator: eFilterOperator["in"]})
+        render: (fto) => <FilterTextContains v-model={fto.option.value}/>,
+        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
-        render: ({filterValue}) => <FilterTextContains v-model={filterValue.value}/>,
-        transform: ({filterValue, field}) => !filterValue.value || filterValue.value.length === 0 ? null : ({field, value: filterValue.value, operator: eFilterOperator["not in"]})
+        render: (fto) => <FilterTextContains v-model={fto.option.value}/>,
+        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
-        render: (fv) => <PlInput placeholder="为空" disabled/>,
-        transform: ({field}) => ({field, operator: eFilterOperator["is null"]})
+        render: () => <PlInput placeholder="为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is null"]})
     })
     .setHandler('不为空值', {
-        render: (fv) => <PlInput placeholder="不为空" disabled/>,
-        transform: ({field}) => ({field, operator: eFilterOperator["is not null"]})
+        render: () => <PlInput placeholder="不为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is not null"]})
+    })
+
+FilterConfig.touchFilter('select')
+    .setHandler('等于', {
+        render: (fto, emitConfirm) => <PlSelect v-model={fto.option.value} onChange={emitConfirm}>{fto.option.filterConfig.options()}</PlSelect>,
+        transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["="]})
+    })
+    .setHandler('包含', {
+        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.option.filterConfig.options()}</PlSelect>,
+        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
+    })
+    .setHandler('不包含', {
+        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.option.filterConfig.options()}</PlSelect>,
+        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
+    })
+    .setHandler('为空值', {
+        render: () => <PlInput placeholder="为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is null"]})
+    })
+    .setHandler('不为空值', {
+        render: () => <PlInput placeholder="不为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is not null"]})
     })
 
