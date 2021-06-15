@@ -34,7 +34,7 @@ export default designPage(() => {
                 <PlcNumber title="计数count" field="count" required/>
                 <PlcInput title="文本normalText" field="normalText" required/>
                 <PlcNumber title="数字numberVal" field="numberVal" required/>
-                <PlcCheckbox title="复选框flag" field="flag"/>
+                <PlcCheckbox title="复选框flag" field="flag" hide/>
                 <PlcSelect title="下拉框selectVal" field="selectVal">
                     <PlSelectOption label="消费者" val="consumer">
                         <PlIcon icon="el-icon-s-custom" status="primary" style={{marginRight: '4px'}}/>
