@@ -93,6 +93,7 @@ export const PlTablePro = designComponent({
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
                     sort={toArray(props.option.config.sort).map(({field, desc}) => ({field, desc: desc !== false}))}
+                    onCollectPlcData={props.option.hooks.onCollectPlcData.exec}
                 >
                     <PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
                     {props.option.hooks.onColumns.exec(slots.default())}
