@@ -17,6 +17,7 @@ import {useTableHooks} from "./table/use/useTableHooks";
 import {removeUnit} from "plain-utils/string/removeUnit";
 import {tPlcStateData} from "./plc/utils/usePropsState";
 import {tPlcType} from "./plc/utils/plc.type";
+import {tPlcData} from "./plc/format/formatPlcList";
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -35,6 +36,7 @@ export const PlTable = designComponent({
         onDblclickCell: (node: TableNode, e: React.MouseEvent) => true,
 
         onConfigPlc: (data: { plcList: tPlcType[], stateData: tPlcStateData }) => true,
+        onCollectPlcData: (plcData: tPlcData) => true,
     },
     slots: ['default'],
     setup({props, slots, event}) {
@@ -43,7 +45,7 @@ export const PlTable = designComponent({
         const {refs, onRef} = useRefs({el: HTMLDivElement})
 
         const hooks = useTableHooks()
-        const {plcData, renderCollector} = usePlcList({props, hooks, slots})
+        const {plcData, renderCollector} = usePlcList({props, hooks, slots, onCollectPlcData: event.emit.onCollectPlcData})
         const {bindScroll} = useBindScroll(event)
         const {state, flatNodes, summaryNodes, dataModel, methods, current, handler, utils} = useTableNode({props, emit, getValidate: () => formValidate.value})
         const {fixedShadowClass} = useFixedShadow(event)

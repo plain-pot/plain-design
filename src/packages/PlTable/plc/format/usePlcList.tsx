@@ -1,6 +1,6 @@
 import {computed, ExtractPropTypes, onBeforeUnmount, reactive, useRefs, watch} from "plain-design-composition";
 import {TableProps} from "../../table/utils/table.utils";
-import {formatPlcList} from "./formatPlcList";
+import {formatPlcList, tPlcData} from "./formatPlcList";
 import PlcGroup from "../core/PlcGroup";
 import React, {ReactNode} from "react";
 import {tTableHooks} from "../../table/use/useTableHooks";
@@ -12,10 +12,11 @@ import {runOnce} from "./utils/runOnce";
  * @author  韦胜健
  * @date    2021/6/1 16:10
  */
-export function usePlcList({props, slots, hooks}: {
+export function usePlcList({props, slots, hooks, onCollectPlcData}: {
     props: ExtractPropTypes<typeof TableProps>,
     slots: { default: () => ReactNode },
     hooks: tTableHooks,
+    onCollectPlcData: (data: tPlcData) => void,
 }) {
 
     const {refs, onRef} = useRefs({group: PlcGroup})
@@ -56,11 +57,13 @@ export function usePlcList({props, slots, hooks}: {
 
     const plcData = computed(() => {
         if (!state.tableWidth || !state.getPlcTypeArr) {return null}
-        return formatPlcList({
+        const plcData = formatPlcList({
             plcList: state.getPlcTypeArr(),
             tableWidth: state.tableWidth,
             configPlcTypes: runConfig,
         })
+        onCollectPlcData(plcData)
+        return plcData
     })
 
     return {

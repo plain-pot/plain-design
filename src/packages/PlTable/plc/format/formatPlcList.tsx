@@ -58,3 +58,5 @@ export function formatPlcList(
         maxLevel,                                               // 表头层级
     }
 }
+
+export type tPlcData = ReturnType<typeof formatPlcList>
