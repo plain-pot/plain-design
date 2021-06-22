@@ -12,7 +12,18 @@ export default designComponent({
         ...PlcPropsOptions,
         filterName: {type: String, default: 'select'},
         filterHandler: {type: String, default: '等于'},
-        filterConfig: createFilterConfigProp(filter => ({options: filter.plc!.slots.options()})),
+        filterConfig: createFilterConfigProp(({plc}: any) => {
+            return {
+                // select的筛选选项内容，得是一个函数，先计算完值的话，会导致内容不是响应式的
+                options: () => {
+                    if (plc.slots.options.isExist()) {
+                        return plc.slots.options()
+                    } else {
+                        return plc.slots.default({})
+                    }
+                }
+            }
+        }),
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,

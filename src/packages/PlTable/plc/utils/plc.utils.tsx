@@ -28,7 +28,7 @@ export const PlcGroupPropsOptions = {
 
 export function createFilterConfigProp(defaultGetter?: (filter: iFilterOption) => any) {
     return {
-        type: [Function, Object] as PropType<tFilterConfig | (() => tFilterConfig)>,
+        type: [Function, Object] as PropType<tFilterConfig>,
         default: !defaultGetter ? undefined : () => defaultGetter
     }
 }
