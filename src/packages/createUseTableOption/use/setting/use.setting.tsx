@@ -21,7 +21,7 @@ export function useTableOptionSetting({hooks, config, changeSort, methods}: {
         getSourceFlatPlcList: null as null | (() => tPlc[])
     }
 
-    hooks.onRefTable.use(table => {state.getSourceFlatPlcList = () => table.plcData.value!.sourceFlatPlcList})
+    hooks.onCollectPlcData.use(plcData => {state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList})
 
     const openSetting = (view: eTableOptionSettingView) => {
         $dialog({
