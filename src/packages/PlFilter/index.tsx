@@ -1,6 +1,6 @@
-import {computed, designComponent, PropType} from "plain-design-composition";
+import {designComponent, PropType} from "plain-design-composition";
 import React from "react";
-import {FilterConfig, iFilterOption} from "./FilterConfig";
+import {iFilterTargetOption} from "./FilterConfig";
 import PlSelect from "../PlSelect";
 import PlSelectOption from "../PlSelectOption";
 import PlInputGroup from "../PlInputGroup";
@@ -8,39 +8,27 @@ import PlButton from "../PlButton";
 
 export const PlFilter = designComponent({
     props: {
-        filterOption: {type: Object as PropType<iFilterOption>, required: true},
+        fto: {type: Object as PropType<iFilterTargetOption>},
+
     },
     emits: {
         onConfirm: () => true,
     },
     setup: ({props, event: {emit}}) => {
-
-        const optionData = computed(() => {
-            const option = FilterConfig.getTargetOption(props.filterOption)
-            if (!option) {throw new Error(`pl-filter:无法识别filterOption:${JSON.stringify(props.filterOption)}`)}
-
-            const filter = FilterConfig.touchFilter(option.option.filterName)
-            const handlers = Object.values(filter.handlers)
-
-            return {
-                option,
-                handlers,
-            }
-        })
-
         return () => {
+            if (!props.fto) {return null}
             return (
                 <PlInputGroup>
                     <PlSelect
-                        v-model={props.filterOption.handlerName}
+                        v-model={props.fto.option.handlerName}
                         inputProps={{width: 100, clearIcon: false}}
                         filterable={false}
-                        onChange={() => props.filterOption.value = null}
+                        onChange={() => props.fto!.option.value = null}
                     >
-                        {optionData.value.handlers.map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
+                        {Object.values(props.fto.filter.handlers).map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
                     </PlSelect>
-                    <React.Fragment key={props.filterOption.handlerName}>
-                        {optionData.value.option.handler.render(optionData.value.option, emit.onConfirm)}
+                    <React.Fragment key={props.fto.option.handlerName}>
+                        {props.fto.handler.render(props.fto, emit.onConfirm)}
                         <PlButton label="搜索"/>
                     </React.Fragment>
                 </PlInputGroup>

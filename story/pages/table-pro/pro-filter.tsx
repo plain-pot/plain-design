@@ -3,6 +3,7 @@ import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlSelectOption} from "../../../src";
 import PlFilter from "../../../src/packages/PlFilter";
+import {FilterConfig} from "../../../src/packages/PlFilter/FilterConfig";
 
 export default designPage(() => {
     const state = reactive({
@@ -31,12 +32,12 @@ export default designPage(() => {
     })
     return () => <>
         <DemoRow title="text">
-            <PlFilter filterOption={state.textFilterOption}/>
+            <PlFilter fto={FilterConfig.getTargetOption(state.textFilterOption)}/>
             <span>搜索</span>
             {JSON.stringify(state.textFilterOption)}
         </DemoRow>
         <DemoRow title="select">
-            <PlFilter filterOption={state.selectFilterOption}/>
+            <PlFilter fto={FilterConfig.getTargetOption(state.selectFilterOption)}/>
             {JSON.stringify(state.selectFilterOption)}
         </DemoRow>
     </>
