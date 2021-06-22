@@ -39,10 +39,8 @@ export function useTableOptionFilter({config, hooks}: { config: tTableOptionConf
             state.fto = createFto(config.filter?.filterBar?.field || plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
         })
 
-        const onFieldChange = (field: string) => {
-            if (!state.fto) {return}
-            state.fto = createFto(field)
-        }
+        const onFieldChange = (field: string) => {!!state.fto && (state.fto = createFto(field))}
+        const onHandlerChange = () => {state.fto = FilterConfig.getTargetOption(state.fto!.option) as any}
 
         return {
             state,
@@ -51,7 +49,11 @@ export function useTableOptionFilter({config, hooks}: { config: tTableOptionConf
                 const columns = state.getSourceFlatPlcList()
                 return (
                     <div className="pl-table-pro-filter-bar">
-                        <PlFilter fto={state.fto} key={state.fto.option.filterName + state.fto.option.handlerName}>
+                        <PlFilter
+                            fto={state.fto}
+                            key={state.fto.option.filterName + state.fto.option.handlerName}
+                            onHandlerNameChange={onHandlerChange}
+                        >
                             {{
                                 prepend: () => <PlSelect
                                     inputProps={{width: '120px'}}

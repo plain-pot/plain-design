@@ -14,8 +14,15 @@ export const PlFilter = designComponent({
     slots: ['prepend', 'append'],
     emits: {
         onConfirm: () => true,
+        onHandlerNameChange: (handlerName: string) => true,
     },
     setup: ({props, slots, event: {emit}}) => {
+
+        const onHandlerNameChange = (handlerName: string) => {
+            !!props.fto && (props.fto.option.value = null)
+            emit.onHandlerNameChange(handlerName)
+        }
+
         return () => {
             if (!props.fto) {return null}
             return (
@@ -25,7 +32,7 @@ export const PlFilter = designComponent({
                         v-model={props.fto.option.handlerName}
                         inputProps={{width: 80, clearIcon: false}}
                         filterable={false}
-                        onChange={() => props.fto!.option.value = null}
+                        onChange={onHandlerNameChange as any}
                     >
                         {Object.values(props.fto.filter.handlers).map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
                     </PlSelect>
