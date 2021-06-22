@@ -1,9 +1,10 @@
 import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
-import {reactive, shallowReactive} from "plain-design-composition";
+import {reactive} from "plain-design-composition";
 import {ReactNode} from "react";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
+import {iFilterData} from "../../PlFilter/FilterConfig";
 
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
@@ -105,6 +106,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onButtons: createSyncHooks<(content: ReactNode) => void>(true),                    // 同步钩子，用来处理按钮信息
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
+        onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
     }
 
     /*if (!!config.hooks) {

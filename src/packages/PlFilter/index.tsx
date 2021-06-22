@@ -38,7 +38,7 @@ export const PlFilter = designComponent({
                     </PlSelect>
                     <React.Fragment key={props.fto.option.filterName + props.fto.option.handlerName}>
                         {props.fto.handler.render(props.fto, emit.onConfirm)}
-                        <PlButton label="搜索"/>
+                        <PlButton label="搜索" onClick={emit.onConfirm}/>
                     </React.Fragment>
                     {slots.append()}
                 </PlInputGroup>

@@ -9,14 +9,20 @@ import {FilterConfig, iFilterOption, iFilterTargetOption} from "../../../PlFilte
 import PlFilter from "../../../PlFilter";
 import PlButton from "../../../PlButton";
 import PlTooltip from "../../../PlTooltip";
+import {defer} from "../../../../utils/defer";
+import {toArray} from "../../../../utils/toArray";
+import {tTableOptionMethods} from "../use.methods";
 
-export function useTableOptionFilter({config, hooks}: { config: tTableOptionConfig, hooks: tTableOptionHooks }) {
+export function useTableOptionFilter({config, hooks, methods}: { config: tTableOptionConfig, hooks: tTableOptionHooks, methods: tTableOptionMethods, }) {
 
     const filterBar = (() => {
+
         const state = reactive({
             getSourceFlatPlcList: null as null | (() => tPlc[]),
             fto: null as null | iFilterTargetOption,
         })
+
+        const init = defer()
 
         function createFto(field?: string, defaultValue: any = null): iFilterTargetOption | null {
             if (!field) {return null}
@@ -37,10 +43,19 @@ export function useTableOptionFilter({config, hooks}: { config: tTableOptionConf
         hooks.onCollectPlcData.use(plcData => {
             state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList
             state.fto = createFto(config.filter?.filterBar?.field || plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
+            init.resolve()
         })
 
         const onFieldChange = (field: string) => {!!state.fto && (state.fto = createFto(field))}
         const onHandlerChange = () => {state.fto = FilterConfig.getTargetOption(state.fto!.option) as any}
+        const onConfirm = () => methods.pageMethods.reload()
+
+        hooks.onCollectFilterData.use(async data => {
+            await init.promise
+            if (!state.fto) {return data}
+            const queries = state.fto.handler.transform(state.fto)
+            return !!queries ? [...data, {queries: toArray(queries),}] : data
+        })
 
         return {
             state,
@@ -53,6 +68,7 @@ export function useTableOptionFilter({config, hooks}: { config: tTableOptionConf
                             fto={state.fto}
                             key={state.fto.option.filterName + state.fto.option.handlerName}
                             onHandlerNameChange={onHandlerChange}
+                            onConfirm={onConfirm}
                         >
                             {{
                                 prepend: () => <PlSelect

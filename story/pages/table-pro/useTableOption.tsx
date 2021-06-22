@@ -1,6 +1,17 @@
 import {$$notice, createUseTableOption} from "../../../src";
 import {$http} from "../../http/http";
 import {tDeleteResponse, tUrlConfig} from "../../../src/packages/createUseTableOption/createUseTableOption.utils";
+import {createCounter} from "plain-design-composition";
+import {eFilterOperator} from "../../../src/packages/PlFilter/FilterConfig";
+
+const generateFilterId = createCounter('auto_filter_id')
+
+interface iModuleQueryFilter {
+    id?: string | number,
+    field: string,
+    operator: keyof typeof eFilterOperator | eFilterOperator,
+    value?: any,
+}
 
 export const useTableOption = createUseTableOption({
     keyField: 'id',
@@ -168,4 +179,25 @@ export const useTableOption = createUseTableOption({
             }
         })(),
     },
+    injectRules: (filterDataArr, requestConfig) => {
+        const expressions: string[] = []
+        const filters: iModuleQueryFilter[] = []
+
+        filterDataArr.forEach(({expression, queries}) => {
+            if (queries.length === 0) {return}
+            if (!expression) {
+                expression = queries.map((query) => {
+                    if (!query.id) {query.id = generateFilterId()}
+                    return query.id
+                }).join(' and ')
+            }
+            expressions.push(expression)
+            filters.push(...queries)
+        })
+
+        const requestData = requestConfig.method === 'GET' ? requestConfig.query : requestConfig.body
+        filters.length > 0 && Object.assign(requestData, {
+            filters, filterExpression: expressions.map(i => `(${i})`).join('and')
+        })
+    }
 })

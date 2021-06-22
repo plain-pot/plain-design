@@ -1,6 +1,7 @@
 import {ReactFragment} from "react";
 import PlTable from "../PlTable";
 import {tFormPropRules} from "../PlForm/form.validate";
+import {iFilterData} from "../PlFilter/FilterConfig";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;
@@ -124,7 +125,7 @@ export interface iTableProDefaultConfig {
     loadOnStart?: boolean,
     copyDefaultExcludeKeys: string[],                                   // 复制一行的时候，不复制的属性
     sort: iTableProConfigSortObj | iTableProConfigSortObj[],            // 排序方式
-    // injectRules: (filterValues: iFilterValue[], requestConfig: tRequestConfigObject) => void | tRequestConfigObject, // 将筛选条件rules填写到requestConfig中
+    injectRules: (filterDataArr: iFilterData[], requestConfig: tRequestConfig) => void | tRequestConfig, // 将筛选条件rules填写到requestConfig中
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
         insert: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,

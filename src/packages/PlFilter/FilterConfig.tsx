@@ -14,16 +14,22 @@ export enum eFilterOperator {
     '>=' = '>=',
     '<' = '<',
     '<=' = '<=',
-    'is null' = 'is null',
-    'is not null' = 'is not null',
     'in' = 'in',
     'not in' = 'not in',
+    'is null' = 'is null',
+    'is not null' = 'is not null',
 }
 
 export interface iFilterQuery {
+    id?: string | number,
     field: string,
     operator: keyof typeof eFilterOperator | eFilterOperator,
     value?: any,
+}
+
+export interface iFilterData {
+    queries: iFilterQuery[],
+    expression?: string,
 }
 
 export interface iRegistryFilterHandler {
@@ -132,19 +138,19 @@ export const FilterConfig = (() => {
 FilterConfig.touchFilter('text')
     .setHandler('类似', {
         render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
-        transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["~"]})
+        transform: ({option: {value, field}}) => value == null ? null : ({field, value, operator: eFilterOperator["~"]})
     })
     .setHandler('等于', {
         render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
-        transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["="]})
+        transform: ({option: {value, field}}) => value == null ? null : ({field, value, operator: eFilterOperator["="]})
     })
     .setHandler('包含', {
         render: (fto) => <FilterTextContains v-model={fto.option.value}/>,
-        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
+        transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
         render: (fto) => <FilterTextContains v-model={fto.option.value}/>,
-        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
+        transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
         render: () => <PlInput placeholder="为空" disabled/>,
@@ -158,15 +164,15 @@ FilterConfig.touchFilter('text')
 FilterConfig.touchFilter('select')
     .setHandler('等于', {
         render: (fto, emitConfirm) => <PlSelect v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
-        transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["="]})
+        transform: ({option: {value, field}}) => value == null ? null : ({field, value, operator: eFilterOperator["="]})
     })
     .setHandler('包含', {
         render: (fto, emitConfirm) => <PlSelect multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
-        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
+        transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
         render: (fto, emitConfirm) => <PlSelect multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
-        transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
+        transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
         render: () => <PlInput placeholder="为空" disabled/>,

@@ -74,6 +74,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, targetLoadConfig)
+            const filterDaraArr = await hooks.onCollectFilterData.exec([])
+            requestConfig = config.injectRules(filterDaraArr, requestConfig) || requestConfig
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
             let {rows, hasNext} = await request(requestConfig)
             rows = await hooks.onAfterLoad.exec(rows)
