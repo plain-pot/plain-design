@@ -36,6 +36,20 @@ export function formatPlcList(
 
     /*复制一份plc数据*/
     const plcList = copyPlcList(sourceList)
+
+    const sourceFlatPlcList: tPlc[] = (() => {
+        const list: tPlc[] = []
+        iteratePlcList({
+            plcList,
+            onGroup: () => IteratePlcHandleType.nothing,
+            onPlc: (plc) => {
+                list.push(plc)
+                return IteratePlcHandleType.nothing
+            }
+        })
+        return list
+    })()
+
     /*先处理AutoFixed*/
     processAutoFixed({plcList})
     /*对plc进行排序*/
@@ -47,7 +61,16 @@ export function formatPlcList(
     /*计算plc的class以及style*/
     processPlcClassAndStyle({headPlcListArray})
 
+    sourceFlatPlcList.sort((a, b) => {
+        let aSeq = flatPlcList.indexOf(a)
+        if (aSeq === -1) {aSeq = 999999}
+        let bSeq = flatPlcList.indexOf(b)
+        if (bSeq === -1) {bSeq = 999999}
+        return aSeq - bSeq
+    })
+
     return {
+        sourceFlatPlcList,
         sourceList,                                             // 原始列数组数据，树形结构的数据(修改props有效)
         plcList,                                                // 原始列数组数据的一份拷贝
         flatPlcList,                                            // 展开之后最底层的列数组(修改props无效)

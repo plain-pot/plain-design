@@ -74,7 +74,7 @@ export const PlTable = designComponent({
         const formValidate = computed(() => getFormRuleData({
             formProps: {rules: props.rules},
             formItems: {
-                value: !plcData.value ? [] : plcData.value.flatPlcList.map(plc => ({
+                value: !plcData.value ? [] : plcData.value.sourceFlatPlcList.map(plc => ({
                     props: {
                         label: plc.props.title,
                         field: plc.props.field,

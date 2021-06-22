@@ -39,7 +39,7 @@ export function useTableOptionSetting({hooks, config, changeSort, methods}: {
             render: () => (
                 <TableOptionSetting
                     initView={view}
-                    plcList={state.table.plcData.value!.flatPlcList}
+                    plcList={state.table.plcData.value!.sourceFlatPlcList}
                     sortData={config.sort}
                     onApplySort={(sorts) => {
                         changeSort(sorts.map(({field, desc}) => ({field, desc})))

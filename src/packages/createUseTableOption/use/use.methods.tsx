@@ -203,7 +203,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 tableOptionEditForm.edit({
                     node: newNode,
                     title: '新建',
-                    plcList: freezeState.table.plcData.value!.flatPlcList,
+                    plcList: freezeState.table.plcData.value!.sourceFlatPlcList,
                     onConfirm: async (newNode) => {
                         let {request, requestConfig} = utils.getUrlConfig('insert')
                         requestConfig.body = deepcopy(newNode.editRow)
@@ -310,7 +310,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 tableOptionEditForm.edit({
                     node: node,
                     title: '编辑',
-                    plcList: freezeState.table.plcData.value!.flatPlcList,
+                    plcList: freezeState.table.plcData.value!.sourceFlatPlcList,
                     onConfirm: async (updateNode) => {
                         let {request, requestConfig} = utils.getUrlConfig('update')
                         requestConfig.body = deepcopy(updateNode.editRow)
@@ -366,7 +366,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             tableOptionModifyForm.modify({
                 modifyNode: newNode,
                 title: '批量修改',
-                plcList: freezeState.table.plcData.value!.flatPlcList,
+                plcList: freezeState.table.plcData.value!.sourceFlatPlcList,
                 onConfirm: async (node) => {
                     let {request, requestConfig} = utils.getUrlConfig('batchUpdate')
                     requestConfig.body = deepcopy(rows.map(row => ({
