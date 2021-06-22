@@ -9,6 +9,7 @@ import {useTableOptionCommand} from "./use/use.command";
 import {useTableOptionButtons} from "./use/use.buttons";
 import {useTableOptionSetting} from "./use/setting/use.setting";
 import {toArray} from "../../utils/toArray";
+import {useTableOptionFilter} from "./use/filter/use.filter";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -59,6 +60,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const {pageMethods, editMethods} = methods
         const setting = useTableOptionSetting({hooks, config, changeSort, methods})
         const buttons = useTableOptionButtons({hooks, methods, command, setting})
+        const filter = useTableOptionFilter({hooks})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
@@ -76,6 +78,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             currentNode,
             check,
             buttons,
+            filter,
         }
     }
 }
