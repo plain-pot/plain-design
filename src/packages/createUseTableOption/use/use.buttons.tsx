@@ -20,14 +20,6 @@ export interface iTableOptionButton {
 
 export function useTableOptionButtons({hooks, methods, command, setting}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, command: tTableOptionCommand, setting: tTableOptionSetting }) {
 
-    const state = {
-        tableEl: null as null | HTMLDivElement,
-    }
-
-    hooks.onRefTable.use((table) => {
-        !!table && (state.tableEl = table.refs.el!)
-    })
-
     function format(btn: iTableOptionButton) {
         const label = typeof btn.label === "string" ? btn.label : btn.label()
         const icon = btn.icon == null ? null : (typeof btn.icon === "string" ? btn.icon : btn.icon())
