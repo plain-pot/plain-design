@@ -1,11 +1,18 @@
 import {tTableOptionHooks} from "../use.hooks";
 import {reactive} from "plain-design-composition";
+import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 
 export function useTableOptionFilter({hooks}: { hooks: tTableOptionHooks }) {
 
     const state = reactive({
-        getColumns: null as null | (() => any)
+        getSourceFlatPlcList: null as null | (() => tPlc[]),
     })
+
+    hooks.onRefTable.use(table => {state.getSourceFlatPlcList = () => table.plcData.value!.sourceFlatPlcList})
+
+    const renderFilterBar = () => {
+
+    }
 
 
 }

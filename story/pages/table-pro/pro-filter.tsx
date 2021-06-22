@@ -7,6 +7,7 @@ import PlFilter from "../../../src/packages/PlFilter";
 export default designPage(() => {
     const state = reactive({
         textFilterOption: {
+            label: '',
             field: 'normalText',
             filterName: 'text',
             handlerName: '类似',
@@ -14,6 +15,7 @@ export default designPage(() => {
             value: null,
         },
         selectFilterOption: {
+            label: '',
             field: 'selectVal',
             filterName: 'select',
             handlerName: '等于',

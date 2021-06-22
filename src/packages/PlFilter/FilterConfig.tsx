@@ -5,8 +5,7 @@ import PlInput from "../PlInput";
 import {FilterTextContains} from "./editor/FilterTextContains";
 import PlSelect from "../PlSelect";
 import {tPlc} from "../PlTable/plc/utils/plc.type";
-
-export type tFilterConfig = Record<string, any>
+import {tFormRuleItem} from "../PlForm/form.validate";
 
 export enum eFilterOperator {
     '=' = '=',
@@ -21,20 +20,16 @@ export enum eFilterOperator {
     'not in' = 'not in',
 }
 
-export interface iFilterData {
+export interface iFilterQuery {
     field: string,
     operator: keyof typeof eFilterOperator | eFilterOperator,
-    value?: any,
-}
-
-export interface iFilterValue {
     value?: any,
 }
 
 export interface iRegistryFilterHandler {
     handlerName: string,
     render: (fto: iFilterTargetOption, emitConfirm: () => void) => ReactNode,
-    transform: (fto: iFilterTargetOption) => iFilterData | iFilterData[] | null,
+    transform: (fto: iFilterTargetOption) => iFilterQuery | iFilterQuery[] | null,
 }
 
 export interface iRegistryFilter {
@@ -44,7 +39,32 @@ export interface iRegistryFilter {
     getHandler: (handlerName: string) => iRegistryFilterHandler | undefined
 }
 
+/**
+ * 筛选配置参数对象
+ * @author  韦胜健
+ * @date    2021/6/17 13:56
+ */
+export type tFilterConfigObj = {
+    defaultValue?: any,                  // 默认的筛选参数
+    start?: any,                        // 范围选择绑定的起始字段
+    end?: any,                          // 范围选择绑定的截止字段
+    flexOrder?: number                  // form-item的flexOrder排序属性
+    formColumn?: number,                // formItem的column占用列数属性
+    formRule?: tFormRuleItem | tFormRuleItem[],// formItem的rule校验规则
+    labelWidth?: number,                // form-item 的label宽度
+} & Record<string, any>
+
+/**
+ * 筛选配置可以是个对象，也可以是个函数返回对象
+ * @author  韦胜健
+ * @date    2021/6/17 13:57
+ */
+export type tFilterConfigGetter = (filter: iFilterOption) => tFilterConfigObj
+export type tFilterConfig = tFilterConfigObj | tFilterConfigGetter
+
+
 export interface iFilterOption {
+    label: string,
     field: string,
     value?: any,
     filterName: string,
@@ -57,6 +77,7 @@ export interface iFilterTargetOption {
     filter: iRegistryFilter,
     handler: iRegistryFilterHandler,
     option: iFilterOption,
+    config: tFilterConfigObj,
 }
 
 export const FilterConfig = (() => {
@@ -91,13 +112,19 @@ export const FilterConfig = (() => {
         if (!filter) {return }
         const handler = filter.getHandler(opt.handlerName)
         if (!handler) {return }
-        return {filter, handler, option: opt}
+        return {filter, handler, option: opt, config: typeof opt.filterConfig === "function" ? opt.filterConfig(opt) : opt.filterConfig}
+    }
+
+    const formatToQuery = (fto: iFilterTargetOption): iFilterQuery | iFilterQuery[] => {
+        const {filterName, handlerName} = fto.option
+        return getHandler(filterName, handlerName)!.transform(fto) || []
     }
 
     return {
         touchFilter,
         getHandler,
         getTargetOption,
+        formatToQuery,
     }
 
 })();
@@ -130,15 +157,15 @@ FilterConfig.touchFilter('text')
 
 FilterConfig.touchFilter('select')
     .setHandler('等于', {
-        render: (fto, emitConfirm) => <PlSelect v-model={fto.option.value} onChange={emitConfirm}>{fto.option.filterConfig.options()}</PlSelect>,
+        render: (fto, emitConfirm) => <PlSelect v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
         transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["="]})
     })
     .setHandler('包含', {
-        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.option.filterConfig.options()}</PlSelect>,
+        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
         transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
-        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.option.filterConfig.options()}</PlSelect>,
+        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
         transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
