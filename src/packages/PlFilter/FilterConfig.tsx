@@ -161,11 +161,11 @@ FilterConfig.touchFilter('select')
         transform: ({option: {value, field}}) => value != null ? null : ({field, value, operator: eFilterOperator["="]})
     })
     .setHandler('包含', {
-        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
+        render: (fto, emitConfirm) => <PlSelect multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
         transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
-        render: (fto, emitConfirm) => <PlSelect multiple v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
+        render: (fto, emitConfirm) => <PlSelect multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
         transform: ({option: {value, field}}) => value != null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {

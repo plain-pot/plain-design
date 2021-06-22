@@ -5,6 +5,7 @@ export const PlInputInnerTags = designComponent({
     name: 'pl-input-inner-tags',
     props: {
         data: {type: Array},
+        maxTags: {type: Number, default: 3},
         collapseTags: {type: Boolean, default: true},
         placeholder: {type: [String, Number]}
     },
@@ -24,13 +25,13 @@ export const PlInputInnerTags = designComponent({
                         <span className="pl-input-custom-placeholder">{props.placeholder}</span>
                     )}
                     {
-                        (props.collapseTags ? props.data!.slice(0, 3) : props.data!).map((item: any, index) => (
+                        (props.collapseTags ? props.data!.slice(0, props.maxTags) : props.data!).map((item: any, index) => (
                             <span key={index} className="pl-input-inner-tag-item">
                             {scopeSlots.default({item, index}, null)}
                         </span>
                         ))
                     }
-                    {props.collapseTags && props.data!.length > 3 && <span className="pl-input-inner-tag-item">+{props.data!.length - 3}</span>}
+                    {props.collapseTags && props.data!.length > props.maxTags && <span className="pl-input-inner-tag-item">+{props.data!.length - props.maxTags}</span>}
                     <span className="pl-input-inner-tag-item pl-input-inner-tag-item-takeover">&nbsp;</span>
                 </div>
             )

@@ -28,10 +28,11 @@ const Props = {
     multiple: {type: Boolean},                                      // 是否多选
     multipleMaxLimit: {type: Number},                               // 多选最多选择个数
     multipleMinLimit: {type: Number},                               // 多选最少选择个数
-    collapseTags: {type: Boolean, default: true},                   // 多选模式下，超过三个选项，其他的将省略显示
+    collapseTags: {type: Boolean, default: true},                   // 多选模式下，默认超过三个选项，其他的将省略显示
+    maxTags: {type: Number, default: 3},                            // 最多战士的tag的个数
 
-    noMatchText: {type: String, default: '暂无匹配数据'},            // 筛选无数据时展示的文本
-    noDataText: {type: String, default: '暂无数据'},                // 无数据时显示的文本
+    noMatchText: {type: String, default: '暂无匹配数据'},             // 筛选无数据时展示的文本
+    noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
     filterMethod: Function,                                         // 筛选过滤函数
     popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
 }
@@ -75,7 +76,7 @@ export const PlSelect = designComponent({
                 renderAttrs: () => ({
                     ref: r => panel = r,
                     ...(() => {
-                        const {loading, readonly, customReadonly, collapseTags, inputProps, filterable, ...leftProps} = Props
+                        const {loading, readonly, customReadonly, collapseTags, maxTags, inputProps, filterable, ...leftProps} = Props
                         return Object.keys(leftProps).reduce((ret: any, key) => {
                             ret[key] = (props as any)[key]
                             return ret
@@ -293,6 +294,7 @@ export const PlSelect = designComponent({
                             <PlInputInnerTags
                                 data={multipleTags.value}
                                 collapseTags={props.collapseTags}
+                                maxTags={props.maxTags}
                                 placeholder={inputBinding.value.placeholder!}
                                 default={({item, index}: { item: SelectOption, index: number }) => (
                                     <React.Fragment key={index}>
