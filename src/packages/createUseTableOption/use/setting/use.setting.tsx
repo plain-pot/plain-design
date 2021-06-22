@@ -6,6 +6,7 @@ import PlTable from "../../../PlTable";
 import {tTableOptionChangeSort, tTableOptionConfig} from "../../createUseTableOption.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {tTableOptionMethods} from "../use.methods";
+import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 
 export function useTableOptionSetting({hooks, config, changeSort, methods}: {
     hooks: tTableOptionHooks,
@@ -17,10 +18,10 @@ export function useTableOptionSetting({hooks, config, changeSort, methods}: {
     const $dialog = useDialog()
 
     const state = {
-        table: {} as typeof PlTable.use.class,
+        getSourceFlatPlcList: null as null | (() => tPlc[])
     }
 
-    hooks.onRefTable.use(table => {state.table = table})
+    hooks.onRefTable.use(table => {state.getSourceFlatPlcList = () => table.plcData.value!.sourceFlatPlcList})
 
     const openSetting = (view: eTableOptionSettingView) => {
         $dialog({
@@ -39,7 +40,7 @@ export function useTableOptionSetting({hooks, config, changeSort, methods}: {
             render: () => (
                 <TableOptionSetting
                     initView={view}
-                    plcList={state.table.plcData.value!.sourceFlatPlcList}
+                    plcList={state.getSourceFlatPlcList!()}
                     sortData={config.sort}
                     onApplySort={(sorts) => {
                         changeSort(sorts.map(({field, desc}) => ({field, desc})))
