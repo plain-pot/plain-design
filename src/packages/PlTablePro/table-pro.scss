@@ -21,6 +21,9 @@
   }
 
   .pl-table-pro-operation {
+    min-width: 350px;
+    text-align: right;
+
     & > .pl-button {
       margin-left: 4px;
     }
