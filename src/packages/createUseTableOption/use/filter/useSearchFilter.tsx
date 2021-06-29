@@ -21,7 +21,7 @@ export function useSearchFilter({config, hooks, methods}: { hooks: tTableOptionH
 
     const init = defer()
 
-    function createFto(field?: string, defaultValue: any = null): iFilterTargetOption | null {
+    function createFto(field?: string): iFilterTargetOption | null {
         if (!field) {return null}
         const plc = state.getSourceFlatPlcList!().find(plc => plc.props.field === field)
         if (!plc) {return null}
@@ -31,7 +31,7 @@ export function useSearchFilter({config, hooks, methods}: { hooks: tTableOptionH
             filterName: plc.props.filterName,
             handlerName: plc.props.filterHandler,
             filterConfig: plc.props.filterConfig,
-            value: defaultValue,
+            value: null,
             plc,
         }
         return FilterConfig.getTargetOption(option) || null
