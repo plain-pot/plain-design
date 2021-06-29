@@ -15,7 +15,7 @@ import {tTableOptionMethods} from "../use.methods";
 
 export function useTableOptionFilter({config, hooks, methods}: { config: tTableOptionConfig, hooks: tTableOptionHooks, methods: tTableOptionMethods, }) {
 
-    const filterBar = (() => {
+    const searchFilter = (() => {
 
         const state = reactive({
             getSourceFlatPlcList: null as null | (() => tPlc[]),
@@ -42,7 +42,7 @@ export function useTableOptionFilter({config, hooks, methods}: { config: tTableO
 
         hooks.onCollectPlcData.use(plcData => {
             state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList
-            state.fto = createFto(config.filter?.filterBar?.field || plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
+            state.fto = createFto(config.filter?.searchFilter?.field || plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
             init.resolve()
         })
 
@@ -96,7 +96,7 @@ export function useTableOptionFilter({config, hooks, methods}: { config: tTableO
     })()
 
     return {
-        filterBar,
+        searchFilter,
     }
 
 }

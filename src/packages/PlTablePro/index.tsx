@@ -47,7 +47,7 @@ export const PlTablePro = designComponent({
                         <PlIcon icon="el-icon-menu" status="primary"/>
                         <span>{props.option.config.title}</span>
                     </span>
-                    {props.option.filter.filterBar.render()}
+                    {props.option.filter.searchFilter.render()}
                     <div className="pl-table-pro-operation">
                         {props.option.hooks.onButtons.exec(
                             <PlButtonGroup>

@@ -160,7 +160,7 @@ export interface iTableProConfig<D = any> {
     /*筛选相关配置*/
     filter?: {
         /*filter bar筛选栏配置*/
-        filterBar?: {
+        searchFilter?: {
             field: string,                                              // filter bar默认查询字段
             value?: any,                                                // filter bar默认查询的值
         }
