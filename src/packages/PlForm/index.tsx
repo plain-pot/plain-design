@@ -35,8 +35,8 @@ export const PlForm = designComponent({
         labelWidth: {type: [String, Number]},                               // formItem 文本宽度
         contentWidth: {type: [String, Number]},                             // formItem 内容宽度
 
-        labelAlign: {type: String as PropType<FormLabelAlign>},             // 文本对其方式
-        contentAlign: {type: String as PropType<FormContentAlign>, default: FormLabelAlign.left},// content 对齐方式
+        labelAlign: {type: String as PropType<keyof typeof FormLabelAlign | FormLabelAlign>},             // 文本对其方式
+        contentAlign: {type: String as PropType<keyof typeof FormContentAlign | FormContentAlign>, default: FormLabelAlign.left},// content 对齐方式
         width: {type: [String, Number], default: '100%'},                   // 表单宽度
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
         colon: {type: Boolean, default: true},                              // label的冒号

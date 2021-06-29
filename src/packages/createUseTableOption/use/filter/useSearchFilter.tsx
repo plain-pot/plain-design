@@ -10,10 +10,9 @@ import PlTooltip from "../../../PlTooltip";
 import PlButton from "../../../PlButton";
 import React from "react";
 import {tTableOptionHooks} from "../use.hooks";
-import {tTableOptionConfig} from "../../createUseTableOption.utils";
 import {tTableOptionMethods} from "../use.methods";
 
-export function useSearchFilter({config, hooks, methods}: { hooks: tTableOptionHooks, config: tTableOptionConfig, methods: tTableOptionMethods }) {
+export function useSearchFilter({hooks, methods, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, onCollapse: () => void, isCollapse: () => boolean }) {
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         fto: null as null | iFilterTargetOption,
@@ -39,7 +38,7 @@ export function useSearchFilter({config, hooks, methods}: { hooks: tTableOptionH
 
     hooks.onCollectPlcData.use(plcData => {
         state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList
-        state.fto = createFto(config.filter?.searchFilter?.field || plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
+        state.fto = createFto(plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
         init.resolve()
     })
 
@@ -54,40 +53,42 @@ export function useSearchFilter({config, hooks, methods}: { hooks: tTableOptionH
         return !!queries ? [...data, {queries: toArray(queries),}] : data
     })
 
+    const render = () => {
+        if (!state.getSourceFlatPlcList || !state.fto) {return null}
+        const columns = state.getSourceFlatPlcList()
+        return (
+            <div className="pl-table-pro-filter-bar">
+                <PlFilter
+                    fto={state.fto}
+                    key={state.fto.option.filterName + state.fto.option.handlerName}
+                    onHandlerNameChange={onHandlerChange}
+                    onConfirm={onConfirm}
+                >
+                    {{
+                        prepend: () => <PlSelect
+                            inputProps={{width: '120px'}}
+                            v-model={state.fto!.option.field}
+                            onChange={onFieldChange as any}>
+                            {
+                                columns.map((plc, index) => !plc.props.field ? null : <PlSelectOption
+                                    label={plc.props.title || ''}
+                                    val={plc.props.field}
+                                    key={index}/>)
+                            }
+                        </PlSelect>,
+                        append: () => (
+                            <PlTooltip title="展开/折叠 · 表单查询">
+                                <PlButton icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
+                            </PlTooltip>
+                        )
+                    }}
+                </PlFilter>
+            </div>
+        )
+    }
+
     return {
         state,
-        render: () => {
-            if (!state.getSourceFlatPlcList || !state.fto) {return null}
-            const columns = state.getSourceFlatPlcList()
-            return (
-                <div className="pl-table-pro-filter-bar">
-                    <PlFilter
-                        fto={state.fto}
-                        key={state.fto.option.filterName + state.fto.option.handlerName}
-                        onHandlerNameChange={onHandlerChange}
-                        onConfirm={onConfirm}
-                    >
-                        {{
-                            prepend: () => <PlSelect
-                                inputProps={{width: '120px'}}
-                                v-model={state.fto!.option.field}
-                                onChange={onFieldChange as any}>
-                                {
-                                    columns.map((plc, index) => !plc.props.field ? null : <PlSelectOption
-                                        label={plc.props.title || ''}
-                                        val={plc.props.field}
-                                        key={index}/>)
-                                }
-                            </PlSelect>,
-                            append: () => (
-                                <PlTooltip title="展开/折叠 · 表单查询">
-                                    <PlButton icon="el-icon-arrow-down" style={{borderLeftColor: 'rgba(255,255,255,0.65)'}}/>
-                                </PlTooltip>
-                            )
-                        }}
-                    </PlFilter>
-                </div>
-            )
-        }
+        render,
     }
 }

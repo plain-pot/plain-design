@@ -60,7 +60,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const {pageMethods, editMethods} = methods
         const setting = useTableOptionSetting({hooks, config, changeSort, methods})
         const buttons = useTableOptionButtons({hooks, methods, command, setting})
-        const filter = useTableOptionFilter({hooks, config, methods})
+        const filter = useTableOptionFilter({hooks, methods})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows

@@ -83,6 +83,7 @@ export const PlTablePro = designComponent({
                         )}
                     </div>
                 </div>
+                {props.option.filter.formFilter.render()}
                 <PlTable
                     ref={refTable}
                     data={props.option.tableState.list}

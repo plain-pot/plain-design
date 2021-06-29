@@ -7,9 +7,10 @@ import PlInputGroup from "../PlInputGroup";
 import PlButton from "../PlButton";
 
 export const PlFilter = designComponent({
+    inheritPropsType: PlInputGroup,
     props: {
         fto: {type: Object as PropType<iFilterTargetOption>},
-
+        hideSearchButton: {type: Boolean}
     },
     slots: ['prepend', 'append'],
     emits: {
@@ -38,7 +39,7 @@ export const PlFilter = designComponent({
                     </PlSelect>
                     <React.Fragment key={props.fto.option.filterName + props.fto.option.handlerName}>
                         {props.fto.handler.render(props.fto, emit.onConfirm)}
-                        <PlButton label="搜索" onClick={emit.onConfirm}/>
+                        {!props.hideSearchButton && <PlButton label="搜索" onClick={emit.onConfirm}/>}
                     </React.Fragment>
                     {slots.append()}
                 </PlInputGroup>

@@ -157,14 +157,6 @@ export interface iTableProConfig<D = any> {
     render?: () => ReactFragment,                                       // 自定义内容
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
     sort?: iTableProConfigSortObj | iTableProConfigSortObj[],           // 排序方式
-    /*筛选相关配置*/
-    filter?: {
-        /*filter bar筛选栏配置*/
-        searchFilter?: {
-            field: string,                                              // filter bar默认查询字段
-            value?: any,                                                // filter bar默认查询的值
-        }
-    }
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
