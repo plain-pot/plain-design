@@ -3,6 +3,7 @@ import React from "react";
 import {tTableOptionMethods} from "../use.methods";
 import {useSearchFilter} from "./useSearchFilter";
 import {useFormFilter} from "./useFormFilter";
+import {useColumnFilter} from "./useColumnFilter";
 
 export function useTableOptionFilter({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, }) {
 
@@ -10,9 +11,12 @@ export function useTableOptionFilter({hooks, methods}: { hooks: tTableOptionHook
 
     const searchFilter = useSearchFilter({hooks, methods, onCollapse: () => formFilter.toggle(), isCollapse: () => !formFilter.state.isShow})
 
+    const columnFilter = useColumnFilter({hooks})
+
     return {
         searchFilter,
         formFilter,
+        columnFilter,
     }
 
 }

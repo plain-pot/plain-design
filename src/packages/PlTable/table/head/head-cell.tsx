@@ -51,6 +51,7 @@ export const PltHeadCell = designComponent({
                         }}
                         rowSpan={props.tablePlc.rowspan}
                         colSpan={props.tablePlc.colspan}
+                        onClick={e => props.table.event.emit.onClickHead(props.tablePlc, e)}
                         {...tdAttrs}
                     >
                         {content}

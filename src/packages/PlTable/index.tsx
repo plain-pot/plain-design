@@ -34,6 +34,7 @@ export const PlTable = designComponent({
         onDblclickRow: (node: TableNode, e: React.MouseEvent) => true,
         onClickCell: (node: TableNode, e: React.MouseEvent) => true,
         onDblclickCell: (node: TableNode, e: React.MouseEvent) => true,
+        onClickHead: (plc: tPlcType, e: React.MouseEvent) => true,
 
         onConfigPlc: (data: { plcList: tPlcType[], stateData: tPlcStateData }) => true,
         onCollectPlcData: (plcData: tPlcData) => true,

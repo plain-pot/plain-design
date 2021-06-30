@@ -11,6 +11,7 @@ import PlButtonGroup from "../PlButtonGroup";
 import {TableNode} from "../PlTable/table/use/useTableNode";
 import {PlcIndex} from "../PlcIndex";
 import {toArray} from "../../utils/toArray";
+import {tPlcType} from "../PlTable/plc/utils/plc.type";
 
 export const PlTablePro = designComponent({
     props: {
@@ -33,6 +34,7 @@ export const PlTablePro = designComponent({
         const handler = {
             onClickCell: (node: TableNode) => {props.option.hooks.onClickCell.exec(node)},
             onDblClickCell: (node: TableNode) => {props.option.hooks.onDblClickCell.exec(node)},
+            onClickHead: (plc: tPlcType, e: React.MouseEvent) => props.option.hooks.onClickHead.exec({plc, e})
         }
 
         const loading = computed(() => {
@@ -94,6 +96,7 @@ export const PlTablePro = designComponent({
                     keyField={props.option.config.keyField}
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
+                    onClickHead={handler.onClickHead}
                     sort={toArray(props.option.config.sort).map(({field, desc}) => ({field, desc: desc !== false}))}
                     onCollectPlcData={props.option.hooks.onCollectPlcData.exec}
                 >

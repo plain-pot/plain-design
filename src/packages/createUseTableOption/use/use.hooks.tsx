@@ -2,9 +2,10 @@ import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTable
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
 import {reactive} from "plain-design-composition";
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
+import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
@@ -73,8 +74,9 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         /*点击行*/
         onClickCell: createHooks<(selectNode: TableNode) => void>(),                                // 异步钩子，行单击
         onDblClickCell: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，行双击
-        onSelectChange: createHooks<(selectNode: TableNode) => void>(),                            // 异步钩子，单选行变化
+        onSelectChange: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，单选行变化
         onCheckChange: createHooks<(data: { checked: any[], status: 'checked' | 'uncheck' | 'minus' }) => void>(),// 多选发生变化
+        onClickHead: createHooks<(data: { plc: tPlcType, e: React.MouseEvent }) => void>(),               // 点击标题动作
 
         /*分页查询*/
         onBeforeLoad: createHooks<(requestConfigObject: tRequestConfig) => void>(),                 // 异步钩子，加载数据之前
