@@ -12,7 +12,7 @@ import PlIcon from "../../../PlIcon";
 import PlDropdownMenu from "../../../PlDropdownMenu";
 import PlDropdownOption from "../../../PlDropdownOption";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {iTableProConfigSortObj} from "../../createUseTableOption.utils";
+import {iTableSortData} from "../../createUseTableOption.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {toArray} from "../../../../utils/toArray";
 
@@ -28,10 +28,10 @@ export default designComponent({
     props: {
         initView: {type: String as PropType<eTableOptionSettingView>, required: true},
         plcList: {type: Array as PropType<tPlc[]>, required: true},
-        sortData: {type: Array as PropType<iTableProConfigSortObj | iTableProConfigSortObj[]>, required: true},
+        sortData: {type: Array as PropType<iTableSortData | iTableSortData[]>, required: true},
     },
     emits: {
-        onApplySort: (sorts: iTableProConfigSortObj[]) => true,
+        onApplySort: (sorts: iTableSortData[]) => true,
     },
     setup({props, event: {emit}}) {
 

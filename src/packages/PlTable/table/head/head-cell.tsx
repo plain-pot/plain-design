@@ -32,7 +32,7 @@ export const PltHeadCell = designComponent({
             if (tablePlc.group) {return null}
             const sortObj = toArray(props.table.props.sort!).find(i => i.field === tablePlc.props.field)
             if (!sortObj) {return null}
-            return sortObj.desc
+            return !!sortObj.desc
         })
 
         return {

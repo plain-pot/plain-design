@@ -5,6 +5,7 @@ import {MultipleClass, PropType, StyleProperties} from "plain-design-composition
 import {SimpleObject} from "../../../../shims";
 import {FormAssociateFields, tFormPropRules} from "../../../PlForm/form.validate";
 import {useTree} from "../../../PlTree/core/useTree";
+import {iTableSortData} from "../../../createUseTableOption/createUseTableOption.utils";
 
 export type TablePropsConfig = (plcList: tPlcType[], flatList: tPlc[]) => void
 
@@ -15,8 +16,7 @@ export type TablePropsHeadCellClassFunc = (plc: tPlcType) => MultipleClass
 export type TablePropsHeadCellStyleFunc = (plc: tPlcType) => StyleProperties
 
 export type TablePropsSpanMethod = (scope: { node: TableNode, plc: tPlc }) => { rowspan: number, colspan: number }
-export type TablePropsSortObj = { field: string, desc: boolean }
-export type TablePropsSort = TablePropsSortObj | TablePropsSortObj[]
+export type TablePropsSort = iTableSortData | iTableSortData[]
 
 export enum TablePlcAlign {
     left = 'left',

@@ -1,4 +1,4 @@
-import {eTableProEditType, iTableProDefaultConfig, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
+import {eTableProEditType, iTableProDefaultConfig, iTableSortData, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
@@ -13,9 +13,8 @@ import {useTableOptionEditForm} from "./use.edit-form";
 import {tTableOptionCheck} from "./check/use.check";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
-import {toArray} from "../../../utils/toArray";
 
-export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm}: {
+export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm, getSortData}: {
     tableState: iTableState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
@@ -23,6 +22,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
     currentNode: { value: TableNode | null | undefined },
     check: tTableOptionCheck,
     confirm: tTableOptionConfirm,
+    getSortData: () => iTableSortData[],
 }) {
 
     const freezeState = {
@@ -70,7 +70,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
                 orders: [] as [string, 'asc' | 'desc'][],
             }
-            targetLoadConfig.orders = toArray(config.sort).map(i => [i.field, i.desc === false ? 'asc' : 'desc'])
+            targetLoadConfig.orders = getSortData().map(i => [i.field, i.desc === false ? 'asc' : 'desc'])
 
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, targetLoadConfig)

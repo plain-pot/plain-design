@@ -1,4 +1,4 @@
-import {PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
+import {iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
 import {reactive} from "plain-design-composition";
@@ -109,6 +109,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
+        onCollectSortData: createSyncHooks<(sortData: iTableSortData[]) => void>(true),         // 收集排序数据
     }
 
     /*if (!!config.hooks) {

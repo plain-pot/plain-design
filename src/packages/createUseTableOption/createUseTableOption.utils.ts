@@ -98,7 +98,7 @@ export interface iTableButtonConfig {
  * @author  韦胜健
  * @date    2021/6/7 17:15
  */
-export interface iTableProConfigSortObj {
+export interface iTableSortData {
     field: string,
     desc?: boolean
 }
@@ -124,8 +124,8 @@ export interface iTableProDefaultConfig {
     editType: keyof typeof eTableProEditType,
     loadOnStart?: boolean,
     copyDefaultExcludeKeys: string[],                                   // 复制一行的时候，不复制的属性
-    sort: iTableProConfigSortObj | iTableProConfigSortObj[],            // 排序方式
     injectRules: (filterDataArr: iFilterData[], requestConfig: tRequestConfig) => void | tRequestConfig, // 将筛选条件rules填写到requestConfig中
+    sort: iTableSortData | iTableSortData[],                            // 排序方式
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
         insert: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,
@@ -156,7 +156,7 @@ export interface iTableProConfig<D = any> {
     title?: string,                                                     // 标题
     render?: () => ReactFragment,                                       // 自定义内容
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
-    sort?: iTableProConfigSortObj | iTableProConfigSortObj[],           // 排序方式
+    sort?: iTableSortData | iTableSortData[],           // 排序方式
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
@@ -171,8 +171,6 @@ export interface iTableProConfig<D = any> {
 }
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
-
-export type tTableOptionChangeSort = (sort: iTableProConfigSortObj[] | ((sort: iTableProConfigSortObj[]) => iTableProConfigSortObj[])) => void
 
 export interface iTableState {
     list: any[],
