@@ -30,8 +30,11 @@ export const useContextmenu = createUseService({
             return exist || available
         }) as any),
         createService: (getManager) => {
-            return async (reference: ContextmenuReference, content: ContextContent) => {
-                const option = {reference, content}
+            return async (reference: ContextmenuReference, content: ContextContent, opt?: ContextmenuServiceOption) => {
+                let option = {reference, content}
+                if (!!opt) {
+                    option = Object.assign(opt, option)
+                }
                 const manager = await getManager()
                 return manager.service(option)
             }
