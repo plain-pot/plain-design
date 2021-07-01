@@ -1,0 +1,39 @@
+.pro-column-filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 280px;
+  padding: 0 12px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px 0;
+
+    & > .pl-filter {
+      width: 100%;
+      display: flex;
+
+      .pl-input:last-child {
+        flex: 1;
+
+        .pl-input-inner {
+          width: 100%;
+        }
+      }
+    }
+
+    & > .pl-button {
+      flex: 1;
+
+      &:first-child {
+        margin-right: 2px;
+      }
+
+      &:last-child {
+        margin-left: 2px;
+      }
+    }
+  }
+}

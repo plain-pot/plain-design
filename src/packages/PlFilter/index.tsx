@@ -27,7 +27,7 @@ export const PlFilter = designComponent({
         return () => {
             if (!props.fto) {return null}
             return (
-                <PlInputGroup>
+                <PlInputGroup className="pl-filter">
                     {slots.prepend()}
                     <PlSelect
                         v-model={props.fto.option.handlerName}

@@ -5,6 +5,9 @@ import {FilterConfig, iFilterTargetOption} from "../../../PlFilter/FilterConfig"
 import useContextmenu from "../../../useContextmenu";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
+import PlButton from "../../../PlButton";
+import './column.filter.scss'
+import PlFilter from "../../../PlFilter";
 
 interface ColumnFilterData {
     desc: null | boolean,
@@ -56,8 +59,14 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
         const menuOpt = {} as any
 
         $contextmenu(e.currentTarget, () => <>
-            <div style={{width: '200px', padding: '12px'}} onClick={() => menuOpt.hide()}>
-                排序
+            <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
+                <div>
+                    <PlFilter fto={columnFilterData.fto} hideSearchButton/>
+                </div>
+                <div>
+                    <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
+                    <PlButton icon="el-icon-s-tools" label="应用"/>
+                </div>
             </div>
         </>, menuOpt)
     })
