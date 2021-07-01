@@ -24,6 +24,15 @@
       }
     }
 
+    .pl-button-group {
+      width: 100%;
+      display: flex;
+
+      .pl-button {
+        flex: 1;
+      }
+    }
+
     & > .pl-button {
       flex: 1;
 

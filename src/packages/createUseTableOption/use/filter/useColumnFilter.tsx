@@ -8,6 +8,7 @@ import {tTableOptionMethods} from "../use.methods";
 import PlButton from "../../../PlButton";
 import './column.filter.scss'
 import PlFilter from "../../../PlFilter";
+import PlButtonGroup from "../../../PlButtonGroup";
 
 interface ColumnFilterData {
     desc: null | boolean,
@@ -60,6 +61,12 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
 
         $contextmenu(e.currentTarget, () => <>
             <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
+                <div>
+                    <PlButtonGroup>
+                        <PlButton label="升序" mode="stroke" icon="el-icon-upload1" active/>
+                        <PlButton label="降序" mode="stroke" icon="el-icon-download"/>
+                    </PlButtonGroup>
+                </div>
                 <div>
                     <PlFilter fto={columnFilterData.fto} hideSearchButton/>
                 </div>
