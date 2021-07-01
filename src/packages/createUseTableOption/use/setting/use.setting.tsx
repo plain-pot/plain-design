@@ -21,7 +21,6 @@ export function useTableOptionSetting({hooks, methods}: {
 
     hooks.onCollectPlcData.use(plcData => {state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList})
     hooks.onCollectSortData.use(prev => {
-        console.log(state.sortData)
         if (!state.sortData) {return prev}
         return [
             ...prev,
