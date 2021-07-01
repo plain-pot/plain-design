@@ -13,6 +13,7 @@ export interface ContextmenuServiceOption {
     content: ContextContent,
     width?: number,
     height?: number,
+    hide?: () => void,
 }
 
 export function getReferencePosition(reference: ContextmenuReference): { top: number, left: number } {
@@ -67,7 +68,7 @@ export const PlContextMenuService = createDefaultService({
             service: (option: ContextmenuServiceOption) => {
                 state.option = option
                 methods.show()
-                return methods.hide
+                option.hide = () => methods.hide()
             },
             show: async () => {
                 if (!!hideTimer) clearTimeout(hideTimer)
