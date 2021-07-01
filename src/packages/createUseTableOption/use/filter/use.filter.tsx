@@ -11,7 +11,7 @@ export function useTableOptionFilter({hooks, methods}: { hooks: tTableOptionHook
 
     const searchFilter = useSearchFilter({hooks, methods, onCollapse: () => formFilter.toggle(), isCollapse: () => !formFilter.state.isShow})
 
-    const columnFilter = useColumnFilter({hooks})
+    const columnFilter = useColumnFilter({hooks, methods})
 
     return {
         searchFilter,
