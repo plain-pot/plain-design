@@ -181,6 +181,7 @@ export const PlPopper = designComponent({
             onClickReference: (e: MouseEvent) => {
                 emit.onClickReference(e)
             },
+            /*在 contextmenu 中点击 popper的内容的时候，禁止contextmenu被关闭*/
             onMouseupPopper: (e: React.MouseEvent) => {
                 ClickBodyListener.disable()
                 setTimeout(() => ClickBodyListener.enable())
