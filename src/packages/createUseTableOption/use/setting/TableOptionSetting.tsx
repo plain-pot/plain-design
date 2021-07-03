@@ -166,7 +166,7 @@ export default designComponent({
                                 'pl-table-pro-setting-nav-item-prev': !!renderer[index + 1] && renderer[index + 1].view === state.view,
                                 'pl-table-pro-setting-nav-item-next': !!renderer[index - 1] && renderer[index - 1].view === state.view,
                             }
-                        ])} key={index} onClick={() => !!state.view && (state.view = item.view!)}>
+                        ])} key={index} onClick={() => !!item.view && (state.view = item.view!)}>
                             <div className="pl-table-pro-setting-nav-item-inner">
                                 {item.title}
                             </div>
