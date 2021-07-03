@@ -1,18 +1,18 @@
 import {tTableOptionHooks} from "../use.hooks";
 import {reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {FilterConfig, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
 import PlButton from "../../../PlButton";
 import './column.filter.scss'
 import PlFilter from "../../../PlFilter";
-import PlButtonGroup from "../../../PlButtonGroup";
+import PlIcon from "../../../PlIcon";
 
 interface ColumnFilterData {
     desc: null | boolean,
-    fto: iFilterTargetOption,
+    option: iFilterOption,
     distinctFilterValues: null | string[],
 }
 
@@ -36,7 +36,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
             prev[key] = !!oldColumnFilterData ? {...oldColumnFilterData} : {
                 desc: null,
                 distinctFilterValues: null,
-                fto: FilterConfig.getTargetOption({
+                option: {
                     label: plc.props.title!,
                     field: plc.props.field!,
                     value: null,
@@ -44,7 +44,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
                     handlerName: plc.props.filterHandler,
                     filterConfig: plc.props.filterConfig,
                     plc,
-                })!,
+                }
             }
             return prev
         }, {} as Record<string, ColumnFilterData>)
@@ -61,18 +61,21 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
 
         $contextmenu(e.currentTarget, () => <>
             <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
-                <div>
-                    <PlButtonGroup>
-                        <PlButton label="升序" mode="stroke" icon="el-icon-upload1" active/>
-                        <PlButton label="降序" mode="stroke" icon="el-icon-download"/>
-                    </PlButtonGroup>
+                <div className="pro-column-filter-sort-container">
+                    <div className="pro-column-filter-sort-item pro-column-filter-sort-item-active">
+                        <PlIcon icon="el-icon-upload1"/>
+                        <span>升序</span>
+                    </div>
+                    <div className="pro-column-filter-sort-item">
+                        <PlIcon icon="el-icon-download"/>
+                        <span>降序</span>
+                    </div>
                 </div>
                 <div>
-                    <PlFilter fto={columnFilterData.fto} hideSearchButton/>
+                    <PlFilter fto={FilterConfig.getTargetOption(columnFilterData.option)} hideSearchButton/>
                 </div>
                 <div>
                     <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
-                    <PlButton icon="el-icon-s-tools" label="应用"/>
                 </div>
             </div>
         </>, menuOpt)

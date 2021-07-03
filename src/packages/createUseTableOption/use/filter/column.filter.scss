@@ -1,47 +1,75 @@
-.pro-column-filter-container {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: 280px;
-  padding: 0 12px;
-
-  & > div {
+@include theme {
+  .pro-column-filter-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 4px 0;
+    flex-direction: column;
+    align-items: stretch;
+    width: 280px;
+    padding: 0 12px;
 
-    & > .pl-filter {
-      width: 100%;
+    & > div {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0;
 
-      .pl-input:last-child {
+      & > .pl-filter {
+        width: 100%;
+        display: flex;
+
+        .pl-input:last-child {
+          flex: 1;
+
+          .pl-input-inner {
+            width: 100%;
+          }
+        }
+      }
+
+      .pl-button-group {
+        width: 100%;
+        display: flex;
+
+        .pl-button {
+          flex: 1;
+        }
+      }
+
+      & > .pl-button {
         flex: 1;
 
-        .pl-input-inner {
-          width: 100%;
+        &:first-child {
+          margin-right: 2px;
+        }
+
+        &:last-child {
+          margin-left: 2px;
         }
       }
     }
 
-    .pl-button-group {
+    .pro-column-filter-sort-container {
+      background-color: $ibl;
+      height: plv(sizeNormal);
+      border-radius: 100px;
       width: 100%;
       display: flex;
+      align-items: stretch;
+      box-sizing: border-box;
+      padding: 2px;
 
-      .pl-button {
+      & > div {
         flex: 1;
-      }
-    }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        border-radius: 100px;
 
-    & > .pl-button {
-      flex: 1;
+        &.pro-column-filter-sort-item-active {
+          background-color: white;
+          box-shadow: 0 2px 8px #ddd;
+        }
 
-      &:first-child {
-        margin-right: 2px;
-      }
-
-      &:last-child {
-        margin-left: 2px;
       }
     }
   }
