@@ -194,7 +194,7 @@ function getHoverTrigger({
                 openTimer = setTimeout(() => {
                     show()
                     openTimer = undefined
-                    emit.onEnterPopper(model.value)
+                    // emit.onEnterPopper(model.value)
                 }, hoverOpenDelay) as any as number
             },
             leave: () => {
@@ -205,7 +205,7 @@ function getHoverTrigger({
                 closeTimer = setTimeout(() => {
                     hide()
                     closeTimer = undefined
-                    emit.onLeavePopper(model.value)
+                    // emit.onLeavePopper(model.value)
                 }, hoverCloseDelay) as any as number
             },
         },

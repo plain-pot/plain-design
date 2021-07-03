@@ -50,6 +50,9 @@ export default designPage(() => {
                             <PlIcon icon={'el-icon-info'}/>
                         </>,
                         popper: <>
+                            <PlPopper title={'标题'} message={'消息文本'} placement="right">
+                                <span>默认hover显示</span>
+                            </PlPopper>
                             <p>popper content 111</p>
                             <p>popper content 222</p>
                         </>
