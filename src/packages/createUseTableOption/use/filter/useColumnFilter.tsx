@@ -1,7 +1,7 @@
 import {tTableOptionHooks} from "../use.hooks";
 import {computed, reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {FilterConfig, iFilterOption, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
@@ -9,6 +9,7 @@ import PlButton from "../../../PlButton";
 import './column.filter.scss'
 import PlFilter from "../../../PlFilter";
 import PlIcon from "../../../PlIcon";
+import {toArray} from "../../../../utils/toArray";
 
 interface ColumnFilterData {
     desc: null | boolean,
@@ -66,6 +67,18 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
         }, {} as Record<string, ColumnFilterData>)
     })
 
+    hooks.onCollectFilterData.use((data) => {
+        const ftoArr = Object.values(columnFilterTargetDataMap.value).map(i => i.fto).filter(Boolean) as iFilterTargetOption[]
+        const queries = ftoArr.reduce((prev, fto) => {
+            const queries = fto.handler.transform(fto)
+            if (!!queries) {
+                prev.push(...toArray(queries))
+            }
+            return prev
+        }, [] as iFilterQuery[])
+        return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
+    })
+
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
         if (plc.group) {return}
@@ -92,6 +105,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
                     </div>
                     <div>
                         <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
+                        <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
                     </div>
                 </div>
             </>
