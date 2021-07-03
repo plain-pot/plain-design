@@ -1,7 +1,7 @@
 import {tTableOptionHooks} from "../use.hooks";
-import {reactive} from "plain-design-composition";
+import {computed, reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {FilterConfig, iFilterOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterOption, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
@@ -16,6 +16,13 @@ interface ColumnFilterData {
     distinctFilterValues: null | string[],
 }
 
+interface ColumnFilterTargetData {
+    desc: null | boolean,
+    option: iFilterOption,
+    fto?: iFilterTargetOption,
+    distinctFilterValues: null | string[],
+}
+
 export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
 
     const $contextmenu = useContextmenu()
@@ -26,6 +33,15 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         columnFilterDataMap: {} as Record<string, ColumnFilterData>,
     })
+
+    const columnFilterTargetDataMap = computed(() => Object.entries(state.columnFilterDataMap).reduce((prev, [columnKey, cfd]) => {
+        prev[columnKey] = {
+            ...cfd,
+            fto: FilterConfig.getTargetOption(cfd.option)
+        }
+        return prev
+    }, {} as Record<string, ColumnFilterTargetData>))
+
     hooks.onCollectPlcData.use(val => {
         const flatPlcList = val.sourceFlatPlcList.filter(i => !!i.props.field)
         state.getSourceFlatPlcList = (() => flatPlcList)
@@ -53,32 +69,33 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
         if (plc.group) {return}
-        const columnKey = getColumnKey(plc)
-        const columnFilterData = state.columnFilterDataMap[columnKey]
-        if (!columnFilterData) {return;}
-
         const menuOpt = {} as any
 
-        $contextmenu(e.currentTarget, () => <>
-            <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
-                <div className="pro-column-filter-sort-container">
-                    <div className="pro-column-filter-sort-item pro-column-filter-sort-item-active">
-                        <PlIcon icon="el-icon-upload1"/>
-                        <span>升序</span>
+        $contextmenu(e.currentTarget, () => {
+            const columnKey = getColumnKey(plc)
+            const columnFilterTargetData = columnFilterTargetDataMap.value[columnKey]
+            if (!columnFilterTargetData) {return;}
+            return <>
+                <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
+                    <div className="pro-column-filter-sort-container">
+                        <div className="pro-column-filter-sort-item pro-column-filter-sort-item-active">
+                            <PlIcon icon="el-icon-upload1"/>
+                            <span>升序</span>
+                        </div>
+                        <div className="pro-column-filter-sort-item">
+                            <PlIcon icon="el-icon-download"/>
+                            <span>降序</span>
+                        </div>
                     </div>
-                    <div className="pro-column-filter-sort-item">
-                        <PlIcon icon="el-icon-download"/>
-                        <span>降序</span>
+                    <div>
+                        <PlFilter fto={columnFilterTargetData.fto} hideSearchButton onConfirm={methods.pageMethods.reload}/>
+                    </div>
+                    <div>
+                        <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
                     </div>
                 </div>
-                <div>
-                    <PlFilter fto={FilterConfig.getTargetOption(columnFilterData.option)} hideSearchButton/>
-                </div>
-                <div>
-                    <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
-                </div>
-            </div>
-        </>, menuOpt)
+            </>
+        }, menuOpt)
     })
 
     return {
