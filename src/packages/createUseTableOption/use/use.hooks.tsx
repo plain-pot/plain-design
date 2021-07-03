@@ -76,9 +76,10 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onDblClickCell: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，行双击
         onSelectChange: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，单选行变化
         onCheckChange: createHooks<(data: { checked: any[], status: 'checked' | 'uncheck' | 'minus' }) => void>(),// 多选发生变化
-        onClickHead: createHooks<(data: { plc: tPlcType, e: React.MouseEvent }) => void>(),               // 点击标题动作
+        onClickHead: createHooks<(data: { plc: tPlcType, e: React.MouseEvent }) => void>(),         // 点击标题动作
 
         /*分页查询*/
+        onRequestData: createHooks<(requestData: Record<string, any>) => void>(),                   // 处理请求参数
         onBeforeLoad: createHooks<(requestConfigObject: tRequestConfig) => void>(),                 // 异步钩子，加载数据之前
         onAfterLoad: createHooks<(rows: PlainObject[]) => void>(),                                  // 异步钩子，加载数据之后
         onLoaded: createSyncHooks<(rows: PlainObject[]) => void>(),                                 // 同步钩子，处理完加载的数据之后
@@ -112,11 +113,13 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onCollectSortData: createSyncHooks<(sortData: iTableSortData[]) => void>(true),         // 收集排序数据
     }
 
-    /*if (!!config.hooks) {
+    if (!!config.hooks) {
         Object.entries(config.hooks).forEach(([hookName, hookFunc]) => (hooks as any)[hookName].use(hookFunc))
-    }*/
+    }
 
     return hooks
 }
 
 export type tTableOptionHooks = ReturnType<typeof useTableOptionHooks>
+
+export type tTableOptionConfigHook = { [k in keyof tTableOptionHooks]?: Parameters<tTableOptionHooks[k]["use"]>[0] }

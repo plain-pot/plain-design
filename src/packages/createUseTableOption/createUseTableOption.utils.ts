@@ -2,6 +2,7 @@ import {ReactFragment} from "react";
 import PlTable from "../PlTable";
 import {tFormPropRules} from "../PlForm/form.validate";
 import {iFilterData} from "../PlFilter/FilterConfig";
+import {tTableOptionConfigHook} from "./use/use.hooks";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;
@@ -158,6 +159,7 @@ export interface iTableProConfig<D = any> {
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
     sort?: iTableSortData | iTableSortData[],                           // 排序方式
     filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
+    hooks?: tTableOptionConfigHook,                                     // 监听钩子函数
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑

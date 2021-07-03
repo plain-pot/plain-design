@@ -76,6 +76,11 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             Object.assign(requestData, targetLoadConfig)
             const filterDaraArr = await hooks.onCollectFilterData.exec([])
             requestConfig = config.injectRules(filterDaraArr, requestConfig) || requestConfig
+            const newRequestData = await hooks.onRequestData.exec(requestData)
+            if (newRequestData !== requestData) {
+                requestData = newRequestData
+                requestConfig.method === 'GET' ? (requestConfig.query = requestData) : (requestConfig.body = requestData)
+            }
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
             let {rows, hasNext} = await request(requestConfig)
             rows = await hooks.onAfterLoad.exec(rows)

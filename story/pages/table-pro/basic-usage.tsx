@@ -19,6 +19,11 @@ export default designPage(() => {
         defaultNewRow: {
             count: 100
         },
+        hooks: {
+            /*onRequestData: (data) => {
+                data.distinctFields = ['normalText']
+            }*/
+        },
         // filterParam: {queries: [{field: 'normalText', operator: '~', value: '22'}]},
     })
 
