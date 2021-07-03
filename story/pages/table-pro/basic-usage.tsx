@@ -19,6 +19,7 @@ export default designPage(() => {
         defaultNewRow: {
             count: 100
         },
+        // filterParam: {queries: [{field: 'normalText', operator: '~', value: '22'}]},
     })
 
     const onClick = (data: { e: React.MouseEvent, scope: TableRenderScope }) => {

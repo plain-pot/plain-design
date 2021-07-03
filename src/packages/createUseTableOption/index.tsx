@@ -63,6 +63,14 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             if (!config.sort) {return prev}
             return [...prev, ...toArray(config.sort)]
         })
+        hooks.onCollectFilterData.use(async prev => {
+            if (!config.filterParam) {return prev}
+            const filterParam = typeof config.filterParam === "function" ? await config.filterParam() : config.filterParam
+            if (!!filterParam) {
+                return [...prev, filterParam]
+            }
+            return prev
+        })
 
         return {
             tableState,

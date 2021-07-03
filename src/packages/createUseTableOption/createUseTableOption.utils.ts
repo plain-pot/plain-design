@@ -156,7 +156,8 @@ export interface iTableProConfig<D = any> {
     title?: string,                                                     // 标题
     render?: () => ReactFragment,                                       // 自定义内容
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
-    sort?: iTableSortData | iTableSortData[],           // 排序方式
+    sort?: iTableSortData | iTableSortData[],                           // 排序方式
+    filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
     /*enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
