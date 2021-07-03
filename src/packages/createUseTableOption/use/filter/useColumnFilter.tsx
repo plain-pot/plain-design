@@ -105,6 +105,10 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
         return [...(sortData.map(i => ({field: i.field, desc: i.desc}))), ...prev,]
     })
 
+    const openDistinctFilterDialog = (cftd: ColumnFilterTargetData) => {
+        console.log(cftd)
+    }
+
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
         if (plc.group || !plc.props.field) {return}
@@ -141,6 +145,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
                     <div>
                         <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
                         <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
+                        <PlButton icon="el-icon-search" label="去重筛选" onClick={() => openDistinctFilterDialog(columnFilterTargetData)}/>
                     </div>
                 </div>
             </>
