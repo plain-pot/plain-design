@@ -71,7 +71,7 @@ export function useFormFilter({hooks, methods}: { hooks: tTableOptionHooks, meth
 
     const handler = {
         onHandlerChange: () => {
-            console.log('handler change')
+            // console.log('handler change')
             // state.ftoArr = getFtoArr(state.getSourceFlatPlcList!())
         },
         onFilterConfirm: () => {

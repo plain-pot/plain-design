@@ -4,6 +4,7 @@ import {nextIndex} from "plain-design-composition"
 import {ReactNode} from "react";
 import React from "react";
 import PlTransition from "../PlTransition";
+import {ClickBodyListener} from "../../utils/ClickBodyListener";
 
 export type ContextmenuReference = MouseEvent | HTMLElement | { x: number, y: number } | Element | EventTarget | null
 export type ContextContent = (() => ReactNode) | { label: string, icon?: string, disabled?: string }[]
@@ -114,8 +115,7 @@ export const PlContextMenuService = createDefaultService({
             },
         }
 
-        document.body.addEventListener('mouseup', handler.onMousedownWindow)
-        onBeforeUnmount(() => document.body.removeEventListener('mouseup', handler.onMousedownWindow))
+        onBeforeUnmount(ClickBodyListener.listen(handler.onMousedownWindow))
 
         provide('@@pl-dropdown', {handler})
 

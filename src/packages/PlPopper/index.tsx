@@ -14,6 +14,7 @@ import {createPortal, findDOMNode} from 'react-dom';
 import {PlainPopper} from 'plain-popper'
 import {ClassWrapper} from "../../utils/ClassWrapper";
 import {refreshPopperReference} from './refershPopperReference';
+import {ClickBodyListener} from "../../utils/ClickBodyListener";
 
 const error = createError('pl-popper')
 
@@ -180,8 +181,9 @@ export const PlPopper = designComponent({
             onClickReference: (e: MouseEvent) => {
                 emit.onClickReference(e)
             },
-            onClickPopper: (e: React.MouseEvent) => {
-                emit.onClickPopper(e)
+            onMouseupPopper: (e: React.MouseEvent) => {
+                ClickBodyListener.disable()
+                setTimeout(() => ClickBodyListener.enable())
             },
             onClickBody: (e: MouseEvent) => {
                 if (!model.value && !openModel.value) {
@@ -253,13 +255,13 @@ export const PlPopper = designComponent({
                 if (!!state.referenceEl) {
                     state.referenceEl.addEventListener('click', handler.onClickReference)
                 }
-                document.body.addEventListener('click', handler.onClickBody, true)
+                ClickBodyListener.listen(handler.onClickBody)
             },
             unbindEvents: () => {
                 if (!!state.referenceEl) {
                     state.referenceEl.removeEventListener('click', handler.onClickReference)
                 }
-                document.body.removeEventListener('click', handler.onClickBody, true)
+                ClickBodyListener.eject(handler.onClickBody)
             },
             initPopper: () => {
                 state.popper = new PlainPopper({
@@ -435,9 +437,10 @@ export const PlPopper = designComponent({
                                 <div className="plain-popper-content"
                                      ref={onRef.content}
 
-                                     onClick={e => emit.onClickPopper(e)}
+                                     onClick={emit.onClickPopper}
                                      onTransitionEnd={handler.onPopperContentTransitionend}
-                                     onMouseDown={e => emit.onMousedownPopper(e)}
+                                     onMouseDown={emit.onMousedownPopper}
+                                     onMouseUp={handler.onMouseupPopper}
                                      {...(props.trigger === 'hover' ? {
                                          onMouseEnter: e => emit.onEnterPopper(e),
                                          onMouseLeave: e => emit.onLeavePopper(e),
