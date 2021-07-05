@@ -41,7 +41,7 @@ export default designPage(() => {
             {JSON.stringify(state.selectFilterOption)}
         </DemoRow>
         <DemoRow title="date">
-            <PlDateRange/>
+            <PlDateRange panel="month"/>
         </DemoRow>
     </>
 })

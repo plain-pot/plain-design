@@ -183,6 +183,12 @@
       & > .pl-input-inner {
         width: 100%;
       }
+
+      &.pl-input-custom {
+        .pl-input-inner, .pl-input-custom-inner, input {
+          width: 100% !important;
+        }
+      }
     }
 
 
