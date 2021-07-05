@@ -62,7 +62,7 @@ export const PlDateRange = designComponent({
             },
             onBlur: () => {
                 let {spd, epd} = pdValue.value
-                if (!spd || !epd) {return}
+                if (!spd || !epd) {return emit.onBlur()}
                 if (spd.YMDHms <= epd.YMDHms) {return;}
                 [spd, epd] = [epd, spd]
                 startModel.value = spd.getValue()
