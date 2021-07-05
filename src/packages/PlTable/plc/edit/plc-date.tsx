@@ -10,6 +10,8 @@ export default designComponent({
     name: 'plc-date',
     props: {
         ...PlcPropsOptions,
+        filterName: {type: String, default: 'date'},
+        filterHandler: {type: String, default: '范围'},
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
