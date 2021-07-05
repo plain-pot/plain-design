@@ -35,6 +35,7 @@ export const PlInput = designComponent({
         clearIcon: {type: Boolean},                             // 清除图标
         clearHandler: Function,                                 // 点击清除图标处理逻辑
         fillGroup: {type: Boolean},                             // 在InputGroup中填满宽度
+        align: {type: String as PropType<'left' | 'center' | 'right'>},// 输入框文本对齐方式
 
         autoHeight: {type: Boolean},                            // 自适应高度
         isFocus: {type: Boolean},                               // 当前是否处于激活状态
@@ -151,6 +152,7 @@ export const PlInput = designComponent({
                 'pl-input-focus': props.isFocus,
                 'pl-input-not-editable': !editComputed.value.editable,
                 'pl-input-fill-group': props.fillGroup,
+                [`pl-input-align-${props.align}`]: !!props.align,
             }
         ])
 

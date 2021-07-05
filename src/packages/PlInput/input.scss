@@ -185,6 +185,26 @@
       }
     }
 
+
+    /*align*/
+    &.pl-input-align-left {
+      .pl-input-inner, input {
+        text-align: left
+      }
+    }
+
+    &.pl-input-align-center {
+      .pl-input-inner, input {
+        text-align: center;
+      }
+    }
+
+    &.pl-input-align-right {
+      .pl-input-inner, input {
+        text-align: right;
+      }
+    }
+
     /*---------------------------------------specific size-------------------------------------------*/
 
     &.pl-input {
