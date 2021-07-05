@@ -10,6 +10,8 @@ const PlSwitchTransition = designComponent({
         name: {type: String, required: true},
     },
     emits: {
+        onEnter: () => true,
+        onExit: () => true,
         onEntered: () => true,
         onExited: () => true,
     },
@@ -39,8 +41,7 @@ const PlSwitchTransition = designComponent({
             return (
                 <SwitchTransition mode={props.mode}>
                     <CSSTransition
-                        onEntered={emit.onEntered}
-                        onExited={emit.onExited}
+                        {...emit}
                         key={state.key}
                         classNames={props.name}
                         addEndListener={(node, done) => node.addEventListener("transitionend", done, false)}>
@@ -61,15 +62,18 @@ const PlDisappearTransition = designClassComponent({
     },
     slots: ['default'],
     emits: {
+        onEnter: () => true,
+        onExit: () => true,
         onEntered: () => true,
         onExited: () => true,
     },
     setup({props, slots, event: {emit}}) {
 
         const binding = props.unmount ? {} : {
+            ...emit,
             onEnter: (el: HTMLElement) => {
                 el.style.display = ''
-                emit.onEntered()
+                emit.onEnter()
             },
             onExited: (el: HTMLElement) => {
                 el.style.display = 'none'
@@ -119,6 +123,8 @@ export const PlTransition: React.FC<{
 
     onEntered?: () => void,
     onExited?: () => void,
+    onEnter?: () => void,
+    onExit?: () => void,
 }> = (props) => {
     if (props.switch) return <PlSwitchTransition {...props}/>
     else return <PlDisappearTransition {...props}/>
