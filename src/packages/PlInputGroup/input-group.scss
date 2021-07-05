@@ -33,7 +33,7 @@
   }
 
   & > *, & > * input {
-    &:hover, &:focus {
+    &:hover, &:focus, &.pl-input-focus {
       position: relative;
       z-index: 1;
     }
