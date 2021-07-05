@@ -75,6 +75,8 @@ import PlVirtualList from "./packages/PlVirtualList";
 import PlVirtualTable from "./packages/PlVirtualTable";
 import PlInputGroup from "./packages/PlInputGroup";
 
+import PlDateRange from "./packages/PlDateRange";
+
 import useColorPicker from "./packages/useColorPicker";
 import useContextmenu from "./packages/useContextmenu";
 import useDialog from "./packages/useDialog";
@@ -179,6 +181,8 @@ export {
     PlVirtualList,
     PlVirtualTable,
     PlInputGroup,
+
+    PlDateRange,
 
     useColorPicker,
     useContextmenu,

@@ -1,7 +1,7 @@
 import {designPage, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
-import {PlSelectOption} from "../../../src";
+import {PlDateRange, PlSelectOption} from "../../../src";
 import PlFilter from "../../../src/packages/PlFilter";
 import {FilterConfig} from "../../../src/packages/PlFilter/FilterConfig";
 
@@ -39,6 +39,9 @@ export default designPage(() => {
         <DemoRow title="select">
             <PlFilter fto={FilterConfig.getTargetOption(state.selectFilterOption)}/>
             {JSON.stringify(state.selectFilterOption)}
+        </DemoRow>
+        <DemoRow title="date">
+            <PlDateRange/>
         </DemoRow>
     </>
 })
