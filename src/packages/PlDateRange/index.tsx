@@ -19,6 +19,7 @@ export const PlDateRange = designComponent({
     emits: {
         onUpdateStart: (val?: string) => true,
         onUpdateEnd: (val?: string) => true,
+        onBlur: () => true,
     },
     setup({props, event: {emit}}) {
 
@@ -66,6 +67,7 @@ export const PlDateRange = designComponent({
                 [spd, epd] = [epd, spd]
                 startModel.value = spd.getValue()
                 endModel.value = epd.getValue()
+                emit.onBlur()
             },
         }
 

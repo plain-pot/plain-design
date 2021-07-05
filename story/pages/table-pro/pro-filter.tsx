@@ -29,6 +29,14 @@ export default designPage(() => {
             },
             value: null,
         },
+        dateFilterOption: {
+            label: '',
+            field: 'dateVal',
+            filterName: 'date',
+            handlerName: '范围',
+            filterConfig: {},
+            value: null,
+        }
     })
     return () => <>
         <DemoRow title="text">
@@ -41,7 +49,12 @@ export default designPage(() => {
             {JSON.stringify(state.selectFilterOption)}
         </DemoRow>
         <DemoRow title="date">
-            <PlDateRange panel="month"/>
+            <div style={{width: '480px'}}>
+                <PlFilter fto={FilterConfig.getTargetOption(state.dateFilterOption)} block/>
+            </div>
+            <div>
+                {JSON.stringify(state.dateFilterOption)}
+            </div>
         </DemoRow>
     </>
 })

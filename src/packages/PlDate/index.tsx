@@ -27,6 +27,7 @@ export const PlDate = designComponent({
         collapseTags: {type: Boolean, default: true},
         popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
         inputAttrs: {type: Object as PropType<Partial<typeof PlInput.use.props>>},
+        maxTags: {type: Number},
     },
     emits: {
         ...DatePublicEmits,
@@ -226,6 +227,7 @@ export const PlDate = designComponent({
                         <div {...{className: 'pl-input-custom-inner', range: String(props.range)}}>
                             {props.multiple && (<PlInputInnerTags
                                 data={formatData.value.vpds || []}
+                                maxTags={props.maxTags}
                                 collapseTags={props.collapseTags}
                                 default={({item, index}: { item: PDate, index: number }) => (<>
                                     <span>{item.getDisplay()}</span>

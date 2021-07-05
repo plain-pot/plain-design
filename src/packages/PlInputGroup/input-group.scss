@@ -1,10 +1,20 @@
 .pl-input-group {
   display: inline-block;
+  white-space: nowrap;
+
+  & > * {
+    display: inline-block;
+
+    &.pl-input-group.pl-input-group-block {
+      display: inline-flex;
+    }
+  }
 
   &.pl-input-group-block {
     width: 100%;
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
   }
 
   & > *:not(:first-child) {

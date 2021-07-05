@@ -6,6 +6,8 @@ import {FilterTextContains} from "./editor/FilterTextContains";
 import PlSelect from "../PlSelect";
 import {tPlc} from "../PlTable/plc/utils/plc.type";
 import {tFormRuleItem} from "../PlForm/form.validate";
+import PlDate from "../PlDate";
+import PlDateRange from "../PlDateRange";
 
 export enum eFilterOperator {
     '=' = '=',
@@ -172,6 +174,42 @@ FilterConfig.touchFilter('select')
     })
     .setHandler('不包含', {
         render: (fto, emitConfirm) => <PlSelect multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}>{fto.config.options()}</PlSelect>,
+        transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
+    })
+    .setHandler('为空值', {
+        render: () => <PlInput placeholder="为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is null"]})
+    })
+    .setHandler('不为空值', {
+        render: () => <PlInput placeholder="不为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is not null"]})
+    })
+
+FilterConfig.touchFilter('date')
+    .setHandler('范围', {
+        render: (fto, emitConfirm) => {
+            if (!fto.option.value) {fto.option.value = {start: null, end: null}}
+            return <PlDateRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onBlur={emitConfirm}/>
+        },
+        transform: ({option: {value, field}}) => {
+            if (!value) {return null}
+            const {start, end} = value
+            const queries: iFilterQuery[] = []
+            if (!!start) {queries.push({field, value: start, operator: eFilterOperator[">="]})}
+            if (!!end) {queries.push({field, value: end, operator: eFilterOperator["<="]})}
+            return queries
+        }
+    })
+    .setHandler('等于', {
+        render: (fto, emitConfirm) => <PlDate v-model={fto.option.value} onChange={emitConfirm}/>,
+        transform: ({option: {value, field}}) => value == null ? null : ({field, value, operator: eFilterOperator["="]})
+    })
+    .setHandler('包含', {
+        render: (fto, emitConfirm) => <PlDate multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}/>,
+        transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
+    })
+    .setHandler('不包含', {
+        render: (fto, emitConfirm) => <PlDate multiple maxTags={1} collapseTags v-model={fto.option.value} onChange={emitConfirm}/>,
         transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
