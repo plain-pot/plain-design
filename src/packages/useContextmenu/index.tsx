@@ -7,7 +7,6 @@ export const useContextmenu = createUseService({
         name: 'contextmenu',
         managerComponent: createDefaultManager('pl-contextmenu-service-manager', PlContextMenuService, ((items: PlContextMenuServiceComponent[], option: ContextmenuServiceOption) => {
 
-            const newPos = getReferencePosition(option.reference)
             let exist: PlContextMenuServiceComponent | null = null
             let available: PlContextMenuServiceComponent | null = null
             items.forEach(item => {
@@ -18,8 +17,7 @@ export const useContextmenu = createUseService({
                     exist = item
                     return;
                 }
-                const oldPos = getReferencePosition(item.state.option.reference)
-                if (oldPos.top === newPos.top && oldPos.left === newPos.left) {
+                if (item.state.option.reference === option.reference) {
                     exist = item
                     return;
                 }
