@@ -2,7 +2,7 @@ import {designPage} from "plain-design-composition";
 import React from "react";
 import {useTableOption} from "./useTableOption";
 import PlTablePro from "../../../src/packages/PlTablePro";
-import {PlSelectOption, Plc, PlIcon} from "../../../src";
+import {PlcDate, PlSelectOption, Plc, PlIcon} from "../../../src";
 import {PlcSelect} from "../../../src/packages/PlcSelect";
 import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";
 import {PlcNumber} from "../../../src/packages/PlcNumber";
@@ -35,8 +35,8 @@ export default designPage(() => {
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
                 <Plc title="编号id" field="id" width={350} link onClick={onClick} hideInForm/>
-                <Plc title="创建时间" field="createdAt" hideInForm width={200}/>
-                <Plc title="更新时间" field="updatedAt" hideInForm width={200}/>
+                <PlcDate title="创建时间" field="createdAt" hideInForm width={200}/>
+                <PlcDate title="更新时间" field="updatedAt" hideInForm width={200}/>
                 <PlcNumber title="计数count" field="count" required/>
                 <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
                 <PlcNumber title="数字numberVal" field="numberVal" required/>
