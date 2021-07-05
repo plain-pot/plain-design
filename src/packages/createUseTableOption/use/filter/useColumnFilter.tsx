@@ -10,6 +10,7 @@ import './column.filter.scss'
 import PlFilter from "../../../PlFilter";
 import PlIcon from "../../../PlIcon";
 import {toArray} from "../../../../utils/toArray";
+import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuService";
 
 interface ColumnFilterData {
     desc: null | boolean,
@@ -112,7 +113,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
         if (plc.group || !plc.props.field) {return}
-        const menuOpt = {} as any
+        const menuOpt: ContextmenuServiceOption = {} as any
 
         $contextmenu(e.currentTarget, () => {
             const columnKey = getColumnKey(plc)
@@ -143,7 +144,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
                         <PlFilter fto={fto} hideSearchButton onConfirm={methods.pageMethods.reload}/>
                     </div>
                     <div>
-                        <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide()}/>
+                        <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide!()}/>
                         <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
                         <PlButton icon="el-icon-search" label="去重筛选" onClick={() => openDistinctFilterDialog(columnFilterTargetData)}/>
                     </div>

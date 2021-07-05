@@ -14,18 +14,22 @@ export interface ContextmenuServiceOption {
     content: ContextContent,
     width?: number,
     height?: number,
+    backgroundColor?: string,
     hide?: () => void,
 }
 
-export function getReferencePosition(reference: ContextmenuReference): { top: number, left: number } {
+export function getReferencePosition(reference: ContextmenuReference, bodyPos: { width: number, height: number }): { top: number, left: number } {
     if (!reference) {
         throw new Error('reference is null')
     }
+    const maxPos = {top: document.body.scrollHeight - bodyPos.height, left: document.body.scrollWidth - bodyPos.width}
+    let pos = {top: 0, left: 0}
+
     if ('addEventListener' in reference) {
         let el = reference
         if ('getBoundingClientRect' in el) {
             const {top, left, height} = el.getBoundingClientRect()
-            return {
+            pos = {
                 top: top + height,
                 left: left,
             }
@@ -35,16 +39,21 @@ export function getReferencePosition(reference: ContextmenuReference): { top: nu
         }
     } else if ('clientX' in reference) {
         const {clientX, clientY} = reference
-        return {
+        pos = {
             top: clientY,
             left: clientX,
         }
     } else {
-        return {
+        pos = {
             top: reference.y,
             left: reference.x,
         }
     }
+
+    if (pos.left > maxPos.left) {pos.left = maxPos.left}
+    if (pos.top > maxPos.top) {pos.top = maxPos.top}
+
+    return pos
 }
 
 export const PlContextMenuService = createDefaultService({
@@ -59,7 +68,8 @@ export const PlContextMenuService = createDefaultService({
         const state = reactive({
             option,
             zIndex: nextIndex(),
-        }) as { option: ContextmenuServiceOption, zIndex: number }
+            bodyPos: null,
+        }) as { option: ContextmenuServiceOption, zIndex: number, bodyPos: { width: number, height: number } | null, }
 
         const mounted = new Promise<void>(resolve => onMounted(resolve))
         let hideTimer: number | null = null
@@ -91,7 +101,11 @@ export const PlContextMenuService = createDefaultService({
         }
 
         const styles = useStyles(style => {
-            const {top, left} = getReferencePosition(state.option.reference)
+            if (!state.bodyPos) {
+                style.opacity = 0
+                return
+            }
+            const {top, left} = getReferencePosition(state.option.reference, state.bodyPos)
             style.top = `${top}px`
             style.left = `${left}px`
             style.zIndex = state.zIndex
@@ -101,6 +115,7 @@ export const PlContextMenuService = createDefaultService({
             const {width, height} = state.option
             !!width && (style.width = `${width}px`);
             !!height && (style.height = `${height}px`);
+            style.backgroundColor = state.option.backgroundColor || 'white'
         })
 
         const handler = {
@@ -144,6 +159,7 @@ export const PlContextMenuService = createDefaultService({
                             name="pl-transition-scale"
                             show={isShow.value}
                             unmount={false}
+                            onEnter={() => state.bodyPos = {width: refs.el!.offsetWidth, height: refs.el!.offsetHeight}}
                             onEntered={handler.onTransitionEnd}
                             onExited={handler.onTransitionEnd}>
                             <div className="pl-contextmenu-service-body" style={bodyStyles.value}>
