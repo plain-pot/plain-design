@@ -26,6 +26,7 @@ export const PlDate = designComponent({
         panel: {type: String as PropType<keyof typeof DatePanel>, default: DatePanel.date},
         collapseTags: {type: Boolean, default: true},
         popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
+        inputAttrs: {type: Object as PropType<Partial<typeof PlInput.use.props>>},
     },
     emits: {
         ...DatePublicEmits,
@@ -170,6 +171,7 @@ export const PlDate = designComponent({
 
                 ...agentState.inputHandler,
                 onClickInput: handler.clickInput,
+                ...props.inputAttrs,
             }
         })
 
