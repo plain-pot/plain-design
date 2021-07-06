@@ -57,15 +57,17 @@ export function useSearchFilter({hooks, methods, onCollapse, isCollapse}: { hook
         if (!state.getSourceFlatPlcList || !state.fto) {return null}
         const columns = state.getSourceFlatPlcList()
         return (
-            <div className="pl-table-pro-filter-bar">
+            <div className="pl-table-pro-filter-bar" style={{width: '600px'}}>
                 <PlFilter
                     fto={state.fto}
                     key={state.fto.option.filterName + state.fto.option.handlerName}
                     onHandlerNameChange={onHandlerChange}
                     onConfirm={onConfirm}
+                    block
                 >
                     {{
                         prepend: () => <PlSelect
+                            className="pl-filter-ele"
                             inputProps={{width: '120px'}}
                             v-model={state.fto!.option.field}
                             onChange={onFieldChange as any}>
@@ -78,7 +80,7 @@ export function useSearchFilter({hooks, methods, onCollapse, isCollapse}: { hook
                         </PlSelect>,
                         append: () => (
                             <PlTooltip title="展开/折叠 · 表单查询">
-                                <PlButton icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
+                                <PlButton className="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
                             </PlTooltip>
                         )
                     }}

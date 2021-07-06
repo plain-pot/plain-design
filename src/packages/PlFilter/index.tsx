@@ -5,6 +5,7 @@ import PlSelect from "../PlSelect";
 import PlSelectOption from "../PlSelectOption";
 import PlInputGroup from "../PlInputGroup";
 import PlButton from "../PlButton";
+import './filter.scss'
 
 export const PlFilter = designComponent({
     inheritPropsType: PlInputGroup,
@@ -34,12 +35,13 @@ export const PlFilter = designComponent({
                         inputProps={{width: 80, clearIcon: false}}
                         filterable={false}
                         onChange={onHandlerNameChange as any}
+                        className="pl-filter-ele"
                     >
                         {Object.values(props.fto.filter.handlers).map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
                     </PlSelect>
                     <React.Fragment key={props.fto.option.filterName + props.fto.option.handlerName}>
                         {props.fto.handler.render(props.fto, emit.onConfirm)}
-                        {!props.hideSearchButton && <PlButton label="搜索" onClick={emit.onConfirm}/>}
+                        {!props.hideSearchButton && <PlButton label="搜索" onClick={emit.onConfirm} className="pl-filter-ele"/>}
                     </React.Fragment>
                     {slots.append()}
                 </PlInputGroup>

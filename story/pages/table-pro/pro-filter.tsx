@@ -41,15 +41,19 @@ export default designPage(() => {
     return () => <>
         <DemoRow title="text">
             <PlFilter fto={FilterConfig.getTargetOption(state.textFilterOption)}/>
+            <PlFilter fto={FilterConfig.getTargetOption(state.textFilterOption)} block/>
             <span>搜索</span>
             {JSON.stringify(state.textFilterOption)}
         </DemoRow>
         <DemoRow title="select">
             <PlFilter fto={FilterConfig.getTargetOption(state.selectFilterOption)}/>
+            <PlFilter fto={FilterConfig.getTargetOption(state.selectFilterOption)} block/>
             {JSON.stringify(state.selectFilterOption)}
         </DemoRow>
         <DemoRow title="date">
-            <div style={{width: '480px'}}>
+            <PlFilter fto={FilterConfig.getTargetOption(state.dateFilterOption)}/>
+            <PlFilter fto={FilterConfig.getTargetOption(state.dateFilterOption)} block/>
+            <div style={{width: '600px'}}>
                 <PlFilter fto={FilterConfig.getTargetOption(state.dateFilterOption)} block/>
             </div>
             <div>
