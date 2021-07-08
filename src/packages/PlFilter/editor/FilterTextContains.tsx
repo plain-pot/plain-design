@@ -8,6 +8,7 @@ export const FilterTextContains = designComponent({
     },
     emits: {
         onUpdateModelValue: (val?: any[]) => true,
+        onEnter: () => true,
     },
     setup({props, event: {emit}}) {
 
@@ -18,7 +19,7 @@ export const FilterTextContains = designComponent({
         })
 
         const handler = {
-            onBlur: () => {
+            onChange: () => {
                 if (state.text === (model.value || []).join(',')) {
                     return
                 } else {
@@ -27,6 +28,6 @@ export const FilterTextContains = designComponent({
             }
         }
 
-        return () => <PlInput v-model={state.text} onBlur={handler.onBlur}/>
+        return () => <PlInput v-model={state.text} onChange={handler.onChange} onEnter={emit.onEnter}/>
     },
 })

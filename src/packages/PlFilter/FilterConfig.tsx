@@ -147,11 +147,11 @@ FilterConfig.touchFilter('text')
         transform: ({option: {value, field}}) => value == null ? null : ({field, value, operator: eFilterOperator["="]})
     })
     .setHandler('包含', {
-        render: (fto) => <FilterTextContains v-model={fto.option.value}/>,
+        render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
         transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["in"]})
     })
     .setHandler('不包含', {
-        render: (fto) => <FilterTextContains v-model={fto.option.value}/>,
+        render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
         transform: ({option: {value, field}}) => value == null || value.length === 0 ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
