@@ -37,6 +37,7 @@ export default designPage(() => {
                 <Plc title="编号id" field="id" width={350} link onClick={onClick} hideInForm/>
                 <PlcDate title="创建时间" field="createdAt" hideInForm width={200}/>
                 <PlcDate title="更新时间" field="updatedAt" hideInForm width={200}/>
+                <PlcDate title="日期" field="dateVal"/>
                 <PlcNumber title="计数count" field="count" required/>
                 <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
                 <PlcNumber title="数字numberVal" field="numberVal" required/>

@@ -15,14 +15,6 @@
       & > .pl-filter {
         width: 100%;
         display: flex;
-
-        .pl-input:last-child {
-          flex: 1;
-
-          .pl-input-inner {
-            width: 100%;
-          }
-        }
       }
 
       .pl-button-group {

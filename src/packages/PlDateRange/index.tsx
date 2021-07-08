@@ -87,6 +87,7 @@ export const PlDateRange = designComponent({
                     />
                     <PlInput
                         customReadonly
+                        className="pl-filter-ele"
                         align="center"
                         suffixIcon="el-icon-date"
                         placeValue={placeValue.value}

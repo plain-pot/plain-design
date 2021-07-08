@@ -141,7 +141,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
                         </div>
                     </div>
                     <div>
-                        <PlFilter fto={fto} hideSearchButton onConfirm={methods.pageMethods.reload}/>
+                        <PlFilter block fto={fto} hideSearchButton onConfirm={methods.pageMethods.reload}/>
                     </div>
                     <div>
                         <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide!()}/>
