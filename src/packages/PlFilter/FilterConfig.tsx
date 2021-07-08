@@ -189,7 +189,7 @@ FilterConfig.touchFilter('date')
     .setHandler('范围', {
         render: (fto, emitConfirm) => {
             if (!fto.option.value) {fto.option.value = {start: null, end: null}}
-            return <PlDateRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onBlur={emitConfirm}/>
+            return <PlDateRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onChange={emitConfirm}/>
         },
         transform: ({option: {value, field}}) => {
             if (!value) {return null}

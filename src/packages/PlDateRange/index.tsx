@@ -19,7 +19,7 @@ export const PlDateRange = designComponent({
     emits: {
         onUpdateStart: (val?: string) => true,
         onUpdateEnd: (val?: string) => true,
-        onBlur: () => true,
+        onChange: () => true,
     },
     setup({props, event: {emit}}) {
 
@@ -43,7 +43,6 @@ export const PlDateRange = designComponent({
         const publicDateAttrs = computed(() => ({
             inputAttrs: {clearIcon: undefined, suffixIcon: undefined, align: 'center' as any},
             ...format.value,
-            onBlur: handler.onBlur,
             datetime: props.datetime,
             panel: props.panel,
             fillGroup: true,
@@ -53,21 +52,29 @@ export const PlDateRange = designComponent({
             onClear: () => {
                 if (!!startModel.value) {startModel.value = undefined}
                 if (!!endModel.value) {endModel.value = undefined}
+                emit.onChange()
             },
-            onStartChange: (val?: string) => {
-                startModel.value = val
-            },
-            onEndChange: (val?: string) => {
-                endModel.value = val
-            },
-            onBlur: () => {
+            onChange: (type: 'start' | 'end', val?: string): void => {
+
+                (type === "start" ? startModel : endModel).value = val;
+
                 let {spd, epd} = pdValue.value
-                if (!spd || !epd) {return emit.onBlur()}
-                if (spd.YMDHms <= epd.YMDHms) {return;}
+                if (!spd || !epd) {
+                    return emit.onChange()
+                }
+                if (spd.YMDHms <= epd.YMDHms) {
+                    return emit.onChange()
+                }
                 [spd, epd] = [epd, spd]
                 startModel.value = spd.getValue()
                 endModel.value = epd.getValue()
-                emit.onBlur()
+                emit.onChange()
+            },
+            onStartChange: (val?: string) => {
+                handler.onChange('start', val)
+            },
+            onEndChange: (val?: string) => {
+                handler.onChange('end', val)
             },
         }
 
