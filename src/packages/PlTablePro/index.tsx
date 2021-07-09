@@ -45,10 +45,10 @@ export const PlTablePro = designComponent({
         return () => (
             <div className="pl-table-pro">
                 <div className="pl-table-pro-head">
-                    <span className="pl-table-pro-title">
+                    {/*<span className="pl-table-pro-title">
                         <PlIcon icon="el-icon-menu" status="primary"/>
                         <span>{props.option.config.title}</span>
-                    </span>
+                    </span>*/}
                     {props.option.filter.searchFilter.render()}
                     <div className="pl-table-pro-operation">
                         {props.option.hooks.onButtons.exec(
