@@ -9,6 +9,8 @@ export default designComponent({
     name: 'plc-number',
     props: {
         ...PlcPropsOptions,
+        filterName: {type: String, default: 'number'},
+        filterHandler: {type: String, default: '范围'},
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,

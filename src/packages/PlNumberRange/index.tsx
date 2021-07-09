@@ -14,7 +14,9 @@ export const PlNumberRange = designComponent({
     emits: {
         onUpdateStart: (val?: string | number) => true,
         onUpdateEnd: (val?: string | number) => true,
-        onChange: () => true,
+        onBlur: () => true,
+        onEnter: () => true,
+        onClear: () => true,
     },
     setup({props, event: {emit}}) {
 
@@ -27,39 +29,47 @@ export const PlNumberRange = designComponent({
             return start + end
         })
 
+        const checkRange = () => {
+            let start = startModel.value
+            let end = endModel.value
+            let startNum = Number(start)
+            let endNum = Number(end)
+            if (start == null || end == null || isNaN(startNum) || isNaN(endNum)) {
+                return
+            }
+            if (startNum > endNum) {
+                [startNum, endNum] = [endNum, startNum]
+                startModel.value = startNum
+                endModel.value = endNum
+            }
+        }
+
         const handler = {
             onBlur: (): void => {
-                let start = startModel.value
-                let end = endModel.value
-                let startNum = Number(start)
-                let endNum = Number(end)
-                if (start == null || end == null || isNaN(startNum) || isNaN(endNum)) {
-                    return emit.onChange()
-                }
-                if (startNum > endNum) {
-                    [startNum, endNum] = [endNum, startNum]
-                    startModel.value = startNum
-                    endModel.value = endNum
-                }
-                emit.onChange()
+                checkRange()
+                emit.onBlur()
+            },
+            onEnter: () => {
+                checkRange()
+                emit.onEnter()
             },
             onClear: () => {
                 startModel.value = undefined
                 endModel.value = undefined
-                emit.onChange()
+                emit.onClear()
             },
         }
 
         return () => (
             <PlInputGroup block>
-                <PlNumber v-model={startModel.value} onBlur={handler.onBlur}/>
+                <PlNumber v-model={startModel.value} onBlur={handler.onBlur} hideButton width="80" align="center" fillGroup onEnter={handler.onEnter}/>
                 <PlInput modelValue="~" readonly align="center" width={36}/>
-                <PlNumber v-model={endModel.value} onBlur={handler.onBlur}/>
+                <PlNumber v-model={endModel.value} onBlur={handler.onBlur} hideButton width="80" align="center" fillGroup onEnter={handler.onEnter}/>
                 <PlInput
                     customReadonly
                     className="pl-filter-ele"
                     align="center"
-                    suffixIcon="el-icon-date"
+                    suffixIcon="el-icon-s-fold"
                     placeValue={placeValue.value}
                     clearHandler={handler.onClear}
                     clearIcon
