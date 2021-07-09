@@ -57,6 +57,12 @@
         position: relative;
         border-radius: 100px;
         cursor: pointer;
+        background-color: $ibl;
+        transition: background-color 300ms linear;
+
+        &:hover {
+          background-color: #fcfcfc;
+        }
 
         &.pro-column-filter-sort-item-active {
           background-color: white;
