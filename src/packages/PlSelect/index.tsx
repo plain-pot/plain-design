@@ -126,7 +126,7 @@ export const PlSelect = designComponent({
          * @author  韦胜健
          * @date    2020/12/4 10:06
          */
-        const popperHeight = computed(() => formatData.value.length > 6 ? 256 : null)
+        const popperHeight = computed(() => formatData.value.length > 6 ? 200 : null)
         /**
          * 显示值
          * @author  韦胜健
