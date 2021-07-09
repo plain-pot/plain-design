@@ -10,6 +10,7 @@ import {useTableOptionButtons} from "./use/use.buttons";
 import {useTableOptionSetting} from "./use/setting/use.setting";
 import {useTableOptionFilter} from "./use/filter/use.filter";
 import {toArray} from "../../utils/toArray";
+import React from "react";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -70,6 +71,12 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
                 return [...prev, filterParam]
             }
             return prev
+        })
+        hooks.onColumns.use((prev) => {
+            return <>
+                {prev}
+                {!!config.render && config.render()}
+            </>
         })
 
         return {

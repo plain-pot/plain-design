@@ -1,4 +1,4 @@
-import {ReactFragment} from "react";
+import {ReactNode} from "react";
 import PlTable from "../PlTable";
 import {tFormPropRules} from "../PlForm/form.validate";
 import {iFilterData} from "../PlFilter/FilterConfig";
@@ -155,7 +155,7 @@ export interface iTableProConfig<D = any> {
     buttons?: iTableButtonConfig[],                                     // 额外的按钮配置
     multipleCheck?: boolean,                                            // 是否显示多选列
     title?: string,                                                     // 标题
-    render?: () => ReactFragment,                                       // 自定义内容
+    render?: () => ReactNode,                                           // 自定义内容
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
     sort?: iTableSortData | iTableSortData[],                           // 排序方式
     filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
