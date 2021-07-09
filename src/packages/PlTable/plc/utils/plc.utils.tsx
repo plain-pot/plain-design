@@ -48,7 +48,7 @@ export const PlcPropsOptions = {
 
     // 筛选先关
     filterName: {type: String, default: 'text'},
-    filterHandler: {type: String, default: '类似'},
+    filterHandler: {type: String, default: '包含'},
     filterConfig: createFilterConfigProp(),
 }
 
