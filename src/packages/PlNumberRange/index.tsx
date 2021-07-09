@@ -68,3 +68,5 @@ export const PlNumberRange = designComponent({
         )
     },
 })
+
+export default PlNumberRange
