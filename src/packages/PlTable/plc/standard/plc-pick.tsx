@@ -9,7 +9,7 @@ import React from "react";
 import PlRadio from "../../../PlRadio";
 
 export default designComponent({
-    name: 'plc-select',
+    name: 'plc-pick',
     props: {
         ...createPlcPropOptions({
             autoFixedLeft: true,
