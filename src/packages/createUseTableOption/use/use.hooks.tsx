@@ -10,20 +10,17 @@ import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
     >(isReactive?: boolean) {
-    const state = isReactive ? reactive({
+    const state: { innerHandlers: InnerHandler[] } = isReactive ? reactive({
         innerHandlers: [] as InnerHandler[],
-    }) : {
+    }) : ({
         innerHandlers: [] as InnerHandler[],
-    }
+    }) as any
     const use = (handler: InnerHandler) => {
-        state.innerHandlers.push(handler as any)
+        state.innerHandlers = [...state.innerHandlers, handler] as any
         return () => eject(handler)
     }
     const eject = (handler: InnerHandler) => {
-        const index = state.innerHandlers.indexOf(handler as any)
-        if (index > -1) {
-            state.innerHandlers.splice(index, 1)
-        }
+        state.innerHandlers = state.innerHandlers.filter(i => i !== handler)
     }
     const exec = (arg: Parameters<Handler>["0"]): Parameters<Handler>["0"] => {
         if (state.innerHandlers.length === 0) {return arg}
