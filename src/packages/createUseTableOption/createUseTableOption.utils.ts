@@ -160,11 +160,12 @@ export interface iTableProConfig<D = any> {
     sort?: iTableSortData | iTableSortData[],                           // 排序方式
     filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
     hooks?: tTableOptionConfigHook,                                     // 监听钩子函数
-    /*enable?: boolean | {
+    enable?: boolean | {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
         delete?: boolean | (() => boolean),                             // 是否可删除
-    },
+    }
+    /*,
     /!*未来这里可能会有很多属性用来控制很多按钮*!/
     showButton?: {
         insertButton?: boolean,                                         // 默认是否显示新建按钮
