@@ -7,6 +7,7 @@ import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import {PlcCheck} from "../PlcCheck";
 import PlcPick from "../PlcPick";
 import {useRefs} from "plain-design-composition";
+import {TableNode} from "../PlTable/table/use/useTableNode";
 
 export interface ObjectServiceOption {
     option: tTableOption,
@@ -52,7 +53,7 @@ export function useObject() {
                 if (!refs.check) {
                     dfd.reject(new Error('选择失败，内部异常！'))
                 } else {
-                    const data = refs.check.getSelected()!
+                    const data = !multiple ? refs.check.getSelected()! : refs.check.getSelected()!.map((i: TableNode) => i.data)
                     !!beforeConfirm && await beforeConfirm(data)
                     dfd.resolve(data)
                 }
