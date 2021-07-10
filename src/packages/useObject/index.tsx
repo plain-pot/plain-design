@@ -4,6 +4,8 @@ import useDialog, {DialogServiceOption} from "../useDialog";
 import PlTablePro from "../PlTablePro";
 import {defer} from "../../utils/defer";
 import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
+import {PlcCheck} from "../PlcCheck";
+import PlcPick from "../PlcPick";
 
 export interface ObjectServiceOption {
     option: tTableOption,
@@ -29,18 +31,23 @@ export function useObject() {
             title: tableOption.config.title,
             status: null,
             render: () => <>
-                <PlTablePro option={tableOption}/>
+                <PlTablePro option={tableOption}>
+                    {multiple && <PlcCheck toggleOnClickRow/>}
+                    {!multiple && <PlcPick toggleOnClickRow/>}
+                </PlTablePro>
             </>,
             dialogProps: {
                 closeOnConfirm: false,
                 width: '75vw',
                 vertical: 'center',
             },
+            confirmButton: true,
+            cancelButton: true,
             onConfirm: () => {
-
+                console.log('confirm')
             },
             onCancel: () => {
-
+                console.log('cancel')
             },
         }
 

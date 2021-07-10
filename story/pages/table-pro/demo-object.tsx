@@ -45,9 +45,15 @@ export default designPage(() => {
         $$notice({message: checked.normalText})
     }
 
+    const selectList = async () => {
+        const list = await $object({option}, true)
+        $$notice({message: list.map(i => i.normalText).join(',')})
+    }
+
     return () => <>
         <DemoRow title="基本用法">
-            <PlButton onClick={selectRow} label="选择对象"/>
+            <PlButton onClick={selectRow} label="单选"/>
+            <PlButton onClick={selectList} label="多选"/>
         </DemoRow>
     </>
 })
