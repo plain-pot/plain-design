@@ -104,6 +104,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onLoading: createSyncHooks<(flag: boolean) => void>(true),                         // 当前是否开启加载状态
         onColumns: createSyncHooks<(children: ReactNode) => void>(true),                   // 渲染Table的内容
         onButtons: createSyncHooks<(content: ReactNode) => void>(true),                    // 同步钩子，用来处理按钮信息
+        onTableRender: createSyncHooks(),
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
