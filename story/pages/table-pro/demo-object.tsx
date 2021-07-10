@@ -19,7 +19,8 @@ export default designPage(() => {
             <PlcDate title="更新时间" field="updatedAt" hideInForm width={200}/>
             <PlcDate title="日期" field="dateVal"/>
             <PlcNumber title="计数count" field="count" required/>
-            {/*<PlcInput title="文本normalText" field="normalText" required fixed="left"/>
+            <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
+            {/*
             <PlcNumber title="数字numberVal" field="numberVal" required/>
             <PlcCheckbox title="复选框flag" field="flag"/>
             <PlcSelect title="下拉框selectVal" field="selectVal" required>
