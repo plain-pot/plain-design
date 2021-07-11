@@ -176,7 +176,7 @@ export interface iTableProConfig<D = any> {
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
 
-export interface iTableState {
+export interface iTableOptionState {
     list: any[],
     editingWhenAddRow: boolean,
     selectRows: any[],
