@@ -91,7 +91,6 @@ export const PlTablePro = designComponent({
                             {i.render()}
                         </React.Fragment>
                     ))}
-                    {props.option.pagination.render()}
                 </div>
             )
         }

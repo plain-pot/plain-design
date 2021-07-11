@@ -47,6 +47,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const pagination = useTableOptionPagination({
             tableState,
             config,
+            hooks,
             onPrev: () => pageMethods.prev(),
             onNext: () => pageMethods.next(),
             onJump: (page) => pageMethods.jump(page),
