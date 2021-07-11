@@ -79,30 +79,35 @@ export function useFormFilter({hooks, methods}: { hooks: tTableOptionHooks, meth
         },
     }
 
-    const render = () => {
-        if (state.foArr.length == 0) {return null}
-        if (!state.isShow) {return null}
+    hooks.onTableRender.use(prev => [
+        ...prev,
+        {
+            seq: 9,
+            render: () => {
+                if (state.foArr.length == 0) {return null}
+                if (!state.isShow) {return null}
 
-        return (
-            <PlForm modelValue={formData.value} column={3} contentWidth={260} labelAlign="right">
-                {ftoArr.value.map((fto, index) => (
-                    <PlFormItem label={fto.option.label} key={index}>
-                        <PlFilter
-                            fto={fto}
-                            key={fto.filter.filterName + fto.handler.handlerName}
-                            hideSearchButton
-                            block
-                            onHandlerNameChange={handler.onHandlerChange}
-                            onConfirm={handler.onFilterConfirm}
-                        />
-                    </PlFormItem>
-                ))}
-            </PlForm>
-        )
-    }
+                return (
+                    <PlForm modelValue={formData.value} column={3} contentWidth={260} labelAlign="right">
+                        {ftoArr.value.map((fto, index) => (
+                            <PlFormItem label={fto.option.label} key={index}>
+                                <PlFilter
+                                    fto={fto}
+                                    key={fto.filter.filterName + fto.handler.handlerName}
+                                    hideSearchButton
+                                    block
+                                    onHandlerNameChange={handler.onHandlerChange}
+                                    onConfirm={handler.onFilterConfirm}
+                                />
+                            </PlFormItem>
+                        ))}
+                    </PlForm>
+                )
+            }
+        }
+    ])
 
     return {
-        render,
         ...filterMethods,
         state,
     }
