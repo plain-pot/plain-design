@@ -7,6 +7,11 @@ import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
 import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 
+export interface iTableProRenderConfig {
+    seq: number,
+    render: () => ReactNode
+}
+
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
     >(isReactive?: boolean) {
@@ -104,7 +109,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onLoading: createSyncHooks<(flag: boolean) => void>(true),                         // 当前是否开启加载状态
         onColumns: createSyncHooks<(children: ReactNode) => void>(true),                   // 渲染Table的内容
         onButtons: createSyncHooks<(content: ReactNode) => void>(true),                    // 同步钩子，用来处理按钮信息
-        onTableRender: createSyncHooks(),
+        onTableRender: createSyncHooks<(renderConfigs: iTableProRenderConfig[]) => void>(true),// table渲染钩子
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
