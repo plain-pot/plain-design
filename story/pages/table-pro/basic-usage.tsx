@@ -40,9 +40,9 @@ export default designPage(() => {
                 <PlcDate title="日期" field="dateVal"/>
                 <PlcNumber title="计数count" field="count" required/>
                 <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
-                <PlcNumber title="数字numberVal" field="numberVal" required/>
+                <PlcNumber title="数字numberVal" field="numberVal"/>
                 <PlcCheckbox title="复选框flag" field="flag"/>
-                <PlcSelect title="下拉框selectVal" field="selectVal" required>
+                <PlcSelect title="下拉框selectVal" field="selectVal">
                     <PlSelectOption label="消费者" val="consumer">
                         <PlIcon icon="el-icon-s-custom" status="primary" style={{marginRight: '4px'}}/>
                         <span>消费者</span>
@@ -56,7 +56,7 @@ export default designPage(() => {
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
-                <PlcTextarea title="长文本longText" field="longText" required/>
+                <PlcTextarea title="长文本longText" field="longText"/>
             </PlTablePro>
         </div>
     </>

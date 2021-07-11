@@ -259,6 +259,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // todo
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
+                    confirm.close.clear()
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -353,6 +354,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // todo
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
+                    confirm.close.clear()
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -381,6 +383,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         ...node.editRow,
                     })))
                     await request!(requestConfig)
+                    confirm.close.clear()
                     await pageMethods.reload()
                 },
             })
@@ -396,6 +399,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 return $$notice.error(`删除失败：${deleteResult.error}`)
             }
             $$notice.success(`删除成功！`)
+            confirm.close.clear()
             await pageMethods.load()
         }
 
