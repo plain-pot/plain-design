@@ -1,4 +1,4 @@
-import {eTableProEditType, iTableProDefaultConfig, iTableSortData, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
+import {eTableProEditType, iTableProDefaultConfig, iTableSortData, iTableOptionState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
@@ -15,7 +15,7 @@ import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm, getSortData}: {
-    tableState: iTableState,
+    tableState: iTableOptionState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableOptionHooks,
