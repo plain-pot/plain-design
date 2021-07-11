@@ -84,7 +84,7 @@ export const PlSelect = designComponent({
                     })(),
                     modelValue: model.value,
                     height: popperHeight.value,
-                    content: () => slots.default(),
+                    content: slots.default,
                     filterMethod: utils.filterMethod,
                     onChange: handler.onServiceChange,
                     onClick: event.emit.onClick,
