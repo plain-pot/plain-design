@@ -25,7 +25,7 @@ export const PlDropdownMenu = designComponent({
             refer: {
                 handler,
             },
-            render: slots.default
+            render: () => slots.default()
         }
     },
 })

@@ -84,7 +84,7 @@ export const PlSelect = designComponent({
                     })(),
                     modelValue: model.value,
                     height: popperHeight.value,
-                    content: slots.default,
+                    content: () => slots.default(),
                     filterMethod: utils.filterMethod,
                     onChange: handler.onServiceChange,
                     onClick: event.emit.onClick,
@@ -289,7 +289,7 @@ export const PlSelect = designComponent({
             render: () => (
                 <PlInput {...inputBinding.value}>
                     {{
-                        hidden: slots.default,
+                        hidden: () => slots.default(),
                         default: !props.multiple ? null : () => (
                             <PlInputInnerTags
                                 data={multipleTags.value}
