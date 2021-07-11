@@ -1,17 +1,13 @@
-import {computed, designComponent, onMounted, PropType} from "plain-design-composition";
+import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
 import React from "react";
 import {tTableOption} from "../createUseTableOption";
-import PlTable from "../PlTable";
 import './table-pro.scss'
 import PlButton from "../PlButton";
 import PlDropdown from "../PlDropdown";
 import PlDropdownMenu from "../PlDropdownMenu";
 import PlIcon from "../PlIcon";
 import PlButtonGroup from "../PlButtonGroup";
-import {TableNode} from "../PlTable/table/use/useTableNode";
-import {PlcIndex} from "../PlcIndex";
-import {toArray} from "../../utils/toArray";
-import {tPlcType} from "../PlTable/plc/utils/plc.type";
+import {iTableProRenderConfig} from "../createUseTableOption/use/use.hooks";
 
 export const PlTablePro = designComponent({
     props: {
@@ -27,85 +23,79 @@ export const PlTablePro = designComponent({
             }
         })
 
-        const refTable = (table: typeof PlTable.use.class | null | undefined) => {
-            props.option.hooks.onRefTable.exec(table!)
-        }
-
-        const handler = {
-            onClickCell: (node: TableNode) => {props.option.hooks.onClickCell.exec(node)},
-            onDblClickCell: (node: TableNode) => {props.option.hooks.onDblClickCell.exec(node)},
-            onClickHead: (plc: tPlcType, e: React.MouseEvent) => props.option.hooks.onClickHead.exec({plc, e})
-        }
-
         const loading = computed(() => {
             if (props.loading) {return true}
             return props.option.hooks.onLoading.exec(false)
         })
 
-        return () => (
-            <div className="pl-table-pro">
-                <div className="pl-table-pro-head">
-                    {/*<span className="pl-table-pro-title">
+        let ejectSlotsDefaultHook: SimpleFunction | null = null
+        watch(() => props.option, option => {
+            if (!!ejectSlotsDefaultHook) {ejectSlotsDefaultHook()}
+            ejectSlotsDefaultHook = option.hooks.onColumns.use(prev => <>
+                {prev}
+                {slots.default()}
+            </> as any)
+        }, {immediate: true})
+        onBeforeUnmount(() => !!ejectSlotsDefaultHook && ejectSlotsDefaultHook())
+
+        return () => {
+
+            let tableProRenderConfigs: iTableProRenderConfig[] = []
+            tableProRenderConfigs = props.option.hooks.onTableRender.exec(tableProRenderConfigs).sort((a, b) => a.seq - b.seq)
+
+            return (
+                <div className="pl-table-pro">
+                    <div className="pl-table-pro-head">
+                        {/*<span className="pl-table-pro-title">
                         <PlIcon icon="el-icon-menu" status="primary"/>
                         <span>{props.option.config.title}</span>
                     </span>*/}
-                    {props.option.filter.searchFilter.render()}
-                    <div className="pl-table-pro-operation">
-                        {props.option.hooks.onButtons.exec(
-                            <PlButtonGroup>
-                                {props.option.buttons.btns.insert.button()}
-                                {props.option.buttons.btns.copy.button()}
-                                {props.option.buttons.btns.delete.button()}
-                                <PlDropdown placement="bottom-end" width="190" height={null as any}>
-                                    {{
-                                        reference: ({open}) => (
-                                            <PlButton>
-                                                <span>更多</span>
-                                                <PlIcon icon={'el-icon-arrow-down'} style={{
-                                                    transition: 'transform 200ms linear',
-                                                    transform: `rotateX(${open ? 180 : 0}deg)`,
-                                                }}/>
-                                            </PlButton>
-                                        ),
-                                        popper: <PlDropdownMenu>
-                                            {props.option.buttons.btns.editForm.dropdown()}
-                                            {props.option.buttons.btns.batchInsert.dropdown()}
-                                            {props.option.buttons.btns.batchUpdate.dropdown()}
-                                            {props.option.buttons.btns.batchDelete.dropdown()}
-                                            {props.option.buttons.btns.batchModify.dropdown()}
-                                            {props.option.buttons.btns.seniorFilter.dropdown()}
-                                            {props.option.buttons.btns.seniorSort.dropdown()}
-                                            {props.option.buttons.btns.setting.dropdown()}
-                                            {props.option.buttons.btns.importData.dropdown()}
-                                            {props.option.buttons.btns.exportData.dropdown()}
-                                        </PlDropdownMenu>
-                                    }}
-                                </PlDropdown>
-                            </PlButtonGroup>
-                        )}
+                        {props.option.filter.searchFilter.render()}
+                        <div className="pl-table-pro-operation">
+                            {props.option.hooks.onButtons.exec(
+                                <PlButtonGroup>
+                                    {props.option.buttons.btns.insert.button()}
+                                    {props.option.buttons.btns.copy.button()}
+                                    {props.option.buttons.btns.delete.button()}
+                                    <PlDropdown placement="bottom-end" width="190" height={null as any}>
+                                        {{
+                                            reference: ({open}) => (
+                                                <PlButton>
+                                                    <span>更多</span>
+                                                    <PlIcon icon={'el-icon-arrow-down'} style={{
+                                                        transition: 'transform 200ms linear',
+                                                        transform: `rotateX(${open ? 180 : 0}deg)`,
+                                                    }}/>
+                                                </PlButton>
+                                            ),
+                                            popper: <PlDropdownMenu>
+                                                {props.option.buttons.btns.editForm.dropdown()}
+                                                {props.option.buttons.btns.batchInsert.dropdown()}
+                                                {props.option.buttons.btns.batchUpdate.dropdown()}
+                                                {props.option.buttons.btns.batchDelete.dropdown()}
+                                                {props.option.buttons.btns.batchModify.dropdown()}
+                                                {props.option.buttons.btns.seniorFilter.dropdown()}
+                                                {props.option.buttons.btns.seniorSort.dropdown()}
+                                                {props.option.buttons.btns.setting.dropdown()}
+                                                {props.option.buttons.btns.importData.dropdown()}
+                                                {props.option.buttons.btns.exportData.dropdown()}
+                                            </PlDropdownMenu>
+                                        }}
+                                    </PlDropdown>
+                                </PlButtonGroup>
+                            )}
+                        </div>
                     </div>
+                    {tableProRenderConfigs.map((i, index) => (
+                        <React.Fragment key={index}>
+                            {i.render()}
+                        </React.Fragment>
+                    ))}
+                    {props.option.filter.formFilter.render()}
+                    {props.option.pagination.render()}
                 </div>
-                {props.option.filter.formFilter.render()}
-                <PlTable
-                    ref={refTable}
-                    data={props.option.tableState.list}
-                    defaultEditingWhenAddRow={props.option.tableState.editingWhenAddRow}
-                    loading={!!loading.value}
-                    currentKey={props.option.tableState.currentKey || undefined}
-                    onUpdateCurrentKey={val => props.option.tableState.currentKey = val || null}
-                    keyField={props.option.config.keyField}
-                    onClickRow={handler.onClickCell}
-                    onDblclickCell={handler.onDblClickCell}
-                    onClickHead={handler.onClickHead}
-                    sort={props.option.sortData.value}
-                    onCollectPlcData={props.option.hooks.onCollectPlcData.exec}
-                >
-                    <PlcIndex start={props.option.pagination.pageState.page * props.option.pagination.pageState.size}/>
-                    {props.option.hooks.onColumns.exec(slots.default())}
-                </PlTable>
-                {props.option.pagination.render()}
-            </div>
-        )
+            )
+        }
     },
 })
 

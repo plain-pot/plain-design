@@ -1,4 +1,4 @@
-import {iTableProConfig, iTableProDefaultConfig, iTableState, tTableOptionConfig} from "./createUseTableOption.utils";
+import {iTableProConfig, iTableProDefaultConfig, iTableOptionState, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
@@ -11,6 +11,7 @@ import {useTableOptionSetting} from "./use/setting/use.setting";
 import {useTableOptionFilter} from "./use/filter/use.filter";
 import {toArray} from "../../utils/toArray";
 import React from "react";
+import {useTableOptionBaseTable} from "./use/use.base-table";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -20,7 +21,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             ...customConfig,
         }
 
-        const tableState: iTableState = reactive({
+        const tableState: iTableOptionState = reactive({
             list: [] as any[],
             editingWhenAddRow: false,
             selectRows: [],
@@ -36,9 +37,13 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         })
 
         const hooks = useTableOptionHooks({config})
+
         const command = useTableOptionCommand({hooks})
+
         const confirm = useTableOptionConfirm({hooks})
+
         const check = useTableOptionCheck({config, hooks, confirm})
+
         const pagination = useTableOptionPagination({
             tableState,
             config,
@@ -47,13 +52,20 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onJump: (page) => pageMethods.jump(page),
             onSizeChange: size => pageMethods.reload({size}),
         })
-        const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm, getSortData: () => sortData.value})
-        const {pageMethods, editMethods} = methods
-        const setting = useTableOptionSetting({hooks, methods})
-        const buttons = useTableOptionButtons({hooks, methods, command, setting})
-        const filter = useTableOptionFilter({hooks, methods})
 
         const sortData = computed(() => hooks.onCollectSortData.exec(!!config.sort ? [] : []))
+
+        useTableOptionBaseTable({config, hooks, pagination, tableState, sortData})
+
+        const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm, getSortData: () => sortData.value})
+
+        const {pageMethods, editMethods} = methods
+
+        const setting = useTableOptionSetting({hooks, methods})
+
+        const buttons = useTableOptionButtons({hooks, methods, command, setting})
+
+        const filter = useTableOptionFilter({hooks, methods})
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
@@ -90,7 +102,6 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             check,
             buttons,
             filter,
-            sortData,
         }
     }
 }
