@@ -16,6 +16,7 @@ import PlDropdown from "../../PlDropdown";
 import PlIcon from "../../PlIcon";
 import PlDropdownMenu from "../../PlDropdownMenu";
 import {Plc} from "../../Plc";
+import PlButtonGroup from "../../PlButtonGroup";
 
 
 const DefaultSeq = {
@@ -49,7 +50,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             code: 'insert',
             type: 'insert',
             handler: () => methods.editMethods.insert(),
-            seq: 4,
+            seq: 2,
         }),
         /*外置赋值*/
         copyOut: utils.createButton({
@@ -68,6 +69,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             position: 'in',
             code: 'copy',
             type: 'insert',
+            seq: 3,
             handler: (node) => methods.editMethods.copy(deepcopy(node.data)),
             // show: () => config.hideButton['copy'] === false || config.hideButton['copy-in'] === false,
         }),
@@ -78,7 +80,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             position: 'out',
             code: 'delete',
             type: 'delete',
-            seq: 2,
+            seq: 4,
             handler: () => methods.editMethods.delete(state.selectNode),
         }),
         /*行内删除*/
@@ -87,6 +89,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             position: 'in',
             code: 'delete',
             type: 'delete',
+            seq: 4,
             handler: (node) => methods.editMethods.delete(node),
         }),
         /*行内编辑*/
@@ -95,6 +98,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             position: 'in',
             code: 'update',
             type: 'update',
+            seq: 2,
             handler: node => methods.editMethods.update(node)
         }),
 
@@ -290,13 +294,15 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
         if (!show) {return content}
         return <>
             {content}
-            <Plc key="operator" title="操作" field="operator">
+            <Plc key="operator" title="操作" field="operator" align="center" autoFixedRight order={99}>
                 {{
                     normal: ({node}) => {
                         if (node.edit) {
                             return <>
-                                <a onClick={methods.editMethods.cancel}>{'取消'}</a>
-                                <a onClick={methods.editMethods.save}>{'保存'}</a>
+                                <PlButtonGroup mode="text">
+                                    <PlButton onClick={methods.editMethods.cancel} label={'取消'}/>
+                                    <PlButton onClick={methods.editMethods.save} label={'保存'}/>
+                                </PlButtonGroup>
                             </>
                         }
 
@@ -316,7 +322,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                                 }
                             }
                             return {...btn, label, icon, show, disabled, seq,}
-                        }).filter(i => i.show)
+                        }).filter(i => i.show).sort((a, b) => utils.getSeq(a) - utils.getSeq(b))
 
                         let dropdownButtons: typeof buttons = []
                         const maxButtons = 4
@@ -325,10 +331,9 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                             dropdownButtons = buttons.splice(maxButtons - 1)
                         }
 
-                        return <>
+                        return <PlButtonGroup mode="text">
                             {buttons.map(({render, icon, disabled, handler, seq, label}, index) => (
                                 !!render ? render(node) : <PlButton
-                                    mode="text"
                                     disabled={disabled}
                                     key={index}
                                     label={label}
@@ -344,7 +349,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                                 <PlDropdown placement="bottom-end" height={null as any}>
                                     {{
                                         reference: ({open}) => (
-                                            <PlButton mode="text">
+                                            <PlButton>
                                                 <span>更多</span>
                                                 <PlIcon icon={'el-icon-arrow-down'} style={{
                                                     transition: 'transform 200ms linear',
@@ -368,7 +373,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                                     }}
                                 </PlDropdown>
                             )}
-                        </>
+                        </PlButtonGroup>
                     }
                 }}
             </Plc>

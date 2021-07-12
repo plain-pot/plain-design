@@ -1,4 +1,4 @@
-import {reactive} from "plain-design-composition";
+import {onMounted, reactive} from "plain-design-composition";
 import React from "react";
 import {tTableOptionHooks} from "./use.hooks";
 import PlButton from "../../PlButton";
@@ -45,13 +45,13 @@ export function useTableOptionConfirm({hooks}: { hooks: tTableOptionHooks }) {
         },
     }
 
-    hooks.onButtons.use((prev) => {
+    onMounted(() => hooks.onButtons.use((prev) => {
         if (state.status === eTableProStatus.normal) {return prev}
         return <>
             <PlButton label={(state.innerHandler || {}).cancelText || '取消'} icon="el-icon-close-bold" mode="stroke" asyncHandler={close.cancel}/>
             <PlButton label={(state.innerHandler || {}).confirmText || '保存'} icon="el-icon-check-bold" asyncHandler={close.confirm}/>
         </>
-    })
+    }))
 
     const open = (status: eTableProStatus, handler: iHandler) => {
         state.status = status
