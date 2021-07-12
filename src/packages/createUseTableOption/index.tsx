@@ -12,6 +12,7 @@ import {useTableOptionFilter} from "./use/filter/use.filter";
 import {toArray} from "../../utils/toArray";
 import React from "react";
 import {useTableOptionBaseTable} from "./use/use.base-table";
+import {useTableOptionPermit} from "./use/use.permit";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -58,6 +59,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         useTableOptionBaseTable({config, hooks, pagination, tableState, sortData})
 
+        const permit = useTableOptionPermit({config, hooks})
+
         const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm, getSortData: () => sortData.value})
 
         const {pageMethods, editMethods} = methods
@@ -67,6 +70,19 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const buttons = useTableOptionButtons({hooks, methods, command, setting})
 
         const filter = useTableOptionFilter({hooks, methods})
+
+        /*执行初始化逻辑，init一定要放在所有hook之后执行*/
+        const init = (() => {
+            const state = reactive({
+                isInitialized: false,
+            })
+            Promise.all(hooks.onInit.getListeners().map(i => i(undefined))).finally(() => state.isInitialized = true)
+            hooks.onLoading.use((prev) => {
+                if (!state.isInitialized) {return true}
+                return prev
+            })
+            return {state}
+        })()
 
         hooks.onLoaded.use(rows => {
             tableState.list = rows
@@ -103,6 +119,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             check,
             buttons,
             filter,
+            init,
         }
     }
 }

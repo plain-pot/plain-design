@@ -39,7 +39,7 @@ export function createSyncHooks<Handler extends (arg: any) => any,
         }
         return arg
     }
-    return {use, eject, exec, state}
+    return {use, eject, exec, state, getListeners: () => [...state.innerHandlers]}
 }
 
 export function createHooks<Handler extends (arg: any) => any,
@@ -68,7 +68,7 @@ export function createHooks<Handler extends (arg: any) => any,
         }
         return arg
     }
-    return {use, eject, exec}
+    return {use, eject, exec, getListeners: () => [...innerHandlers]}
 }
 
 export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
@@ -110,6 +110,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onColumns: createSyncHooks<(children: ReactNode) => void>(true),                   // 渲染Table的内容
         onButtons: createSyncHooks<(content: ReactNode) => void>(true),                    // 同步钩子，用来处理按钮信息
         onTableRender: createSyncHooks<(renderConfigs: iTableProRenderConfig[]) => void>(true),// table渲染钩子
+        onInit: createHooks<() => void>(),                                                          // 异步钩子函数，等待init执行完毕之后，再渲染table
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数

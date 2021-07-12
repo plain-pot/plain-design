@@ -139,6 +139,12 @@ export interface iTableProDefaultConfig {
     },
 }
 
+export type TableProConfigEnable = boolean | {
+    insert?: boolean | (() => boolean),                             // 是否可新建
+    update?: boolean | (() => boolean),                             // 是否可编辑
+    delete?: boolean | (() => boolean),                             // 是否可删除
+}
+
 /**
  * TablePro配置信息
  * @author  韦胜健
@@ -161,11 +167,7 @@ export interface iTableProConfig<D = any> {
     sort?: iTableSortData | iTableSortData[],                           // 排序方式
     filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
     hooks?: tTableOptionConfigHook,                                     // 监听钩子函数
-    enable?: boolean | {
-        insert?: boolean | (() => boolean),                             // 是否可新建
-        update?: boolean | (() => boolean),                             // 是否可编辑
-        delete?: boolean | (() => boolean),                             // 是否可删除
-    },
+    enable?: TableProConfigEnable,
 }
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
