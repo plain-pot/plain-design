@@ -147,13 +147,14 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             const cancel = async () => {await confirm.close.cancel()}
             const save = async () => {await confirm.close.confirm()}
 
-            const _delete = async () => {
+            const _delete = async (node?: TableNode | null) => {
                 await loadingMethods.save()
-                if (!currentNode.value) {
+                node = node || currentNode.value
+                if (!node) {
                     return $$notice.warn('请选中一行要删除的数据！')
                 }
                 const {page, size} = pagination.pageState
-                const {data, index} = currentNode.value
+                const {data, index} = node
                 await $$dialog.confirm(`确定要删除第${page * size + index + 1}条数据吗？`)
 
                 let {request, requestConfig} = utils.getUrlConfig('delete')

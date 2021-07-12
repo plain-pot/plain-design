@@ -7,3 +7,5 @@ export function useTableOptionPermit({config, hooks}: { config: tTableOptionConf
     hooks.onInit.use(async () => {await init})
     return permit
 }
+
+export type tTableOptionPermit = ReturnType<typeof useTableOptionPermit>

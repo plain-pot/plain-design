@@ -1,8 +1,9 @@
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 import PlTable from "../PlTable";
 import {tFormPropRules} from "../PlForm/form.validate";
 import {iFilterData} from "../PlFilter/FilterConfig";
 import {tTableOptionConfigHook} from "./use/use.hooks";
+import {TableNode} from "../PlTable/table/use/useTableNode";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;
@@ -83,18 +84,6 @@ export type tBatchUpdateResponse = tBatchInsertResponse
 export type tDeleteResponse = { error?: string }
 
 /**
- * 按钮配置徐喜怒
- * @author  韦胜健
- * @date    2021/5/19 20:50
- */
-export interface iTableButtonConfig {
-    label: string,
-    show: boolean | (() => boolean),
-    disabled: boolean | (() => boolean),
-    handler: () => void | Promise<void>,
-}
-
-/**
  * 排序设置参数对象
  * @author  韦胜健
  * @date    2021/6/7 17:15
@@ -108,6 +97,40 @@ export enum eTableProEditType {
     inline = 'inline',
     form = 'form'
 }
+
+/*---------------------------------------button start-------------------------------------------*/
+
+export interface iTableOptionButtonBase {
+    type: 'insert' | 'update' | 'delete' | 'other',
+    code: string,
+    seq?: number,
+}
+
+export type iTableOptionButtonInner = iTableOptionButtonBase & {
+    position: 'in',
+    handler?: (selectNode: TableNode, e: React.MouseEvent) => void,
+    render?: (selectNode: TableNode) => ReactNode,
+    label: string | ((selectNode: TableNode) => string),
+    icon?: string | ((selectNode: TableNode) => string),
+    show?: boolean | ((selectNode: TableNode) => boolean),
+    disabled?: boolean | ((selectNode: TableNode) => boolean),
+}
+
+export type iTableOptionButtonOuter = iTableOptionButtonBase & {
+    position: 'out',
+    handler?: (e: React.MouseEvent | KeyboardEvent) => void,
+    render?: () => ReactNode,
+    label: string | (() => string),
+    icon?: string | (() => string),
+    show?: boolean | (() => boolean),
+    disabled?: boolean | (() => boolean),
+
+    command?: string | string[],
+}
+
+export type iTableOptionButton = iTableOptionButtonInner | iTableOptionButtonOuter
+
+/*---------------------------------------button end-------------------------------------------*/
 
 /**
  * TablePro默认配置
@@ -159,7 +182,7 @@ export interface iTableProConfig<D = any> {
     defaultNewRow?: tDefaultNewRow,                                     // 新建行的时候的默认新行数据
     copyExcludeKeys?: string[],                                         // 复制一行的时候，额外的不复制的属性
     rules?: tFormPropRules,                                             // 校验规则
-    buttons?: iTableButtonConfig[],                                     // 额外的按钮配置
+    buttons?: iTableOptionButton[],                                     // 额外的按钮配置
     multipleCheck?: boolean,                                            // 是否显示多选列
     title?: string,                                                     // 标题
     render?: () => ReactNode,                                           // 自定义内容
@@ -167,7 +190,8 @@ export interface iTableProConfig<D = any> {
     sort?: iTableSortData | iTableSortData[],                           // 排序方式
     filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
     hooks?: tTableOptionConfigHook,                                     // 监听钩子函数
-    enable?: TableProConfigEnable,
+    enable?: TableProConfigEnable,                                      // 新删改查控制
+    hideOperation?: boolean,                                            // 是否隐藏操作栏
 }
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
