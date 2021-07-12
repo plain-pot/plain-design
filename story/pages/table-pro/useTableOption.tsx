@@ -179,6 +179,7 @@ export const useTableOption = createUseTableOption({
             }
         })(),
     },
+    hideButton: {},
     injectRules: (filterDataArr, requestConfig) => {
         const expressions: string[] = []
         const filters: iModuleQueryFilter[] = []

@@ -127,6 +127,7 @@ export interface iTableProDefaultConfig {
     copyDefaultExcludeKeys: string[],                                   // 复制一行的时候，不复制的属性
     injectRules: (filterDataArr: iFilterData[], requestConfig: tRequestConfig) => void | tRequestConfig, // 将筛选条件rules填写到requestConfig中
     sort: iTableSortData | iTableSortData[],                            // 排序方式
+    hideButton: Record<string, boolean | undefined>,                    // 隐藏某个按钮
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
         insert: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,
@@ -164,14 +165,7 @@ export interface iTableProConfig<D = any> {
         insert?: boolean | (() => boolean),                             // 是否可新建
         update?: boolean | (() => boolean),                             // 是否可编辑
         delete?: boolean | (() => boolean),                             // 是否可删除
-    }
-    /*,
-    /!*未来这里可能会有很多属性用来控制很多按钮*!/
-    showButton?: {
-        insertButton?: boolean,                                         // 默认是否显示新建按钮
-        copyButton?: boolean,                                           // 默认是否显示复制按钮
-        deleteButton?: boolean,                                         // 默认是否显示删除按钮
-    },*/
+    },
 }
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
