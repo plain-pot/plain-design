@@ -31,7 +31,9 @@ export function useObject() {
     const $object: ObjectService = (option: ObjectServiceOption, multiple?: true) => {
         const dfd = defer<PlainObject | PlainObject[]>()
         const {option: tableOption, beforeCancel, beforeConfirm} = option
-
+        if (tableOption.config.enable == null) {
+            tableOption.config.enable = false
+        }
 
         const dlgOpt: Partial<DialogServiceFormatOption> = {
             title: tableOption.config.title,
