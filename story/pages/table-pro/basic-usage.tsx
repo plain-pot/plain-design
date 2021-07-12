@@ -20,6 +20,9 @@ export default designPage(() => {
             count: 100
         },
         // enable: false,
+        /*enable: {
+            update: false
+        },*/
         hooks: {
             /*onRequestData: (data) => {
                 data.distinctFields = ['normalText']
