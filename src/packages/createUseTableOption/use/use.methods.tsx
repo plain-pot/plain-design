@@ -413,7 +413,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
     })()
 
     hooks.onRefTable.use(table => freezeState.table = table)
-    hooks.onDblClickCell.use(node => {confirm.state.status !== eTableProStatus.select && editMethods.update(node)})
     hooks.onLoading.use(flag => {
         if (pageMethods.isLoading.all) {return true}
         if (editMethods.isLoading.all) {return true}

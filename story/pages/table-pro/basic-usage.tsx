@@ -19,6 +19,7 @@ export default designPage(() => {
         defaultNewRow: {
             count: 100
         },
+        // enable: false,
         hooks: {
             /*onRequestData: (data) => {
                 data.distinctFields = ['normalText']

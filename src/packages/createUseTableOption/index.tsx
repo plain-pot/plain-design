@@ -67,7 +67,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         const setting = useTableOptionSetting({hooks, methods})
 
-        const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit})
+        const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})
 
         const filter = useTableOptionFilter({hooks, methods})
 

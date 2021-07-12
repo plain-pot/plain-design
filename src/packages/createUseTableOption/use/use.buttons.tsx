@@ -17,6 +17,7 @@ import PlIcon from "../../PlIcon";
 import PlDropdownMenu from "../../PlDropdownMenu";
 import {Plc} from "../../Plc";
 import PlButtonGroup from "../../PlButtonGroup";
+import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 
 
 const DefaultSeq = {
@@ -26,7 +27,7 @@ const DefaultSeq = {
     other: 20,
 }
 
-export function useTableOptionButtons({hooks, methods, command, setting, config, permit}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, command: tTableOptionCommand, setting: tTableOptionSetting, permit: tTableOptionPermit, config: tTableOptionConfig }) {
+export function useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, command: tTableOptionCommand, setting: tTableOptionSetting, permit: tTableOptionPermit, config: tTableOptionConfig, confirm: tTableOptionConfirm }) {
 
     const state = {selectNode: undefined as undefined | TableNode}
     hooks.onSelectChange.use(selectNode => state.selectNode = selectNode)
@@ -381,7 +382,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
     })
 
     /*双击编辑*/
-    hooks.onDblClickCell.use((selectNode) => {!config.hideButton.update && permit.update && methods.editMethods.update(selectNode)})
+    hooks.onDblClickCell.use((selectNode) => {confirm.state.status !== eTableProStatus.select && !config.hideButton.update && permit.update && methods.editMethods.update(selectNode)})
 }
 
 export type TabelOptionButtons = ReturnType<typeof useTableOptionButtons>
