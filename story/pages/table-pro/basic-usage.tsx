@@ -19,6 +19,10 @@ export default designPage(() => {
         defaultNewRow: {
             count: 100
         },
+        // enable: false,
+        /*enable: {
+            update: false
+        },*/
         hooks: {
             /*onRequestData: (data) => {
                 data.distinctFields = ['normalText']
@@ -34,15 +38,15 @@ export default designPage(() => {
     return () => <>
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
-                <Plc title="编号id" field="id" width={350} link onClick={onClick} hideInForm/>
-                <PlcDate title="创建时间" field="createdAt" hideInForm width={200}/>
-                <PlcDate title="更新时间" field="updatedAt" hideInForm width={200}/>
+                <Plc title="编号id" field="id" link onClick={onClick} hideInForm/>
+                <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false}/>
+                <PlcDate title="更新时间" field="updatedAt" hideInForm width={200} editable={false}/>
                 <PlcDate title="日期" field="dateVal"/>
                 <PlcNumber title="计数count" field="count" required/>
                 <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
-                <PlcNumber title="数字numberVal" field="numberVal" required/>
+                <PlcNumber title="数字numberVal" field="numberVal"/>
                 <PlcCheckbox title="复选框flag" field="flag"/>
-                <PlcSelect title="下拉框selectVal" field="selectVal" required>
+                <PlcSelect title="下拉框selectVal" field="selectVal">
                     <PlSelectOption label="消费者" val="consumer">
                         <PlIcon icon="el-icon-s-custom" status="primary" style={{marginRight: '4px'}}/>
                         <span>消费者</span>
@@ -56,7 +60,7 @@ export default designPage(() => {
                         <span>门店</span>
                     </PlSelectOption>
                 </PlcSelect>
-                <PlcTextarea title="长文本longText" field="longText" required/>
+                <PlcTextarea title="长文本longText" field="longText"/>
             </PlTablePro>
         </div>
     </>

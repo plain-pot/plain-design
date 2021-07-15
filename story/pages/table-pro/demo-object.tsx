@@ -15,11 +15,12 @@ export default designPage(() => {
         url: '/demo',
         render: () => <>
             <Plc title="编号id" field="id" width={350} hideInForm/>
-            <PlcDate title="创建时间" field="createdAt" hideInForm width={200}/>
-            <PlcDate title="更新时间" field="updatedAt" hideInForm width={200}/>
+            <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false}/>
+            <PlcDate title="更新时间" field="updatedAt" hideInForm width={200} editable={false}/>
             <PlcDate title="日期" field="dateVal"/>
             <PlcNumber title="计数count" field="count" required/>
             <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
+            {/*
             <PlcNumber title="数字numberVal" field="numberVal" required/>
             <PlcCheckbox title="复选框flag" field="flag"/>
             <PlcSelect title="下拉框selectVal" field="selectVal" required>
@@ -36,7 +37,7 @@ export default designPage(() => {
                     <span>门店</span>
                 </PlSelectOption>
             </PlcSelect>
-            <PlcTextarea title="长文本longText" field="longText" required/>
+            <PlcTextarea title="长文本longText" field="longText" required/>*/}
         </>
     })
 
@@ -45,9 +46,15 @@ export default designPage(() => {
         $$notice({message: checked.normalText})
     }
 
+    const selectList = async () => {
+        const list = await $object({option}, true)
+        $$notice({message: list.map(i => i.normalText).join(',')})
+    }
+
     return () => <>
         <DemoRow title="基本用法">
-            <PlButton onClick={selectRow} label="选择对象"/>
+            <PlButton onClick={selectRow} label="单选"/>
+            <PlButton onClick={selectList} label="多选"/>
         </DemoRow>
     </>
 })

@@ -149,6 +149,12 @@ export const PlDialog = designComponent({
                 }
             } as KeyboardServiceOption,
             clickWrapper: (e: React.MouseEvent) => {
+                /*currentTarget 为节点 div.pl-dialog，因为react的事件代理机制，target可能不是currentTarget的子节点。*/
+                /*比如这里target可能是 dropdown-item，实际上dialog和dropdown在dom结构中视兄弟节点*/
+                const {target, currentTarget} = e as any as { target: HTMLElement, currentTarget: HTMLElement }
+                if (!currentTarget.contains(target)) {
+                    return;
+                }
                 if (isLoading.value) {
                     return
                 }

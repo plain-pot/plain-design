@@ -42,7 +42,6 @@ type DialogServiceFunction = (message: string | DialogServiceOption, option?: Di
 type DialogService = DialogServiceFunction & { [k in StyleStatus]: DialogServiceFunction } & { confirm: DialogServiceFunction }
 
 function formatOption(o: DialogServiceOption): DialogServiceFormatOption {
-    o = {...o}
     if (!o.editType) {
         o.status = o.status === null ? null : (o.status || 'primary')
     }

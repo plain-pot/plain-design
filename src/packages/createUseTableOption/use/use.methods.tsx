@@ -1,4 +1,4 @@
-import {eTableProEditType, iTableProDefaultConfig, iTableSortData, iTableState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
+import {eTableProEditType, iTableProDefaultConfig, iTableSortData, iTableOptionState, tTableOptionConfig, tUrlConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionHooks} from "./use.hooks";
 import $$notice from "../../$$notice";
@@ -15,7 +15,7 @@ import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm, getSortData}: {
-    tableState: iTableState,
+    tableState: iTableOptionState,
     config: tTableOptionConfig,
     pagination: tTablePagination,
     hooks: tTableOptionHooks,
@@ -147,13 +147,14 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             const cancel = async () => {await confirm.close.cancel()}
             const save = async () => {await confirm.close.confirm()}
 
-            const _delete = async () => {
+            const _delete = async (node?: TableNode | null) => {
                 await loadingMethods.save()
-                if (!currentNode.value) {
+                node = node || currentNode.value
+                if (!node) {
                     return $$notice.warn('请选中一行要删除的数据！')
                 }
                 const {page, size} = pagination.pageState
-                const {data, index} = currentNode.value
+                const {data, index} = node
                 await $$dialog.confirm(`确定要删除第${page * size + index + 1}条数据吗？`)
 
                 let {request, requestConfig} = utils.getUrlConfig('delete')
@@ -259,6 +260,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // todo
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
+                    confirm.close.clear()
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -353,6 +355,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     // todo
                     // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
+                    confirm.close.clear()
                     await pageMethods.reload()
                 },
                 onCancel: async () => {
@@ -381,6 +384,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         ...node.editRow,
                     })))
                     await request!(requestConfig)
+                    confirm.close.clear()
                     await pageMethods.reload()
                 },
             })
@@ -396,6 +400,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 return $$notice.error(`删除失败：${deleteResult.error}`)
             }
             $$notice.success(`删除成功！`)
+            confirm.close.clear()
             await pageMethods.load()
         }
 
@@ -408,7 +413,6 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
     })()
 
     hooks.onRefTable.use(table => freezeState.table = table)
-    hooks.onDblClickCell.use(node => {confirm.state.status !== eTableProStatus.select && editMethods.update(node)})
     hooks.onLoading.use(flag => {
         if (pageMethods.isLoading.all) {return true}
         if (editMethods.isLoading.all) {return true}

@@ -2,10 +2,12 @@ import {computed, reactive} from "plain-design-composition";
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import PlPagination from "../../PlPagination";
 import React from "react";
+import {tTableOptionHooks} from "./use.hooks";
 
-export function useTableOptionPagination({tableState, config, onPrev, onNext, onJump, onSizeChange}: {
+export function useTableOptionPagination({tableState, config, hooks, onPrev, onNext, onJump, onSizeChange}: {
     tableState: { list: any[] },
     config: tTableOptionConfig,
+    hooks: tTableOptionHooks,
 
     onPrev: () => void,
     onNext: () => void,
@@ -44,26 +46,32 @@ export function useTableOptionPagination({tableState, config, onPrev, onNext, on
         }
     })
 
-    const render = () => {
-        return (
-            <div className="pl-table-pro-pagination">
-                <PlPagination
-                    layout="loading,sizes,pager,prev,next,jumper"
-                    size="mini"
-                    pageSize={pageState.size}
-                    currentPage={pageState.page + 1}
-                    total={total.value}
-                    limitJumpPageByTotalPage={false}
+    hooks.onTableRender.use(prev => [
+        ...prev,
+        {
+            seq: 11,
+            render: () => {
+                return (
+                    <div className="pl-table-pro-pagination">
+                        <PlPagination
+                            layout="loading,sizes,pager,prev,next,jumper"
+                            size="mini"
+                            pageSize={pageState.size}
+                            currentPage={pageState.page + 1}
+                            total={total.value}
+                            limitJumpPageByTotalPage={false}
 
-                    onJump={val => onJump(val - 1)}
-                    onCurrentChange={val => onJump(val - 1)}
-                    onSizeChange={onSizeChange}
-                />
-            </div>
-        )
-    }
+                            onJump={val => onJump(val - 1)}
+                            onCurrentChange={val => onJump(val - 1)}
+                            onSizeChange={onSizeChange}
+                        />
+                    </div>
+                )
+            }
+        }
+    ])
 
-    return {pageState, update, render, updateTotal}
+    return {pageState, update, updateTotal}
 }
 
 export type tTablePagination = ReturnType<typeof useTableOptionPagination>

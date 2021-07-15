@@ -289,7 +289,7 @@ export const PlSelect = designComponent({
             render: () => (
                 <PlInput {...inputBinding.value}>
                     {{
-                        hidden: slots.default,
+                        hidden: () => slots.default(),
                         default: !props.multiple ? null : () => (
                             <PlInputInnerTags
                                 data={multipleTags.value}

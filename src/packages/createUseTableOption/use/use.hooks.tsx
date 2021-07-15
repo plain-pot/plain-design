@@ -7,23 +7,25 @@ import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
 import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 
+export interface iTableProRenderConfig {
+    seq: number,
+    render: () => ReactNode
+}
+
 export function createSyncHooks<Handler extends (arg: any) => any,
     InnerHandler = (arg: Parameters<Handler>["0"]) => (void | Parameters<Handler>["0"]),
     >(isReactive?: boolean) {
-    const state = isReactive ? reactive({
+    const state: { innerHandlers: InnerHandler[] } = isReactive ? reactive({
         innerHandlers: [] as InnerHandler[],
-    }) : {
+    }) : ({
         innerHandlers: [] as InnerHandler[],
-    }
+    }) as any
     const use = (handler: InnerHandler) => {
-        state.innerHandlers.push(handler as any)
+        state.innerHandlers = [...state.innerHandlers, handler] as any
         return () => eject(handler)
     }
     const eject = (handler: InnerHandler) => {
-        const index = state.innerHandlers.indexOf(handler as any)
-        if (index > -1) {
-            state.innerHandlers.splice(index, 1)
-        }
+        state.innerHandlers = state.innerHandlers.filter(i => i !== handler)
     }
     const exec = (arg: Parameters<Handler>["0"]): Parameters<Handler>["0"] => {
         if (state.innerHandlers.length === 0) {return arg}
@@ -37,7 +39,7 @@ export function createSyncHooks<Handler extends (arg: any) => any,
         }
         return arg
     }
-    return {use, eject, exec, state}
+    return {use, eject, exec, state, getListeners: () => [...state.innerHandlers]}
 }
 
 export function createHooks<Handler extends (arg: any) => any,
@@ -66,7 +68,7 @@ export function createHooks<Handler extends (arg: any) => any,
         }
         return arg
     }
-    return {use, eject, exec}
+    return {use, eject, exec, getListeners: () => [...innerHandlers]}
 }
 
 export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
@@ -107,6 +109,8 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onLoading: createSyncHooks<(flag: boolean) => void>(true),                         // 当前是否开启加载状态
         onColumns: createSyncHooks<(children: ReactNode) => void>(true),                   // 渲染Table的内容
         onButtons: createSyncHooks<(content: ReactNode) => void>(true),                    // 同步钩子，用来处理按钮信息
+        onTableRender: createSyncHooks<(renderConfigs: iTableProRenderConfig[]) => void>(true),// table渲染钩子
+        onInit: createHooks<() => void>(),                                                          // 异步钩子函数，等待init执行完毕之后，再渲染table
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
