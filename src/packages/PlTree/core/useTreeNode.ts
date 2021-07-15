@@ -71,6 +71,10 @@ export function useTreeNode<Node extends {
     /*内部data变量*/
     const dataModel = useModel(() => props.data, event.emit.onUpdateData)
 
+    const rootData = {
+        [props.keyField || 'id']: '@@$$root',
+        [props.childrenField || 'children']: dataModel.value
+    }
 
     /**
      * 因为滚动的时候会频繁获取checkStatus，而这个属性又是计算量比较大的属性，这里作为计算属性统一计算
@@ -171,11 +175,10 @@ export function useTreeNode<Node extends {
                 }
                 return node
             }
+
+            rootData[props.childrenField || 'children'] = dataModel.value
             const root = iterator({
-                data: {
-                    [props.keyField || 'id']: '@@$$root',
-                    [props.childrenField || 'children']: dataModel.value
-                },
+                data: rootData,
                 level: 0,
                 parentRef: null as any,
             })
