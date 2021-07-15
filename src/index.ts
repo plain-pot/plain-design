@@ -102,6 +102,7 @@ import {PlcSelect} from "./packages/PlcSelect";
 import PlcTextarea from "./packages/PlcTextarea";
 import {PlcToggle} from "./packages/PlcToggle";
 import {PlcTree} from "./packages/PlcTree";
+import {PlcOperator} from './packages/PlcOperator'
 import PlTablePro from "./packages/PlTablePro";
 
 export {
@@ -209,5 +210,6 @@ export {
     PlcTextarea,
     PlcToggle,
     PlcTree,
+    PlcOperator,
     PlTablePro,
 }

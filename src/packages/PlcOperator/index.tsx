@@ -12,7 +12,7 @@ import React from "react";
 export const PlcOperator = designComponent({
     props: {
         ...createPlcPropOptions({
-            autoFixedRight: true,
+            fixed: 'right',
             order: 9999,
             width: 200,
             align: 'center',

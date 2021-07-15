@@ -18,6 +18,7 @@ import PlDropdownMenu from "../../PlDropdownMenu";
 import {Plc} from "../../Plc";
 import PlButtonGroup from "../../PlButtonGroup";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
+import PlcOperator from "../../PlcOperator";
 
 
 const DefaultSeq = {
@@ -303,18 +304,17 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
         if (!show) {return content}
         return <>
             {content}
-            <Plc key="operator" title="操作" field="operator" align="center" autoFixedRight order={99}>
+            <PlcOperator>
                 {{
-                    normal: ({node}) => {
+                    default: ({node}) => {
                         if (node.edit) {
                             return <>
-                                <PlButtonGroup mode="text">
+                                <PlButtonGroup mode="text" size="mini">
                                     <PlButton onClick={methods.editMethods.cancel} label={'取消'}/>
                                     <PlButton onClick={methods.editMethods.save} label={'保存'}/>
                                 </PlButtonGroup>
                             </>
                         }
-
                         const buttons = innerButtons.value.map(btn => {
                             const {code, type, position} = btn
                             let label = typeof btn.label === "function" ? btn.label(node) : btn.label
@@ -332,15 +332,12 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                             }
                             return {...btn, label, icon, show, disabled, seq,}
                         }).filter(i => i.show).sort((a, b) => utils.getSeq(a) - utils.getSeq(b))
-
                         let dropdownButtons: typeof buttons = []
                         const maxButtons = 4
-
                         if (buttons.length > maxButtons) {
                             dropdownButtons = buttons.splice(maxButtons - 1)
                         }
-
-                        return <PlButtonGroup mode="text">
+                        return <PlButtonGroup mode="text" size="mini">
                             {buttons.map(({render, icon, disabled, handler, seq, label}, index) => (
                                 !!render ? render(node) : <PlButton
                                     disabled={disabled}
@@ -386,7 +383,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                         </PlButtonGroup>
                     }
                 }}
-            </Plc>
+            </PlcOperator>
         </>
     })
 

@@ -42,6 +42,15 @@ export default designPage(() => {
                     console.log(node)
                 }
             },
+            {
+                label: '发布',
+                code: 'publish',
+                type: 'other',
+                position: 'in',
+                handler: (node) => {
+                    console.log(node)
+                }
+            },
         ],
         hooks: {
             /*onRequestData: (data) => {
