@@ -2,12 +2,9 @@ import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleF
 import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import './table-pro.scss'
-import PlButton from "../PlButton";
-import PlDropdown from "../PlDropdown";
-import PlDropdownMenu from "../PlDropdownMenu";
-import PlIcon from "../PlIcon";
 import PlButtonGroup from "../PlButtonGroup";
 import {iTableProRenderConfig} from "../createUseTableOption/use/use.hooks";
+import PlLoadingMask from "../PlLoadingMask";
 
 export const PlTablePro = designComponent({
     props: {
@@ -62,6 +59,7 @@ export const PlTablePro = designComponent({
                             {i.render()}
                         </React.Fragment>
                     ))}
+                    <PlLoadingMask modelValue={loading.value} message="加载数据中..."/>
                 </div>
             )
         }
