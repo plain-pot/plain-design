@@ -7,9 +7,11 @@ export function useDistinctFilter() {
 
     const {$object} = useObject()
 
-    const pick = async ({}: { node: TableNode, plc: tPlc, option: tTableOption }) => {
+    const pick = async ({node, plc, option}: { node: TableNode, plc: tPlc, option: tTableOption }) => {
 
-        // const checked = await $object({option})
+        const checked = await $object({
+            option,
+        })
 
     }
 
