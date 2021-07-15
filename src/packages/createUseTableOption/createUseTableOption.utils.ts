@@ -117,7 +117,7 @@ export type iTableOptionButtonInner = iTableOptionButtonBase & {
 }
 
 export type iTableOptionButtonOuter = iTableOptionButtonBase & {
-    position: 'out',
+    position: 'out' | 'more',
     handler?: (e: React.MouseEvent | KeyboardEvent) => void,
     render?: () => ReactNode,
     label: string | (() => string),

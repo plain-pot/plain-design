@@ -35,7 +35,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
     const utils = {
         getSeq: (btn: iTableOptionButton) => btn.seq == null ? DefaultSeq[btn.type] : btn.seq,
         createButton: (btn: iTableOptionButton) => {
-            if (btn.position === 'out' && !!btn.command) {
+            if (btn.position !== 'in' && !!btn.command) {
                 toArray(btn.command).forEach(name => command.on(name, (e) => !!btn.handler && btn.handler(e)))
             }
             return btn
@@ -109,7 +109,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-document',
             type: 'update',
             code: 'update-form',
-            position: 'out',
+            position: 'more',
             command: 'alt+e',
             handler: () => methods.editMethods.update(undefined, eTableProEditType.form),
         }),
@@ -119,7 +119,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-document-add',
             type: 'insert',
             code: 'inset-batch',
-            position: 'out',
+            position: 'more',
             command: 'alt+i',
             handler: () => methods.editMethods.batchInsert(),
         }),
@@ -129,7 +129,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-edit-outline',
             type: 'update',
             code: 'update-batch',
-            position: 'out',
+            position: 'more',
             command: 'alt+u',
             handler: () => methods.editMethods.batchUpdate(),
         }),
@@ -139,7 +139,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-document-remove',
             type: 'delete',
             code: 'delete-batch',
-            position: 'out',
+            position: 'more',
             command: 'alt+d',
             handler: () => methods.editMethods.batchDelete(),
         }),
@@ -149,7 +149,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-edit',
             type: 'update',
             code: 'update-modify',
-            position: 'out',
+            position: 'more',
             command: 'alt+m',
             handler: () => methods.editMethods.batchModify(),
         }),
@@ -158,7 +158,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-brush',
             type: 'other',
             code: 'senior-filter',
-            position: 'out',
+            position: 'more',
             command: 'alt+f',
             handler: () => {setting.openSetting(eTableOptionSettingView.filter)}
         }),
@@ -167,7 +167,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-sort',
             type: 'other',
             code: 'senior-sort',
-            position: 'out',
+            position: 'more',
             command: 'alt+g',
             handler: () => {setting.openSetting(eTableOptionSettingView.sort)}
         }),
@@ -176,7 +176,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-setting',
             type: 'other',
             code: 'setting',
-            position: 'out',
+            position: 'more',
             command: 'alt+r',
             handler: () => {setting.openSetting(eTableOptionSettingView.config)}
         }),
@@ -185,7 +185,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-download',
             type: 'other',
             code: 'import',
-            position: 'out',
+            position: 'more',
             command: 'alt+j',
             handler: () => {setting.openSetting(eTableOptionSettingView.import)}
         }),
@@ -194,7 +194,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             icon: 'el-icon-upload1',
             type: 'other',
             code: 'export',
-            position: 'out',
+            position: 'more',
             command: 'alt+k',
             handler: () => {setting.openSetting(eTableOptionSettingView.export)}
         }),
@@ -205,7 +205,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
 
     const outerButtons = computed(() => {
         return [...Object.values(standardButtons), ...config.buttons || []]
-            .filter(i => i.position === 'out')
+            .filter(i => i.position !== 'in')
             .map(item => {
                 const btn = item as iTableOptionButtonOuter
                 const {code, type, position} = btn
@@ -232,20 +232,28 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
     })
 
     hooks.onButtons.use((prev) => {
-        const [_1, _2, _3, ...leftBtns] = outerButtons.value
+        let {out, more} = outerButtons.value.reduce((prev, btn) => {
+            prev[btn.position].push(btn)
+            return prev
+        }, {out: [], more: []} as { out: typeof outerButtons.value, more: typeof outerButtons.value })
+        let [_1, _2, _3, ...left] = out
+        more = [...more, ...left]
+
         return <>
             {prev}
-            {[_1, _2, _3].map(({render, icon, disabled, handler, seq, label}, index) => (
-                !!render ? render() : <PlButton
-                    key={index}
-                    icon={icon}
-                    disabled={disabled}
-                    onClick={handler}
-                    label={label}
-                    style={{order: String(seq)}}
-                />
-            ))}
-            {leftBtns.length > 0 && <>
+            {[_1, _2, _3]
+                .filter(Boolean)
+                .map(({render, icon, disabled, handler, seq, label}, index) => (
+                    !!render ? render() : <PlButton
+                        key={index}
+                        icon={icon}
+                        disabled={disabled}
+                        onClick={handler}
+                        label={label}
+                        style={{order: String(seq)}}
+                    />
+                ))}
+            {more.length > 0 && <>
                 <PlDropdown placement="bottom-end" width="190" height={null as any}>
                     {{
                         reference: ({open}) => (
@@ -259,7 +267,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                         ),
                         popper: () => (
                             <PlDropdownMenu>
-                                {leftBtns.map(({label, icon, disabled, handler, seq, command, render}, index) => (
+                                {more.map(({label, icon, disabled, handler, seq, command, render}, index) => (
                                     !!render ? render() : <PlDropdownOption
                                         key={index}
                                         label={label + (!command ? '' : `（${toArray(command!).map(i => i.toUpperCase()).join(',')}）`)}

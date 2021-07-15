@@ -36,8 +36,8 @@ export default designPage(() => {
             {
                 label: '发布',
                 code: 'publish',
-                type: 'update',
-                position: 'in',
+                type: 'other',
+                position: 'out',
                 handler: (node) => {
                     console.log(node)
                 }
