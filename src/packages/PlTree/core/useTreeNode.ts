@@ -1,7 +1,7 @@
 import {SimpleObject} from "../../../shims";
 import {TreeNodeCheckStatus} from "../utils/tree-constant";
 import {throttle} from "plain-utils/utils/throttle";
-import {reactive, computed, onBeforeUnmount, useModel, watchEffect} from "plain-design-composition";
+import {reactive, computed, onBeforeUnmount, useModel, watchEffect, watch} from "plain-design-composition";
 
 /**
  * 根据childrenField遍历data树形数据
@@ -71,10 +71,12 @@ export function useTreeNode<Node extends {
     /*内部data变量*/
     const dataModel = useModel(() => props.data, event.emit.onUpdateData)
 
-    const rootData = {
-        [props.keyField || 'id']: '@@$$root',
-        [props.childrenField || 'children']: dataModel.value
-    }
+    const field = reactive({
+        key: computed(() => props.keyField || 'id'),
+        children: computed(() => props.childrenField || 'children')
+    })
+
+    const rootData = {[field.key]: '@@$$root', [field.children]: dataModel.value}
 
     /**
      * 因为滚动的时候会频繁获取checkStatus，而这个属性又是计算量比较大的属性，这里作为计算属性统一计算
@@ -213,17 +215,17 @@ export function useTreeNode<Node extends {
 
     const dataEffectTrigger = throttle(() => {
         const {root, nodeMap} = utils.resetData()
-        state.root = root
+        state.root = reactive({...root}) as any
         state.nodeMap = nodeMap
     }, 100)
 
-    const stopWatchEffect = watchEffect(
-        () => {
-            iteratorTreeData({data: dataModel.value || [], childrenField: props.childrenField!})
-            dataEffectTrigger()
-        },
-    )
+    const stopWatchEffect = watchEffect(() => {
+        state.root.data[field.children] = dataModel.value
+        iteratorTreeData({data: dataModel.value || [], childrenField: props.childrenField!})
+        dataEffectTrigger()
+    })
     onBeforeUnmount(stopWatchEffect)
+
     const methods = {
         getReactiveChildrenData(node: Node) {
             let childrenData = node.childrenData
