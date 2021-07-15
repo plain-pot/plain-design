@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {useTableOption} from "./useTableOption";
+import {useTableOption} from "../../../src";
 import PlTablePro from "../../../src/packages/PlTablePro";
 import {PlcDate, PlSelectOption, Plc, PlIcon} from "../../../src";
 import {PlcSelect} from "../../../src/packages/PlcSelect";

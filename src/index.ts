@@ -86,6 +86,7 @@ import useMessage from "./packages/useMessage";
 import useNotice from "./packages/useNotice";
 import usePopper from "./packages/usePopper";
 import createUseTableOption from "./packages/createUseTableOption";
+import initialize from "./packages/initialize";
 
 import PlcCheck from './packages/PlcCheck'
 import PlcCheckbox from './packages/PlcCheckbox'
@@ -104,6 +105,9 @@ import {PlcToggle} from "./packages/PlcToggle";
 import {PlcTree} from "./packages/PlcTree";
 import {PlcOperator} from './packages/PlcOperator'
 import PlTablePro from "./packages/PlTablePro";
+
+import useTableOption from "./packages/useTableOption";
+import useObjectOption from "./packages/useObjectOption";
 
 export {
     $$contextmenu,
@@ -194,6 +198,9 @@ export {
     useNotice,
     usePopper,
     createUseTableOption,
+    initialize,
+    useTableOption,
+    useObjectOption,
 
     PlcCheck,
     PlcCheckbox,

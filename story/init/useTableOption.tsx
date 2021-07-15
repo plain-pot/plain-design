@@ -1,8 +1,8 @@
-import {$$notice, createUseTableOption} from "../../../src";
-import {$http} from "../../http/http";
-import {tDeleteResponse, tUrlConfig} from "../../../src/packages/createUseTableOption/createUseTableOption.utils";
+import {$$notice, createUseTableOption} from "../../src";
+import {$http} from "../http/http";
+import {tDeleteResponse, tUrlConfig} from "../../src/packages/createUseTableOption/createUseTableOption.utils";
 import {createCounter} from "plain-design-composition";
-import {eFilterOperator} from "../../../src/packages/PlFilter/FilterConfig";
+import {eFilterOperator} from "../../src/packages/PlFilter/FilterConfig";
 
 const generateFilterId = createCounter('auto_filter_id')
 
@@ -13,7 +13,7 @@ interface iModuleQueryFilter {
     value?: any,
 }
 
-export const useTableOption = createUseTableOption({
+const useTableOption = createUseTableOption({
     keyField: 'id',
     bodyRowHeight: 48,
     headRowHeight: 48,
@@ -202,3 +202,5 @@ export const useTableOption = createUseTableOption({
         })
     }
 })
+
+export default useTableOption

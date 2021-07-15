@@ -2,7 +2,7 @@ import {designPage} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import useObject from "../../../src/packages/useObject";
-import {useObjectOption} from "./useObjectOption";
+import {useObjectOption} from "../../../src";
 import {PlcTextarea, $$notice, PlButton, Plc, PlcDate, PlcInput, PlcNumber, PlcSelect, PlIcon, PlSelectOption} from "../../../src";
 import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";
 

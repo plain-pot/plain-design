@@ -124,6 +124,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
     }
 }
 
-export type tTableOption = ReturnType<ReturnType<typeof createUseTableOption>>
+export type tUseTableOption = ReturnType<typeof createUseTableOption>
+
+export type tTableOption = ReturnType<tUseTableOption>
 
 export default createUseTableOption
