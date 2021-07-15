@@ -347,7 +347,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                                 />
                             ))}
                             {dropdownButtons.length > 0 && (
-                                <PlDropdown placement="bottom-end" height={null as any}>
+                                <PlDropdown placement="bottom-end" height={null as any} width={120}>
                                     {{
                                         reference: ({open}) => (
                                             <PlButton>
@@ -367,6 +367,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                                                         icon={icon || undefined}
                                                         disabled={disabled}
                                                         onClick={(e) => !!handler && handler(node, e)}
+                                                        align="center"
                                                     />
                                                 ))}
                                             </PlDropdownMenu>

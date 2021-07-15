@@ -32,7 +32,16 @@ export default designPage(() => {
                 handler: (node) => {
                     console.log(node)
                 }
-            }
+            },
+            {
+                label: '发布',
+                code: 'publish',
+                type: 'update',
+                position: 'in',
+                handler: (node) => {
+                    console.log(node)
+                }
+            },
         ],
         hooks: {
             /*onRequestData: (data) => {
