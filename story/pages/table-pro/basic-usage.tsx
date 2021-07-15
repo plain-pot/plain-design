@@ -23,6 +23,17 @@ export default designPage(() => {
         /*enable: {
             update: false
         },*/
+        buttons: [
+            {
+                label: '详情',
+                code: 'detail',
+                type: 'other',
+                position: 'in',
+                handler: (node) => {
+                    console.log(node)
+                }
+            }
+        ],
         hooks: {
             /*onRequestData: (data) => {
                 data.distinctFields = ['normalText']
