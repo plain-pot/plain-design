@@ -6,7 +6,7 @@ import {defer} from "../../utils/defer";
 import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import {PlcCheck} from "../PlcCheck";
 import PlcPick from "../PlcPick";
-import {useRefs} from "plain-design-composition";
+import {designPage, onBeforeUnmount, useRefs} from "plain-design-composition";
 import {TableNode} from "../PlTable/table/use/useTableNode";
 
 export interface ObjectServiceOption {
@@ -31,19 +31,35 @@ export function useObject() {
     const $object: ObjectService = (option: ObjectServiceOption, multiple?: true) => {
         const dfd = defer<PlainObject | PlainObject[]>()
         const {option: tableOption, beforeCancel, beforeConfirm} = option
-        if (tableOption.config.enable == null) {
-            tableOption.config.enable = false
+        if (tableOption.config.enable == null) {tableOption.config.enable = false}
+
+        const onConfirm = async () => {
+            if (!refs.check) {
+                dfd.reject(new Error('选择失败，内部异常！'))
+            } else {
+                const data = !multiple ? refs.check.getSelected()! : refs.check.getSelected()!.map((i: TableNode) => i.data)
+                !!beforeConfirm && await beforeConfirm(data)
+                dfd.resolve(data)
+            }
+            onRef.check(null)
+            dlgOpt.close!()
         }
 
-        const dlgOpt: Partial<DialogServiceFormatOption> = {
-            title: tableOption.config.title,
-            status: null,
-            render: () => <>
+        const Content = designPage(() => {
+            if (!multiple) {onBeforeUnmount(tableOption.hooks.onDblClickCell.use(onConfirm))}
+
+            return () => <>
                 <PlTablePro option={tableOption}>
                     {multiple && <PlcCheck toggleOnClickRow ref={onRef.check}/>}
                     {!multiple && <PlcPick toggleOnClickRow ref={onRef.check}/>}
                 </PlTablePro>
-            </>,
+            </>
+        })
+
+        const dlgOpt: Partial<DialogServiceFormatOption> = {
+            title: tableOption.config.title,
+            status: null,
+            render: () => <Content/>,
             dialogProps: {
                 closeOnConfirm: false,
                 width: '75vw',
@@ -51,17 +67,7 @@ export function useObject() {
             },
             confirmButton: true,
             cancelButton: true,
-            onConfirm: async () => {
-                if (!refs.check) {
-                    dfd.reject(new Error('选择失败，内部异常！'))
-                } else {
-                    const data = !multiple ? refs.check.getSelected()! : refs.check.getSelected()!.map((i: TableNode) => i.data)
-                    !!beforeConfirm && await beforeConfirm(data)
-                    dfd.resolve(data)
-                }
-                onRef.check(null)
-                dlgOpt.close!()
-            },
+            onConfirm,
             onCancel: async () => {
                 !!beforeCancel && await beforeCancel()
                 onRef.check(null)
