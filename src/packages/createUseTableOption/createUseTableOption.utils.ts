@@ -176,6 +176,7 @@ export type TableProConfigEnable = boolean | {
 export interface iTableProConfig<D = any> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
+    queryParams?: PlainObject | Promise<PlainObject> | (() => PlainObject | Promise<PlainObject>)//查询参数
     pageSize?: number,                                                  // 请求页大小
     editType?: keyof typeof eTableProEditType,                          // 编辑类型
     defaultEditing?: boolean,                                           // <是否默认开启编辑状态>

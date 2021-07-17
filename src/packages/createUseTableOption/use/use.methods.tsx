@@ -73,6 +73,10 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             targetLoadConfig.orders = getSortData().map(i => [i.field, i.desc === false ? 'asc' : 'desc'])
 
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
+
+            const queryParams = await hooks.onQueryParams.exec(!config.queryParams ? {} : (deepcopy(typeof config.queryParams === "function" ? (await config.queryParams()) : (await config.queryParams))))
+            Object.assign(requestData, queryParams)
+
             Object.assign(requestData, targetLoadConfig)
             const filterDaraArr = await hooks.onCollectFilterData.exec([])
             requestConfig = config.injectRules(filterDaraArr, requestConfig) || requestConfig
