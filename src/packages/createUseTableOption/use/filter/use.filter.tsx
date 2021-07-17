@@ -5,8 +5,9 @@ import {useTableOptionSearchFilter} from "./useSearchFilter";
 import {useTableOptionFormFilter} from "./useFormFilter";
 import {useTableOptionColumnFilter} from "./useColumnFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
+import {tTableOptionSort} from "../use.sort";
 
-export function useTableOptionFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
+export function useTableOptionFilter({hooks, methods, customConfig, tableSort}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, tableSort: tTableOptionSort }) {
 
     /**
      * 表单查询
@@ -27,7 +28,7 @@ export function useTableOptionFilter({hooks, methods, customConfig}: { hooks: tT
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const columnFilter = useTableOptionColumnFilter({hooks, methods, customConfig})
+    const columnFilter = useTableOptionColumnFilter({hooks, methods, customConfig, tableSort})
 
     return {
         searchFilter,

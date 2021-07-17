@@ -15,11 +15,9 @@ import {useTableOptionDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
+import {tTableOptionSort} from "../use.sort";
 
-/*最大的排序索引*/
-const MAX_SORT_INDEX = 100
-
-export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
+export function useTableOptionColumnFilter({hooks, methods, customConfig, tableSort}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, tableSort: tTableOptionSort }) {
 
     const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks})
 
@@ -37,7 +35,6 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hoo
         prev[columnKey] = {
             ...cfd,
             fto: FilterConfig.getTargetOption(cfd.option),
-            sourceData: () => cfd,
         }
         return prev
     }, {} as Record<string, ColumnFilterTargetData>))
@@ -51,8 +48,6 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hoo
             const key = getColumnKey(plc)
             const oldColumnFilterData = oldColumnFilterDataMap[key]
             prev[key] = !!oldColumnFilterData ? {...oldColumnFilterData} : {
-                desc: null,
-                sortIndex: null,
                 option: {
                     label: plc.props.title!,
                     field: plc.props.field!,
@@ -83,29 +78,6 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hoo
         return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
     })
 
-    const minSortIndex = computed(() => Object.values(state.columnFilterDataMap).reduce((prev, item) => Math.min(prev, item.sortIndex || MAX_SORT_INDEX), MAX_SORT_INDEX))
-
-    const changeSort = (cftd: ColumnFilterTargetData, desc: boolean) => {
-        const cfd = cftd.sourceData()
-        if (cfd.desc == null || cfd.desc !== desc) {
-            cfd.desc = desc
-            cfd.sortIndex = minSortIndex.value - 1
-        } else {
-            cfd.desc = null
-            cfd.sortIndex = null
-        }
-        methods.pageMethods.reload()
-    }
-
-    hooks.onCollectSortData.use((prev) => {
-        const sortData = Object.values(columnFilterTargetDataMap.value)
-            .filter(i => !!i.option.field && i.sortIndex != null && i.desc != null)
-            .map(i => ({field: i.option.field, desc: i.desc, sortIndex: i.sortIndex}))
-            .sort((a, b) => -(a.sortIndex! - b.sortIndex!)) as { field: string, desc: boolean, sortIndex: number }[]
-        if (sortData.length === 0) {return prev}
-        return [...(sortData.map(i => ({field: i.field, desc: i.desc}))), ...prev,]
-    })
-
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
         if (plc.group || !plc.props.field) {return}
@@ -116,7 +88,9 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hoo
             const columnFilterTargetData = columnFilterTargetDataMap.value[columnKey]
             if (!columnFilterTargetData) {return;}
 
-            const {fto, desc} = columnFilterTargetData
+            const {fto} = columnFilterTargetData
+            const {field, label: title} = fto!.option
+            const {desc} = tableSort.get({field, title}) || {desc: null}
 
             return <>
                 <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
@@ -124,14 +98,14 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hoo
                         <div className={classnames([
                             'pro-column-filter-sort-item',
                             {'pro-column-filter-sort-item-active': desc !== null && !desc}
-                        ])} onClick={() => changeSort(columnFilterTargetData, false)}>
+                        ])} onClick={() => tableSort.toggleSort({field, desc: false, title})}>
                             <PlIcon icon="el-icon-upload1"/>
                             <span>升序</span>
                         </div>
                         <div className={classnames([
                             'pro-column-filter-sort-item',
                             {'pro-column-filter-sort-item-active': desc !== null && !!desc}
-                        ])} onClick={() => changeSort(columnFilterTargetData, true)}>
+                        ])} onClick={() => tableSort.toggleSort({field, desc: true, title})}>
                             <PlIcon icon="el-icon-download"/>
                             <span>降序</span>
                         </div>

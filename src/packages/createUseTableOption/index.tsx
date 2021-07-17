@@ -14,6 +14,7 @@ import React from "react";
 import {useTableOptionBaseTable} from "./use/use.base-table";
 import {useTableOptionPermit} from "./use/use.permit";
 import {iFilterData} from "../PlFilter/FilterConfig";
+import {useTableOptionSort} from "./use/use.sort";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -66,11 +67,13 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         const {pageMethods, editMethods} = methods
 
+        const tableSort = useTableOptionSort({methods, hooks})
+
         const setting = useTableOptionSetting({hooks, methods})
 
         const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})
 
-        const filter = useTableOptionFilter({hooks, methods, customConfig})
+        const filter = useTableOptionFilter({hooks, methods, customConfig, tableSort})
 
         /*执行初始化逻辑，init一定要放在所有hook之后执行*/
         const init = (() => {
