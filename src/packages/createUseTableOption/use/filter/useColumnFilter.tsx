@@ -143,7 +143,10 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
                         <PlButtonGroup>
                             <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide!()}/>
                             <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
-                            <PlButton icon="el-icon-search" label="去重筛选" onClick={() => distinct.open(columnFilterTargetData)}/>
+                            <PlButton icon="el-icon-search" label="去重筛选" onClick={() => {
+                                menuOpt.hide!()
+                                distinct.open(columnFilterTargetData)
+                            }}/>
                             <PlButton icon="el-icon-close" onClick={() => distinct.clear(columnFilterTargetData)}/>
                         </PlButtonGroup>
                     </div>
