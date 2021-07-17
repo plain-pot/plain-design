@@ -28,6 +28,8 @@ interface ColumnFilterTargetData extends ColumnFilterData {
 
 const MAX_SORT_INDEX = 100
 
+let excludePlcListWhenCollectFilterData: { title: string, field: string }[] = []
+
 export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
 
     const distinct = useDistinctFilter()
@@ -39,7 +41,7 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         columnFilterDataMap: {} as Record<string, ColumnFilterData>,
-        distinctFilterValueMap: {} as Record<string, (string | number)[]>,
+        distinctFilterValueMap: new Map<tPlc, (string | number)[]>(),
     })
 
     const columnFilterTargetDataMap = computed(() => Object.entries(state.columnFilterDataMap).reduce((prev, [columnKey, cfd]) => {
@@ -86,9 +88,9 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
             return prev
         }, [] as iFilterQuery[])
 
-        Object.entries(state.distinctFilterValueMap).forEach(([field, distinctValues]) => {
+        Array.from(state.distinctFilterValueMap.entries()).forEach(([plc, distinctValues]) => {
             if (distinctValues.length === 0) {return}
-            queries.push({field, operator: 'in', value: distinctValues,})
+            queries.push({field: plc.props.field!, operator: 'in', value: distinctValues,})
         })
 
         return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
@@ -118,12 +120,15 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
     })
 
     const openDistinctFilterDialog = async (cftd: ColumnFilterTargetData) => {
-        const field = cftd.fto!.option.field!
-        const distinctValues = await distinct.pick({plc: cftd.option.plc!, customConfig})
+        const field = cftd.fto!.option.field
+        const plc = cftd.fto!.option.plc
+        if (!field || !plc) {return console.warn('distinct filter: no field or plc!')}
+
+        const distinctValues = await distinct.pick({plc, customConfig})
         if (distinctValues.length === 0) {
-            delete state.distinctFilterValueMap[field]
+            state.distinctFilterValueMap.delete(plc)
         } else {
-            state.distinctFilterValueMap[field] = distinctValues
+            state.distinctFilterValueMap.set(plc, distinctValues)
         }
         methods.pageMethods.reload()
     }
