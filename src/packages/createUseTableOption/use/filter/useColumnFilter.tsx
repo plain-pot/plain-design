@@ -28,7 +28,7 @@ interface ColumnFilterTargetData extends ColumnFilterData {
 
 const MAX_SORT_INDEX = 100
 
-let excludePlcListWhenCollectFilterData: { title: string, field: string }[] = []
+let excludePlcListWhenCollectFilterData: tPlc[] = []
 
 export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
 
@@ -89,7 +89,7 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
         }, [] as iFilterQuery[])
 
         Array.from(state.distinctFilterValueMap.entries()).forEach(([plc, distinctValues]) => {
-            if (distinctValues.length === 0) {return}
+            if (distinctValues.length === 0 || excludePlcListWhenCollectFilterData.indexOf(plc) > -1) {return}
             queries.push({field: plc.props.field!, operator: 'in', value: distinctValues,})
         })
 
@@ -124,7 +124,11 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
         const plc = cftd.fto!.option.plc
         if (!field || !plc) {return console.warn('distinct filter: no field or plc!')}
 
-        const distinctValues = await distinct.pick({plc, customConfig})
+        excludePlcListWhenCollectFilterData.push(plc)
+        const existFilterDataExcludePlcDistinctFilterValue = await hooks.onCollectFilterData.exec([])
+        excludePlcListWhenCollectFilterData.splice(0, 1)
+
+        const distinctValues = await distinct.pick({plc, customConfig, existFilterDataExcludePlcDistinctFilterValue})
         if (distinctValues.length === 0) {
             state.distinctFilterValueMap.delete(plc)
         } else {

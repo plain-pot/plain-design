@@ -189,7 +189,7 @@ export interface iTableProConfig<D = any> extends Partial<iTableProDefaultConfig
     render?: () => ReactNode,                                           // 自定义内容
     isCheckable?: (row: any) => boolean,                                // 某条记录是否可以被选中
     sort?: iTableSortData | iTableSortData[],                           // 排序方式
-    filterParam?: iFilterData | (() => iFilterData | null | undefined | Promise<iFilterData | null | undefined>),// 筛选参数
+    filterParam?: iFilterData | iFilterData[] | (() => iFilterData | iFilterData[] | null | undefined | Promise<iFilterData | iFilterData[] | null | undefined>),// 筛选参数
     hooks?: tTableOptionConfigHook,                                     // 监听钩子函数
     enable?: TableProConfigEnable,                                      // 新删改查控制
     hideOperation?: boolean,                                            // 是否隐藏操作栏

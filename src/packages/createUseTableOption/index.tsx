@@ -13,6 +13,7 @@ import {toArray} from "../../utils/toArray";
 import React from "react";
 import {useTableOptionBaseTable} from "./use/use.base-table";
 import {useTableOptionPermit} from "./use/use.permit";
+import {iFilterData} from "../PlFilter/FilterConfig";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -95,9 +96,9 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         })
         hooks.onCollectFilterData.use(async prev => {
             if (!config.filterParam) {return prev}
-            const filterParam = typeof config.filterParam === "function" ? await config.filterParam() : config.filterParam
+            const filterParam = toArray(typeof config.filterParam === "function" ? await config.filterParam() : config.filterParam).filter(Boolean) as iFilterData[]
             if (!!filterParam) {
-                return [...prev, filterParam]
+                return [...prev, ...filterParam]
             }
             return prev
         })

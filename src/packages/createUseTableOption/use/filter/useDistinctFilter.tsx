@@ -9,6 +9,7 @@ import {Plc} from "../../../Plc";
 import {renderBodyCell, renderHeadCell} from "../../../PlTable/plc/utils/render";
 import {defer} from "../../../../utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
+import {iFilterData} from "../../../PlFilter/FilterConfig";
 
 export type tFilterDistinctValue = string | number
 
@@ -22,7 +23,11 @@ export function useDistinctFilter() {
         selected: [] as PlainObject[] | undefined
     }
 
-    const pick = async ({plc, customConfig}: { plc: tPlc, customConfig: iTableProConfig }): Promise<tFilterDistinctValue[]> => {
+    const pick = async ({plc, customConfig, existFilterDataExcludePlcDistinctFilterValue}: {
+        plc: tPlc,
+        customConfig: iTableProConfig,
+        existFilterDataExcludePlcDistinctFilterValue: iFilterData[],
+    }): Promise<tFilterDistinctValue[]> => {
 
         const dfd = defer<tFilterDistinctValue[]>()
 
@@ -35,6 +40,7 @@ export function useDistinctFilter() {
                 queryParams: {
                     distinctFields: [plc.props.field]
                 },
+                filterParam: existFilterDataExcludePlcDistinctFilterValue,
             })
 
             return () => <>
