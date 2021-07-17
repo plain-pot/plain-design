@@ -48,8 +48,8 @@ export function useDistinctFilter() {
                         filterConfig={plc.props.filterConfig}
                     >
                         {{
-                            head: () => renderHeadCell(plc),
-                            normal: scope => renderBodyCell({node: scope.node, plc, formEdit: false}).body,
+                            ...plc.scopeSlots,
+                            ...plc.slots,
                         }}
                     </Plc>
                 </PlTablePro>

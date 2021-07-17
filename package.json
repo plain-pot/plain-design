@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "plain-design-composition": "0.0.93",
+    "plain-design-composition": "0.0.98",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
