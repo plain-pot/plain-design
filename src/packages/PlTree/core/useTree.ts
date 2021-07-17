@@ -385,7 +385,7 @@ export const useTree = Object.assign(use, {
             expandOnClickNode: {type: Boolean, default: true},          // 是否点击树节点的时候展开子节点
             checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
             defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
-            currentKey: {type: String},                                 // 当前选中节点的key
+            currentKey: {type: [String, Number]},                       // 当前选中节点的key
         }
     },
     createEvent: <Node>() => {
