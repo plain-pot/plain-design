@@ -13,6 +13,7 @@ import {toArray} from "../../../../utils/toArray";
 import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuService";
 import {useDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
+import PlButtonGroup from "../../../PlButtonGroup";
 
 /**
  * 列筛选参数（存储）
@@ -167,6 +168,11 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
         methods.pageMethods.reload()
     }
 
+    const clearDistinctFilterValue = (cftd: ColumnFilterTargetData) => {
+        state.distinctFilterValueMap.delete(cftd.fto!.option.plc!)
+        methods.pageMethods.reload()
+    }
+
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
         if (plc.group || !plc.props.field) {return}
@@ -201,9 +207,12 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
                         <PlFilter block fto={fto} hideSearchButton onConfirm={methods.pageMethods.reload}/>
                     </div>
                     <div>
-                        <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide!()}/>
-                        <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
-                        <PlButton icon="el-icon-search" label="去重筛选" onClick={() => openDistinctFilterDialog(columnFilterTargetData)}/>
+                        <PlButtonGroup>
+                            <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide!()}/>
+                            <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
+                            <PlButton icon="el-icon-search" label="去重筛选" onClick={() => openDistinctFilterDialog(columnFilterTargetData)}/>
+                            <PlButton icon="el-icon-close" onClick={() => clearDistinctFilterValue(columnFilterTargetData)}/>
+                        </PlButtonGroup>
                     </div>
                 </div>
             </>
