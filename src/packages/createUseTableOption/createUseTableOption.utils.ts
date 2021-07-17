@@ -173,7 +173,7 @@ export type TableProConfigEnable = boolean | {
  * @author  韦胜健
  * @date    2021/5/19 20:51
  */
-export interface iTableProConfig<D = any> {
+export interface iTableProConfig<D = any> extends Partial<iTableProDefaultConfig> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
     queryParams?: PlainObject | Promise<PlainObject> | (() => PlainObject | Promise<PlainObject>)//查询参数
