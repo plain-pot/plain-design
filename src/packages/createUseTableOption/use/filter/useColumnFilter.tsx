@@ -119,7 +119,7 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
 
     const openDistinctFilterDialog = async (cftd: ColumnFilterTargetData) => {
         const field = cftd.fto!.option.field!
-        const distinctValues = await distinct.pick({plc: cftd.option.plc!, customConfig, selectValues: state.distinctFilterValueMap[field]})
+        const distinctValues = await distinct.pick({plc: cftd.option.plc!, customConfig})
         if (distinctValues.length === 0) {
             delete state.distinctFilterValueMap[field]
         } else {
