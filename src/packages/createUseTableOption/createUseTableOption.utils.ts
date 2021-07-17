@@ -201,6 +201,6 @@ export interface iTableOptionState {
     list: any[],
     editingWhenAddRow: boolean,
     selectRows: any[],
-    currentKey: string | null,
+    currentKey: string | number | null,
     tableGetter: () => typeof PlTable.use.class | null,
 }

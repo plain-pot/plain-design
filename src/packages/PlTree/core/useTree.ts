@@ -55,7 +55,7 @@ function use<Node extends {
             expandOnClickNode?: boolean,
             checkOnClickNode?: boolean,
             defaultExpandAll?: boolean,
-            currentKey?: string,
+            currentKey?: string | number,
         },
         emit: {
             onExpand: (node: Node) => void,
@@ -66,7 +66,7 @@ function use<Node extends {
             onCheckChange: (keys: string[]) => void,
             onClickNode: (node: Node) => void,
             onUpdateData: (data?: SimpleObject[]) => void,
-            onUpdateCurrentKey: (key?: string) => void,
+            onUpdateCurrentKey: (key?: string | number) => void,
         },
         keyManager: (obj: any, keyField: string | undefined | null) => string,
         getTreeNodeByDataAdjust?: (node: Node) => void,
@@ -156,9 +156,9 @@ function use<Node extends {
         /*设置子节点数据*/
         setChildrenData: (node: Node, children: any[]) => !!props.childrenField && (node.data[props.childrenField] = children),
         /*通过keyOrNode获取node*/
-        getNode: (keyOrNode: string | Node): Node | undefined => typeof keyOrNode === "object" ? keyOrNode : state.nodeMap[keyOrNode],
+        getNode: (keyOrNode: string | number | Node): Node | undefined => typeof keyOrNode === "object" ? keyOrNode : state.nodeMap[keyOrNode],
         /*设置当前选中行*/
-        setCurrent: (keyOrNode: string | Node) => current.value = typeof keyOrNode === "object" ? keyOrNode.key : keyOrNode,
+        setCurrent: (keyOrNode: string | number | Node) => current.value = typeof keyOrNode === "object" ? keyOrNode.key : keyOrNode,
         /*获取当前选中行*/
         getCurrent: (): Node | undefined => current.value == null ? undefined : baseMethods.getNode(current.value),
     }
@@ -385,13 +385,13 @@ export const useTree = Object.assign(use, {
             expandOnClickNode: {type: Boolean, default: true},          // 是否点击树节点的时候展开子节点
             checkOnClickNode: {type: Boolean},                          // 是否点击树节点的时候选中节点
             defaultExpandAll: {type: Boolean},                          // 是否默认展开所有节点
-            currentKey: {type: String},                                 // 当前选中节点的key
+            currentKey: {type: [String, Number]},                       // 当前选中节点的key
         }
     },
     createEvent: <Node>() => {
         return {
             onClickNode: (node: Node) => true,                          // 点击节点事件
-            onUpdateCurrentKey: (current?: string) => true,                // 当前高亮节点key变化绑定事件
+            onUpdateCurrentKey: (current?: string | number) => true,                // 当前高亮节点key变化绑定事件
             onUpdateData: (data?: SimpleObject[]) => true,              // 数据变化事件（拖拽排序、数据懒加载）
 
             onExpandChange: (expandKeys: string[]) => true,             // 展开节点变化事件

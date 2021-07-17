@@ -24,11 +24,11 @@ export const TreeUtils = {
      * @author  韦胜健
      * @date    2020/11/28 10:35
      */
-    getTreeNodeClasses: (node: TreeNode, current?: string) => {
+    getTreeNodeClasses: (node: TreeNode, current?: string | number) => {
         return [
             'pl-tree-node',
             {
-                'pl-tree-node-current': node.key === current,
+                'pl-tree-node-current': node.key == current,
                 'pl-tree-node-not-checkable': !node.isCheckable,
             }
         ]
