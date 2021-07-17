@@ -11,6 +11,8 @@ import PlFilter from "../../../PlFilter";
 import PlIcon from "../../../PlIcon";
 import {toArray} from "../../../../utils/toArray";
 import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuService";
+import {useDistinctFilter} from "./useDistinctFilter";
+import {iTableProConfig} from "../../createUseTableOption.utils";
 
 interface ColumnFilterData {
     desc: null | boolean,
@@ -26,7 +28,9 @@ interface ColumnFilterTargetData extends ColumnFilterData {
 
 const MAX_SORT_INDEX = 100
 
-export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
+export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
+
+    const distinct = useDistinctFilter()
 
     const $contextmenu = useContextmenu()
 
@@ -35,6 +39,7 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         columnFilterDataMap: {} as Record<string, ColumnFilterData>,
+        distinctFilterValueMap: {} as Record<string, (string | number)[]>,
     })
 
     const columnFilterTargetDataMap = computed(() => Object.entries(state.columnFilterDataMap).reduce((prev, [columnKey, cfd]) => {
@@ -80,6 +85,12 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
             }
             return prev
         }, [] as iFilterQuery[])
+
+        Object.entries(state.distinctFilterValueMap).forEach(([field, distinctValues]) => {
+            if (distinctValues.length === 0) {return}
+            queries.push({field, operator: 'in', value: distinctValues,})
+        })
+
         return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
     })
 
@@ -106,8 +117,15 @@ export function useColumnFilter({hooks, methods}: { hooks: tTableOptionHooks, me
         return [...(sortData.map(i => ({field: i.field, desc: i.desc}))), ...prev,]
     })
 
-    const openDistinctFilterDialog = (cftd: ColumnFilterTargetData) => {
-        console.log(cftd)
+    const openDistinctFilterDialog = async (cftd: ColumnFilterTargetData) => {
+        const field = cftd.fto!.option.field!
+        const distinctValues = await distinct.pick({plc: cftd.option.plc!, customConfig, selectValues: state.distinctFilterValueMap[field]})
+        if (distinctValues.length === 0) {
+            delete state.distinctFilterValueMap[field]
+        } else {
+            state.distinctFilterValueMap[field] = distinctValues
+        }
+        methods.pageMethods.reload()
     }
 
     hooks.onClickHead.use(({plc, e}) => {
