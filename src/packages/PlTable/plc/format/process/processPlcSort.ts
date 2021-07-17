@@ -54,13 +54,23 @@ export function processPlcSort(
         const plcKeyString = [] as string[]
         flatPlcList.forEach(plc => {
             totalPlcWidth += plc.props.width
+
             if (plc.props.fit) {
                 fitPlc = plc
-            } else if ((!fitPlc || !fitPlc.props.fit) && plc.props.fixed === TablePlcFixedType.center) {
+            } else if (!fitPlc) {
                 fitPlc = plc
+            } else if (!fitPlc.props.fit) {
+                if (plc.props.fixed === TablePlcFixedType.center) {
+                    fitPlc = plc
+                } else {
+                    if ((fitPlc.props.autoFixedLeft || fitPlc.props.autoFixedRight) && (!plc.props.autoFixedLeft && !plc.props.autoFixedRight)) {
+                        fitPlc = plc
+                    }
+                }
             }
             plcKeyString.push(plc.props.field || 'empty')
         })
+        // console.log(fitPlc?.props)
         /**
          * 目标table宽度，当总宽度小于tableWidth时，table不设置width宽度。因为table设置了min-width为100%，此时fit的列会自适应宽度。
          * 当总宽度大于tableWidth时，table需要设置width宽度，否则会导致列被压缩
