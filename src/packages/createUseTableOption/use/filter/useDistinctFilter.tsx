@@ -5,7 +5,6 @@ import {iTableProConfig, PlainObject} from "../../createUseTableOption.utils";
 import {designPage, useRefs} from "plain-design-composition";
 import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
-import {Plc} from "../../../Plc";
 import {defer} from "../../../../utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
 import {iFilterData, iFilterQuery} from "../../../PlFilter/FilterConfig";
@@ -13,6 +12,8 @@ import {tTableOptionHooks} from "../use.hooks";
 import {toArray} from "../../../../utils/toArray";
 import {ColumnFilterTargetData} from "./use.filter.utils";
 import {tTableOptionMethods} from "../use.methods";
+import {tPlTable} from "../../../PlTable";
+import {findRreactElement} from "../../../../utils/findReactElement";
 
 export type tFilterDistinctValue = string | number
 
@@ -30,9 +31,12 @@ export function useDistinctFilter({hooks, methods, customConfig}: { hooks: tTabl
     const {refs, onRef} = useRefs({check: PlcCheckRow})
 
     const state = {
+        baseTableRef: () => null as null | tPlTable,
         selectedMap: new Map<tPlc, PlainObject[] | undefined>(),                // 已经选中的数据，再次打开distinct对话框的时候要显示已经选中的行
         distinctFilterValueMap: new Map<tPlc, (string | number)[]>(),           // 去重筛选条件
     }
+
+    hooks.onRefTable.use(table => {state.baseTableRef = () => table})
 
     /*查询的时候被收集筛选条件*/
     hooks.onCollectFilterData.use((data) => {
@@ -53,6 +57,11 @@ export function useDistinctFilter({hooks, methods, customConfig}: { hooks: tTabl
 
         const dfd = defer<tFilterDistinctValue[]>()
 
+        const tableSlots = state.baseTableRef()!.slots.default()
+
+        const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
+        // console.log({tableSlots, findReactNode,})
+
         const Content = designPage(() => {
             const tableOption = useTableOption({
                 ...customConfig,
@@ -68,18 +77,7 @@ export function useDistinctFilter({hooks, methods, customConfig}: { hooks: tTabl
             return () => <>
                 <PlTablePro option={tableOption}>
                     <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={state.selectedMap.get(plc)}/>
-                    <Plc
-                        title={plc.props.title}
-                        field={plc.props.field}
-                        filterName={plc.props.filterName}
-                        filterHandler={plc.props.filterHandler}
-                        filterConfig={plc.props.filterConfig}
-                    >
-                        {{
-                            ...plc.scopeSlots,
-                            ...plc.slots,
-                        }}
-                    </Plc>
+                    {findReactNode}
                 </PlTablePro>
             </>
         })

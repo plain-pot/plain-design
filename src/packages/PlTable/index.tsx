@@ -136,6 +136,7 @@ export const PlTable = designComponent({
             current,
             utils,
             hooks,
+            slots,
         }
 
         onMounted(() => {
@@ -162,5 +163,7 @@ export const PlTable = designComponent({
 export default PlTable
 
 export const PlainTable = Object as PropType<typeof PlTable.use.class>
+
+export type tPlTable = typeof PlTable.use.class
 
 export function injectPlainTable() {return PlTable.use.inject()}
