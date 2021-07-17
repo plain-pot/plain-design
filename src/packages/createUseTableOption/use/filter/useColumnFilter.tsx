@@ -1,7 +1,7 @@
 import {tTableOptionHooks} from "../use.hooks";
 import {classnames, computed, reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
@@ -14,41 +14,14 @@ import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuSer
 import {useDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
-
-/**
- * 列筛选参数（存储）
- * @author  韦胜健
- * @date    2021/7/17 19:00
- */
-interface ColumnFilterData {
-    desc: null | boolean,                       // 是否降序，null为不排序
-    sortIndex: null | number,                   // 每次对某个字段进行排序，都会变成最高优先级的排序功能
-    option: iFilterOption,                      // 列中的筛选配置信息
-}
-
-/**
- * 列筛选参数（计算，切换handlerName的时候需要重新计算handler）
- * @author  韦胜健
- * @date    2021/7/17 19:01
- */
-interface ColumnFilterTargetData extends ColumnFilterData {
-    fto?: iFilterTargetOption,                  // 筛选目标配置信息对象
-    sourceData: () => ColumnFilterData,         // 原始的列信息对象，用来修改响应式属性值
-}
+import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
 
 /*最大的排序索引*/
 const MAX_SORT_INDEX = 100
 
-/**
- *在打开去重筛选弹框的时候，需要获取一遍当前表格的查询参数，在获取的同时要排除掉这个列的去重筛选条件参数
- * @author  韦胜健
- * @date    2021/7/17 19:04
- */
-let excludePlcListWhenCollectFilterData: tPlc[] = []
-
 export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
 
-    const distinct = useDistinctFilter()
+    const distinct = useDistinctFilter({customConfig, methods, hooks})
 
     const $contextmenu = useContextmenu()
 
@@ -57,7 +30,6 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),                    // 原始列信息对象
         columnFilterDataMap: {} as Record<string, ColumnFilterData>,            // 列筛选配置信息对象
-        distinctFilterValueMap: new Map<tPlc, (string | number)[]>(),           // 去重筛选条件
     })
 
     /*列目标筛选配置信息对象*/
@@ -108,12 +80,6 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
             return prev
         }, [] as iFilterQuery[])
 
-        /*去重筛选条件*/
-        Array.from(state.distinctFilterValueMap.entries()).forEach(([plc, distinctValues]) => {
-            if (distinctValues.length === 0 || excludePlcListWhenCollectFilterData.indexOf(plc) > -1) {return}
-            queries.push({field: plc.props.field!, operator: 'in', value: distinctValues,})
-        })
-
         return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
     })
 
@@ -139,39 +105,6 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
         if (sortData.length === 0) {return prev}
         return [...(sortData.map(i => ({field: i.field, desc: i.desc}))), ...prev,]
     })
-
-    /**
-     * 打开去重筛选弹框
-     * @author  韦胜健
-     * @date    2021/7/17 19:06
-     */
-    const openDistinctFilterDialog = async (cftd: ColumnFilterTargetData) => {
-        const field = cftd.fto!.option.field
-        const plc = cftd.fto!.option.plc
-        if (!field || !plc) {return console.warn('distinct filter: no field or plc!')}
-
-        excludePlcListWhenCollectFilterData.push(plc)
-        const existFilterDataExcludePlcDistinctFilterValue = await hooks.onCollectFilterData.exec([])
-        excludePlcListWhenCollectFilterData.splice(0, 1)
-
-        /**
-         * 获取去重筛选条件的值
-         * @author  韦胜健
-         * @date    2021/7/17 19:06
-         */
-        const distinctValues = await distinct.pick({plc, customConfig, existFilterDataExcludePlcDistinctFilterValue})
-        if (distinctValues.length === 0) {
-            state.distinctFilterValueMap.delete(plc)
-        } else {
-            state.distinctFilterValueMap.set(plc, distinctValues)
-        }
-        methods.pageMethods.reload()
-    }
-
-    const clearDistinctFilterValue = (cftd: ColumnFilterTargetData) => {
-        state.distinctFilterValueMap.delete(cftd.fto!.option.plc!)
-        methods.pageMethods.reload()
-    }
 
     hooks.onClickHead.use(({plc, e}) => {
         /*分组表头不做处理, 仅处理列表头*/
@@ -210,8 +143,8 @@ export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableO
                         <PlButtonGroup>
                             <PlButton mode="stroke" icon="el-icon-thumb" label="关闭" onClick={() => menuOpt.hide!()}/>
                             <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
-                            <PlButton icon="el-icon-search" label="去重筛选" onClick={() => openDistinctFilterDialog(columnFilterTargetData)}/>
-                            <PlButton icon="el-icon-close" onClick={() => clearDistinctFilterValue(columnFilterTargetData)}/>
+                            <PlButton icon="el-icon-search" label="去重筛选" onClick={() => distinct.open(columnFilterTargetData)}/>
+                            <PlButton icon="el-icon-close" onClick={() => distinct.clear(columnFilterTargetData)}/>
                         </PlButtonGroup>
                     </div>
                 </div>
