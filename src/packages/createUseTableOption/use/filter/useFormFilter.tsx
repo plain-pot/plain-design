@@ -11,7 +11,7 @@ import PlFilter from "../../../PlFilter";
 import PlFormItem from "../../../PlFormItem";
 import {computed} from "plain-design-composition";
 
-export function useFormFilter({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
+export function useTableOptionFormFilter({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
 
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),

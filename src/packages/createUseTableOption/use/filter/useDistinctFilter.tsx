@@ -24,7 +24,7 @@ export type tFilterDistinctValue = string | number
  */
 let excludePlcListWhenCollectFilterData: tPlc[] = []
 
-export function useDistinctFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
+export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
 
     const $dialog = useDialog()
 

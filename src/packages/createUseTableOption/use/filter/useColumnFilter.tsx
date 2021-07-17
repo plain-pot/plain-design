@@ -11,7 +11,7 @@ import PlFilter from "../../../PlFilter";
 import PlIcon from "../../../PlIcon";
 import {toArray} from "../../../../utils/toArray";
 import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuService";
-import {useDistinctFilter} from "./useDistinctFilter";
+import {useTableOptionDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
@@ -19,9 +19,9 @@ import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
 /*最大的排序索引*/
 const MAX_SORT_INDEX = 100
 
-export function useColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
+export function useTableOptionColumnFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
 
-    const distinct = useDistinctFilter({customConfig, methods, hooks})
+    const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks})
 
     const $contextmenu = useContextmenu()
 

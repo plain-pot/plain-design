@@ -1,9 +1,9 @@
 import {tTableOptionHooks} from "../use.hooks";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
-import {useSearchFilter} from "./useSearchFilter";
-import {useFormFilter} from "./useFormFilter";
-import {useColumnFilter} from "./useColumnFilter";
+import {useTableOptionSearchFilter} from "./useSearchFilter";
+import {useTableOptionFormFilter} from "./useFormFilter";
+import {useTableOptionColumnFilter} from "./useColumnFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 
 export function useTableOptionFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
@@ -13,21 +13,21 @@ export function useTableOptionFilter({hooks, methods, customConfig}: { hooks: tT
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const formFilter = useFormFilter({hooks, methods})
+    const formFilter = useTableOptionFormFilter({hooks, methods})
 
     /**
      * 搜索栏
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const searchFilter = useSearchFilter({hooks, methods, onCollapse: () => formFilter.toggle(), isCollapse: () => !formFilter.state.isShow})
+    const searchFilter = useTableOptionSearchFilter({hooks, methods, onCollapse: () => formFilter.toggle(), isCollapse: () => !formFilter.state.isShow})
 
     /**
      * 列筛选
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const columnFilter = useColumnFilter({hooks, methods, customConfig})
+    const columnFilter = useTableOptionColumnFilter({hooks, methods, customConfig})
 
     return {
         searchFilter,
