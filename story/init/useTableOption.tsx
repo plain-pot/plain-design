@@ -22,7 +22,7 @@ const useTableOption = createUseTableOption({
     pageSizeOptions: [5, 10, 20, 50, 100],
     editType: 'inline',
     copyDefaultExcludeKeys: ['id', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'],
-    sort: {field: 'updatedAt'},
+    sort: {field: 'updatedAt', desc: true},
     getDefaultUrlConfig: {
         query: (config) => {
             let {url, base, method, request, ...left} = config

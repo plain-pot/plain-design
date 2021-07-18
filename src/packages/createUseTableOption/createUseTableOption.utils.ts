@@ -90,7 +90,7 @@ export type tDeleteResponse = { error?: string }
  */
 export interface iTableSortData {
     field: string,
-    desc?: boolean
+    desc: boolean
 }
 
 export enum eTableProEditType {
