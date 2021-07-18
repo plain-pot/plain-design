@@ -67,9 +67,6 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*排序的数据*/
         const sortData = computed(() => hooks.onCollectSortData.exec(!!config.sort ? [] : []))
 
-        /*基础表格渲染*/
-        useTableOptionBaseTable({config, hooks, pagination, tableState, sortData})
-
         /*权限控制*/
         const permit = useTableOptionPermit({config, hooks})
 
@@ -90,6 +87,9 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         /*筛选查询*/
         const filter = useTableOptionFilter({hooks, methods, customConfig, tableSort})
+
+        /*基础表格渲染*/
+        useTableOptionBaseTable({config, hooks, pagination, tableState, tableSort})
 
         /*执行初始化逻辑，init一定要放在所有hook之后执行*/
         const init = (() => {

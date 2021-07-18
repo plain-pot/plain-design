@@ -4,8 +4,9 @@ import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 import React from "react";
 import {PlcIndex} from "../../PlcIndex";
-import {iTableOptionState, iTableSortData, tTableOptionConfig} from "../createUseTableOption.utils";
+import {iTableOptionState, tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
+import {tTableOptionSort} from "./use.sort";
 
 export function useTableOptionBaseTable(
     {
@@ -13,13 +14,13 @@ export function useTableOptionBaseTable(
         tableState,
         hooks,
         pagination,
-        sortData,
+        tableSort,
     }: {
         config: tTableOptionConfig,
         tableState: iTableOptionState,
         hooks: tTableOptionHooks,
         pagination: tTablePagination,
-        sortData: { value: iTableSortData[] },
+        tableSort: tTableOptionSort,
     }) {
     const refTable = (table: typeof PlTable.use.class | null | undefined) => {
         hooks.onRefTable.exec(table!)
@@ -45,7 +46,7 @@ export function useTableOptionBaseTable(
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
                     onClickHead={handler.onClickHead}
-                    sort={sortData.value}
+                    sort={tableSort.sortQueryData.value}
                     onCollectPlcData={hooks.onCollectPlcData.exec}
                 >
                     <PlcIndex start={pagination.pageState.page * pagination.pageState.size}/>
