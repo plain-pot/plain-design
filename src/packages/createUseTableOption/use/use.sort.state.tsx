@@ -14,7 +14,7 @@ export interface iTableOptionSortData {
     seq: number,
 }
 
-export function useTableOptionSort({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
+export function useTableOptionSortState({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
 
     const state = reactive({
         data: [] as iTableOptionSortData[],
@@ -66,4 +66,4 @@ export function useTableOptionSort({hooks, methods}: { hooks: tTableOptionHooks,
     }
 }
 
-export type tTableOptionSort = ReturnType<typeof useTableOptionSort>
+export type tTableOptionSort = ReturnType<typeof useTableOptionSortState>
