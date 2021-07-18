@@ -52,15 +52,16 @@ export function useTableOptionSort({hooks, methods}: { hooks: tTableOptionHooks,
 
     const get = ({field, title}: { title: string, field: string }): iTableOptionSortData | undefined => state.data.find(i => i.field === field && i.title === title)
 
-    const sortData = computed(() => state.data.sort((a, b) => a.seq - b.seq))
-
-    hooks.onCollectSortData.use((prev) => [...(sortData.value.map(i => ({field: i.field, desc: i.desc}))), ...prev,])
+    const sortStateData = computed(() => state.data.sort((a, b) => a.seq - b.seq))
+    hooks.onCollectSortData.use((prev) => [...(sortStateData.value.map(i => ({field: i.field, desc: i.desc}))), ...prev,])
+    const sortQueryData = computed(() => hooks.onCollectSortData.exec([]))
 
     return {
-        toggleSort,
         get,
-        sortData,
         setSort,
+        toggleSort,
+        sortStateData,
+        sortQueryData,
         seqData,
     }
 }

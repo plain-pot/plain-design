@@ -25,7 +25,7 @@ export default designComponent({
             view: props.initView,
 
             /*排序临时数据，避免在apply应用之前，因为切换面板导致数据丢失*/
-            sortData: deepcopy(props.getConfig().tableSort.sortData.value),
+            sortData: deepcopy(props.getConfig().tableSort.sortStateData.value),
         })
 
         const renderer = [
