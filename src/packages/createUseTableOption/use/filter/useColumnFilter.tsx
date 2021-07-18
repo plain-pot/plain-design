@@ -15,9 +15,9 @@ import {useTableOptionDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
-import {tTableOptionSort} from "../use.option.sort";
+import {tTableOptionSort} from "../use.sort.state";
 
-export function useTableOptionColumnFilter({hooks, methods, customConfig, tableSort}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, tableSort: tTableOptionSort }) {
+export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort }) {
 
     const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks})
 
@@ -90,7 +90,7 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, tableS
 
             const {fto} = columnFilterTargetData
             const {field, label: title} = fto!.option
-            const {desc} = tableSort.get({field, title}) || {desc: null}
+            const {desc} = sortState.get({field, title}) || {desc: null}
 
             return <>
                 <div onClick={e => e.stopPropagation()} className="pro-column-filter-container">
@@ -98,14 +98,14 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, tableS
                         <div className={classnames([
                             'pro-column-filter-sort-item',
                             {'pro-column-filter-sort-item-active': desc !== null && !desc}
-                        ])} onClick={() => tableSort.toggleSort({field, desc: false, title})}>
+                        ])} onClick={() => sortState.toggleSort({field, desc: false, title})}>
                             <PlIcon icon="el-icon-upload1"/>
                             <span>升序</span>
                         </div>
                         <div className={classnames([
                             'pro-column-filter-sort-item',
                             {'pro-column-filter-sort-item-active': desc !== null && !!desc}
-                        ])} onClick={() => tableSort.toggleSort({field, desc: true, title})}>
+                        ])} onClick={() => sortState.toggleSort({field, desc: true, title})}>
                             <PlIcon icon="el-icon-download"/>
                             <span>降序</span>
                         </div>

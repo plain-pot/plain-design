@@ -14,7 +14,7 @@ import React from "react";
 import {useTableOptionBaseTable} from "./use/use.base-table";
 import {useTableOptionPermit} from "./use/use.permit";
 import {iFilterData} from "../PlFilter/FilterConfig";
-import {useTableOptionSort} from "./use/use.option.sort";
+import {useTableOptionSort} from "./use/use.sort.state";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -77,19 +77,19 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const {pageMethods, editMethods} = methods
 
         /*排序数据管理*/
-        const tableSort = useTableOptionSort({methods, hooks})
+        const sortState = useTableOptionSort({methods, hooks})
 
         /*设置弹框*/
-        const setting = useTableOptionSetting({hooks, methods, tableSort})
+        const setting = useTableOptionSetting({hooks, methods, sortState})
 
         /*按钮*/
         const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})
 
         /*筛选查询*/
-        const filter = useTableOptionFilter({hooks, methods, customConfig, tableSort})
+        const filter = useTableOptionFilter({hooks, methods, customConfig, sortState})
 
         /*基础表格渲染*/
-        useTableOptionBaseTable({config, hooks, pagination, tableState, tableSort})
+        useTableOptionBaseTable({config, hooks, pagination, tableState, sortState})
 
         /*执行初始化逻辑，init一定要放在所有hook之后执行*/
         const init = (() => {

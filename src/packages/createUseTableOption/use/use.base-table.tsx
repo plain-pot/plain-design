@@ -6,7 +6,7 @@ import React from "react";
 import {PlcIndex} from "../../PlcIndex";
 import {iTableOptionState, tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
-import {tTableOptionSort} from "./use.option.sort";
+import {tTableOptionSort} from "./use.sort.state";
 
 export function useTableOptionBaseTable(
     {
@@ -14,13 +14,13 @@ export function useTableOptionBaseTable(
         tableState,
         hooks,
         pagination,
-        tableSort,
+        sortState,
     }: {
         config: tTableOptionConfig,
         tableState: iTableOptionState,
         hooks: tTableOptionHooks,
         pagination: tTablePagination,
-        tableSort: tTableOptionSort,
+        sortState: tTableOptionSort,
     }) {
     const refTable = (table: typeof PlTable.use.class | null | undefined) => {
         hooks.onRefTable.exec(table!)
@@ -46,7 +46,7 @@ export function useTableOptionBaseTable(
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
                     onClickHead={handler.onClickHead}
-                    sort={tableSort.sortQueryData.value}
+                    sort={sortState.sortQueryData.value}
                     onCollectPlcData={hooks.onCollectPlcData.exec}
                 >
                     <PlcIndex start={pagination.pageState.page * pagination.pageState.size}/>

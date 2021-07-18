@@ -11,12 +11,12 @@ import {Plc} from "../../../../Plc";
 import PlToggle from "../../../../PlToggle";
 import React from "react";
 import {tPlc} from "../../../../PlTable/plc/utils/plc.type";
-import {iTableOptionSortData, tTableOptionSort} from "../../use.option.sort";
+import {iTableOptionSortData, tTableOptionSort} from "../../use.sort.state";
 
 export const TableOptionSettingSort = designComponent({
     props: {
         modelValue: {type: Array as PropType<iTableOptionSortData[]>},
-        getConfig: {type: Function as PropType<() => { plcList: tPlc[], tableSort: tTableOptionSort }>, required: true},
+        getConfig: {type: Function as PropType<() => { plcList: tPlc[], sortState: tTableOptionSort }>, required: true},
     },
     emits: {
         onUpdateModelValue: (val?: iTableOptionSortData[]) => true,
@@ -24,17 +24,17 @@ export const TableOptionSettingSort = designComponent({
     setup({props, event: {emit}}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
-        const {plcList, tableSort} = props.getConfig()
+        const {plcList, sortState} = props.getConfig()
 
         const handler = {
             add: ({title, field}: Omit<iTableOptionSortData, 'seq'>) => {
-                model.value = [...(model.value || []), {title, field, desc: true, seq: tableSort.seqData.value.min}]
+                model.value = [...(model.value || []), {title, field, desc: true, seq: sortState.seqData.value.min}]
             },
             remove: (data: Omit<iTableOptionSortData, 'seq'>) => {
                 model.value = model.value!.filter(({title, field}) => title !== data.title && field !== data.field)
             },
             apply: () => {
-                tableSort.setSort(model.value || [])
+                sortState.setSort(model.value || [])
             },
         }
 

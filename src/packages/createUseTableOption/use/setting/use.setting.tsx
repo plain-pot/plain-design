@@ -6,12 +6,12 @@ import {iTableSortData} from "../../createUseTableOption.utils";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {reactive} from "plain-design-composition";
-import {tTableOptionSort} from "../use.option.sort";
+import {tTableOptionSort} from "../use.sort.state";
 
-export function useTableOptionSetting({hooks, methods, tableSort}: {
+export function useTableOptionSetting({hooks, methods, sortState}: {
     hooks: tTableOptionHooks,
     methods: tTableOptionMethods,
-    tableSort: tTableOptionSort,
+    sortState: tTableOptionSort,
 }) {
 
     const $dialog = useDialog()
@@ -33,7 +33,7 @@ export function useTableOptionSetting({hooks, methods, tableSort}: {
     const openSetting = (view: eTableOptionSettingView) => {
 
         const getConfig = () => ({
-            tableSort,
+            sortState,
             plcList: state.getSourceFlatPlcList!(),
         })
 

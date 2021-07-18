@@ -4,7 +4,7 @@ import './TableOptionSetting.scss'
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {TableOptionSettingSort} from "./sort/TableOptionSettingSort";
-import {tTableOptionSort} from "../use.option.sort";
+import {tTableOptionSort} from "../use.sort.state";
 
 export enum eTableOptionSettingView {
     filter = 'filter',
@@ -17,7 +17,7 @@ export enum eTableOptionSettingView {
 export default designComponent({
     props: {
         initView: {type: String as PropType<eTableOptionSettingView>, required: true},
-        getConfig: {type: Function as PropType<() => { plcList: tPlc[], tableSort: tTableOptionSort }>, required: true},
+        getConfig: {type: Function as PropType<() => { plcList: tPlc[], sortState: tTableOptionSort }>, required: true},
     },
     setup({props}) {
 
@@ -25,7 +25,7 @@ export default designComponent({
             view: props.initView,
 
             /*排序临时数据，避免在apply应用之前，因为切换面板导致数据丢失*/
-            sortData: deepcopy(props.getConfig().tableSort.sortStateData.value),
+            sortData: deepcopy(props.getConfig().sortState.sortStateData.value),
         })
 
         const renderer = [
