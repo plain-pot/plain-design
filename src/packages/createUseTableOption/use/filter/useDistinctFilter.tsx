@@ -49,16 +49,21 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
         return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
     })
 
-    const pick = async ({plc, customConfig, existFilterDataExcludePlcDistinctFilterValue}: {
+    const pick = async ({plc}: {
         plc: tPlc,
-        customConfig: iTableProConfig,
-        existFilterDataExcludePlcDistinctFilterValue: iFilterData[],
     }): Promise<tFilterDistinctValue[]> => {
 
         const dfd = defer<tFilterDistinctValue[]>()
 
-        const tableSlots = state.baseTableRef()!.slots.default()
+        /*表格中已经存在的筛选参数，但是要排除当前列的去重查询参数*/
+        excludePlcListWhenCollectFilterData.push(plc)
+        const existFilterDataExcludePlcDistinctFilterValue = await hooks.onCollectFilterData.exec([])
+        excludePlcListWhenCollectFilterData.splice(0, 1)
 
+        /*表格中使用的排序参数*/
+        const sortData = await hooks.onCollectSortData.exec([])
+
+        const tableSlots = state.baseTableRef()!.slots.default()
         const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
         // console.log({tableSlots, findReactNode,})
 
@@ -67,6 +72,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
                 ...customConfig,
                 keyField: plc.props.field,
                 enable: false,
+                sort: sortData,
                 buttons: [],
                 queryParams: {
                     distinctFields: [plc.props.field]
@@ -123,16 +129,12 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
         const plc = cftd.fto!.option.plc
         if (!field || !plc) {return console.warn('distinct filter: no field or plc!')}
 
-        excludePlcListWhenCollectFilterData.push(plc)
-        const existFilterDataExcludePlcDistinctFilterValue = await hooks.onCollectFilterData.exec([])
-        excludePlcListWhenCollectFilterData.splice(0, 1)
-
         /**
          * 获取去重筛选条件的值
          * @author  韦胜健
          * @date    2021/7/17 19:06
          */
-        const distinctValues = await pick({plc, customConfig, existFilterDataExcludePlcDistinctFilterValue})
+        const distinctValues = await pick({plc})
         if (distinctValues.length === 0) {
             state.distinctFilterValueMap.delete(plc)
         } else {
