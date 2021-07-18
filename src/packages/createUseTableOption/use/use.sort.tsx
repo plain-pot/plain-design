@@ -2,6 +2,11 @@ import {computed, reactive} from "plain-design-composition";
 import {tTableOptionMethods} from "./use.methods";
 import {tTableOptionHooks} from "./use.hooks";
 
+/**
+ * 排序参数（用来显示的排序参数数据结构）
+ * @author  韦胜健
+ * @date    2021/7/18 10:10
+ */
 export interface iTableOptionSortData {
     field: string,
     title: string,
@@ -40,6 +45,11 @@ export function useTableOptionSort({hooks, methods}: { hooks: tTableOptionHooks,
         config.reload !== false && (methods.pageMethods.reload())
     }
 
+    const setSort = (data: iTableOptionSortData[]) => {
+        state.data = data
+        methods.pageMethods.reload()
+    }
+
     const get = ({field, title}: { title: string, field: string }): iTableOptionSortData | undefined => state.data.find(i => i.field === field && i.title === title)
 
     const sortData = computed(() => state.data.sort((a, b) => a.seq - b.seq))
@@ -50,6 +60,8 @@ export function useTableOptionSort({hooks, methods}: { hooks: tTableOptionHooks,
         toggleSort,
         get,
         sortData,
+        setSort,
+        seqData,
     }
 }
 

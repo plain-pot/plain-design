@@ -6,10 +6,12 @@ import {iTableSortData} from "../../createUseTableOption.utils";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {reactive} from "plain-design-composition";
+import {tTableOptionSort} from "../use.sort";
 
-export function useTableOptionSetting({hooks, methods}: {
+export function useTableOptionSetting({hooks, methods, tableSort}: {
     hooks: tTableOptionHooks,
     methods: tTableOptionMethods,
+    tableSort: tTableOptionSort,
 }) {
 
     const $dialog = useDialog()
@@ -29,6 +31,12 @@ export function useTableOptionSetting({hooks, methods}: {
     })
 
     const openSetting = (view: eTableOptionSettingView) => {
+
+        const getConfig = () => ({
+            tableSort,
+            plcList: state.getSourceFlatPlcList!(),
+        })
+
         $dialog({
             status: null,
             dialogProps: {
@@ -45,12 +53,7 @@ export function useTableOptionSetting({hooks, methods}: {
             render: () => (
                 <TableOptionSetting
                     initView={view}
-                    plcList={state.getSourceFlatPlcList!()}
-                    sortData={state.sortData}
-                    onApplySort={(sorts) => {
-                        state.sortData = [...sorts]
-                        methods.pageMethods.reload()
-                    }}
+                    getConfig={getConfig}
                 />),
             cancelButton: true,
             cancelButtonText: '关闭',

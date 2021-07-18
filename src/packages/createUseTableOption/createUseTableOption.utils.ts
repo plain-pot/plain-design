@@ -84,7 +84,7 @@ export type tBatchUpdateResponse = tBatchInsertResponse
 export type tDeleteResponse = { error?: string }
 
 /**
- * 排序设置参数对象
+ * 排序设置参数对象(用来查询的排序参数结构)
  * @author  韦胜健
  * @date    2021/6/7 17:15
  */

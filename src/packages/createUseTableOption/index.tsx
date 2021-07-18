@@ -24,6 +24,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             ...customConfig,
         }
 
+        /*内部状态*/
         const tableState: iTableOptionState = reactive({
             list: [] as any[],
             editingWhenAddRow: false,
@@ -32,6 +33,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             tableGetter: () => null,
         })
 
+        /*当前高亮节点*/
         const currentNode = computed(() => {
             const table = tableState.tableGetter()
             if (!table) {return null}
@@ -39,14 +41,19 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             return table.getNode(tableState.currentKey)
         })
 
+        /*钩子函数*/
         const hooks = useTableOptionHooks({config})
 
+        /*指令（键盘快捷键）*/
         const command = useTableOptionCommand({hooks})
 
+        /*确认动作*/
         const confirm = useTableOptionConfirm({hooks})
 
+        /*多选*/
         const check = useTableOptionCheck({config, hooks, confirm})
 
+        /*分页*/
         const pagination = useTableOptionPagination({
             tableState,
             config,
@@ -57,22 +64,31 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onSizeChange: size => pageMethods.reload({size}),
         })
 
+        /*排序的数据*/
         const sortData = computed(() => hooks.onCollectSortData.exec(!!config.sort ? [] : []))
 
+        /*基础表格渲染*/
         useTableOptionBaseTable({config, hooks, pagination, tableState, sortData})
 
+        /*权限控制*/
         const permit = useTableOptionPermit({config, hooks})
 
+        /*方法*/
         const methods = useTableOptionMethods({config, pagination, hooks, tableState, currentNode, check, confirm, getSortData: () => sortData.value})
 
+        /*结构的方法*/
         const {pageMethods, editMethods} = methods
 
+        /*排序数据管理*/
         const tableSort = useTableOptionSort({methods, hooks})
 
-        const setting = useTableOptionSetting({hooks, methods})
+        /*设置弹框*/
+        const setting = useTableOptionSetting({hooks, methods, tableSort})
 
+        /*按钮*/
         const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})
 
+        /*筛选查询*/
         const filter = useTableOptionFilter({hooks, methods, customConfig, tableSort})
 
         /*执行初始化逻辑，init一定要放在所有hook之后执行*/
@@ -88,15 +104,19 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             return {state}
         })()
 
+        /*查询完毕之后更新列表数据*/
         hooks.onLoaded.use(rows => {
             tableState.list = rows
             tableState.currentKey = rows.length > 0 ? rows[0].id : null
         })
+        /*获取base table的引用*/
         hooks.onRefTable.use(table => tableState.tableGetter = (() => table) as any)
+        /*config.sort作为默认的排序参数*/
         hooks.onCollectSortData.use(prev => {
             if (!config.sort) {return prev}
             return [...prev, ...toArray(config.sort)]
         })
+        /*收集筛选参数*/
         hooks.onCollectFilterData.use(async prev => {
             if (!config.filterParam) {return prev}
             const filterParam = toArray(typeof config.filterParam === "function" ? await config.filterParam() : config.filterParam).filter(Boolean) as iFilterData[]
@@ -105,6 +125,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             }
             return prev
         })
+        /*收集config.render中的列信息*/
         hooks.onColumns.use((prev) => {
             return <>
                 {prev}
