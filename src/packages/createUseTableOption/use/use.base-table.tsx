@@ -6,7 +6,7 @@ import React from "react";
 import {PlcIndex} from "../../PlcIndex";
 import {iTableOptionState, tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
-import {tTableOptionSort} from "./use.sort";
+import {tTableOptionSort} from "./use.option.sort";
 
 export function useTableOptionBaseTable(
     {

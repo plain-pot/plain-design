@@ -14,7 +14,7 @@ import React from "react";
 import {useTableOptionBaseTable} from "./use/use.base-table";
 import {useTableOptionPermit} from "./use/use.permit";
 import {iFilterData} from "../PlFilter/FilterConfig";
-import {useTableOptionSort} from "./use/use.sort";
+import {useTableOptionSort} from "./use/use.option.sort";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {

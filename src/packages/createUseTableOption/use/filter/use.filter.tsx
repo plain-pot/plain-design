@@ -5,7 +5,7 @@ import {useTableOptionSearchFilter} from "./useSearchFilter";
 import {useTableOptionFormFilter} from "./useFormFilter";
 import {useTableOptionColumnFilter} from "./useColumnFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
-import {tTableOptionSort} from "../use.sort";
+import {tTableOptionSort} from "../use.option.sort";
 
 export function useTableOptionFilter({hooks, methods, customConfig, tableSort}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, tableSort: tTableOptionSort }) {
 

@@ -15,7 +15,7 @@ import {useTableOptionDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
-import {tTableOptionSort} from "../use.sort";
+import {tTableOptionSort} from "../use.option.sort";
 
 export function useTableOptionColumnFilter({hooks, methods, customConfig, tableSort}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, tableSort: tTableOptionSort }) {
 

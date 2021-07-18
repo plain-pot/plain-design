@@ -11,7 +11,7 @@ import {Plc} from "../../../../Plc";
 import PlToggle from "../../../../PlToggle";
 import React from "react";
 import {tPlc} from "../../../../PlTable/plc/utils/plc.type";
-import {iTableOptionSortData, tTableOptionSort} from "../../use.sort";
+import {iTableOptionSortData, tTableOptionSort} from "../../use.option.sort";
 
 export const TableOptionSettingSort = designComponent({
     props: {

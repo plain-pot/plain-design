@@ -6,7 +6,7 @@ import {iTableSortData} from "../../createUseTableOption.utils";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {reactive} from "plain-design-composition";
-import {tTableOptionSort} from "../use.sort";
+import {tTableOptionSort} from "../use.option.sort";
 
 export function useTableOptionSetting({hooks, methods, tableSort}: {
     hooks: tTableOptionHooks,

@@ -4,7 +4,7 @@ import './TableOptionSetting.scss'
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {TableOptionSettingSort} from "./sort/TableOptionSettingSort";
-import {tTableOptionSort} from "../use.sort";
+import {tTableOptionSort} from "../use.option.sort";
 
 export enum eTableOptionSettingView {
     filter = 'filter',
