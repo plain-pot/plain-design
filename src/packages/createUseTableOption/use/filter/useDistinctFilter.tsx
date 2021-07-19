@@ -7,10 +7,9 @@ import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
 import {defer} from "../../../../utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
-import {iFilterData, iFilterQuery} from "../../../PlFilter/FilterConfig";
+import {iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";
 import {toArray} from "../../../../utils/toArray";
-import {ColumnFilterTargetData} from "./use.filter.utils";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlTable} from "../../../PlTable";
 import {findRreactElement} from "../../../../utils/findReactElement";
@@ -124,9 +123,9 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
      * @author  韦胜健
      * @date    2021/7/17 19:06
      */
-    const open = async (cftd: ColumnFilterTargetData) => {
-        const field = cftd.fto!.option.field
-        const plc = cftd.fto!.option.plc
+    const open = async (fto: iFilterTargetOption) => {
+        const field = fto!.option.field
+        const plc = fto!.option.plc
         if (!field || !plc) {return console.warn('distinct filter: no field or plc!')}
 
         /**
@@ -143,8 +142,8 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
         methods.pageMethods.reload()
     }
 
-    const clear = (cftd: ColumnFilterTargetData) => {
-        state.distinctFilterValueMap.delete(cftd.fto!.option.plc!)
+    const clear = (fto: iFilterTargetOption) => {
+        state.distinctFilterValueMap.delete(fto!.option.plc!)
         methods.pageMethods.reload()
     }
 

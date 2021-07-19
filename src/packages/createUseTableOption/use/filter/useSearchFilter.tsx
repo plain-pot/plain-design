@@ -11,8 +11,9 @@ import PlButton from "../../../PlButton";
 import React from "react";
 import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
+import {tTableOptionFilter} from "../use.filter.state";
 
-export function useTableOptionSearchFilter({hooks, methods, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, onCollapse: () => void, isCollapse: () => boolean }) {
+export function useTableOptionSearchFilter({hooks, methods, filterState, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter, onCollapse: () => void, isCollapse: () => boolean }) {
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         fto: null as null | iFilterTargetOption,

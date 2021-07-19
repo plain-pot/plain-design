@@ -1,7 +1,7 @@
 import {tTableOptionHooks} from "../use.hooks";
-import {classnames, computed, reactive} from "plain-design-composition";
+import {classnames, computed} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {FilterConfig, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
 import React from "react";
 import {tTableOptionMethods} from "../use.methods";
@@ -14,10 +14,14 @@ import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuSer
 import {useTableOptionDistinctFilter} from "./useDistinctFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
-import {ColumnFilterData, ColumnFilterTargetData} from "./use.filter.utils";
 import {tTableOptionSort} from "../use.sort.state";
+import {tTableOptionFilter} from "../use.filter.state";
 
-export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort }) {
+type iFilterStateDataMap = Record<string, iFilterOption>
+type iFilterCacheData = Omit<iFilterOption, 'filterConfig' | 'plc'>
+type iFilterCacheDataMap = Record<string, iFilterCacheData>
+
+export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter }) {
 
     const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks})
 
@@ -25,48 +29,75 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
 
     const getColumnKey = (plc: tPlc) => plc.props.field! + (plc.props.title || '#_#')
 
-    const state = reactive({
-        getSourceFlatPlcList: null as null | (() => tPlc[]),                    // 原始列信息对象
-        columnFilterDataMap: {} as Record<string, ColumnFilterData>,            // 列筛选配置信息对象
+    const data = filterState.useState<iFilterStateDataMap, iFilterCacheDataMap>({
+        key: 'column-filter',
+        state: {},
+        onReady: (flatPlcList, cacheData) => {
+            const oldData = data.state as iFilterStateDataMap
+            data.state = flatPlcList.reduce((prev, plc) => {
+                const key = getColumnKey(plc)
+                if (!!oldData[key]) {
+                    prev[key] = {...oldData[key]}
+                } else {
+                    if (!!cacheData && !!cacheData[key]) {
+                        prev[key] = {
+                            ...cacheData[key],
+                            filterConfig: plc.props.filterConfig,
+                            plc,
+                        }
+                    } else {
+                        prev[key] = {
+                            label: plc.props.title!,
+                            field: plc.props.field!,
+                            value: null,
+                            filterName: plc.props.filterName,
+                            handlerName: plc.props.filterHandler,
+                            filterConfig: plc.props.filterConfig,
+                            plc,
+                        }
+                    }
+                }
+                return prev
+            }, {} as Record<string, iFilterOption>)
+        },
+        getActiveFilterCount: () => activeFilterCount.value,
+        display: () => <>
+            显示列筛选内容
+        </>,
+        clear: () => {
+            Object.values(data.state as iFilterStateDataMap).forEach(i => {
+                i.value = undefined
+                i.filterName = i.plc!.props.filterName
+            })
+        },
+        getCacheData: () => {
+            const s: iFilterStateDataMap = data.state as any
+            return Object.entries(s).reduce((prev, [key, {filterConfig, plc, ...left}]) => {
+                prev[key] = left
+                return prev
+            }, {} as iFilterCacheDataMap)
+        },
+    })
+
+    const activeFilterCount = computed((): number => {
+        return Object.values(columnFilterTargetDataMap.value).reduce((prev, fto) => {
+            const queries = FilterConfig.formatToQuery(fto)
+            return prev + (!!queries ? toArray(queries).length : 0)
+        }, 0)
     })
 
     /*列目标筛选配置信息对象*/
-    const columnFilterTargetDataMap = computed(() => Object.entries(state.columnFilterDataMap).reduce((prev, [columnKey, cfd]) => {
-        prev[columnKey] = {
-            ...cfd,
-            fto: FilterConfig.getTargetOption(cfd.option),
-        }
+    const columnFilterTargetDataMap = computed(() => Object.entries(data.state).reduce((prev, [columnKey, option]) => {
+        const fto = FilterConfig.getTargetOption(option)
+        !!fto && (prev[columnKey] = fto)
         return prev
-    }, {} as Record<string, ColumnFilterTargetData>))
-
-    /*收集列信息*/
-    hooks.onCollectPlcData.use(val => {
-        const flatPlcList = val.sourceFlatPlcList.filter(i => !!i.props.field)
-        state.getSourceFlatPlcList = (() => flatPlcList)
-        const oldColumnFilterDataMap = state.columnFilterDataMap
-        state.columnFilterDataMap = flatPlcList.reduce((prev, plc) => {
-            const key = getColumnKey(plc)
-            const oldColumnFilterData = oldColumnFilterDataMap[key]
-            prev[key] = !!oldColumnFilterData ? {...oldColumnFilterData} : {
-                option: {
-                    label: plc.props.title!,
-                    field: plc.props.field!,
-                    value: null,
-                    filterName: plc.props.filterName,
-                    handlerName: plc.props.filterHandler,
-                    filterConfig: plc.props.filterConfig,
-                    plc,
-                }
-            }
-            return prev
-        }, {} as Record<string, ColumnFilterData>)
-    })
+    }, {} as Record<string, iFilterTargetOption>))
 
     /*查询的时候被收集筛选条件*/
     hooks.onCollectFilterData.use((data) => {
 
         /*普通筛选条件*/
-        const ftoArr = Object.values(columnFilterTargetDataMap.value).map(i => i.fto).filter(Boolean) as iFilterTargetOption[]
+        const ftoArr = Object.values(columnFilterTargetDataMap.value)
         const queries = ftoArr.reduce((prev, fto) => {
             const queries = fto.handler.transform(fto)
             if (!!queries) {
@@ -85,11 +116,10 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
 
         $contextmenu(e.currentTarget, () => {
             const columnKey = getColumnKey(plc)
-            const columnFilterTargetData = columnFilterTargetDataMap.value[columnKey]
-            if (!columnFilterTargetData) {return;}
+            const fto = columnFilterTargetDataMap.value[columnKey]
+            if (!fto) {return;}
 
-            const {fto} = columnFilterTargetData
-            const {field, label: title} = fto!.option
+            const {field, label: title} = fto.option
             const {desc} = sortState.get({field, title}) || {desc: null}
 
             return <>
@@ -119,17 +149,13 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
                             <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
                             <PlButton icon="el-icon-search" label="去重筛选" onClick={() => {
                                 menuOpt.hide!()
-                                distinct.open(columnFilterTargetData)
+                                distinct.open(fto)
                             }}/>
-                            <PlButton icon="el-icon-close" onClick={() => distinct.clear(columnFilterTargetData)}/>
+                            <PlButton icon="el-icon-close" onClick={() => distinct.clear(fto)}/>
                         </PlButtonGroup>
                     </div>
                 </div>
             </>
         }, menuOpt)
     })
-
-    return {
-        state,
-    }
 }

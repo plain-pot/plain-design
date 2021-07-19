@@ -15,6 +15,7 @@ import {useTableOptionBaseTable} from "./use/use.base-table";
 import {useTableOptionPermit} from "./use/use.permit";
 import {iFilterData} from "../PlFilter/FilterConfig";
 import {useTableOptionSortState} from "./use/use.sort.state";
+import {useTableOptionFilterState} from "./use/use.filter.state";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -79,6 +80,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*排序数据管理*/
         const sortState = useTableOptionSortState({methods, hooks})
 
+        const filterState = useTableOptionFilterState({hooks})
+
         /*设置弹框*/
         const setting = useTableOptionSetting({hooks, methods, sortState})
 
@@ -86,7 +89,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})
 
         /*筛选查询*/
-        const filter = useTableOptionFilter({hooks, methods, customConfig, sortState})
+        const filter = useTableOptionFilter({hooks, methods, customConfig, sortState, filterState})
 
         /*基础表格渲染*/
         useTableOptionBaseTable({config, hooks, pagination, tableState, sortState})

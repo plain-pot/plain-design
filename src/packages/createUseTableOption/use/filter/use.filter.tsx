@@ -6,8 +6,9 @@ import {useTableOptionFormFilter} from "./useFormFilter";
 import {useTableOptionColumnFilter} from "./useColumnFilter";
 import {iTableProConfig} from "../../createUseTableOption.utils";
 import {tTableOptionSort} from "../use.sort.state";
+import {tTableOptionFilter} from "../use.filter.state";
 
-export function useTableOptionFilter({hooks, methods, customConfig, sortState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort }) {
+export function useTableOptionFilter({hooks, methods, customConfig, sortState, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter }) {
 
     /**
      * 表单查询
@@ -21,14 +22,14 @@ export function useTableOptionFilter({hooks, methods, customConfig, sortState}: 
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const searchFilter = useTableOptionSearchFilter({hooks, methods, onCollapse: () => formFilter.toggle(), isCollapse: () => !formFilter.state.isShow})
+    const searchFilter = useTableOptionSearchFilter({hooks, methods, filterState, onCollapse: () => formFilter.toggle(), isCollapse: () => !formFilter.state.isShow})
 
     /**
      * 列筛选
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const columnFilter = useTableOptionColumnFilter({hooks, methods, customConfig, sortState})
+    const columnFilter = useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState})
 
     return {
         searchFilter,
