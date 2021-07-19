@@ -3,29 +3,83 @@ import {tTableOptionHooks} from "./use.hooks";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {FilterConfig, iFilterOption, iFilterTargetOption, tFilterConfig} from "../../PlFilter/FilterConfig";
 import {defer} from "../../../utils/defer";
+import {ReactNode} from "react";
 
 /*这四个属性确定一个plc*/
 export type tGetPlcKeyConfig = Pick<iFilterOption, 'label' | 'field' | 'filterName' | 'handlerName'>
 
-export interface iFilterCacheData extends Omit<iFilterOption, 'filterConfig' | 'plc'> {
+/*缓存的属性数据*/
+export interface iFilterTypeCacheData extends Omit<iFilterOption, 'filterConfig' | 'plc'> {
     id: string,                     // 每一个filter都得有个id，方便做查询表达式
-    filterKey: string,              // 表明属于哪一个filter
-    value: any,                     /*除了标准的查询的值之外，去重查询的值为string[]，所以得考虑让不同的filter自定义渲染value的方式*/
+    // value: any,                     /*除了标准的查询的值之外，去重查询的值为string[]，所以得考虑让不同的filter自定义渲染value的方式*/
 }
 
-export interface iFilterStateData extends iFilterCacheData {
-    plc: tPlc,
-    filterConfig: tFilterConfig,
+/*缓存的属性数据(map)*/
+export interface iFilterTypeCacheMap {[k: string]: { data: iFilterTypeCacheData[] }}
+
+/*渲染的数据*/
+export interface iFilterTypeData extends iFilterOption {id: string,}
+
+/*渲染的数据(map)*/
+export interface iFilterTypeDataMap {
+    [k: string]: {
+        data: iFilterTypeData[],
+        display: (d: iFilterTypeTargetData) => ReactNode,
+    }
+}
+
+/*格式化之后的目标渲染数据*/
+export interface iFilterTypeTargetData extends Omit<iFilterTargetOption, 'option'> {option: iFilterTypeData}
+
+/*格式化之后的目标渲染数据*/
+export interface iFilterTypeTargetDataMap {
+    [k: string]: {
+        data: iFilterTypeTargetData[],
+        display: (d: iFilterTypeTargetData) => ReactNode,
+    }
+}
+
+export interface iFilterInitializeParam {
+    plcKeyString: string,
+    filterTypeCache: iFilterTypeCacheMap,
+    flatPlcList: tPlc[]
+}
+
+export interface iFilterInitialize {
+    (param: iFilterInitializeParam): {
+        data: iFilterTypeData[],
+        display: (d: iFilterTypeTargetData) => ReactNode,
+    }
 }
 
 export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks }) {
 
-    const CACHE_KEY = '@@FILTER_KEY'
+    const stateCache = (() => {
+        const CACHE_KEY = '@@FILTER_KEY'
+        const save = (filterTypeDataMap: iFilterTypeDataMap) => {
+            const cacheData = Object.entries(filterTypeDataMap).reduce((prev, [filterKey, state]) => {
+                prev[filterKey] = {data: state.data.map(({plc, filterConfig, ...left}) => ({...left}))}
+                return prev
+            }, {} as iFilterTypeCacheMap)
+            window.localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData))
+        }
+        const restore = (): iFilterTypeCacheMap => {
+            const cacheString = window.localStorage.getItem(CACHE_KEY) as null | string
+            if (!cacheString) {return {}}
+            return JSON.parse(cacheString)
+        }
+        return {save, restore}
+    })();
 
+    const state = reactive({
+        filterTypeDataMap: {} as iFilterTypeDataMap,
+        getSourceFlatPlcList: null as null | (() => tPlc[]),
+    })
 
-    function getPlc(config: tGetPlcKeyConfig): string
-    function getPlc(plc: tPlc): string
-    function getPlc(param: tPlc | tGetPlcKeyConfig): string {
+    /*找到plc的方法*/
+    function getPlcKey(config: tGetPlcKeyConfig): string
+    function getPlcKey(plc: tPlc): string
+    function getPlcKey(param: tPlc | tGetPlcKeyConfig): string {
         if ('refer' in param) {
             return param.props.field! + (param.props.title || '#_#')
         } else {
@@ -33,70 +87,41 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         }
     }
 
-    const stateCache = (() => {
-        const save = (foArrMap: Record<string, iFilterStateData[]>) => {
-            const cacheData = Object.entries(foArrMap).reduce((prev, [filterKey, foArr]) => {
-                prev[filterKey] = foArr.map(({plc, filterConfig, ...left}) => ({...left}))
-                return prev
-            }, {} as Record<string, iFilterCacheData[]>)
-            window.localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData))
-        }
-        const restore = (): Record<string, iFilterStateData[]> => {
-            const cacheString = window.localStorage.getItem(CACHE_KEY) as null | string
-            if (!cacheString) {return {}}
-            const cacheData: Record<string, iFilterCacheData[]> = JSON.parse(cacheString)
-            return Object.entries(cacheData).reduce((prev, [filterKey, cacheData]) => {
-                prev[filterKey] = cacheData.map(i => ({
-                    ...i,
-                    ...(() => {
-                        const plc = columnMap.value[getPlc(i)]
-                        return {plc, filterConfig: plc.props.filterConfig}
-                    })(),
-                }))
-                return prev
-            }, {} as Record<string, iFilterStateData[]>)
-        }
-        return {save, restore}
-    })();
-
-    const state = reactive({
-        foArrMap: {} as Record<string, iFilterStateData[]>,
-        getSourceFlatPlcList: null as null | (() => tPlc[]),
-    })
-
-    /*通过 columnKey 找到plc*/
-    const columnMap = computed((): Record<string, tPlc> => {
+    /*通过 plcKey 找到plc*/
+    const plcMap = computed((): Record<string, tPlc> => {
         if (!state.getSourceFlatPlcList) {return {}}
         const plcList = state.getSourceFlatPlcList()
-        return plcList.reduce((prev, plc) => (prev[getPlc(plc)] = plc, prev), {} as Record<string, tPlc>)
+        return plcList.reduce((prev, plc) => (prev[getPlcKey(plc)] = plc, prev), {} as Record<string, tPlc>)
     })
 
-    const init = defer()
-
-    hooks.onCollectPlcData.use(plcData => {
-        state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList
-        state.foArrMap = stateCache.restore()
-        init.resolve()
-    })
-
-    const ftoArrMap = computed(() => Object.entries(state.foArrMap).reduce((prev, [filterKey, foArr]) => {
-        prev[filterKey] = foArr.map(fo => FilterConfig.getTargetOption(fo)).filter(Boolean) as iFilterTargetOption[]
-        return prev
-    }, {} as Record<string, iFilterTargetOption[]>))
-
-    function useState(filterKey: string, initialize: (cacheData: iFilterStateData[], plcList: tPlc[]) => iFilterStateData[] | void) {
-        init.promise.then(() => {
-            const cacheData = state.foArrMap[filterKey]
-            const initData = initialize(cacheData, state.getSourceFlatPlcList!()) || cacheData
-            if (initData !== cacheData) {state.foArrMap[filterKey] = cacheData}
+    const init = (() => {
+        const dfd = defer<iFilterInitializeParam>()
+        hooks.onCollectPlcData.use(plcData => {
+            state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList
+            const plcKeyString = state.getSourceFlatPlcList().map(getPlcKey).join('.')
+            const filterTypeCache = stateCache.restore()
+            dfd.resolve({plcKeyString, filterTypeCache, flatPlcList: state.getSourceFlatPlcList()})
         })
-        return {}
+        return dfd.promise
+    })()
+
+
+    const ftoMap = computed((): iFilterTypeTargetDataMap => Object.entries(state.filterTypeDataMap).reduce((prev, [filterTypeName, {data, display}]) => {
+        prev[filterTypeName] = {
+            display,
+            data: data.map(fo => FilterConfig.getTargetOption(fo)).filter(Boolean) as iFilterTypeTargetData[]
+        }
+        return prev
+    }, {} as iFilterTypeTargetDataMap))
+
+    function useState(filterKey: string, initialize: iFilterInitialize) {
+        init.then((param) => {
+            state.filterTypeDataMap[filterKey] = initialize(param)
+        })
     }
 
     return {
         useState,
     }
 }
-
-const filterState = useTableOptionFilterState({} as any)
 
