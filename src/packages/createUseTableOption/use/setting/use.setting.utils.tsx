@@ -13,7 +13,8 @@ export interface iTableOptionSettingInnerUser {
 }
 
 export enum eTableOptionSettingView {
-    filter = 'filter',
+    seniorFilter = 'seniorFilter',
+    allFilter = 'allFilter',
     sort = 'sort',
     config = 'config',
     import = 'import',

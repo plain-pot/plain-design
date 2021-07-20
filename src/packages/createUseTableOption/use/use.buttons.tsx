@@ -160,7 +160,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             code: 'senior-filter',
             position: 'more',
             command: 'alt+f',
-            handler: () => {setting.openSetting(eTableOptionSettingView.filter)}
+            handler: () => {setting.openSetting(eTableOptionSettingView.seniorFilter)}
         }),
         seniorSort: utils.createButton({
             label: '高级排序',

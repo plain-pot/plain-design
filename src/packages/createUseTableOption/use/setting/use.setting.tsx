@@ -8,10 +8,11 @@ import {tTableOptionSort} from "../use.sort.state";
 import {iTableOptionSettingConfig, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {useTableOptionSettingSort} from "./use.setting.sort";
 import './use.setting.scss'
-import {useTableOptionSettingFilter} from "./use.setting.filter";
+import {useTableOptionSettingSeniorFilter} from "./use.setting.filter.senior";
 import {useTableOptionSettingConfig} from "./use.setting.config";
 import {useTableOptionSettingImport} from "./use.setting.import";
 import {useTableOptionSettingExport} from "./use.setting.export";
+import {useTableOptionSettingAllFilter} from "./use.setting.filter.all";
 
 export function useTableOptionSetting({hooks, methods, sortState}: {
     hooks: tTableOptionHooks,
@@ -33,7 +34,8 @@ export function useTableOptionSetting({hooks, methods, sortState}: {
 
     const useTableOptionSettingInner: iTableOptionSettingInnerUser = (config) => {state.settingConfigs.push(config)}
 
-    useTableOptionSettingFilter({useTableOptionSettingInner})
+    useTableOptionSettingAllFilter({useTableOptionSettingInner})
+    useTableOptionSettingSeniorFilter({useTableOptionSettingInner})
     useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
     useTableOptionSettingConfig({useTableOptionSettingInner})
     useTableOptionSettingImport({useTableOptionSettingInner})
