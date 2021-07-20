@@ -20,7 +20,7 @@ import {iFilterCacheDataMap, iFilterStateDataMap} from "./use.filter.utils";
 
 export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter }) {
 
-    const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks})
+    const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks, filterState})
 
     const $contextmenu = useContextmenu()
 

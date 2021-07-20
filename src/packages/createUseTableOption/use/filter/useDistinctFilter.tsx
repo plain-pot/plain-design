@@ -2,19 +2,19 @@ import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import useTableOption from "../../../useTableOption";
 import React from "react";
 import {iTableProConfig, PlainObject} from "../../createUseTableOption.utils";
-import {designPage, useRefs} from "plain-design-composition";
+import {computed, designPage, useRefs} from "plain-design-composition";
 import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
 import {defer} from "../../../../utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
-import {iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";
 import {toArray} from "../../../../utils/toArray";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlTable} from "../../../PlTable";
 import {findRreactElement} from "../../../../utils/findReactElement";
-
-export type tFilterDistinctValue = string | number
+import {tTableOptionFilter} from "../use.filter.state";
+import {getPlcKey, iFilterCacheData} from "./use.filter.utils";
 
 /**
  *在打开去重筛选弹框的时候，需要获取一遍当前表格的查询参数，在获取的同时要排除掉这个列的去重筛选条件参数
@@ -23,36 +23,82 @@ export type tFilterDistinctValue = string | number
  */
 let excludePlcListWhenCollectFilterData: tPlc[] = []
 
-export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig }) {
+export type tFilterDistinctValue = string | number
+
+interface iFilterTypeData {
+    values: tFilterDistinctValue[] | undefined,
+    rows: PlainObject[] | undefined,
+}
+
+export function useTableOptionDistinctFilter({hooks, methods, customConfig, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, filterState: tTableOptionFilter }) {
 
     const $dialog = useDialog()
 
     const {refs, onRef} = useRefs({check: PlcCheckRow})
 
     const state = {
+        getSourceFlatPlcList: null as null | (() => tPlc[]),
         baseTableRef: () => null as null | tPlTable,
-        selectedMap: new Map<tPlc, PlainObject[] | undefined>(),                // 已经选中的数据，再次打开distinct对话框的时候要显示已经选中的行
-        distinctFilterValueMap: new Map<tPlc, (string | number)[]>(),           // 去重筛选条件
     }
+
+    const data = filterState.useState<Map<tPlc, iFilterTypeData | undefined>, Record<string, iFilterTypeData | undefined>>({
+        key: 'distinct-filter',
+        title: '去重筛选',
+        state: new Map(),
+        onReady: (flatPlcList, cacheData) => {
+            state.getSourceFlatPlcList = () => flatPlcList
+            if (!!cacheData) {
+                const map = new Map<tPlc, iFilterTypeData>()
+                Object.entries(cacheData).forEach(([key, filterTypeData]) => {
+                    const plc = flatPlcListMap.value[key]
+                    if (!!plc && !!filterTypeData) {
+                        map.set(plc, filterTypeData)
+                    }
+                })
+                data.state = map
+            }
+        },
+        getActiveFilterCount: (): number => {
+            return Array.from(data.state.values()).reduce((prev, filterTypeData) => prev + (!filterTypeData || !filterTypeData.values || filterTypeData.values.length === 0 ? 0 : 1), 0)
+        },
+        display: () => <>
+            去重筛选
+        </>,
+        clear: () => {
+            data.state.clear()
+        },
+        getCacheData: (): Record<string, iFilterTypeData | undefined> => {
+            return Array.from(data.state.entries()).reduce((prev, [plc, fd]) => {
+                const key = getPlcKey(plc)
+                prev[key] = fd
+                return prev
+            }, {} as Record<string, iFilterTypeData | undefined>)
+        },
+    })
+
+    const flatPlcListMap = computed((): Record<string, tPlc | undefined> => !state.getSourceFlatPlcList ? {} : state.getSourceFlatPlcList().reduce((prev, plc) => {
+        prev[getPlcKey(plc)] = plc
+        return prev
+    }, {} as Record<string, tPlc | undefined>))
 
     hooks.onRefTable.use(table => {state.baseTableRef = () => table})
 
     /*查询的时候被收集筛选条件*/
-    hooks.onCollectFilterData.use((data) => {
-        let queries: iFilterQuery[] = []
-        /*去重筛选条件*/
-        Array.from(state.distinctFilterValueMap.entries()).forEach(([plc, distinctValues]) => {
-            if (distinctValues.length === 0 || excludePlcListWhenCollectFilterData.indexOf(plc) > -1) {return}
-            queries.push({field: plc.props.field!, operator: 'in', value: distinctValues,})
-        })
-        return !!queries && queries.length > 0 ? [...data, {queries: toArray(queries),}] : data
+    hooks.onCollectFilterData.use((prev) => {
+        let queries: iFilterQuery[] = Array.from(data.state.entries()).reduce((prev, [plc, filterTypeData]) => {
+            if (!!filterTypeData && !!filterTypeData.values && filterTypeData.values.length > 0) {
+                prev.push({field: plc.props.field!, operator: "in", value: filterTypeData.values})
+            }
+            return prev
+        }, [] as iFilterQuery[])
+        return !!queries && queries.length > 0 ? [...prev, {queries: toArray(queries),}] : prev
     })
 
     const pick = async ({plc}: {
         plc: tPlc,
-    }): Promise<tFilterDistinctValue[]> => {
+    }): Promise<void> => {
 
-        const dfd = defer<tFilterDistinctValue[]>()
+        const dfd = defer<void>()
 
         /*表格中已经存在的筛选参数，但是要排除当前列的去重查询参数*/
         excludePlcListWhenCollectFilterData.push(plc)
@@ -81,7 +127,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
 
             return () => <>
                 <PlTablePro option={tableOption}>
-                    <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={state.selectedMap.get(plc)}/>
+                    <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={data.state.get(plc)?.rows}/>
                     {findReactNode}
                 </PlTablePro>
             </>
@@ -100,11 +146,15 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
             cancelButton: true,
             onConfirm: () => {
                 const checked = refs.check?.getSelected();
-                (!!checked && checked.length > 0) ? state.selectedMap.set(plc, checked) : state.selectedMap.delete(plc)
-                const distinctValues = !checked ? [] : checked.map((i) => i[plc.props.field!])
+                (!!checked && checked.length > 0) ? data.state.set(plc, {
+                    rows: checked,
+                    values: checked.map((i) => i[plc.props.field!]),
+                }) : data.state.delete(plc)
+
+
                 onRef.check(null)
                 dlgOpt.close!()
-                dfd.resolve(distinctValues)
+                dfd.resolve()
             },
             onCancel: async () => {
                 onRef.check(null)
@@ -133,17 +183,12 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig}: { h
          * @author  韦胜健
          * @date    2021/7/17 19:06
          */
-        const distinctValues = await pick({plc})
-        if (distinctValues.length === 0) {
-            state.distinctFilterValueMap.delete(plc)
-        } else {
-            state.distinctFilterValueMap.set(plc, distinctValues)
-        }
-        methods.pageMethods.reload()
+        await pick({plc})
+        await methods.pageMethods.reload()
     }
 
     const clear = (fto: iFilterTargetOption) => {
-        state.distinctFilterValueMap.delete(fto!.option.plc!)
+        data.state.delete(fto!.option.plc!)
         methods.pageMethods.reload()
     }
 
