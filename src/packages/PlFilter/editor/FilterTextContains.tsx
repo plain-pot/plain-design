@@ -23,7 +23,7 @@ export const FilterTextContains = designComponent({
                 if (state.text === (model.value || []).join(',')) {
                     return
                 } else {
-                    model.value = state.text.split(/[,，]/g)
+                    model.value = state.text.split(/[,，]/g).filter(i => !!(i.trim()))
                 }
             }
         }
