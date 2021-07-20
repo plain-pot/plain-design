@@ -16,3 +16,7 @@ export function createFilterOptionByPlc(plc: tPlc): iFilterOption {
         filterConfig: plc.props.filterConfig,
     }
 }
+
+export function getPlcKey(plc: tPlc) {
+    return plc.props.field! + (plc.props.title || '#_#')
+}

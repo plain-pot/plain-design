@@ -3,6 +3,7 @@ import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {ReactNode} from "react";
 import {reactive} from "plain-design-composition";
 import {defer} from "../../../utils/defer";
+import {getPlcKey} from "./filter/use.filter.utils";
 
 export interface FilterStateInitialization<State = any, Cache = any> {
     key: string,                                                                    // 每个筛选类型自己的唯一标识
@@ -39,10 +40,6 @@ const CacheUtils = (() => {
 
     return {save, restore}
 })();
-
-function getPlcKey(plc: tPlc) {
-    return plc.props.field! + (plc.props.title || '#_#')
-}
 
 export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks }) {
 

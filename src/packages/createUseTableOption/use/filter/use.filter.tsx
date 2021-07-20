@@ -15,7 +15,7 @@ export function useTableOptionFilter({hooks, methods, customConfig, sortState, f
      * @author  韦胜健
      * @date    2021/7/17 18:59
      */
-    const formFilter = useTableOptionFormFilter({hooks, methods})
+    const formFilter = useTableOptionFormFilter({hooks, methods, filterState})
 
     /**
      * 搜索栏
