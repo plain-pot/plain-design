@@ -12,8 +12,10 @@ import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
 import {tTableOptionFilter} from "../use.filter.state";
 import {createFilterOptionByPlc, iFilterCacheData} from "./use.filter.utils";
+import {tTableOptionSetting} from "../setting/use.setting";
+import {eTableOptionSettingView} from "../setting/use.setting.utils";
 
-export function useTableOptionSearchFilter({hooks, methods, filterState, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter, onCollapse: () => void, isCollapse: () => boolean }) {
+export function useTableOptionSearchFilter({hooks, methods, filterState, setting, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter, setting: tTableOptionSetting, onCollapse: () => void, isCollapse: () => boolean }) {
 
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),                        // 原始列信息对象
@@ -121,7 +123,7 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, onColla
                     </PlFilter>
                 </div>
                 {filterState.state.activeCount > 0 && (
-                    <PlButton style={{margin: '0 8px'}} mode="text" label={`所有筛选(${filterState.state.activeCount})`}/>
+                    <PlButton style={{margin: '0 8px'}} mode="text" label={`所有筛选(${filterState.state.activeCount})`} onClick={() => setting.openSetting(eTableOptionSettingView.allFilter)}/>
                 )}
             </div>
         )

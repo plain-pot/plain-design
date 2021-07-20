@@ -153,6 +153,15 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             command: 'alt+m',
             handler: () => methods.editMethods.batchModify(),
         }),
+        allFilter: utils.createButton({
+            label: '所有筛选',
+            icon: 'el-icon-brush',
+            type: 'other',
+            code: 'senior-filter',
+            position: 'more',
+            command: 'alt+t',
+            handler: () => {setting.openSetting(eTableOptionSettingView.allFilter)}
+        }),
         seniorFilter: utils.createButton({
             label: '高级筛选',
             icon: 'el-icon-brush',

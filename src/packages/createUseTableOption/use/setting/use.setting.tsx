@@ -13,11 +13,13 @@ import {useTableOptionSettingConfig} from "./use.setting.config";
 import {useTableOptionSettingImport} from "./use.setting.import";
 import {useTableOptionSettingExport} from "./use.setting.export";
 import {useTableOptionSettingAllFilter} from "./use.setting.filter.all";
+import {tTableOptionFilter} from "../use.filter.state";
 
-export function useTableOptionSetting({hooks, methods, sortState}: {
+export function useTableOptionSetting({hooks, methods, sortState, filterState}: {
     hooks: tTableOptionHooks,
     methods: tTableOptionMethods,
     sortState: tTableOptionSort,
+    filterState: tTableOptionFilter,
 }) {
 
     const $dialog = useDialog()
@@ -34,7 +36,7 @@ export function useTableOptionSetting({hooks, methods, sortState}: {
 
     const useTableOptionSettingInner: iTableOptionSettingInnerUser = (config) => {state.settingConfigs.push(config)}
 
-    useTableOptionSettingAllFilter({useTableOptionSettingInner})
+    useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState})
     useTableOptionSettingSeniorFilter({useTableOptionSettingInner})
     useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
     useTableOptionSettingConfig({useTableOptionSettingInner})
