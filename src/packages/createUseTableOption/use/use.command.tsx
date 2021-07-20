@@ -6,7 +6,8 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
 
     const state = {
         tableEl: null as null | HTMLDivElement,
-        listener: [] as [string, ((e: KeyboardEvent) => void)][]
+        listener: [] as [string, ((e: KeyboardEvent) => void)][],
+        count: 1,
     }
 
     const getMatchHandler = (e: KeyboardEvent) => {
@@ -37,11 +38,13 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
             e.stopPropagation()
             e.preventDefault()
         }
+        if (state.count > 0) {
+            if (!!handler) {handler(e)}
+        }
     }
 
     const onKeyup = (e: KeyboardEvent) => {
-        const handler = getMatchHandler(e)
-        if (!!handler) {handler(e)}
+        state.count = 1
     }
 
     const onEnter = () => {
