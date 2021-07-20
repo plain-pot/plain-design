@@ -1,9 +1,11 @@
 import {KeyBoardMap} from "../../keyboard";
 import {tTableOptionHooks} from "./use.hooks";
+import {onBeforeUnmount} from "plain-design-composition";
 
 export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
 
     const state = {
+        tableEl: null as null | HTMLDivElement,
         listener: [] as [string, ((e: KeyboardEvent) => void)][]
     }
 
@@ -42,17 +44,29 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
         if (!!handler) {handler(e)}
     }
 
+    const onEnter = () => {
+        document.body.addEventListener('keydown', onKeydown, true)
+        document.body.addEventListener('keyup', onKeyup, true)
+    }
+
+    const onLeave = () => {
+        document.body.removeEventListener('keydown', onKeydown, true)
+        document.body.removeEventListener('keyup', onKeyup, true)
+    }
+
     hooks.onRefTable.use((table) => {
         if (!table) {return}
         const el = table.refs.el!
-        el.addEventListener('mouseenter', () => {
-            document.body.addEventListener('keydown', onKeydown, true)
-            document.body.addEventListener('keyup', onKeyup, true)
-        })
-        el.addEventListener('mouseleave', () => {
-            document.body.removeEventListener('keydown', onKeydown, true)
-            document.body.removeEventListener('keyup', onKeyup, true)
-        })
+        state.tableEl = el
+        el.addEventListener('mouseenter', onEnter)
+        el.addEventListener('mouseleave', onLeave)
+    })
+
+    onBeforeUnmount(() => {
+        document.body.removeEventListener('keydown', onKeydown, true)
+        document.body.removeEventListener('keyup', onKeyup, true)
+        state.tableEl!.removeEventListener('mouseenter', onEnter)
+        state.tableEl!.removeEventListener('mouseleave', onLeave)
     })
 
     const on = (command: string, handler: (e: KeyboardEvent) => void) => {
