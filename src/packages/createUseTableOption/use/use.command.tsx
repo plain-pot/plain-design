@@ -56,10 +56,9 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
 
     hooks.onRefTable.use((table) => {
         if (!table) {return}
-        const el = table.refs.el!
-        state.tableEl = el
-        el.addEventListener('mouseenter', onEnter)
-        el.addEventListener('mouseleave', onLeave)
+        state.tableEl = table.refs.el!
+        state.tableEl.addEventListener('mouseenter', onEnter)
+        state.tableEl.addEventListener('mouseleave', onLeave)
     })
 
     onBeforeUnmount(() => {
