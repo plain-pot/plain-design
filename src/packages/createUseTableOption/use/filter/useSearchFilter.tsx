@@ -58,34 +58,39 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, onColla
         if (!state.getSourceFlatPlcList || !state.fto) {return null}
         const columns = state.getSourceFlatPlcList()
         return (
-            <div className="pl-table-pro-filter-bar" style={{width: '600px'}}>
-                <PlFilter
-                    fto={state.fto}
-                    key={state.fto.option.filterName + state.fto.option.handlerName}
-                    onHandlerNameChange={onHandlerChange}
-                    onConfirm={onConfirm}
-                    block
-                >
-                    {{
-                        prepend: () => <PlSelect
-                            className="pl-filter-ele"
-                            inputProps={{width: '120px'}}
-                            v-model={state.fto!.option.field}
-                            onChange={onFieldChange as any}>
-                            {
-                                columns.map((plc, index) => !plc.props.field ? null : <PlSelectOption
-                                    label={plc.props.title || ''}
-                                    val={plc.props.field}
-                                    key={index}/>)
-                            }
-                        </PlSelect>,
-                        append: () => (
-                            <PlTooltip title="展开/折叠 · 表单查询">
-                                <PlButton className="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
-                            </PlTooltip>
-                        )
-                    }}
-                </PlFilter>
+            <div>
+                <div className="pl-table-pro-filter-bar" style={{width: '600px', display: 'inline-block'}}>
+                    <PlFilter
+                        fto={state.fto}
+                        key={state.fto.option.filterName + state.fto.option.handlerName}
+                        onHandlerNameChange={onHandlerChange}
+                        onConfirm={onConfirm}
+                        block
+                    >
+                        {{
+                            prepend: () => <PlSelect
+                                className="pl-filter-ele"
+                                inputProps={{width: '120px'}}
+                                v-model={state.fto!.option.field}
+                                onChange={onFieldChange as any}>
+                                {
+                                    columns.map((plc, index) => !plc.props.field ? null : <PlSelectOption
+                                        label={plc.props.title || ''}
+                                        val={plc.props.field}
+                                        key={index}/>)
+                                }
+                            </PlSelect>,
+                            append: () => (
+                                <PlTooltip title="展开/折叠 · 表单查询">
+                                    <PlButton className="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
+                                </PlTooltip>
+                            )
+                        }}
+                    </PlFilter>
+                </div>
+                {filterState.activeFilterCount.value > 0 && (
+                    <PlButton style={{margin: '0 8px'}} mode="text" label={`所有筛选(${filterState.activeFilterCount.value})`}/>
+                )}
             </div>
         )
     }
