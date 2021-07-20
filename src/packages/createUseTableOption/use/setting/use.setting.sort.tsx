@@ -30,11 +30,6 @@ export function useTableOptionSettingSort(
         sortData: [] as iTableOptionSortData[],
     })
 
-    hooks.onCollectSortData.use(prev => {
-        if (!state.sortData || state.sortData.length === 0) {return prev}
-        return [...prev, ...state.sortData]
-    })
-
     const handler = {
         add: ({title, field}: Omit<iTableOptionSortData, 'seq'>) => {
             state.sortData = [...state.sortData, {title, field, desc: true, seq: sortState.seqData.value.min}]
