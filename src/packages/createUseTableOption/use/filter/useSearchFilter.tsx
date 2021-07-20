@@ -1,7 +1,6 @@
-import {reactive} from "plain-design-composition";
+import {computed, reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {FilterConfig, iFilterOption, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
-import {defer} from "../../../../utils/defer";
+import {FilterConfig, iFilterOption} from "../../../PlFilter/FilterConfig";
 import {toArray} from "../../../../utils/toArray";
 import PlFilter from "../../../PlFilter";
 import PlSelect from "../../../PlSelect";
@@ -12,66 +11,99 @@ import React from "react";
 import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
 import {tTableOptionFilter} from "../use.filter.state";
+import {createFilterOptionByPlc, iFilterCacheData} from "./use.filter.utils";
 
 export function useTableOptionSearchFilter({hooks, methods, filterState, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter, onCollapse: () => void, isCollapse: () => boolean }) {
+
     const state = reactive({
-        getSourceFlatPlcList: null as null | (() => tPlc[]),
-        fto: null as null | iFilterTargetOption,
+        getSourceFlatPlcList: null as null | (() => tPlc[]),                        // 原始列信息对象
     })
 
-    const init = defer()
+    const data = filterState.useState<iFilterOption | null, iFilterCacheData | null>({
+        state: null,
+        key: 'search-filter',
+        title: '搜索栏',
+        onReady(flatPlcList, cacheData) {
 
-    function createFto(field?: string): iFilterTargetOption | null {
-        if (!field) {return null}
-        const plc = state.getSourceFlatPlcList!().find(plc => plc.props.field === field)
-        if (!plc) {return null}
-        const option: iFilterOption = {
-            label: plc.props.title || '',
-            field,
-            filterName: plc.props.filterName,
-            handlerName: plc.props.filterHandler,
-            filterConfig: plc.props.filterConfig,
-            value: null,
-            plc,
-        }
-        return FilterConfig.getTargetOption(option) || null
+            let fo: iFilterOption | null = null
+
+            let defaultPlc: tPlc | null = flatPlcList[0];
+            let cachePlc: tPlc | null = null;
+
+            flatPlcList.forEach(i => {
+                if (!!cacheData) {
+                    if (i.props.title === cacheData.label && i.props.field === cacheData.field) {
+                        cachePlc = i
+                    }
+                }
+                if (i.props.defaultSearch) {
+                    defaultPlc = i
+                }
+            })
+
+            if (!!cachePlc) {
+                fo = {...cacheData!, plc: cachePlc, filterConfig: cachePlc!.props.filterConfig}
+            } else if (!!defaultPlc) {
+                fo = createFilterOptionByPlc(defaultPlc)
+            }
+
+            if (!!fo) {
+                data.state = fo
+            }
+
+            state.getSourceFlatPlcList = () => flatPlcList
+        },
+        getActiveFilterCount: () => {
+            if (!filterTargetOption.value) {return 0}
+            const queries = FilterConfig.formatToQuery(filterTargetOption.value)
+            return (!!queries && toArray(queries).length > 0 ? 1 : 0)
+        },
+        display: () => <>
+            搜索栏筛选条件
+        </>,
+        clear: () => {
+            if (!data.state) {return}
+            data.state.value = null
+            data.state.handlerName = data.state.plc!.props.filterHandler
+        },
+        getCacheData: (): iFilterCacheData | null => {
+            if (!data.state) {return null}
+            const {plc, filterConfig, ...left} = data.state as iFilterOption
+            return left
+        },
+    })
+
+    const filterTargetOption = computed(() => !!data.state ? FilterConfig.getTargetOption(data.state) : null)
+
+    const onFieldChange = (field: string) => {
+        const plc = state.getSourceFlatPlcList!().find(i => i.props.field === field)!
+        data.state = createFilterOptionByPlc(plc)
     }
-
-    hooks.onCollectPlcData.use(plcData => {
-        state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList
-        state.fto = createFto(plcData.sourceFlatPlcList.filter(i => i.props.field)[0]?.props.field)
-        init.resolve()
-    })
-
-    const onFieldChange = (field: string) => {!!state.fto && (state.fto = createFto(field))}
-    const onHandlerChange = () => {state.fto = FilterConfig.getTargetOption(state.fto!.option) as any}
     const onConfirm = () => methods.pageMethods.reload()
 
     hooks.onCollectFilterData.use(async data => {
-        await init.promise
-        if (!state.fto) {return data}
-        const queries = state.fto.handler.transform(state.fto)
+        if (!filterTargetOption.value) {return data}
+        const queries = filterTargetOption.value.handler.transform(filterTargetOption.value)
         return !!queries ? [...data, {queries: toArray(queries),}] : data
     })
 
     const render = () => {
-        if (!state.getSourceFlatPlcList || !state.fto) {return null}
+        const fto = filterTargetOption.value
+        if (!fto || !state.getSourceFlatPlcList) {return null}
         const columns = state.getSourceFlatPlcList()
         return (
             <div>
                 <div className="pl-table-pro-filter-bar" style={{width: '600px', display: 'inline-block'}}>
                     <PlFilter
-                        fto={state.fto}
-                        key={state.fto.option.filterName + state.fto.option.handlerName}
-                        onHandlerNameChange={onHandlerChange}
+                        fto={fto}
+                        key={fto.option.field + fto.option.label + fto.option.filterName + fto.option.handlerName}
                         onConfirm={onConfirm}
-                        block
-                    >
+                        block>
                         {{
                             prepend: () => <PlSelect
                                 className="pl-filter-ele"
                                 inputProps={{width: '120px'}}
-                                v-model={state.fto!.option.field}
+                                v-model={fto.option.field}
                                 onChange={onFieldChange as any}>
                                 {
                                     columns.map((plc, index) => !plc.props.field ? null : <PlSelectOption

@@ -2,6 +2,7 @@ import {tTableOptionHooks} from "./use.hooks";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {ReactNode} from "react";
 import {reactive} from "plain-design-composition";
+import {defer} from "../../../utils/defer";
 
 export interface FilterStateInitialization<State = any, Cache = any> {
     key: string,                                                                    // 每个筛选类型自己的唯一标识
@@ -52,6 +53,8 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         activeCount: 0,
     })
 
+    const init = defer()
+
     hooks.onCollectPlcData.use(val => {
         const flatPlcList = val.sourceFlatPlcList.filter(i => !!i.props.field)
         const plcKeyString = flatPlcList.map(getPlcKey).join('.')
@@ -63,10 +66,16 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         state.filters.forEach(filter => {
             filter.onReady(flatPlcList, !cacheData ? undefined : cacheData[filter.key])
         })
+
+        init.resolve()
     })
 
     hooks.onBeforeLoad.use(() => {
         state.activeCount = state.filters.reduce((prev, i) => prev + i.getActiveFilterCount(), 0)
+    })
+
+    hooks.onCollectFilterData.use(async () => {
+        await init.promise
     })
 
     function useState<State, Cache>(initialization: FilterStateInitialization<State, Cache>): FilterStateInitialization<State, Cache> {

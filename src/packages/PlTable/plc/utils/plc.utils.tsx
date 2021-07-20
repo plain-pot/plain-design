@@ -50,6 +50,7 @@ export const PlcPropsOptions = {
     filterName: {type: String, default: 'text'},
     filterHandler: {type: String, default: '包含'},
     filterConfig: createFilterConfigProp(),
+    defaultSearch: {type: Boolean},
 }
 
 export const PlcEmitsOptions = {

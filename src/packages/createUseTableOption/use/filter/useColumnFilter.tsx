@@ -65,7 +65,7 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
             }, 0)
         },
         display: () => <>
-            显示列筛选内容
+            列筛选条件
         </>,
         clear: () => {
             Object.values(data.state as iFilterStateDataMap).forEach(i => {
