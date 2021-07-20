@@ -12,7 +12,11 @@ export const FilterTextContains = designComponent({
     },
     setup({props, event: {emit}}) {
 
-        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue, {
+            onChange: val => {
+                state.text = (val || []).join(',')
+            }
+        })
 
         const state = reactive({
             text: (model.value || []).join(',')
