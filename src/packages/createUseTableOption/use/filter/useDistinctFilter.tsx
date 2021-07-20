@@ -7,14 +7,14 @@ import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
 import {defer} from "../../../../utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
-import {FilterConfig, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";
 import {toArray} from "../../../../utils/toArray";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlTable} from "../../../PlTable";
 import {findRreactElement} from "../../../../utils/findReactElement";
 import {tTableOptionFilter} from "../use.filter.state";
-import {getPlcKey, iFilterCacheData} from "./use.filter.utils";
+import {getPlcKey} from "./use.filter.utils";
 
 /**
  *在打开去重筛选弹框的时候，需要获取一遍当前表格的查询参数，在获取的同时要排除掉这个列的去重筛选条件参数
