@@ -1,10 +1,11 @@
 import {tTableOptionHooks} from "./use.hooks";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {ReactNode} from "react";
-import {computed, reactive} from "plain-design-composition";
+import {reactive} from "plain-design-composition";
 
 export interface FilterStateInitialization<State = any, Cache = any> {
     key: string,                                                                    // 每个筛选类型自己的唯一标识
+    title: string,
     state: State,                                                                   // 每个筛选自己的状态数据
     onReady: (flatPlcList: tPlc[], cacheData: Cache) => void,                       // 此时已经得到了列以及缓存数据
     getActiveFilterCount: () => number,                                             // 显示当前有多少激活的筛选条件
@@ -48,6 +49,7 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         getSourceFlatPlcList: null as null | (() => tPlc[]),                        // 原始列信息对象
         plcKeyString: '',                                                           // 表格的唯一标识
         filters: [] as FilterStateInitialization[],                                 // 已经注册的筛选类型
+        activeCount: 0,
     })
 
     hooks.onCollectPlcData.use(val => {
@@ -63,6 +65,10 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         })
     })
 
+    hooks.onBeforeLoad.use(() => {
+        state.activeCount = state.filters.reduce((prev, i) => prev + i.getActiveFilterCount(), 0)
+    })
+
     function useState<State, Cache>(initialization: FilterStateInitialization<State, Cache>): FilterStateInitialization<State, Cache> {
         const data = reactive(initialization)
         state.filters.push(data)
@@ -73,13 +79,7 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         CacheUtils.save(state.plcKeyString, state.filters)
     }
 
-    const activeFilterCount = computed(() => state.filters.reduce((prev, i) => prev + i.getActiveFilterCount(), 0))
-
-    return {
-        useState,
-        save,
-        activeFilterCount,
-    }
+    return {useState, save, state}
 }
 
 export type tTableOptionFilter = ReturnType<typeof useTableOptionFilterState>

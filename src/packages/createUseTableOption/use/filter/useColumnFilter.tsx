@@ -31,6 +31,7 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
 
     const data = filterState.useState<iFilterStateDataMap, iFilterCacheDataMap>({
         key: 'column-filter',
+        title: '列查询',
         state: {},
         onReady: (flatPlcList, cacheData) => {
             const oldData = data.state as iFilterStateDataMap
@@ -60,7 +61,12 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
                 return prev
             }, {} as Record<string, iFilterOption>)
         },
-        getActiveFilterCount: () => activeFilterCount.value,
+        getActiveFilterCount: (): number => {
+            return Object.values(columnFilterTargetDataMap.value).reduce((prev, fto) => {
+                const queries = FilterConfig.formatToQuery(fto)
+                return prev + (!!queries && toArray(queries).length > 0 ? 1 : 0)
+            }, 0)
+        },
         display: () => <>
             显示列筛选内容
         </>,
@@ -77,13 +83,6 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
                 return prev
             }, {} as iFilterCacheDataMap)
         },
-    })
-
-    const activeFilterCount = computed((): number => {
-        return Object.values(columnFilterTargetDataMap.value).reduce((prev, fto) => {
-            const queries = FilterConfig.formatToQuery(fto)
-            return prev + (!!queries ? toArray(queries).length : 0)
-        }, 0)
     })
 
     /*列目标筛选配置信息对象*/

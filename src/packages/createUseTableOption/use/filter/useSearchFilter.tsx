@@ -88,8 +88,8 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, onColla
                         }}
                     </PlFilter>
                 </div>
-                {filterState.activeFilterCount.value > 0 && (
-                    <PlButton style={{margin: '0 8px'}} mode="text" label={`所有筛选(${filterState.activeFilterCount.value})`}/>
+                {filterState.state.activeCount > 0 && (
+                    <PlButton style={{margin: '0 8px'}} mode="text" label={`所有筛选(${filterState.state.activeCount})`}/>
                 )}
             </div>
         )
