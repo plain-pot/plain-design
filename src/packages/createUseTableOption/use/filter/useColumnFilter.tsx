@@ -16,10 +16,7 @@ import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {tTableOptionSort} from "../use.sort.state";
 import {tTableOptionFilter} from "../use.filter.state";
-
-type iFilterStateDataMap = Record<string, iFilterOption>
-type iFilterCacheData = Omit<iFilterOption, 'filterConfig' | 'plc'>
-type iFilterCacheDataMap = Record<string, iFilterCacheData>
+import {iFilterCacheDataMap, iFilterStateDataMap} from "./use.filter.utils";
 
 export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter }) {
 
