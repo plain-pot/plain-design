@@ -6,6 +6,7 @@ export interface iTableOptionSettingConfig {
     seq: number,
     render: () => ReactNode,
     beforeOpen?: () => void | Promise<void>,
+    contentPending?: boolean,
 }
 
 export interface iTableOptionSettingInnerUser {

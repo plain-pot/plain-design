@@ -4,6 +4,7 @@ import {ReactNode} from "react";
 import {reactive} from "plain-design-composition";
 import {defer} from "../../../utils/defer";
 import {getPlcKey} from "./filter/use.filter.utils";
+import {tTableOptionMethods} from "./use.methods";
 
 export interface FilterStateInitialization<State = any, Cache = any> {
     key: string,                                                                    // 每个筛选类型自己的唯一标识
@@ -41,7 +42,7 @@ const CacheUtils = (() => {
     return {save, restore}
 })();
 
-export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks }) {
+export function useTableOptionFilterState({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
 
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),                        // 原始列信息对象
@@ -85,7 +86,12 @@ export function useTableOptionFilterState({hooks}: { hooks: tTableOptionHooks })
         CacheUtils.save(state.plcKeyString, state.filters)
     }
 
-    return {useState, save, state}
+    const clearAll = () => {
+        state.filters.forEach(i => i.clear())
+        methods.pageMethods.reload()
+    }
+
+    return {useState, save, state, clearAll}
 }
 
 export type tTableOptionFilter = ReturnType<typeof useTableOptionFilterState>

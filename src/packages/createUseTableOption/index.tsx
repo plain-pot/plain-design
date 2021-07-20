@@ -80,7 +80,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*排序数据管理*/
         const sortState = useTableOptionSortState({methods, hooks})
 
-        const filterState = useTableOptionFilterState({hooks})
+        const filterState = useTableOptionFilterState({hooks, methods})
 
         /*设置弹框*/
         const setting = useTableOptionSetting({hooks, methods, sortState, filterState})

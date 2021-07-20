@@ -4,7 +4,7 @@
     display: flex;
     align-items: stretch;
 
-    $nav-bg: #f6f6f6;
+    $nav-bg: #fcfcfc;
 
     .pl-table-pro-setting-nav {
       background-color: $nav-bg;
@@ -85,7 +85,10 @@
       overflow-x: hidden;
       width: 500px;
       box-sizing: border-box;
-      padding: 16px;
+
+      &.pl-table-pro-setting-content-pending {
+        padding: 16px;
+      }
 
       &::-webkit-scrollbar {
         background: white;

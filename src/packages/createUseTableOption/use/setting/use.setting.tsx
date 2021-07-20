@@ -81,12 +81,15 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState}: 
                                 </div>
                             ))}
                         </div>
-                        <div className="pl-table-pro-setting-content">
-                            {(() => {
-                                const r = settingConfigs.find(i => i.key === state.activeKey)
-                                return !!r && !!r.render && r.render()
-                            })()}
-                        </div>
+                        {(() => {
+                            const r = settingConfigs.find(i => i.key === state.activeKey)
+                            const content = !!r && !!r.render && r.render()
+                            return (
+                                <div className={classnames(['pl-table-pro-setting-content', {'pl-table-pro-setting-content-pending': !!r && r.contentPending !== false}])}>
+                                    {content}
+                                </div>
+                            )
+                        })()}
                     </div>
                 )
             },
