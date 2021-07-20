@@ -7,18 +7,17 @@ import {toArray} from "../../../utils/toArray";
 import {tTableOptionHooks} from "./use.hooks";
 import {tTableOptionCommand} from "./use.command";
 import {tTableOptionSetting} from "./setting/use.setting";
-import {eTableOptionSettingView} from "./setting/TableOptionSetting";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import {tTableOptionPermit} from "./use.permit";
-import {classnames, computed} from "plain-design-composition";
+import {computed} from "plain-design-composition";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import PlDropdown from "../../PlDropdown";
 import PlIcon from "../../PlIcon";
 import PlDropdownMenu from "../../PlDropdownMenu";
-import {Plc} from "../../Plc";
 import PlButtonGroup from "../../PlButtonGroup";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import PlcOperator from "../../PlcOperator";
+import {eTableOptionSettingView} from "./setting/use.setting.utils";
 
 
 const DefaultSeq = {
