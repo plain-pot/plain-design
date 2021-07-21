@@ -22,6 +22,7 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
     })
 
     const data = filterState.useState<iFilterOption | null, iFilterCacheData | null>({
+        seq: 1,
         state: null,
         key: 'search-filter',
         title: '搜索栏',

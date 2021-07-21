@@ -16,6 +16,7 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
     })
 
     const data = filterState.useState<iFilterOption[], Record<string, iFilterCacheData>>({
+        seq: 3,
         key: 'form-filter',
         title: '表单查询',
         state: [],

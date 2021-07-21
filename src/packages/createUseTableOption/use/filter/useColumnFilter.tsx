@@ -27,6 +27,7 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
     const getColumnKey = (plc: tPlc) => plc.props.field! + (plc.props.title || '#_#')
 
     const data = filterState.useState<iFilterStateDataMap, iFilterCacheDataMap>({
+        seq: 2,
         key: 'column-filter',
         title: '列查询',
         state: {},
@@ -158,9 +159,9 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
                             <PlButton icon="el-icon-s-tools" label="应用" onClick={() => methods.pageMethods.reload()}/>
                             <PlButton icon="el-icon-search" label="去重筛选" onClick={() => {
                                 menuOpt.hide!()
-                                distinct.open(fto)
+                                distinct.open(fto.option.plc!)
                             }}/>
-                            <PlButton icon="el-icon-close" onClick={() => distinct.clear(fto)}/>
+                            <PlButton icon="el-icon-close" onClick={() => distinct.clear(fto.option.plc!)}/>
                         </PlButtonGroup>
                     </div>
                 </div>

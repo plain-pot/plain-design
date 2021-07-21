@@ -7,6 +7,7 @@ import {getPlcKey} from "./filter/use.filter.utils";
 import {tTableOptionMethods} from "./use.methods";
 
 export interface FilterStateInitialization<State = any, Cache = any> {
+    seq: number,
     key: string,                                                                    // 每个筛选类型自己的唯一标识
     title: string,
     state: State,                                                                   // 每个筛选自己的状态数据
@@ -78,7 +79,7 @@ export function useTableOptionFilterState({hooks, methods}: { hooks: tTableOptio
 
     function useState<State, Cache>(initialization: FilterStateInitialization<State, Cache>): FilterStateInitialization<State, Cache> {
         const data = reactive(initialization)
-        state.filters.push(data)
+        state.filters = [data, ...state.filters].sort((a, b) => a.seq - b.seq)
         return data as any
     }
 

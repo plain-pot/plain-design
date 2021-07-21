@@ -2,7 +2,7 @@ import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import useTableOption from "../../../useTableOption";
 import React from "react";
 import {iTableProConfig, PlainObject} from "../../createUseTableOption.utils";
-import {computed, designPage, useRefs} from "plain-design-composition";
+import {computed, designPage, reactive, useRefs} from "plain-design-composition";
 import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
 import {defer} from "../../../../utils/defer";
@@ -15,6 +15,11 @@ import {tPlTable} from "../../../PlTable";
 import {findRreactElement} from "../../../../utils/findReactElement";
 import {tTableOptionFilter} from "../use.filter.state";
 import {getPlcKey} from "./use.filter.utils";
+import PlButton from "../../../PlButton";
+import {TableNode} from "../../../PlTable/table/use/useTableNode";
+import {renderBodyCell} from "../../../PlTable/plc/utils/render";
+import {TreeNodeCheckStatus} from "../../../PlTree/utils/tree-constant";
+import './distinct.filter.scss'
 
 /**
  *在打开去重筛选弹框的时候，需要获取一遍当前表格的查询参数，在获取的同时要排除掉这个列的去重筛选条件参数
@@ -30,6 +35,11 @@ interface iFilterTypeData {
     rows: PlainObject[] | undefined,
 }
 
+interface iDistinctDataInAllFilter {
+    plc: tPlc,
+    nodes: TableNode[],
+}
+
 export function useTableOptionDistinctFilter({hooks, methods, customConfig, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, filterState: tTableOptionFilter }) {
 
     const $dialog = useDialog()
@@ -41,7 +51,59 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         baseTableRef: () => null as null | tPlTable,
     }
 
+    const distinctFilterInAll = (() => {
+        const displayState = reactive({
+            distinctData: [] as iDistinctDataInAllFilter[],
+        })
+        const resetDistinctData = () => {
+            displayState.distinctData = Array.from(data.state.entries()).reduce((prev, [plc, filterTypeData]) => {
+                if (!!filterTypeData) {
+                    const {rows, values} = filterTypeData
+                    if (!!rows && rows.length > 0 && !!values && values.length > 0) {
+                        prev.push({
+                            plc, nodes: rows.map((r, ri) => createTableNode(r, {keyField: plc.props.field!, index: ri}))
+                        })
+                    }
+                }
+                return prev
+            }, [] as iDistinctDataInAllFilter[])
+        }
+        const onClickButton = (e: React.MouseEvent, plc: tPlc) => {
+            e.stopPropagation()
+            clear(plc)
+            displayState.distinctData = displayState.distinctData.filter(i => i.plc !== plc)
+        }
+
+        const pickInAllFilter = async (plc: tPlc) => {
+            await open(plc)
+            resetDistinctData()
+        }
+
+        const getDisplay = () => {
+            resetDistinctData()
+            return () => displayState.distinctData.map(({plc, nodes}, dIdx) => (
+                <div key={dIdx} className="pl-table-pro-distinct-filter-item">
+                    <div className="pl-table-pro-distinct-filter-item-button">
+                        <PlButton icon="el-icon-minus" mode="text" status="error" size="mini" onClick={e => onClickButton(e, plc)}/>
+                    </div>
+                    <div className="pl-table-pro-distinct-filter-item-title">{plc.props.title}</div>
+                    <span>包含</span>
+                    <div className="pl-table-pro-distinct-filter-item-tags" onClick={() => pickInAllFilter(plc)}>
+                        {nodes.map((node, nodeIndex) => (
+                            <div key={nodeIndex}>
+                                {renderBodyCell({node, plc, formEdit: false}).body}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))
+        }
+
+        return {getDisplay}
+    })();
+
     const data = filterState.useState<Map<tPlc, iFilterTypeData | undefined>, Record<string, iFilterTypeData | undefined>>({
+        seq: 4,
         key: 'distinct-filter',
         title: '去重筛选',
         state: new Map(),
@@ -61,9 +123,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         getActiveFilterCount: (): number => {
             return Array.from(data.state.values()).reduce((prev, filterTypeData) => prev + (!filterTypeData || !filterTypeData.values || filterTypeData.values.length === 0 ? 0 : 1), 0)
         },
-        getDisplay: () => () => <>
-            去重筛选
-        </>,
+        getDisplay: distinctFilterInAll.getDisplay,
         clear: () => {
             data.state.clear()
         },
@@ -179,11 +239,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
      * @author  韦胜健
      * @date    2021/7/17 19:06
      */
-    const open = async (fto: iFilterTargetOption) => {
-        const field = fto!.option.field
-        const plc = fto!.option.plc
-        if (!field || !plc) {return console.warn('distinct filter: no field or plc!')}
-
+    const open = async (plc: tPlc) => {
         /**
          * 获取去重筛选条件的值
          * @author  韦胜健
@@ -193,8 +249,8 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         await methods.pageMethods.reload()
     }
 
-    const clear = (fto: iFilterTargetOption) => {
-        data.state.delete(fto!.option.plc!)
+    const clear = (plc: tPlc) => {
+        data.state.delete(plc)
         methods.pageMethods.reload()
     }
 
@@ -203,3 +259,39 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         clear,
     }
 }
+
+const createTableNode = (() => {
+    const publicAttrs = {
+        level: 0,
+        parentRef: () => null as any,
+        selfRef: () => null as any,
+        children: [],
+        expand: false,
+        check: false,
+        loading: false,
+        loaded: false,
+        childrenData: [],
+        checkStatus: TreeNodeCheckStatus.uncheck,
+        isCheckable: true,
+        isLeaf: true,
+        isVisible: true,
+        isSummary: false,
+        edit: false,
+        validateErrors: null,
+        openEdit: () => {},
+        closeEdit: () => {},
+        enableEdit: () => {},
+        cancelEdit: () => {},
+        validate: (() => {}) as any,
+        saveEdit: (() => {}) as any,
+    }
+    return (row: PlainObject, {keyField, index}: { keyField: string, index: number }): TableNode => {
+        return {
+            ...publicAttrs,
+            key: row[keyField],
+            data: row,
+            editRow: row,
+            index,
+        }
+    }
+})()
