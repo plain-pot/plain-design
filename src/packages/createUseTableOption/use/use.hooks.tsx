@@ -106,6 +106,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
 
         /*表格相关*/
         onRefTable: createSyncHooks<(table: typeof PlTable.use.class) => void>(),                   // 获取table对象的引用
+        onRefTableProEl: createHooks<(el: HTMLDivElement) => void>(),                               // 获取table pro的dom节点引用
         onLoading: createSyncHooks<(flag: boolean) => void>(true),                         // 当前是否开启加载状态
         onColumns: createSyncHooks<(children: ReactNode) => void>(true),                   // 渲染Table的内容
         onButtons: createSyncHooks<(content: ReactNode) => void>(true),                    // 同步钩子，用来处理按钮信息

@@ -25,6 +25,10 @@ export const PlTablePro = designComponent({
             return props.option.hooks.onLoading.exec(false)
         })
 
+        const onRef = (el: HTMLDivElement) => {
+            props.option.hooks.onRefTableProEl.exec(el)
+        }
+
         let ejectSlotsDefaultHook: SimpleFunction | null = null
         watch(() => props.option, option => {
             if (!!ejectSlotsDefaultHook) {ejectSlotsDefaultHook()}
@@ -41,7 +45,7 @@ export const PlTablePro = designComponent({
             tableProRenderConfigs = props.option.hooks.onTableRender.exec(tableProRenderConfigs).sort((a, b) => a.seq - b.seq)
 
             return (
-                <div className="pl-table-pro">
+                <div className="pl-table-pro" ref={onRef}>
                     <div className="pl-table-pro-head">
                         {/*<span className="pl-table-pro-title">
                         <PlIcon icon="el-icon-menu" status="primary"/>

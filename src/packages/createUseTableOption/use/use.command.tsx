@@ -57,11 +57,11 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
         document.body.removeEventListener('keyup', onKeyup, true)
     }
 
-    hooks.onRefTable.use((table) => {
-        if (!table) {return}
-        state.tableEl = table.refs.el!
-        state.tableEl.addEventListener('mouseenter', onEnter)
-        state.tableEl.addEventListener('mouseleave', onLeave)
+    hooks.onRefTableProEl.use((el) => {
+        if (!el) {return}
+        state.tableEl = el
+        el.addEventListener('mouseenter', onEnter)
+        el.addEventListener('mouseleave', onLeave)
     })
 
     onBeforeUnmount(() => {
