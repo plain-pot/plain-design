@@ -60,8 +60,8 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
             const queries = FilterConfig.formatToQuery(filterTargetOption.value)
             return (!!queries && toArray(queries).length > 0 ? 1 : 0)
         },
-        display: () => {
-            return render({showAllFilterButton: false, showFormFilterExpander: false, width: '100%'})
+        getDisplay: () => {
+            return () => render({showAllFilterButton: false, showFormFilterExpander: false, width: '100%'})
         },
         clear: () => {
             if (!data.state) {return}

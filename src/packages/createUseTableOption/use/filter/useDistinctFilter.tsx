@@ -61,7 +61,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         getActiveFilterCount: (): number => {
             return Array.from(data.state.values()).reduce((prev, filterTypeData) => prev + (!filterTypeData || !filterTypeData.values || filterTypeData.values.length === 0 ? 0 : 1), 0)
         },
-        display: () => <>
+        getDisplay: () => () => <>
             去重筛选
         </>,
         clear: () => {

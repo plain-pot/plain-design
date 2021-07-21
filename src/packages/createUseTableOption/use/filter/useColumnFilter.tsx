@@ -64,7 +64,7 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
                 return prev + (!!queries && toArray(queries).length > 0 ? 1 : 0)
             }, 0)
         },
-        display: () => <>
+        getDisplay: () => () => <>
             列筛选条件
         </>,
         clear: () => {

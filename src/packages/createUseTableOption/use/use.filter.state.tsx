@@ -12,7 +12,7 @@ export interface FilterStateInitialization<State = any, Cache = any> {
     state: State,                                                                   // 每个筛选自己的状态数据
     onReady: (flatPlcList: tPlc[], cacheData: Cache) => void,                       // 此时已经得到了列以及缓存数据
     getActiveFilterCount: () => number,                                             // 显示当前有多少激活的筛选条件
-    display: () => ReactNode,                                                       // 在【所有筛选】面板中展示
+    getDisplay: () => (() => ReactNode),                                            // 在【所有筛选】面板中展示
     clear: () => void,                                                              // 清空筛选条件
     getCacheData: () => Cache,                                                      // 获取要缓存的数据
 }

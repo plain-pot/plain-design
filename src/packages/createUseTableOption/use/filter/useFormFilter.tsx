@@ -42,8 +42,12 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
                 return prev + (!!queries && toArray(queries).length > 0 ? 1 : 0)
             }, 0)
         },
-        display: () => {
-            return renderForm({formAttrs: {column: 1, labelAlign: 'left', width: "100%"}})
+        getDisplay: () => {
+            const showFtoArr = ftoArr.value.filter(i => {
+                const queries = FilterConfig.formatToQuery(i)
+                return !!queries && toArray(queries).length > 0
+            })
+            return () => renderForm({ftoArr: showFtoArr, formAttrs: {column: 1, labelAlign: 'left', width: "100%", contentWidth: 400}})
         },
         clear: () => {
             if (!data.state) {return}
@@ -98,8 +102,8 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
         },
     }
 
-    const renderForm = (config?: { formAttrs?: PlainObject }) => {
-        if (ftoArr.value.length == 0) {return null}
+    const renderForm = ({ftoArr, formAttrs}: { ftoArr: iFilterTargetOption[], formAttrs?: PlainObject }) => {
+
         return (
             <PlForm
                 modelValue={formData.value}
@@ -107,9 +111,9 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
                     column: 3,
                     contentWidth: 260,
                     labelAlign: 'right',
-                    ...config?.formAttrs,
+                    ...formAttrs,
                 }}>
-                {ftoArr.value.map((fto, index) => (
+                {ftoArr.map((fto, index) => (
                     <PlFormItem label={fto.option.label} key={index}>
                         <PlFilter
                             fto={fto}
@@ -131,7 +135,7 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
             seq: 9,
             render: () => {
                 if (!state.isShow) {return null}
-                return renderForm()
+                return renderForm({ftoArr: ftoArr.value})
             }
         }
     ])
