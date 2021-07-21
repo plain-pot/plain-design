@@ -19,8 +19,8 @@ export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filt
 
                 {filterState.state.filters.map((filter, index) => {
 
-                    // const display = filter.display()
-                    // if (!display) {return null}
+                    const display = filter.display()
+                    if (!display) {return null}
 
                     return <div key={index} className="pl-table-pro-setting-all-filter-item">
                         <div className="pl-table-pro-setting-all-filter-item-head">

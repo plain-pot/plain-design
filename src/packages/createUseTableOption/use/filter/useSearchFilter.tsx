@@ -60,9 +60,9 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
             const queries = FilterConfig.formatToQuery(filterTargetOption.value)
             return (!!queries && toArray(queries).length > 0 ? 1 : 0)
         },
-        display: () => <>
-            搜索栏筛选条件
-        </>,
+        display: () => {
+            return render({showAllFilterButton: false, showFormFilterExpander: false, width: '100%'})
+        },
         clear: () => {
             if (!data.state) {return}
             data.state.value = null
@@ -89,13 +89,16 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
         return !!queries ? [...data, {queries: toArray(queries),}] : data
     })
 
-    const render = () => {
+    const render = (config?: { showFormFilterExpander?: boolean, showAllFilterButton?: boolean, width?: string }) => {
+
+        config = config || {}
+
         const fto = filterTargetOption.value
         if (!fto || !state.getSourceFlatPlcList) {return null}
         const columns = state.getSourceFlatPlcList()
         return (
             <div>
-                <div className="pl-table-pro-filter-bar" style={{width: '600px', display: 'inline-block'}}>
+                <div className="pl-table-pro-filter-bar" style={{width: config?.width || '600px', display: 'inline-block'}}>
                     <PlFilter
                         fto={fto}
                         key={fto.option.field + fto.option.label + fto.option.filterName + fto.option.handlerName}
@@ -115,14 +118,16 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
                                 }
                             </PlSelect>,
                             append: () => (
-                                <PlTooltip title="展开/折叠 · 表单查询">
-                                    <PlButton className="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
-                                </PlTooltip>
+                                config!.showFormFilterExpander === false ? null : (
+                                    <PlTooltip title="展开/折叠 · 表单查询">
+                                        <PlButton className="pl-filter-ele" icon={`el-icon-arrow-${isCollapse() ? 'down' : 'up'}`} style={{borderLeftColor: 'rgba(255,255,255,0.65)'}} onClick={onCollapse}/>
+                                    </PlTooltip>
+                                )
                             )
                         }}
                     </PlFilter>
                 </div>
-                {filterState.state.activeCount > 0 && (
+                {config.showAllFilterButton !== false && filterState.state.activeCount > 0 && (
                     <PlButton style={{margin: '0 8px'}} mode="text" label={`所有筛选(${filterState.state.activeCount})`} onClick={() => setting.openSetting(eTableOptionSettingView.allFilter)}/>
                 )}
             </div>
