@@ -10,6 +10,7 @@ import PlFilter from "../../../PlFilter";
 import PlFormItem from "../../../PlFormItem";
 import {tTableOptionFilter} from "../use.filter.state";
 import {createFilterOptionByPlc, getPlcKey, iFilterCacheData} from "./use.filter.utils";
+import {PlainObject} from "../../createUseTableOption.utils";
 
 export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter }) {
 
@@ -41,9 +42,9 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
                 return prev + (!!queries && toArray(queries).length > 0 ? 1 : 0)
             }, 0)
         },
-        display: () => <>
-            表单查询
-        </>,
+        display: () => {
+            return renderForm({formAttrs: {column: 1, labelAlign: 'left', width: "100%"}})
+        },
         clear: () => {
             if (!data.state) {return}
             data.state.forEach(fo => {
@@ -97,30 +98,40 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
         },
     }
 
+    const renderForm = (config?: { formAttrs?: PlainObject }) => {
+        if (ftoArr.value.length == 0) {return null}
+        return (
+            <PlForm
+                modelValue={formData.value}
+                {...{
+                    column: 3,
+                    contentWidth: 260,
+                    labelAlign: 'right',
+                    ...config?.formAttrs,
+                }}>
+                {ftoArr.value.map((fto, index) => (
+                    <PlFormItem label={fto.option.label} key={index}>
+                        <PlFilter
+                            fto={fto}
+                            key={fto.filter.filterName + fto.handler.handlerName}
+                            hideSearchButton
+                            block
+                            onHandlerNameChange={handler.onHandlerChange}
+                            onConfirm={handler.onFilterConfirm}
+                        />
+                    </PlFormItem>
+                ))}
+            </PlForm>
+        )
+    }
+
     hooks.onTableRender.use(prev => [
         ...prev,
         {
             seq: 9,
             render: () => {
-                if (ftoArr.value.length == 0) {return null}
                 if (!state.isShow) {return null}
-
-                return (
-                    <PlForm modelValue={formData.value} column={3} contentWidth={260} labelAlign="right">
-                        {ftoArr.value.map((fto, index) => (
-                            <PlFormItem label={fto.option.label} key={index}>
-                                <PlFilter
-                                    fto={fto}
-                                    key={fto.filter.filterName + fto.handler.handlerName}
-                                    hideSearchButton
-                                    block
-                                    onHandlerNameChange={handler.onHandlerChange}
-                                    onConfirm={handler.onFilterConfirm}
-                                />
-                            </PlFormItem>
-                        ))}
-                    </PlForm>
-                )
+                return renderForm()
             }
         }
     ])

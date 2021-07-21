@@ -57,7 +57,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState}: 
                 fullHeight: true,
                 transition: 'pl-transition-dialog-right',
                 width: null as any,
-                // destroyOnClose: false,
+                destroyOnClose: false,
                 footAlign: 'flex-start',
                 contentPadding: false
             },

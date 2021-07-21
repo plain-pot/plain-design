@@ -11,6 +11,11 @@ export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filt
         renderFilters: [] as FilterStateInitialization[],
     })
 
+    const removeAll = () => {
+        state.renderFilters = []
+        filterState.clearAll()
+    }
+
     const removeFilter = (filter: FilterStateInitialization) => {
         state.renderFilters.splice(state.renderFilters.indexOf(filter), 1)
         filterState.clearFilter(filter)
@@ -27,7 +32,7 @@ export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filt
         render: () => (
             <div className="pl-table-pro-setting-all-filter">
                 <div style={{display: 'inline-block', width: '100%'}}>
-                    <PlButton label="全部清空" icon="el-icon-delete" status="error" style={{float: 'right'}} onClick={filterState.clearAll}/>
+                    <PlButton label="全部清空" icon="el-icon-delete" status="error" style={{float: 'right'}} onClick={removeAll}/>
                 </div>
                 {state.renderFilters.map((filter, index) => {
                     const display = filter.display()
