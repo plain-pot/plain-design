@@ -51,10 +51,7 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
         },
         clear: () => {
             if (!data.state) {return}
-            data.state.forEach(fo => {
-                fo.value = null
-                fo.handlerName = fo.plc!.props.filterHandler
-            })
+            data.state.forEach(fo => FilterConfig.clearFoValue(fo))
         },
         getCacheData: (): Record<string, iFilterCacheData> => {
             if (!data.state) {return {}}

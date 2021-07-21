@@ -140,12 +140,18 @@ export const FilterConfig = (() => {
         return true
     }
 
+    const clearFoValue = (fo: iFilterOption) => {
+        fo.value = null
+        !!fo.plc && (fo.handlerName = fo.plc.props.filterHandler)
+    }
+
     return {
         touchFilter,
         getHandler,
         getTargetOption,
         formatToQuery,
         hasValue,
+        clearFoValue,
     }
 
 })();

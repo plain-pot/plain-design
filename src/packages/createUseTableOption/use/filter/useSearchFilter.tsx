@@ -65,8 +65,7 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
         },
         clear: () => {
             if (!data.state) {return}
-            data.state.value = null
-            data.state.handlerName = data.state.plc!.props.filterHandler
+            FilterConfig.clearFoValue(data.state)
         },
         getCacheData: (): iFilterCacheData | null => {
             if (!data.state) {return null}
