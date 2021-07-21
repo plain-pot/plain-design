@@ -16,7 +16,7 @@ import {iTableProConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {tTableOptionSort} from "../use.sort.state";
 import {tTableOptionFilter} from "../use.filter.state";
-import {iFilterCacheDataMap, iFilterStateDataMap} from "./use.filter.utils";
+import {iFilterCacheDataMap, iFilterStateDataMap, renderFtoForm} from "./use.filter.utils";
 
 export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter }) {
 
@@ -64,9 +64,22 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
                 return prev + (!!queries && toArray(queries).length > 0 ? 1 : 0)
             }, 0)
         },
-        getDisplay: () => () => <>
-            列筛选条件
-        </>,
+        getDisplay: () => {
+            const showFtoArr: iFilterTargetOption[] = Object.values(columnFilterTargetDataMap.value).filter(fto => {
+                const queries = FilterConfig.formatToQuery(fto)
+                return !!queries && toArray(queries).length > 0
+            })
+            const formData = computed(() => showFtoArr.reduce((prev, item, index) => {
+                prev[index] = item.option.value
+                return prev
+            }, {} as Record<number, any>))
+            return () => renderFtoForm({
+                ftoArr: showFtoArr,
+                formData: formData.value,
+                onConfirm: methods.pageMethods.reload,
+                formAttrs: {column: 1, labelAlign: 'left', width: "100%", contentWidth: 400},
+            })
+        },
         clear: () => {
             Object.values(data.state as iFilterStateDataMap).forEach(i => {
                 i.value = undefined

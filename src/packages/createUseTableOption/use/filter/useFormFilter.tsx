@@ -4,13 +4,9 @@ import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "..
 import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
 import {toArray} from "../../../../utils/toArray";
-import PlForm from "../../../PlForm";
 import React from "react";
-import PlFilter from "../../../PlFilter";
-import PlFormItem from "../../../PlFormItem";
 import {tTableOptionFilter} from "../use.filter.state";
-import {createFilterOptionByPlc, getPlcKey, iFilterCacheData} from "./use.filter.utils";
-import {PlainObject} from "../../createUseTableOption.utils";
+import {createFilterOptionByPlc, getPlcKey, iFilterCacheData, renderFtoForm} from "./use.filter.utils";
 
 export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter }) {
 
@@ -47,7 +43,13 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
                 const queries = FilterConfig.formatToQuery(i)
                 return !!queries && toArray(queries).length > 0
             })
-            return () => renderForm({ftoArr: showFtoArr, formAttrs: {column: 1, labelAlign: 'left', width: "100%", contentWidth: 400}})
+            return () => renderFtoForm({
+                ftoArr: showFtoArr,
+                formData: formData.value,
+                onConfirm: methods.pageMethods.reload,
+
+                formAttrs: {column: 1, labelAlign: 'left', width: "100%", contentWidth: 400},
+            })
         },
         clear: () => {
             if (!data.state) {return}
@@ -89,50 +91,17 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
         return prev
     }, {} as Record<number, any>))
 
-    const handler = {
-        onHandlerChange: () => {
-            // console.log('handler change')
-            // state.ftoArr = getFtoArr(state.getSourceFlatPlcList!())
-        },
-        onFilterConfirm: () => {
-            methods.pageMethods.reload()
-        },
-    }
-
-    const renderForm = ({ftoArr, formAttrs}: { ftoArr: iFilterTargetOption[], formAttrs?: PlainObject }) => {
-
-        return (
-            <PlForm
-                modelValue={formData.value}
-                {...{
-                    column: 3,
-                    contentWidth: 260,
-                    labelAlign: 'right',
-                    ...formAttrs,
-                }}>
-                {ftoArr.map((fto, index) => (
-                    <PlFormItem label={fto.option.label} key={index}>
-                        <PlFilter
-                            fto={fto}
-                            key={fto.filter.filterName + fto.handler.handlerName}
-                            hideSearchButton
-                            block
-                            onHandlerNameChange={handler.onHandlerChange}
-                            onConfirm={handler.onFilterConfirm}
-                        />
-                    </PlFormItem>
-                ))}
-            </PlForm>
-        )
-    }
-
     hooks.onTableRender.use(prev => [
         ...prev,
         {
             seq: 9,
             render: () => {
                 if (!state.isShow) {return null}
-                return renderForm({ftoArr: ftoArr.value})
+                return renderFtoForm({
+                    ftoArr: ftoArr.value,
+                    formData: formData.value,
+                    onConfirm: methods.pageMethods.reload,
+                })
             }
         }
     ])

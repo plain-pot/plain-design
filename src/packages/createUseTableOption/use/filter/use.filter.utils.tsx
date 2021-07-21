@@ -1,5 +1,10 @@
-import {iFilterOption} from "../../../PlFilter/FilterConfig";
+import {iFilterOption, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
+import {PlainObject} from "../../createUseTableOption.utils";
+import PlForm from "../../../PlForm";
+import PlFormItem from "../../../PlFormItem";
+import PlFilter from "../../../PlFilter";
+import React, {ReactNode} from "react";
 
 export type iFilterStateDataMap = Record<string, iFilterOption>
 export type iFilterCacheData = Omit<iFilterOption, 'filterConfig' | 'plc'>
@@ -19,4 +24,41 @@ export function createFilterOptionByPlc(plc: tPlc): iFilterOption {
 
 export function getPlcKey(plc: tPlc) {
     return plc.props.field! + (plc.props.title || '#_#')
+}
+
+export const renderFtoForm = (
+    {
+        ftoArr,
+        formData,
+        formAttrs,
+        onConfirm,
+    }: {
+        ftoArr: iFilterTargetOption[],
+        formData: PlainObject,
+        formAttrs?: PlainObject,
+        onConfirm: () => void,
+    }): ReactNode => {
+
+    return (
+        <PlForm
+            modelValue={formData}
+            {...{
+                column: 3,
+                contentWidth: 260,
+                labelAlign: 'right',
+                ...formAttrs,
+            }}>
+            {ftoArr.map((fto, index) => (
+                <PlFormItem label={fto.option.label} key={index}>
+                    <PlFilter
+                        fto={fto}
+                        key={fto.filter.filterName + fto.handler.handlerName}
+                        hideSearchButton
+                        block
+                        onConfirm={onConfirm}
+                    />
+                </PlFormItem>
+            ))}
+        </PlForm>
+    )
 }
