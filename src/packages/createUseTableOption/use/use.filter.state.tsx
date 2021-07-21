@@ -91,7 +91,12 @@ export function useTableOptionFilterState({hooks, methods}: { hooks: tTableOptio
         methods.pageMethods.reload()
     }
 
-    return {useState, save, state, clearAll}
+    const clearFilter = (filter: FilterStateInitialization) => {
+        filter.clear()
+        methods.pageMethods.reload()
+    }
+
+    return {useState, save, state, clearAll, clearFilter}
 }
 
 export type tTableOptionFilter = ReturnType<typeof useTableOptionFilterState>
