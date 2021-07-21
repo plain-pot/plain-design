@@ -86,11 +86,17 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
     /*查询的时候被收集筛选条件*/
     hooks.onCollectFilterData.use((prev) => {
         let queries: iFilterQuery[] = Array.from(data.state.entries()).reduce((prev, [plc, filterTypeData]) => {
-            if (!!filterTypeData && !!filterTypeData.values && filterTypeData.values.length > 0) {
-                prev.push({field: plc.props.field!, operator: "in", value: filterTypeData.values})
+            if (!filterTypeData || !filterTypeData.values || filterTypeData.values.length == 0) {
+                return prev
             }
+            if (excludePlcListWhenCollectFilterData.indexOf(plc) > -1) {
+                return prev
+            }
+            prev.push({field: plc.props.field!, operator: "in", value: filterTypeData.values})
             return prev
         }, [] as iFilterQuery[])
+
+
         return !!queries && queries.length > 0 ? [...prev, {queries: toArray(queries),}] : prev
     })
 
