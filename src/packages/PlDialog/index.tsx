@@ -1,9 +1,7 @@
 import './dialog.scss'
-import {computed, designComponent, onBeforeUnmount, PropType, reactive, ref, useRefs, watch} from "plain-design-composition";
-import {StyleProps, StyleShape, StyleSize, useStyle} from "../../use/useStyle";
+import {computed, designComponent, nextIndex, onBeforeUnmount, PropType, reactive, ref, useClasses, useRefs, watch} from "plain-design-composition";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
-import {nextIndex} from "plain-design-composition"
-import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {KeyboardService, KeyboardServiceOption} from "../keyboard";
 import {createPortal} from "react-dom";
@@ -15,6 +13,7 @@ import PlIcon from "../PlIcon";
 
 export const PlDialog = designComponent({
     name: 'pl-dialog',
+    provideRefer: true,
     props: {
         ...StyleProps,
         ...EditProps,
@@ -63,11 +62,16 @@ export const PlDialog = designComponent({
     },
     emits: {
         onUpdateModelValue: (val: boolean) => true,
+        onOpen: () => true,
+        onClose: () => true,
         onConfirm: () => true,
         onCancel: () => true,
     },
     slots: ['default', 'head', 'foot', 'title'],
-    setup({props, slots, event: {emit}}) {
+    setup({props, slots, event}) {
+
+        const {emit} = event
+
         const {refs, onRef} = useRefs({
             body: HTMLDivElement,
             el: HTMLDivElement,
@@ -169,7 +173,7 @@ export const PlDialog = designComponent({
                     return
                 }
                 methods.cancel()
-            }
+            },
         }
         /*---------------------------------------methods-------------------------------------------*/
         const methods = {
@@ -237,10 +241,13 @@ export const PlDialog = designComponent({
         })
 
         return {
+            refer: {
+                props, event,
+            },
             render: () => {
                 return (
                     createPortal(
-                        <PlTransition name={props.transition} show={model.value} unmount={props.destroyOnClose}>
+                        <PlTransition name={props.transition} show={model.value} unmount={props.destroyOnClose} onEntered={emit.onOpen} onExited={emit.onClose}>
                             {<div onClick={handler.clickWrapper} style={wrapperStyles.value as any} className={wrapperClasses.value} ref={onRef.el}>
                                 <div className={bodyClasses.value} ref={onRef.body}>
                                     {hasHead.value && <div className="pl-dialog-head">

@@ -6,6 +6,7 @@ import React, {ReactNode} from "react";
 import {tTableHooks} from "../../table/use/useTableHooks";
 import {tPlc, tPlcType} from "../utils/plc.type";
 import {runOnce} from "./utils/runOnce";
+import PlDialog from "../../../PlDialog";
 
 /**
  * 负责监听根group，收集plcTypeArr
@@ -33,6 +34,18 @@ export function usePlcList({props, slots, hooks, onCollectPlcData}: {
     hooks.onPlcTypes.use(list => {state.getPlcTypeArr = () => list});
 
     (() => {
+
+        const dialog = PlDialog.use.inject(null)
+        if (!!dialog) {
+            const onDialogOpen = () => {
+                if (!!state.getTableEl) {
+                    state.tableWidth = state.getTableEl().offsetWidth
+                }
+            }
+            dialog.event.on.onOpen(onDialogOpen)
+            onBeforeUnmount(() => dialog.event.off.onOpen(onDialogOpen))
+        }
+
         /*table 挂载的时候保存table的宽度*/
         const ejectTableMounted = hooks.onTableMounted.use(el => {
             state.tableWidth = el.offsetWidth

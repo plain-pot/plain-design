@@ -31,7 +31,7 @@ export interface DialogServiceOption {
     cancelButton?: boolean,                                         // 是否显示删除按钮
     cancelButtonText?: string,                                      // 删除按钮文本
     onCancel?: () => void | Promise<void>,                          // 删除按钮文本
-    dialogProps?: Partial<typeof PlDialog.use.props>,               // 对话框属性
+    dialogProps?: Partial<Parameters<typeof PlDialog>[0]>,               // 对话框属性
 }
 
 export type DialogServiceFormatOption = RequireFormat<DialogServiceOption, 'status'> & {
