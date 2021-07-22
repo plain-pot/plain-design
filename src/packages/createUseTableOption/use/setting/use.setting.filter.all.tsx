@@ -4,6 +4,7 @@ import {FilterStateInitialization, tTableOptionFilter} from "../use.filter.state
 import './use.setting.filter.all.scss'
 import PlButton from "../../../PlButton";
 import {reactive} from "plain-design-composition";
+import PlEmpty from "../../../PlEmpty";
 
 export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState}: { useTableOptionSettingInner: iTableOptionSettingInnerUser, filterState: tTableOptionFilter }) {
 
@@ -34,9 +35,16 @@ export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filt
         },
         render: () => (
             <div className="pl-table-pro-setting-all-filter">
-                <div>
-                    <PlButton label="全部清空" icon="el-icon-delete" status="error" onClick={removeAll}/>
-                </div>
+                {state.renderFilters.length === 0 && (
+                    <div className="pl-table-pro-setting-all-filter-empty">
+                        <PlEmpty label="暂无筛选..."/>
+                    </div>
+                )}
+                {state.renderFilters.length > 0 && (
+                    <div>
+                        <PlButton label="全部清空" icon="el-icon-delete" status="error" onClick={removeAll}/>
+                    </div>
+                )}
                 {state.renderFilters.map(({filter, display}, index) => {
                     return <div key={index} className="pl-table-pro-setting-all-filter-item">
                         <div className="pl-table-pro-setting-all-filter-item-head">
