@@ -78,7 +78,7 @@ export function useTableOptionSettingSort(
                     </PlDropdown>
                     <PlButton label="应用" onClick={handler.apply}/>
                 </div>
-                <PlTable v-model-data={state.sortData} showRows={state.sortData.length}>
+                <PlTable v-model-data={state.sortData} showRows={Math.max(state.sortData.length, 5)}>
                     <PlcIndex/>
                     <PlcDraggier/>
                     <Plc title="排序字段" field="title"/>
