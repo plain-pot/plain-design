@@ -37,6 +37,10 @@ export function useTableOptionSettingSort(
         remove: (data: Omit<iTableOptionSortData, 'seq'>) => {
             state.sortData = state.sortData.filter(({title, field}) => title !== data.title && field !== data.field)
         },
+        clear: () => {
+            state.sortData = []
+            handler.apply()
+        },
         apply: () => {
             sortState.setSort(state.sortData || [])
         },
@@ -52,6 +56,7 @@ export function useTableOptionSettingSort(
         render: () => (
             <div>
                 <div className="pl-table-pro-setting-content-header">
+                    <PlButton label="清空" onClick={handler.clear} mode="stroke" status="error"/>
                     <PlDropdown>
                         {{
                             reference: ({open}) => (

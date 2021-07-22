@@ -57,7 +57,10 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState}: 
                 fullHeight: true,
                 transition: 'pl-transition-dialog-right',
                 width: null as any,
-                destroyOnClose: false,
+                /*
+                *  设置为false，读取不了宽度，会导致表格渲染不出来，设置为true，会导致在显示表单的时候过渡动画异常。
+                */
+                // destroyOnClose: false,
                 footAlign: 'flex-start',
                 contentPadding: false
             },
