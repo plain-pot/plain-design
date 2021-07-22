@@ -40,13 +40,15 @@ export function useTableOptionSettingSeniorFilter(
         customOperator: false,
     })
 
+    const defaultOperator = computed(() => state.data.map(i => i.id).join(' 或者 '))
+
     const utils = {
         nextId: (() => {
             let count = 1
             return () => `F_${count++}`
         })(),
         resetOperator: () => {
-            state.operator = state.data.map(i => i.id).join(' 或者 ')
+            state.operator = defaultOperator.value
         },
     }
 
@@ -107,22 +109,6 @@ export function useTableOptionSettingSeniorFilter(
                     <PlButton label="清空" mode="stroke" status="error" onClick={handler.clear}/>
                 </div>
                 <div className="pl-table-pro-setting-senior-filter-list">
-                    {state.customOperator && (
-                        <div className="pl-table-pro-setting-senior-filter-item" key='operator'>
-                            <div className="pl-table-pro-setting-senior-filter-item-id" style={{verticalAlign: 'top', lineHeight: '32px'}}>
-                                <span>表达式</span>
-                            </div>
-                            <div className="pl-table-pro-setting-senior-filter-item-content">
-                                <PlInput textarea v-model={state.operator} block/>
-                            </div>
-                        </div>
-                    )}
-
-                    {ftoArr.value.length === 0 && (
-                        <div className="pl-table-pro-setting-senior-filter-empty">
-                            <PlEmpty label="暂无筛选..."/>
-                        </div>
-                    )}
                     {ftoArr.value.map((fto, index) => (
                         <div className="pl-table-pro-setting-senior-filter-item" key={index}>
                             <div className="pl-table-pro-setting-senior-filter-item-id">
@@ -139,6 +125,17 @@ export function useTableOptionSettingSeniorFilter(
                         </div>
                     ))}
                 </div>
+                {state.customOperator && (
+                    <div>
+                        <h3>自定义表达式 :</h3>
+                        <PlInput textarea v-model={state.operator} block/>
+                    </div>
+                )}
+                {ftoArr.value.length === 0 && (
+                    <div className="pl-table-pro-setting-senior-filter-empty">
+                        <PlEmpty label="暂无筛选..."/>
+                    </div>
+                )}
             </div>
         </>
     })
