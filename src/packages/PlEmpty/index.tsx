@@ -27,3 +27,5 @@ export const PlEmpty = designComponent({
         )
     },
 })
+
+export default PlEmpty
