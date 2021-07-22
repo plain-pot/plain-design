@@ -60,9 +60,9 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState}: 
                 /*
                 *  设置为false，读取不了宽度，会导致表格渲染不出来，设置为true，会导致在显示表单的时候过渡动画异常。
                 */
-                // destroyOnClose: false,
+                destroyOnClose: false,
                 footAlign: 'flex-start',
-                contentPadding: false
+                contentPadding: false,
             },
             title: '设置',
             render: () => {
