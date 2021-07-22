@@ -19,6 +19,7 @@ import {tPlcStateData} from "./plc/utils/usePropsState";
 import {tPlcType} from "./plc/utils/plc.type";
 import {tPlcData} from "./plc/format/formatPlcList";
 import noDataImg from './assets/no_data.svg'
+import {PlEmpty} from "../PlEmpty";
 
 export const PlTable = designComponent({
     name: 'pl-table',
@@ -156,8 +157,7 @@ export const PlTable = designComponent({
                     </>}
                     {refer.flatNodes.value.length === 0 && refer.plcData.value && (
                         <div className="pl-table-no-data">
-                            <img src={noDataImg}/>
-                            <span>暂无数据...</span>
+                            <PlEmpty/>
                         </div>
                     )}
                     <PlLoadingMask modelValue={props.loading || state.root.loading}/>
