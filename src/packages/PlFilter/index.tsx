@@ -1,6 +1,6 @@
 import {designComponent, PropType} from "plain-design-composition";
 import React from "react";
-import {iFilterTargetOption} from "./FilterConfig";
+import {FilterConfig, iFilterTargetOption} from "./FilterConfig";
 import PlSelect from "../PlSelect";
 import PlSelectOption from "../PlSelectOption";
 import PlInputGroup from "../PlInputGroup";
@@ -21,7 +21,8 @@ export const PlFilter = designComponent({
     setup: ({props, slots, event: {emit}}) => {
 
         const onHandlerNameChange = (handlerName: string) => {
-            !!props.fto && (props.fto.option.value = null)
+            if (!props.fto) {return}
+            props.fto.option.value = null
             emit.onHandlerNameChange(handlerName)
         }
 
@@ -40,7 +41,7 @@ export const PlFilter = designComponent({
                         {Object.values(props.fto.filter.handlers).map((handler, index) => <PlSelectOption key={index} label={handler.handlerName} val={handler.handlerName}/>)}
                     </PlSelect>
                     <React.Fragment key={props.fto.option.filterName + props.fto.option.handlerName}>
-                        {props.fto.handler.render(props.fto, emit.onConfirm)}
+                        {FilterConfig.getHandler(props.fto.option.filterName, props.fto.option.handlerName)?.render(props.fto, emit.onConfirm)}
                         {!props.hideSearchButton && <PlButton label="搜索" onClick={emit.onConfirm} className="pl-filter-ele"/>}
                     </React.Fragment>
                     {slots.append()}
