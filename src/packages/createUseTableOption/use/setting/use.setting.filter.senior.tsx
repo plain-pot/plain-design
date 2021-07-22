@@ -46,7 +46,7 @@ export function useTableOptionSettingSeniorFilter(
             return () => `F_${count++}`
         })(),
         resetOperator: () => {
-            state.operator = state.data.map(i => i.id).join(' 并且 ')
+            state.operator = state.data.map(i => i.id).join(' 或者 ')
         },
     }
 
@@ -65,6 +65,10 @@ export function useTableOptionSettingSeniorFilter(
         },
         apply: () => {
             methods.pageMethods.reload()
+        },
+        clear: () => {
+            state.data = []
+            state.operator = null
         },
     }
 
@@ -100,7 +104,7 @@ export function useTableOptionSettingSeniorFilter(
                         </PlDropdown>
                         <PlCheckbox label="自定义查询表达式" v-model={state.customOperator} onChange={utils.resetOperator}/>
                     </div>
-                    <PlButton label="清空" mode="stroke" status="error"/>
+                    <PlButton label="清空" mode="stroke" status="error" onClick={handler.clear}/>
                 </div>
                 <div className="pl-table-pro-setting-senior-filter-list">
                     {state.customOperator && (
