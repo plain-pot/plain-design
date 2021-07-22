@@ -153,19 +153,17 @@ export function useTableOptionSettingSeniorFilter(
                         </Plc>
                     </PlTable>
                 </div>
-                {state.customExpression && (
-                    <div>
-                        <h3>自定义表达式 :</h3>
-                        <PlInput textarea v-model={state.expression} block/>
-                    </div>
-                )}
+                <div>
+                    <h3>自定义表达式 :</h3>
+                    <PlInput textarea v-model={state.expression} block disabled={!state.customExpression}/>
+                </div>
             </div>
         </>
     })
 
     hooks.onCollectFilterData.use((prev) => {
         if (state.data.length === 0) {return prev}
-        let expression = state.customExpression || !state.expression ? defaultExpression.value : state.expression
+        let expression = !state.customExpression || !state.expression ? defaultExpression.value : state.expression
         /*处理空格*/
         expression = expression.replace(/\s*(\|\||&&|或者|并且)\s*/gi, ' $1 ').replace(/\s+/, ' ')
 
