@@ -10,6 +10,10 @@
 
     & > * {
       margin-bottom: 16px;
+
+      &:first-child {
+        text-align: right;
+      }
     }
 
     .pl-table-pro-setting-all-filter-item {

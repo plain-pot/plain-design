@@ -34,8 +34,8 @@ export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filt
         },
         render: () => (
             <div className="pl-table-pro-setting-all-filter">
-                <div style={{display: 'inline-block', width: '100%'}}>
-                    <PlButton label="全部清空" icon="el-icon-delete" status="error" style={{float: 'right'}} onClick={removeAll}/>
+                <div>
+                    <PlButton label="全部清空" icon="el-icon-delete" status="error" onClick={removeAll}/>
                 </div>
                 {state.renderFilters.map(({filter, display}, index) => {
                     return <div key={index} className="pl-table-pro-setting-all-filter-item">
