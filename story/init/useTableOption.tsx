@@ -198,7 +198,7 @@ const useTableOption = createUseTableOption({
 
         const requestData = requestConfig.method === 'GET' ? requestConfig.query : requestConfig.body
         filters.length > 0 && Object.assign(requestData, {
-            filters, filterExpression: expressions.map(i => `(${i})`).join('and')
+            filters, filterExpression: expressions.map(i => `(${i})`).join(' and ')
         })
     }
 })

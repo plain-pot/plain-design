@@ -1,7 +1,7 @@
 import React from "react";
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {computed, reactive} from "plain-design-composition";
-import {FilterConfig, iFilterOption, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import PlButton from "../../../PlButton";
 import PlDropdown from "../../../PlDropdown";
 import {tTableOptionHooks} from "../use.hooks";
@@ -10,16 +10,25 @@ import PlIcon from "../../../PlIcon";
 import PlDropdownMenu from "../../../PlDropdownMenu";
 import PlDropdownOption from "../../../PlDropdownOption";
 import {createFilterOptionByPlc} from "../filter/use.filter.utils";
-import PlEmpty from "../../../PlEmpty";
 import PlFilter from "../../../PlFilter";
 import {tTableOptionMethods} from "../use.methods";
 import './use.setting.filter.senior.scss'
 import PlCheckbox from "../../../PlCheckbox";
 import PlInput from "../../../PlInput";
+import PlTable from "../../../PlTable";
+import {PlcIndex} from "../../../PlcIndex";
+import {Plc} from "../../../Plc";
+import {toArray} from "../../../../utils/toArray";
 
 interface iSeniorFilterData extends iFilterOption {
     id: string
 }
+
+interface iSeniorFilterTargetData extends Omit<iFilterTargetOption, 'option'> {
+    option: iSeniorFilterData,
+}
+
+const ExpressionJoins = ['&&', '||', 'and', 'or', '并且', '或者']
 
 export function useTableOptionSettingSeniorFilter(
     {
@@ -34,13 +43,15 @@ export function useTableOptionSettingSeniorFilter(
         methods: tTableOptionMethods,
     }) {
 
+    const DEFAULT_EXPRESSION_JOIN = '或者'
+
     const state = reactive({
         data: [] as iSeniorFilterData[],
-        operator: null as null | string,
-        customOperator: false,
+        expression: null as null | string,
+        customExpression: false,
     })
 
-    const defaultOperator = computed(() => state.data.map(i => i.id).join(' 或者 '))
+    const defaultExpression = computed(() => state.data.map(i => i.id).join(` ${DEFAULT_EXPRESSION_JOIN} `))
 
     const utils = {
         nextId: (() => {
@@ -48,7 +59,7 @@ export function useTableOptionSettingSeniorFilter(
             return () => `F_${count++}`
         })(),
         resetOperator: () => {
-            state.operator = defaultOperator.value
+            state.expression = defaultExpression.value
         },
     }
 
@@ -58,23 +69,28 @@ export function useTableOptionSettingSeniorFilter(
             const id = utils.nextId()
 
             if (state.data.length === 0) {
-                state.operator = id
+                state.expression = id
             } else {
-                state.operator += ` 并且 ${id}`
+                state.expression += ` ${DEFAULT_EXPRESSION_JOIN} ${id}`
             }
 
             state.data.push({id, ...createFilterOptionByPlc(plc)})
+        },
+        remove: (fto: iFilterTargetOption, index: number) => {
+            const isMatchDefaultOperator = !!state.expression && state.expression.trim() === defaultExpression.value
+            state.data.splice(index, 1)
+            if (isMatchDefaultOperator) {state.expression = defaultExpression.value}
         },
         apply: () => {
             methods.pageMethods.reload()
         },
         clear: () => {
             state.data = []
-            state.operator = null
+            state.expression = null
         },
     }
 
-    const ftoArr = computed(() => state.data.map(i => FilterConfig.getTargetOption(i)).filter(Boolean) as (Omit<iFilterTargetOption, 'option'> & { option: iSeniorFilterData })[])
+    const ftoArr = computed(() => state.data.map(i => FilterConfig.getTargetOption(i)).filter(Boolean) as iSeniorFilterTargetData[])
 
     useTableOptionSettingInner({
         key: eTableOptionSettingView.seniorFilter,
@@ -104,39 +120,94 @@ export function useTableOptionSettingSeniorFilter(
                                 </PlDropdownMenu>
                             }}
                         </PlDropdown>
-                        <PlCheckbox label="自定义查询表达式" v-model={state.customOperator} onChange={utils.resetOperator}/>
+                        <PlCheckbox label="自定义查询表达式" v-model={state.customExpression} onChange={utils.resetOperator}/>
                     </div>
                     <PlButton label="清空" mode="stroke" status="error" onClick={handler.clear}/>
                 </div>
                 <div className="pl-table-pro-setting-senior-filter-list">
-                    {ftoArr.value.map((fto, index) => (
-                        <div className="pl-table-pro-setting-senior-filter-item" key={index}>
-                            <div className="pl-table-pro-setting-senior-filter-item-id">
-                                {fto.option.id}
-                            </div>
-                            <div className="pl-table-pro-setting-senior-filter-item-content">
-                                <PlFilter
-                                    fto={fto}
-                                    key={fto.filter.filterName + fto.handler.handlerName}
-                                    hideSearchButton
-                                    block
-                                />
-                            </div>
-                        </div>
-                    ))}
+
+                    <PlTable data={ftoArr.value} showRows={Math.max(5, ftoArr.value.length)}>
+                        <PlcIndex/>
+                        <Plc title="编号" width="80" align="center">
+                            {{normal: ({row}) => row.option.id}}
+                        </Plc>
+                        <Plc title="标题" width="100" align="center">
+                            {{normal: ({row}) => row.option.label}}
+                        </Plc>
+                        <Plc title="查询条件" fit>
+                            {{
+                                normal: ({node}) => (
+                                    <PlFilter
+                                        fto={node.data as any}
+                                        key={node.data.filter.filterName + node.data.handler.handlerName}
+                                        hideSearchButton
+                                        block
+                                    />
+                                )
+                            }}
+                        </Plc>
+                        <Plc width="50">
+                            {{
+                                normal: ({node}) => <PlButton label="删除" mode="text" status="error" onClick={() => handler.remove(node.data as any, node.index)}/>
+                            }}
+                        </Plc>
+                    </PlTable>
                 </div>
-                {state.customOperator && (
+                {state.customExpression && (
                     <div>
                         <h3>自定义表达式 :</h3>
-                        <PlInput textarea v-model={state.operator} block/>
-                    </div>
-                )}
-                {ftoArr.value.length === 0 && (
-                    <div className="pl-table-pro-setting-senior-filter-empty">
-                        <PlEmpty label="暂无筛选..."/>
+                        <PlInput textarea v-model={state.expression} block/>
                     </div>
                 )}
             </div>
         </>
+    })
+
+    hooks.onCollectFilterData.use((prev) => {
+        if (state.data.length === 0) {return prev}
+        let expression = state.customExpression || !state.expression ? defaultExpression.value : state.expression
+        /*处理空格*/
+        expression = expression.replace(/\s*(\|\||&&|或者|并且)\s*/gi, ' $1 ').replace(/\s+/, ' ')
+
+        const queries: iFilterQuery[] = []
+        const id2Senior = ftoArr.value.reduce((prev, item) => {
+            prev[item.option.id] = item
+            return prev
+        }, {} as Record<string, iSeniorFilterTargetData | undefined>)
+        expression = expression.replace(/\w+/g, (input) => {
+
+            if (ExpressionJoins.indexOf(input) > -1) {return input}
+
+            const senior = id2Senior[input]
+            if (!senior) {return input}
+
+            let itemQueries = FilterConfig.formatToQuery(senior)
+            if (!itemQueries) {return input}
+
+            if (!Array.isArray(itemQueries)) {
+                itemQueries.id = input
+                queries.push(itemQueries)
+                return input
+            }
+            if (itemQueries.length === 1) {
+                itemQueries[0].id = input
+                queries.push(...itemQueries)
+                return input
+            }
+
+            const itemQueryIds: string[] = []
+            toArray(itemQueries).forEach((i, idx) => {
+                const itemId = `${input}-${idx + 1}`
+                itemQueryIds.push(itemId)
+                queries.push({
+                    ...i,
+                    id: itemId,
+                })
+            })
+
+            return `(${itemQueryIds.join(' 并且 ')})`
+        })
+
+        return [...prev, {queries, expression: expression}]
     })
 }
