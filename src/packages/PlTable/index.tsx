@@ -15,7 +15,7 @@ import {PlLoadingMask} from "../PlLoadingMask";
 import {getFormRuleData} from "../PlForm/form.validate";
 import {useTableHooks} from "./table/use/useTableHooks";
 import {removeUnit} from "plain-utils/string/removeUnit";
-import {tPlcStateData} from "./plc/utils/usePropsState";
+import {getPropsState, tPlcStateData} from "./plc/utils/usePropsState";
 import {tPlcType} from "./plc/utils/plc.type";
 import {tPlcData} from "./plc/format/formatPlcList";
 import noDataImg from './assets/no_data.svg'
@@ -121,6 +121,10 @@ export const PlTable = designComponent({
             }
         }
 
+        const emitConfigPlc = () => {
+            hooks.onConfigPlc.exec({plcList: plcData.value!.sourceList, stateData: getPropsState(plcData.value!.sourceList)})
+        }
+
         const refer = {
             refs,
             onRef,
@@ -139,6 +143,7 @@ export const PlTable = designComponent({
             utils,
             hooks,
             slots,
+            emitConfigPlc,
         }
 
         onMounted(() => {

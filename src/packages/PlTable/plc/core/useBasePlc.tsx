@@ -41,7 +41,7 @@ export function useBasePlc({props, scopeSlots, event, slots}: {
         /*对propsState的state的修改，最好都通过setPropsState来进行，这样可以出发table的onConfigPlc这个hooks*/
         setPropsState: (data: any) => {
             Object.entries(data).forEach(([key, val]) => {(propsState as any)[key] = val})
-            table.hooks.onConfigPlc.exec({plcList: table.plcData.value!.sourceList, stateData: getPropsState(table.plcData.value!.sourceList),})
+            table.emitConfigPlc()
         },
         /*有时候希望直接修改props的state，可以通过这个方法获取修改，这样的不会触发table的onConfigPlc这个hook*/
         getState: () => state as any,
