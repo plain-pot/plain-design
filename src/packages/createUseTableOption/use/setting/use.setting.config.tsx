@@ -93,7 +93,7 @@ export function useTableOptionSettingConfig(
                     (state as any)[key] = undefined
                 })
             })
-            utils.resetData()
+            setTimeout(() => {utils.resetData()})
         },
         onFixed: (row: iPlcConfigData) => {
             const data = [...state.data]
