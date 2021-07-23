@@ -8,7 +8,6 @@ import {PlcDraggier} from "../../../PlcDraggier";
 import {reactive} from "plain-design-composition";
 import {PlcSelect} from "../../../PlcSelect";
 import PlSelectOption from "../../../PlSelectOption";
-import {PlcCheckbox} from "../../../PlcCheckbox";
 import {PlcNumber} from "../../../PlcNumber";
 import PlButton from "../../../PlButton";
 import './use.setting.config.scss'
@@ -134,7 +133,11 @@ export function useTableOptionSettingConfig(
                             normal: ({row}) => <PlCheckbox modelValue={row.fixed === 'left'} customReadonly onClick={() => (row.fixed = (row.fixed === 'left' ? undefined : 'left'), handler.onFixed(row as any))}/>
                         }}
                     </Plc>
-                    <PlcCheckbox title="隐藏" width={50} align="center" field="hidden" trueValue={true} falseValue={undefined}/>
+                    <Plc title="隐藏" width={50} align="center" field="hide" addEditPadding>
+                        {{
+                            normal: ({row}) => <PlCheckbox modelValue={row.hide === true} customReadonly onClick={() => (row.hide = (row.hide === true ? undefined : true))}/>
+                        }}
+                    </Plc>
                     <Plc title={' '} fit/>
                 </PlTable>
             </div>
