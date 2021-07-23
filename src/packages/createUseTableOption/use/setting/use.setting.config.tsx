@@ -1,7 +1,6 @@
 import React from "react";
 import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setting.utils";
 import {PlcPropsType, tPlc} from "../../../PlTable/plc/utils/plc.type";
-import {deepcopy} from "plain-utils/object/deepcopy";
 import PlTable from "../../../PlTable";
 import {Plc} from "../../../Plc";
 import {PlcIndex} from "../../../PlcIndex";
@@ -11,6 +10,9 @@ import {PlcSelect} from "../../../PlcSelect";
 import PlSelectOption from "../../../PlSelectOption";
 import {PlcCheckbox} from "../../../PlcCheckbox";
 import {PlcNumber} from "../../../PlcNumber";
+import PlButton from "../../../PlButton";
+import './use.setting.config.scss'
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export function useTableOptionSettingConfig(
     {
@@ -25,19 +27,45 @@ export function useTableOptionSettingConfig(
         data: [] as PlcPropsType[]
     })
 
+    const utils = {
+        resetData: () => {
+            state.data = getSourceFlatPlcList().map((i, index): PlcPropsType => ({
+                ...i.getState(),
+                title: i.props.title,
+                order: index,
+            }))
+            console.log(deepcopy(state.data))
+        }
+    }
+
+    const handler = {
+        apply: () => {
+
+        },
+        reset: () => {
+            getSourceFlatPlcList().forEach(plc => {
+                const state = plc.getState()
+                Object.keys(state).forEach(key => {
+                    (state as any)[key] = undefined
+                })
+            })
+            utils.resetData()
+        },
+    }
+
     useTableOptionSettingInner({
         key: eTableOptionSettingView.config,
         title: '个性设置',
         seq: 3,
         beforeOpen: () => {
-            state.data = getSourceFlatPlcList().map((i): PlcPropsType => ({
-                ...i.getState(),
-                title: i.props.title,
-            }))
-            console.log(deepcopy(state.data))
+            utils.resetData()
         },
         render: () => (
-            <div>
+            <div className="pl-table-pro-setting-config">
+                <div className="pl-table-pro-setting-config-button">
+                    <PlButton label="应用"/>
+                    <PlButton label="重置" mode="stroke" status="error" onClick={handler.reset}/>
+                </div>
                 <PlTable data={state.data} showRows={Math.max(5, state.data.length)} defaultEditingWhenAddRow>
                     <PlcIndex/>
                     <PlcDraggier/>
