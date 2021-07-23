@@ -255,6 +255,7 @@ export function useTableOptionSettingSeniorFilter(
             return `(${itemQueryIds.join(' 并且 ')})`
         })
 
+        if (queries.length === 0) {return prev}
         return [...prev, {queries, expression: expression}]
     })
 }

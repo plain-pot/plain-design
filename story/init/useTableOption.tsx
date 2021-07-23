@@ -181,25 +181,31 @@ const useTableOption = createUseTableOption({
     },
     hideButton: {},
     injectRules: (filterDataArr, requestConfig) => {
-        const expressions: string[] = []
-        const filters: iModuleQueryFilter[] = []
-
-        filterDataArr.forEach(({expression, queries}) => {
-            if (queries.length === 0) {return}
-            if (!expression) {
-                expression = queries.map((query) => {
-                    if (!query.id) {query.id = generateFilterId()}
-                    return query.id
-                }).join(' and ')
-            }
-            expressions.push(expression)
-            filters.push(...queries)
-        })
-
+        const hasCustomExpression = filterDataArr.some(i => !!i.expression && i.expression.trim().length > 0)
         const requestData = requestConfig.method === 'GET' ? requestConfig.query : requestConfig.body
-        filters.length > 0 && Object.assign(requestData, {
-            filters, filterExpression: expressions.map(i => `(${i})`).join(' and ')
-        })
+
+        if (hasCustomExpression) {
+            const expressions: string[] = []
+            const filters: iModuleQueryFilter[] = []
+            filterDataArr.forEach(({expression, queries}) => {
+                if (queries.length === 0) {return}
+                if (!expression) {
+                    expression = queries.map((query) => {
+                        if (!query.id) {query.id = generateFilterId()}
+                        return query.id
+                    }).join(' and ')
+                }
+                expressions.push(expression)
+                filters.push(...queries)
+            })
+
+            filters.length > 0 && Object.assign(requestData, {
+                filters, filterExpression: expressions.map(i => `(${i})`).join(' and ')
+            })
+        } else {
+            const filters: iModuleQueryFilter[] = filterDataArr.map(i => i.queries).flat()
+            filters.length > 0 && Object.assign(requestData, {filters})
+        }
     }
 })
 
