@@ -39,7 +39,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState}: 
     useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState})
     useTableOptionSettingSeniorFilter({useTableOptionSettingInner, getSourceFlatPlcList, methods, hooks})
     useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
-    useTableOptionSettingConfig({useTableOptionSettingInner})
+    useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList})
     useTableOptionSettingImport({useTableOptionSettingInner})
     useTableOptionSettingExport({useTableOptionSettingInner})
 
