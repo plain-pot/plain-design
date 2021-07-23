@@ -14,6 +14,15 @@ import PlButton from "../../../PlButton";
 import './use.setting.config.scss'
 import {deepcopy} from "plain-utils/object/deepcopy";
 
+interface iPlcConfigData {
+    title?: string,
+    order: number,
+    align: string,
+    width: number,
+    fixed: string,
+    hide?: boolean,
+}
+
 export function useTableOptionSettingConfig(
     {
         useTableOptionSettingInner,
@@ -24,15 +33,18 @@ export function useTableOptionSettingConfig(
     }) {
 
     const state = reactive({
-        data: [] as PlcPropsType[]
+        data: [] as iPlcConfigData[]
     })
 
     const utils = {
         resetData: () => {
-            state.data = getSourceFlatPlcList().map((i, index): PlcPropsType => ({
-                ...i.getState(),
+            state.data = getSourceFlatPlcList().map((i, index): iPlcConfigData => ({
                 title: i.props.title,
                 order: index,
+                align: i.props.align || 'left',
+                width: i.props.width,
+                fixed: i.props.fixed,
+                hide: i.props.hide,
             }))
             console.log(deepcopy(state.data))
         }
@@ -40,7 +52,34 @@ export function useTableOptionSettingConfig(
 
     const handler = {
         apply: () => {
-
+            const hasOrderChange = state.data.some((i, idx) => i.order !== idx)
+            const sourceFlatList = getSourceFlatPlcList()
+            state.data.forEach((item, index) => {
+                const plcState = sourceFlatList[index].getState()
+                if (hasOrderChange) {plcState.order = index}
+                Object.entries(item).forEach(([key, value]) => {
+                    if (value != (plcState as any)[key]) {
+                        switch (key) {
+                            case 'order':
+                                return;
+                            case 'align':
+                                if (plcState.align === undefined) {
+                                    if (value !== 'left') {
+                                        plcState.align = value as any
+                                    }
+                                } else {
+                                    if (plcState.align != value) {
+                                        plcState.align = value as any
+                                    }
+                                }
+                            default:
+                                if ((plcState as any)[key] != value) {
+                                    (plcState as any)[key] = value
+                                }
+                        }
+                    }
+                })
+            })
         },
         reset: () => {
             getSourceFlatPlcList().forEach(plc => {
@@ -63,10 +102,10 @@ export function useTableOptionSettingConfig(
         render: () => (
             <div className="pl-table-pro-setting-config">
                 <div className="pl-table-pro-setting-config-button">
-                    <PlButton label="应用"/>
+                    <PlButton label="应用" onClick={handler.apply}/>
                     <PlButton label="重置" mode="stroke" status="error" onClick={handler.reset}/>
                 </div>
-                <PlTable data={state.data} showRows={Math.max(5, state.data.length)} defaultEditingWhenAddRow>
+                <PlTable data={state.data} showRows={Math.max(5, state.data.length)} defaultEditingWhenAddRow editSourceRow>
                     <PlcIndex/>
                     <PlcDraggier/>
                     <Plc title="标题" field="title"/>

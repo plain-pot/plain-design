@@ -50,6 +50,7 @@ export const TableProps = {
     colDraggable: {type: Boolean},                              // 列是否可以拖拽排序
     spanMethod: {type: Function as PropType<TablePropsSpanMethod>},// 合并表体单元格的方法
     defaultEditingWhenAddRow: {type: Boolean},                  // 默认开启编辑状态，当添加新行时
+    editSourceRow: {type: Boolean},                             // 编辑原始数据
     sort: {type: [Object, Array] as PropType<TablePropsSort>},  // 当前排序字段
 
     /*---------------------------------------style-------------------------------------------*/

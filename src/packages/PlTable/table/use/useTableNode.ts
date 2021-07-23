@@ -35,7 +35,7 @@ export function useTableNode(
         getTreeNodeByDataAdjust: node => {
             node.isSummary = false
             node.edit = !!props.defaultEditingWhenAddRow
-            node.editRow = !!props.defaultEditingWhenAddRow ? deepcopy(node.data) : node.data
+            node.editRow = props.editSourceRow ? node.data : (!!props.defaultEditingWhenAddRow ? deepcopy(node.data) : node.data)
             node.validateErrors = null
             node.openEdit = function () {this.edit = true}
             node.closeEdit = function () {this.edit = false}
