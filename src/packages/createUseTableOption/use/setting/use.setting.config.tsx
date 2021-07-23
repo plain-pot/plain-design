@@ -131,7 +131,7 @@ export function useTableOptionSettingConfig(
                     <PlcNumber title="宽度" field="width"/>
                     <Plc title="固定" width={50} align="center" field="fixed" addEditPadding>
                         {{
-                            normal: ({row}) => <PlCheckbox v-model={row.fixed} trueValue="left" falseValue={undefined} onChange={() => handler.onFixed(row as any)}/>
+                            normal: ({row}) => <PlCheckbox modelValue={row.fixed === 'left'} customReadonly onClick={() => (row.fixed = (row.fixed === 'left' ? undefined : 'left'), handler.onFixed(row as any))}/>
                         }}
                     </Plc>
                     <PlcCheckbox title="隐藏" width={50} align="center" field="hidden" trueValue={true} falseValue={undefined}/>
