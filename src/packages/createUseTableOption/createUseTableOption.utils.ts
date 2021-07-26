@@ -4,6 +4,7 @@ import {tFormPropRules} from "../PlForm/form.validate";
 import {iFilterData} from "../PlFilter/FilterConfig";
 import {tTableOptionConfigHook} from "./use/use.hooks";
 import {TableNode} from "../PlTable/table/use/useTableNode";
+import {iTableOptionCacheData} from "./use/use.cache.utils";
 
 /*普通对象类型*/
 export type PlainObject = Record<string, any>;
@@ -151,6 +152,8 @@ export interface iTableProDefaultConfig {
     injectRules: (filterDataArr: iFilterData[], requestConfig: tRequestConfig) => void | tRequestConfig, // 将筛选条件rules填写到requestConfig中
     sort: iTableSortData | iTableSortData[],                            // 排序方式
     hideButton: Record<string, boolean | undefined>,                    // 隐藏某个按钮
+    getCache: (key: string) => iTableOptionCacheData | undefined,       // 获取缓存配置信息
+    setCache: (cacheData: iTableOptionCacheData) => void,               // 保存缓存配置信息
     getDefaultUrlConfig: {
         query: (data: tUrlConfig<iQueryResponse>) => tUrlConfigFormat<iQueryResponse>,
         insert: (data: tUrlConfig<tInsertResponse>) => tUrlConfigFormat<tInsertResponse>,

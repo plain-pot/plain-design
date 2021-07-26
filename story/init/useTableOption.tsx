@@ -3,6 +3,7 @@ import {$http} from "../http/http";
 import {tDeleteResponse, tUrlConfig} from "../../src/packages/createUseTableOption/createUseTableOption.utils";
 import {createCounter} from "plain-design-composition";
 import {eFilterOperator} from "../../src/packages/PlFilter/FilterConfig";
+import {iTableOptionCacheData} from "../../src/packages/createUseTableOption/use/use.cache.utils";
 
 const generateFilterId = createCounter('auto_filter_id')
 
@@ -23,6 +24,21 @@ const useTableOption = createUseTableOption({
     editType: 'inline',
     copyDefaultExcludeKeys: ['id', 'createdBy', 'createdAt', 'updatedBy', 'updatedAt'],
     sort: {field: 'updatedAt', desc: true},
+    hideButton: {},
+    ...(() => {
+        const STORAGE_KEY = '@@TABLE_PRO_CACHE'
+        const str = window.localStorage.getItem(STORAGE_KEY)
+        const totalCacheData = !str ? {} : JSON.parse(str)
+
+        const getCache = (key: string): iTableOptionCacheData => {
+            return totalCacheData[key]
+        }
+        const setCache = (cacheData: iTableOptionCacheData) => {
+            totalCacheData[cacheData.key] = cacheData
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(totalCacheData))
+        }
+        return {getCache, setCache}
+    })(),
     getDefaultUrlConfig: {
         query: (config) => {
             let {url, base, method, request, ...left} = config
@@ -179,7 +195,6 @@ const useTableOption = createUseTableOption({
             }
         })(),
     },
-    hideButton: {},
     injectRules: (filterDataArr, requestConfig) => {
         const hasCustomExpression = filterDataArr.some(i => !!i.expression && i.expression.trim().length > 0)
         const requestData = requestConfig.method === 'GET' ? requestConfig.query : requestConfig.body

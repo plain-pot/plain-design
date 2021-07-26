@@ -6,6 +6,7 @@ import React, {ReactNode} from "react";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
 import {tPlcType} from "../../PlTable/plc/utils/plc.type";
+import {iTableOptionCacheItemData} from "./use.cache.utils";
 
 export interface iTableProRenderConfig {
     seq: number,
@@ -116,7 +117,8 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
-        onCollectSortData: createSyncHooks<(sortData: iTableSortData[]) => void>(true),         // 收集排序数据
+        onCollectSortData: createSyncHooks<(sortData: iTableSortData[]) => void>(true),    // 收集排序数据
+        onCacheDataReady: createHooks<(cacheData: iTableOptionCacheItemData | undefined) => void>(),// 缓存的数据加载就绪
     }
 
     if (!!config.hooks) {

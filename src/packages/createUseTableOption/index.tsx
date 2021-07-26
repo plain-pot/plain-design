@@ -16,6 +16,7 @@ import {useTableOptionPermit} from "./use/use.permit";
 import {iFilterData} from "../PlFilter/FilterConfig";
 import {useTableOptionSortState} from "./use/use.sort.state";
 import {useTableOptionFilterState} from "./use/use.filter.state";
+import {useTableOptionCache} from "./use/use.cache";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -76,6 +77,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         /*结构的方法*/
         const {pageMethods, editMethods} = methods
+
+        const cache = useTableOptionCache({config, hooks})
 
         /*排序数据管理*/
         const sortState = useTableOptionSortState({methods, hooks})
