@@ -9,7 +9,7 @@ export default designComponent({
     props: {
         ...createPlcPropOptions({
             autoFixedLeft: true,
-            order: -9999,
+            order: -9995,
             width: 45,
             align: 'center',
             noPadding: true,

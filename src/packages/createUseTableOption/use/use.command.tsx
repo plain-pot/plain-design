@@ -67,8 +67,8 @@ export function useTableOptionCommand({hooks}: { hooks: tTableOptionHooks }) {
     onBeforeUnmount(() => {
         document.body.removeEventListener('keydown', onKeydown, true)
         document.body.removeEventListener('keyup', onKeyup, true)
-        state.tableEl!.removeEventListener('mouseenter', onEnter)
-        state.tableEl!.removeEventListener('mouseleave', onLeave)
+        !!state.tableEl && state.tableEl!.removeEventListener('mouseenter', onEnter)
+        !!state.tableEl && state.tableEl!.removeEventListener('mouseleave', onLeave)
     })
 
     const on = (command: string, handler: (e: KeyboardEvent) => void) => {

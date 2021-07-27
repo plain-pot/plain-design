@@ -14,6 +14,7 @@ import {defer} from "../../../../utils/defer";
 import useMessage from "../../../useMessage";
 import PlButtonGroup from "../../../PlButtonGroup";
 import PlRadio from "../../../PlRadio";
+import PlcTextarea from "../../../PlcTextarea";
 
 export function useTableOptionSettingCache(
     {
@@ -106,15 +107,15 @@ export function useTableOptionSettingCache(
                     </div>
                     <PlTable data={state.editCacheData.data}>
                         <PlcIndex/>
-                        <Plc align="center" width={50} noPadding>
+                        <Plc align="center" width={50} noPadding order={-9999}>
                             {{
                                 normal: ({row}) => {
-                                    return <PlRadio modelValue={row.id === state.editCacheData.activeId} customReadonly/>
+                                    return <PlRadio modelValue={row.id === state.editCacheData.activeId} customReadonly onClick={() => applyCache(row as any)}/>
                                 }
                             }}
                         </Plc>
-                        <Plc title="缓存名称" field="title"/>
-                        <Plc title="更新时间" field="time"/>
+                        <PlcTextarea title="缓存名称" field="title" fit width={80}/>
+                        <Plc title="创建时间" field="time" width={180}/>
                         <PlcOperator>
                             {{
                                 default: ({row}) => {
