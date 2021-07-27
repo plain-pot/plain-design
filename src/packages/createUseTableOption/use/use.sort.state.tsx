@@ -1,6 +1,8 @@
 import {computed, reactive} from "plain-design-composition";
 import {tTableOptionMethods} from "./use.methods";
 import {tTableOptionHooks} from "./use.hooks";
+import {tTableOptionCache} from "./use.cache";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 /**
  * 排序参数（用来显示的排序参数数据结构）
@@ -14,10 +16,20 @@ export interface iTableOptionSortData {
     seq: number,
 }
 
-export function useTableOptionSortState({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
+export function useTableOptionSortState({hooks, methods, cache}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, cache: tTableOptionCache }) {
 
     const state = reactive({
         data: [] as iTableOptionSortData[],
+    })
+
+    cache.registry<iTableOptionSortData[]>({
+        cacheKey: 'sort-state',
+        getCache: () => {
+            return deepcopy(state.data)
+        },
+        applyCache: (plcList, cacheData) => {
+            state.data = cacheData || []
+        },
     })
 
     const seqData = computed(() => state.data.reduce((prev, item) => {

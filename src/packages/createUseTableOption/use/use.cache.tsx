@@ -5,14 +5,17 @@ import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
 import {plainDate} from "../../../utils/plainDate";
 import useMessage from "../../useMessage";
 import {deepcopy} from "plain-utils/object/deepcopy";
+import {defer} from "../../../utils/defer";
 
 export function useTableOptionCache(
     {
         config,
         hooks,
+        reload,
     }: {
         config: tTableOptionConfig,
         hooks: tTableOptionHooks,
+        reload: () => void,
     }) {
 
     const state = {
@@ -28,6 +31,8 @@ export function useTableOptionCache(
         getSourceFlatPlcList: null as null | (() => tPlc[]),
     }
 
+    const init = defer()
+
     const $message = useMessage()
 
     const getTimeString = () => plainDate.today('YYYY/MM/DD HH:mm:ss', '').getDisplay()
@@ -41,7 +46,12 @@ export function useTableOptionCache(
 
     hooks.onCollectPlcData.use((plcData) => {
         state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList.filter(i => !!i.props.field)
-        applyCache()
+        applyCache(undefined, false)
+        init.resolve()
+    })
+
+    hooks.onBeginLoad.use(async () => {
+        await init.promise
     })
 
     const tablePropsConfig = (sourceFlatList: tPlcType[]) => {
@@ -53,7 +63,7 @@ export function useTableOptionCache(
         state.registration.push(registryConfig)
     }
 
-    function applyCache(activeId?: number | undefined) {
+    function applyCache(activeId: number | undefined, autoReload = true) {
         if (!activeId) {activeId = state.cacheData.activeId}
         const cacheData = activeId == null ? null : state.cacheData.data.find(i => i.id == activeId)
         const sourceFlatPlcList = state.getSourceFlatPlcList!()
@@ -69,6 +79,8 @@ export function useTableOptionCache(
             state.cacheData.activeId = undefined
         }
         config.setCache(state.cacheData)
+
+        autoReload && reload()
     }
 
     function createCache(cacheName: string) {

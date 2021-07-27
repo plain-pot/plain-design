@@ -82,6 +82,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onClickHead: createHooks<(data: { plc: tPlcType, e: React.MouseEvent }) => void>(),         // 点击标题动作
 
         /*分页查询*/
+        onBeginLoad: createHooks<() => void>(),                                                     // 异步钩子，开始加载数据之前
         onRequestData: createHooks<(requestData: Record<string, any>) => void>(),                   // 处理请求参数
         onBeforeLoad: createHooks<(requestConfigObject: tRequestConfig) => void>(),                 // 异步钩子，加载数据之前
         onAfterLoad: createHooks<(rows: PlainObject[]) => void>(),                                  // 异步钩子，加载数据之后

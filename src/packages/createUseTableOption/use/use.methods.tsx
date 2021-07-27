@@ -65,6 +65,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
         const load = async (loadConfig?: { page?: number, size?: number }) => {
             if (confirm.state.status !== eTableProStatus.select) {await editMethods.save()}
+            await hooks.onBeginLoad.exec(undefined)
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
@@ -101,6 +102,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
 
         const queryCount = async () => {
             if (confirm.state.status !== eTableProStatus.select) {await editMethods.save()}
+            await hooks.onBeginLoad.exec(undefined)
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
             Object.assign(requestData, {onlyCount: true})
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)

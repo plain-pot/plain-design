@@ -78,10 +78,10 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*结构的方法*/
         const {pageMethods, editMethods} = methods
 
-        const cache = useTableOptionCache({config, hooks})
+        const cache = useTableOptionCache({config, hooks, reload: () => pageMethods.reload()})
 
         /*排序数据管理*/
-        const sortState = useTableOptionSortState({methods, hooks})
+        const sortState = useTableOptionSortState({methods, hooks, cache})
 
         const filterState = useTableOptionFilterState({hooks, methods})
 
