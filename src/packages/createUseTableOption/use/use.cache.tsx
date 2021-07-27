@@ -3,6 +3,7 @@ import {tTableOptionHooks} from "./use.hooks";
 import {getTableId, iTableOptionCacheData, iTableOptionCacheItemData, iTableOptionCacheRegistryConfig} from "./use.cache.utils";
 import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
 import {plainDate} from "../../../utils/plainDate";
+import useMessage from "../../useMessage";
 
 export function useTableOptionCache(
     {
@@ -25,6 +26,8 @@ export function useTableOptionCache(
         registration: [] as iTableOptionCacheRegistryConfig[],
         getSourceFlatPlcList: null as null | (() => tPlc[]),
     }
+
+    const $message = useMessage()
 
     hooks.onCollectPlcData.use((plcData) => {
         state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList.filter(i => !!i.props.field)
@@ -78,12 +81,21 @@ export function useTableOptionCache(
         config.setCache(state.cacheData)
     }
 
+    function deleteCache(cacheId: number) {
+        if (state.cacheData.activeId === cacheId) {
+            return $message.error('不可以删除正在使用的缓存配置！')
+        }
+        state.cacheData.data = state.cacheData.data.filter(i => i.id !== cacheId)
+        config.setCache(state.cacheData)
+    }
+
     return {
         state,
         tablePropsConfig,
         registry,
         createCache,
         renameCache,
+        deleteCache,
     }
 }
 

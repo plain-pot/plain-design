@@ -70,6 +70,11 @@ export function useTableOptionSettingCache(
         state.editCacheData = deepcopy(cache.state.cacheData)
     }
 
+    const deleteCache = async (cacheItemData: iTableOptionCacheItemData) => {
+        cache.deleteCache(cacheItemData.id)
+        state.editCacheData = deepcopy(cache.state.cacheData)
+    }
+
     useTableOptionSettingInner({
         key: eTableOptionSettingView.cache,
         title: '缓存设置',
@@ -101,7 +106,7 @@ export function useTableOptionSettingCache(
                                         <PlButtonGroup mode="text" size="mini">
                                             <PlButton label="应用"/>
                                             <PlButton label="重命名" onClick={() => renameCacheConfig(row as any)}/>
-                                            <PlButton label="删除"/>
+                                            <PlButton label="删除" onClick={() => deleteCache(row as any)}/>
                                             <PlButton label="覆盖"/>
                                             <PlButton label="复制"/>
                                         </PlButtonGroup>
