@@ -7,19 +7,19 @@ import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
 import {defer} from "../../../../utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
-import {iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
+import {iFilterQuery} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";
 import {toArray} from "../../../../utils/toArray";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlTable} from "../../../PlTable";
 import {findRreactElement} from "../../../../utils/findReactElement";
 import {tTableOptionFilter} from "../use.filter.state";
-import {getPlcKey} from "./use.filter.utils";
 import PlButton from "../../../PlButton";
 import {TableNode} from "../../../PlTable/table/use/useTableNode";
 import {renderBodyCell} from "../../../PlTable/plc/utils/render";
 import {TreeNodeCheckStatus} from "../../../PlTree/utils/tree-constant";
 import './distinct.filter.scss'
+import {getPlcKey} from "../../../PlTable/plc/utils/usePropsState";
 
 /**
  *在打开去重筛选弹框的时候，需要获取一遍当前表格的查询参数，在获取的同时要排除掉这个列的去重筛选条件参数

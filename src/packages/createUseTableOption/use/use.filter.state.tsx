@@ -3,8 +3,8 @@ import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {ReactNode} from "react";
 import {reactive} from "plain-design-composition";
 import {defer} from "../../../utils/defer";
-import {getPlcKey} from "./filter/use.filter.utils";
 import {tTableOptionMethods} from "./use.methods";
+import {getPlcKey} from "../../PlTable/plc/utils/usePropsState";
 
 export interface FilterStateInitialization<State = any, Cache = any> {
     seq: number,

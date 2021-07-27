@@ -41,7 +41,7 @@ export type tPlcState = {
 
 export type tPlcStateData = Record<string, tPlcState>
 
-function getPlcKey(i: tPlcType) {
+export function getPlcKey(i: tPlcType) {
     return i.group ? 'G' + i.props.title || 'GT' : `${i.props.title || 'PT'}_${i.props.field || 'PF'}`
 }
 

@@ -22,10 +22,6 @@ export function createFilterOptionByPlc(plc: tPlc): iFilterOption {
     }
 }
 
-export function getPlcKey(plc: tPlc) {
-    return plc.props.field! + (plc.props.title || '#_#')
-}
-
 export const renderFtoForm = (
     {
         ftoArr,

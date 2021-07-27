@@ -6,7 +6,8 @@ import {tTableOptionMethods} from "../use.methods";
 import {toArray} from "../../../../utils/toArray";
 import React from "react";
 import {tTableOptionFilter} from "../use.filter.state";
-import {createFilterOptionByPlc, getPlcKey, iFilterCacheData, renderFtoForm} from "./use.filter.utils";
+import {createFilterOptionByPlc, iFilterCacheData, renderFtoForm} from "./use.filter.utils";
+import {getPlcKey} from "../../../PlTable/plc/utils/usePropsState";
 
 export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter }) {
 
