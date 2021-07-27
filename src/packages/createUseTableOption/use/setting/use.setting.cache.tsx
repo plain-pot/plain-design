@@ -9,7 +9,7 @@ import {PlcIndex} from "../../../PlcIndex";
 import {Plc} from "../../../Plc";
 import PlcOperator from "../../../PlcOperator";
 import PlButton from "../../../PlButton";
-import useDialog, {DialogServiceFormatOption, DialogServiceOption} from "../../../useDialog";
+import useDialog, {DialogServiceOption} from "../../../useDialog";
 import {defer} from "../../../../utils/defer";
 import useMessage from "../../../useMessage";
 import PlButtonGroup from "../../../PlButtonGroup";
@@ -58,13 +58,13 @@ export function useTableOptionSettingCache(
         return dfd.promise
     }
 
-    const newCacheConfig = async () => {
+    const newCache = async () => {
         const cacheName = await getConfigName()
         cache.createCache(cacheName)
         state.editCacheData = deepcopy(cache.state.cacheData)
     }
 
-    const renameCacheConfig = async (cacheItemData: iTableOptionCacheItemData) => {
+    const renameCache = async (cacheItemData: iTableOptionCacheItemData) => {
         const newCacheName = await getConfigName(cacheItemData.title)
         cache.renameCache(cacheItemData.id, newCacheName)
         state.editCacheData = deepcopy(cache.state.cacheData)
@@ -80,6 +80,12 @@ export function useTableOptionSettingCache(
         state.editCacheData = deepcopy(cache.state.cacheData)
     }
 
+    const overrideCache = async (cacheItemData: iTableOptionCacheItemData) => {
+        await $dialog.confirm({message: `确定要覆盖配置"${cacheItemData.title}"为当前最新的配置吗？`})
+        cache.overrideCache(cacheItemData.id)
+        state.editCacheData = deepcopy(cache.state.cacheData)
+    }
+
     useTableOptionSettingInner({
         key: eTableOptionSettingView.cache,
         title: '缓存设置',
@@ -91,7 +97,7 @@ export function useTableOptionSettingCache(
             return (
                 <div>
                     <div style={{marginBottom: '16px'}}>
-                        <PlButton label="保存当前状态为新的缓存配置" mode="text" icon="el-icon-plus" onClick={newCacheConfig}/>
+                        <PlButton label="保存当前状态为新的缓存配置" mode="text" icon="el-icon-plus" onClick={newCache}/>
                     </div>
                     <PlTable data={state.editCacheData.data}>
                         <PlcIndex/>
@@ -110,9 +116,9 @@ export function useTableOptionSettingCache(
                                     return (
                                         <PlButtonGroup mode="text" size="mini">
                                             <PlButton label="应用"/>
-                                            <PlButton label="重命名" onClick={() => renameCacheConfig(row as any)}/>
+                                            <PlButton label="重命名" onClick={() => renameCache(row as any)}/>
                                             <PlButton label="删除" onClick={() => deleteCache(row as any)}/>
-                                            <PlButton label="覆盖"/>
+                                            <PlButton label="覆盖" onClick={() => overrideCache(row as any)}/>
                                             <PlButton label="复制" onClick={() => copyConfig(row as any)}/>
                                         </PlButtonGroup>
                                     )

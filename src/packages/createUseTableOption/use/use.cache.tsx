@@ -30,6 +30,15 @@ export function useTableOptionCache(
 
     const $message = useMessage()
 
+    const getTimeString = () => plainDate.today('YYYY/MM/DD HH:mm:ss', '').getDisplay()
+
+    const getDataByRegistration = () => {
+        return state.registration.reduce((prev, item) => {
+            prev[item.cacheKey] = item.getCache()
+            return prev
+        }, {} as Record<string, any>)
+    }
+
     hooks.onCollectPlcData.use((plcData) => {
         state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList.filter(i => !!i.props.field)
         applyCache()
@@ -65,11 +74,8 @@ export function useTableOptionCache(
         const cacheItemData: iTableOptionCacheItemData = {
             id: Date.now(),
             title: cacheName,
-            time: plainDate.today('YYYY/MM/DD HH:mm:ss', '').getDisplay(),
-            data: state.registration.reduce((prev, item) => {
-                prev[item.cacheKey] = item.getCache()
-                return prev
-            }, {} as Record<string, any>),
+            time: getTimeString(),
+            data: getDataByRegistration(),
         }
         state.cacheData.data.unshift(cacheItemData)
         state.cacheData.activeId = cacheItemData.id
@@ -96,10 +102,20 @@ export function useTableOptionCache(
             ...cacheItemData,
             id: Date.now(),
             title: cacheName,
-            time: plainDate.today('YYYY/MM/DD HH:mm:ss', '').getDisplay(),
+            time: getTimeString(),
         }
         state.cacheData.activeId = newCacheItemData.id
         state.cacheData.data.unshift(newCacheItemData)
+        config.setCache(state.cacheData)
+    }
+
+    function overrideCache(cacheId: number) {
+        const findIndex = state.cacheData.data.findIndex(i => i.id === cacheId)!
+        const cacheItemData = state.cacheData.data[findIndex]
+        cacheItemData.data = getDataByRegistration()
+        cacheItemData.time = getTimeString()
+        state.cacheData.data = [cacheItemData, ...state.cacheData.data.filter(i => i.id !== cacheId)]
+        state.cacheData.activeId = cacheItemData.id
         config.setCache(state.cacheData)
     }
 
@@ -111,6 +127,7 @@ export function useTableOptionCache(
         renameCache,
         deleteCache,
         copyCache,
+        overrideCache,
     }
 }
 
