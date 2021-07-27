@@ -4,6 +4,7 @@ import {getTableId, iTableOptionCacheData, iTableOptionCacheItemData, iTableOpti
 import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
 import {plainDate} from "../../../utils/plainDate";
 import useMessage from "../../useMessage";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export function useTableOptionCache(
     {
@@ -89,6 +90,19 @@ export function useTableOptionCache(
         config.setCache(state.cacheData)
     }
 
+    function copyCache(cacheId: number, cacheName: string) {
+        const cacheItemData = deepcopy(state.cacheData.data.find(i => i.id === cacheId)!)
+        const newCacheItemData = {
+            ...cacheItemData,
+            id: Date.now(),
+            title: cacheName,
+            time: plainDate.today('YYYY/MM/DD HH:mm:ss', '').getDisplay(),
+        }
+        state.cacheData.activeId = newCacheItemData.id
+        state.cacheData.data.unshift(newCacheItemData)
+        config.setCache(state.cacheData)
+    }
+
     return {
         state,
         tablePropsConfig,
@@ -96,6 +110,7 @@ export function useTableOptionCache(
         createCache,
         renameCache,
         deleteCache,
+        copyCache,
     }
 }
 

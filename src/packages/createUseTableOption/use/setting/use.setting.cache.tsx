@@ -43,7 +43,7 @@ export function useTableOptionSettingCache(
             cancelButton: true,
             onConfirm: editValue => {
                 if (editValue == null || String(editValue).trim().length === 0) {
-                    $message('请输入配置名称')
+                    $message('请输入新配置名称')
                 } else {
                     dfd.resolve(editValue);
                     (dlgOpt as any).close()
@@ -72,6 +72,11 @@ export function useTableOptionSettingCache(
 
     const deleteCache = async (cacheItemData: iTableOptionCacheItemData) => {
         cache.deleteCache(cacheItemData.id)
+        state.editCacheData = deepcopy(cache.state.cacheData)
+    }
+
+    const copyConfig = async (cacheItemData: iTableOptionCacheItemData) => {
+        cache.copyCache(cacheItemData.id, await getConfigName(cacheItemData.title + '[副本]'))
         state.editCacheData = deepcopy(cache.state.cacheData)
     }
 
@@ -108,7 +113,7 @@ export function useTableOptionSettingCache(
                                             <PlButton label="重命名" onClick={() => renameCacheConfig(row as any)}/>
                                             <PlButton label="删除" onClick={() => deleteCache(row as any)}/>
                                             <PlButton label="覆盖"/>
-                                            <PlButton label="复制"/>
+                                            <PlButton label="复制" onClick={() => copyConfig(row as any)}/>
                                         </PlButtonGroup>
                                     )
                                 }
