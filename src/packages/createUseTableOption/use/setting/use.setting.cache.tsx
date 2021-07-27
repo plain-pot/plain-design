@@ -13,6 +13,7 @@ import useDialog, {DialogServiceFormatOption, DialogServiceOption} from "../../.
 import {defer} from "../../../../utils/defer";
 import useMessage from "../../../useMessage";
 import PlButtonGroup from "../../../PlButtonGroup";
+import PlRadio from "../../../PlRadio";
 
 export function useTableOptionSettingCache(
     {
@@ -59,7 +60,8 @@ export function useTableOptionSettingCache(
 
     const newCacheConfig = async () => {
         const cacheName = await getConfigName()
-        state.editCacheData.data.unshift(cache.createCache(cacheName))
+        cache.createCache(cacheName)
+        state.editCacheData = deepcopy(cache.state.cacheData)
     }
 
     useTableOptionSettingInner({
@@ -77,6 +79,13 @@ export function useTableOptionSettingCache(
                     </div>
                     <PlTable data={state.editCacheData.data}>
                         <PlcIndex/>
+                        <Plc align="center" width={50} noPadding>
+                            {{
+                                normal: ({row}) => {
+                                    return <PlRadio modelValue={row.id === state.editCacheData.activeId} customReadonly/>
+                                }
+                            }}
+                        </Plc>
                         <Plc title="缓存名称" field="title"/>
                         <Plc title="更新时间" field="time"/>
                         <PlcOperator>

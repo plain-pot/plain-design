@@ -68,8 +68,8 @@ export function useTableOptionCache(
             }, {} as Record<string, any>),
         }
         state.cacheData.data.unshift(cacheItemData)
+        state.cacheData.activeId = cacheItemData.id
         config.setCache(state.cacheData)
-        return cacheItemData
     }
 
     return {
