@@ -49,9 +49,10 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
 
     const openSetting = async (key: string) => {
 
-        for (let config of state.settingConfigs) {!!config.beforeOpen && await config.beforeOpen()}
         const settingConfigs = state.settingConfigs.sort((a, b) => a.seq - b.seq)
         state.activeKey = key
+        const showConfig = state.settingConfigs.find(i => i.key === key)
+        !!showConfig && showConfig.beforeOpen && (await showConfig.beforeOpen())
 
         $dialog({
             status: null,
@@ -81,7 +82,11 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
                                         'pl-table-pro-setting-nav-item-prev': !!settingConfigs[index] && settingConfigs[index].key === state.activeKey,
                                         'pl-table-pro-setting-nav-item-next': !!settingConfigs[index - 2] && settingConfigs[index - 2].key === state.activeKey,
                                     }
-                                ])} key={index} onClick={() => !!item && (state.activeKey = item.key)}>
+                                ])} key={index} onClick={async () => {
+                                    if (!item) {return}
+                                    !!item.beforeOpen && (await item.beforeOpen())
+                                    state.activeKey = item.key
+                                }}>
                                     <div className="pl-table-pro-setting-nav-item-inner">
                                         {item?.title}
                                     </div>
