@@ -72,11 +72,18 @@ export function useTableOptionCache(
         config.setCache(state.cacheData)
     }
 
+    function renameCache(cacheId: number, newCacheName: string) {
+        const cacheItemData = state.cacheData.data.find(i => i.id === cacheId)!
+        cacheItemData.title = newCacheName
+        config.setCache(state.cacheData)
+    }
+
     return {
         state,
         tablePropsConfig,
         registry,
         createCache,
+        renameCache,
     }
 }
 

@@ -2,7 +2,7 @@ import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setti
 import {tTableOptionCache} from "../use.cache";
 import React from "react";
 import {reactive} from "plain-design-composition";
-import {iTableOptionCacheData} from "../use.cache.utils";
+import {iTableOptionCacheData, iTableOptionCacheItemData} from "../use.cache.utils";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import PlTable from "../../../PlTable";
 import {PlcIndex} from "../../../PlcIndex";
@@ -64,6 +64,12 @@ export function useTableOptionSettingCache(
         state.editCacheData = deepcopy(cache.state.cacheData)
     }
 
+    const renameCacheConfig = async (cacheItemData: iTableOptionCacheItemData) => {
+        const newCacheName = await getConfigName(cacheItemData.title)
+        cache.renameCache(cacheItemData.id, newCacheName)
+        state.editCacheData = deepcopy(cache.state.cacheData)
+    }
+
     useTableOptionSettingInner({
         key: eTableOptionSettingView.cache,
         title: '缓存设置',
@@ -94,7 +100,7 @@ export function useTableOptionSettingCache(
                                     return (
                                         <PlButtonGroup mode="text" size="mini">
                                             <PlButton label="应用"/>
-                                            <PlButton label="重命名"/>
+                                            <PlButton label="重命名" onClick={() => renameCacheConfig(row as any)}/>
                                             <PlButton label="删除"/>
                                             <PlButton label="覆盖"/>
                                             <PlButton label="复制"/>
