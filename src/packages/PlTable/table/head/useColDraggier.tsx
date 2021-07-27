@@ -251,6 +251,7 @@ export function useColDraggier(config: ComputedRef<{
 
     const handler = {
         mousedown: (e: React.MouseEvent) => {
+            if (e.button === 2) {return}
 
             const {broList, broData} = getDragData(config.value.table, config.value.plc)
             state.dragData = broData
