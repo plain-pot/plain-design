@@ -1,6 +1,7 @@
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTableOptionHooks} from "./use.hooks";
-import {iTableOptionCacheData} from "./use.cache.utils";
+import {getTableId, iTableOptionCacheData, iTableOptionCacheRegistryConfig} from "./use.cache.utils";
+import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
 
 export function useTableOptionCache(
     {
@@ -12,16 +13,47 @@ export function useTableOptionCache(
     }) {
 
     const state = {
-        tableKey: '',
+        tableId: '',
         cacheData: undefined as undefined | iTableOptionCacheData,
+        registration: [] as iTableOptionCacheRegistryConfig[],
+        getSourceFlatPlcList: null as null | (() => tPlc[]),
     }
 
     hooks.onCollectPlcData.use((plcData) => {
-        const flatPlcList = plcData.sourceFlatPlcList.filter(i => !!i.props.title && !!i.props.field)
-        state.tableKey = window.location.hash + flatPlcList.slice(0, 2).map(i => `${i.props.title}:${i.props.field}`).join(',') + flatPlcList.slice(flatPlcList.length - 2).map(i => `${i.props.title}:${i.props.field}`).join(',')
-
-        state.cacheData = config.getCache(state.tableKey)
+        state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList.filter(i => !!i.props.field)
+        applyCache()
     })
 
-    return {}
+    const tablePropsConfig = (sourceFlatList: tPlcType[]) => {
+        state.tableId = getTableId(sourceFlatList)
+        state.cacheData = config.getCache(state.tableId) || {tableId: state.tableId, activeId: undefined, data: [],}
+    }
+
+    function registry<CacheData = any>(registryConfig: iTableOptionCacheRegistryConfig<CacheData>) {
+        state.registration.push(registryConfig)
+    }
+
+    function applyCache(activeId?: number | undefined) {
+        if (!activeId) {activeId = state.cacheData!.activeId}
+        const cacheData = activeId == null ? null : state.cacheData!.data.find(i => i.id == activeId)
+        const sourceFlatPlcList = state.getSourceFlatPlcList!()
+        if (!!cacheData) {
+            state.registration.forEach(registry => {
+                registry.applyCache(sourceFlatPlcList, cacheData.data[registry.cacheKey])
+            })
+            state.cacheData!.activeId = cacheData.id
+        } else {
+            state.registration.forEach(registry => {
+                registry.applyCache(sourceFlatPlcList, undefined)
+            })
+            state.cacheData!.activeId = undefined
+        }
+    }
+
+    return {
+        tablePropsConfig,
+        registry,
+    }
 }
+
+export type tTableOptionCache = ReturnType<typeof useTableOptionCache>

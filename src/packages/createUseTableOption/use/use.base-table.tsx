@@ -7,6 +7,7 @@ import {PlcIndex} from "../../PlcIndex";
 import {iTableOptionState, tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTablePagination} from "./use.paginaiton";
 import {tTableOptionSort} from "./use.sort.state";
+import {tTableOptionCache} from "./use.cache";
 
 export function useTableOptionBaseTable(
     {
@@ -15,12 +16,14 @@ export function useTableOptionBaseTable(
         hooks,
         pagination,
         sortState,
+        cache,
     }: {
         config: tTableOptionConfig,
         tableState: iTableOptionState,
         hooks: tTableOptionHooks,
         pagination: tTablePagination,
         sortState: tTableOptionSort,
+        cache: tTableOptionCache,
     }) {
     const refTable = (table: typeof PlTable.use.class | null | undefined) => {
         hooks.onRefTable.exec(table!)
@@ -43,6 +46,7 @@ export function useTableOptionBaseTable(
                     currentKey={tableState.currentKey || undefined}
                     onUpdateCurrentKey={val => tableState.currentKey = val || null}
                     keyField={config.keyField}
+                    config={cache.tablePropsConfig}
                     onClickRow={handler.onClickCell}
                     onDblclickCell={handler.onDblClickCell}
                     onClickHead={handler.onClickHead}

@@ -48,10 +48,10 @@ export function useTableOptionSettingConfig(
                 hide: i.props.hide,
                 plcRef: () => i,
             }))
-            console.log(getSourceFlatPlcList().map(i => {
+            /*console.log(getSourceFlatPlcList().map(i => {
                 const {title, order, fixed, align, width, hide} = i.getState()
                 return {title, order, fixed, align, width, hide}
-            }))
+            }))*/
         }
     }
 

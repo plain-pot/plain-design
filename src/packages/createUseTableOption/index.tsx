@@ -95,7 +95,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const filter = useTableOptionFilter({hooks, methods, customConfig, sortState, filterState, setting})
 
         /*基础表格渲染*/
-        useTableOptionBaseTable({config, hooks, pagination, tableState, sortState})
+        useTableOptionBaseTable({config, hooks, pagination, tableState, sortState, cache})
 
         /*执行初始化逻辑，init一定要放在所有hook之后执行*/
         const init = (() => {
@@ -152,6 +152,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             buttons,
             filter,
             init,
+            cache,
         }
     }
 }

@@ -34,7 +34,7 @@ const useTableOption = createUseTableOption({
             return totalCacheData[key]
         }
         const setCache = (cacheData: iTableOptionCacheData) => {
-            totalCacheData[cacheData.key] = cacheData
+            totalCacheData[cacheData.tableId] = cacheData
             window.localStorage.setItem(STORAGE_KEY, JSON.stringify(totalCacheData))
         }
         return {getCache, setCache}
