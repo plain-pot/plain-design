@@ -61,6 +61,8 @@ export function useTableOptionCache(
             state.registration.forEach(registry => {
                 registry.applyCache(sourceFlatPlcList, cacheData.data[registry.cacheKey])
             })
+            cacheData.time = getTimeString()
+            state.cacheData.data = [cacheData, ...state.cacheData.data.filter(i => i !== cacheData)]
             state.cacheData.activeId = cacheData.id
         } else {
             state.registration.forEach(registry => {
@@ -68,6 +70,7 @@ export function useTableOptionCache(
             })
             state.cacheData.activeId = undefined
         }
+        config.setCache(state.cacheData)
     }
 
     function createCache(cacheName: string) {
@@ -123,6 +126,8 @@ export function useTableOptionCache(
         state,
         tablePropsConfig,
         registry,
+
+        applyCache,
         createCache,
         renameCache,
         deleteCache,
