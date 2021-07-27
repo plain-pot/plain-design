@@ -189,6 +189,15 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             command: 'alt+r',
             handler: () => {setting.openSetting(eTableOptionSettingView.config)}
         }),
+        cacheSetting: utils.createButton({
+            label: '缓存设置',
+            icon: 'el-icon-star-off',
+            type: 'other',
+            code: 'cache-setting',
+            position: 'more',
+            command: 'alt+q',
+            handler: () => {setting.openSetting(eTableOptionSettingView.cache)}
+        }),
         importData: utils.createButton({
             label: '导入数据',
             icon: 'el-icon-download',

@@ -10,7 +10,7 @@ interface iTableOptionCacheConfigData {}
 export interface iTableOptionCacheItemData {
     id: number,
     title: string,
-    time: number,
+    time: string,
     data: Record<string, any>,
 }
 

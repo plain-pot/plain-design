@@ -18,6 +18,7 @@ export enum eTableOptionSettingView {
     allFilter = 'allFilter',
     sort = 'sort',
     config = 'config',
+    cache = 'cache',
     import = 'import',
     export = 'export',
 }
