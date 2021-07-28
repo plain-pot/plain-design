@@ -50,9 +50,9 @@ export function getPlcKey(i: tPlcType) {
  * @author  韦胜健
  * @date    2021/6/2 14:58
  */
-export function getPropsState(plcList: tPlcType[]): tPlcStateData {
+export function getPropsState(sourceList: tPlcType[]): tPlcStateData {
     const stateList = [] as tPlcState[]
-    plcList.forEach(i => {
+    sourceList.forEach(i => {
         stateList.push({
             state: deepcopy(i.getState()),
             children: !i.group ? undefined : getPropsState(i.children),
