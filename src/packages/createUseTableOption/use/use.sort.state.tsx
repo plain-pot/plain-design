@@ -27,7 +27,7 @@ export function useTableOptionSortState({hooks, methods, cache}: { hooks: tTable
         getCache: () => {
             return deepcopy(state.data)
         },
-        applyCache: (plcList, cacheData) => {
+        applyCache: ({cacheData}) => {
             state.data = cacheData || []
         },
     })

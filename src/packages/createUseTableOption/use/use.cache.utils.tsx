@@ -22,8 +22,8 @@ export interface iTableOptionCacheData {
 
 export interface iTableOptionCacheRegistryConfig<CacheData = any> {
     cacheKey: string,
-    applyCache: (plcList: tPlc[], cacheData: CacheData | undefined) => void,
-    getCache: () => CacheData,
+    applyCache: (data: { plcList: tPlc[], cacheData: CacheData | undefined, sourceList: tPlcType[] }) => void,
+    getCache: (data: { plcList: tPlc[], sourceList: tPlcType[] }) => CacheData,
 }
 
 export const getTableId = (plcTypeList: tPlcType[]): string => {

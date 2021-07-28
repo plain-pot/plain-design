@@ -6,6 +6,7 @@ import {plainDate} from "../../../utils/plainDate";
 import useMessage from "../../useMessage";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {defer} from "../../../utils/defer";
+import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 
 export function useTableOptionCache(
     {
@@ -28,7 +29,7 @@ export function useTableOptionCache(
             }
         })(),
         registration: [] as iTableOptionCacheRegistryConfig[],
-        getSourceFlatPlcList: null as null | (() => tPlc[]),
+        getPlcData: null as null | (() => tPlcData),
     }
 
     const init = defer()
@@ -39,13 +40,14 @@ export function useTableOptionCache(
 
     const getDataByRegistration = () => {
         return state.registration.reduce((prev, item) => {
-            prev[item.cacheKey] = item.getCache()
+            const {sourceList, sourceFlatPlcList} = state.getPlcData!()
+            prev[item.cacheKey] = item.getCache({plcList: sourceFlatPlcList, sourceList})
             return prev
         }, {} as Record<string, any>)
     }
 
     hooks.onCollectPlcData.use((plcData) => {
-        state.getSourceFlatPlcList = () => plcData.sourceFlatPlcList.filter(i => !!i.props.field)
+        state.getPlcData = () => plcData
         applyCache(undefined, false)
         init.resolve()
     })
@@ -66,15 +68,15 @@ export function useTableOptionCache(
     function applyCache(activeId: number | undefined, autoReload = true) {
         if (!activeId) {activeId = state.cacheData.activeId}
         const cacheData = activeId == null ? null : state.cacheData.data.find(i => i.id == activeId)
-        const sourceFlatPlcList = state.getSourceFlatPlcList!()
+        const {sourceList, sourceFlatPlcList} = state.getPlcData!()
         if (!!cacheData) {
             state.registration.forEach(registry => {
-                registry.applyCache(sourceFlatPlcList, deepcopy(cacheData.data[registry.cacheKey]))
+                registry.applyCache({plcList: sourceFlatPlcList, sourceList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
             })
             state.cacheData.activeId = cacheData.id
         } else {
             state.registration.forEach(registry => {
-                registry.applyCache(sourceFlatPlcList, undefined)
+                registry.applyCache({plcList: sourceFlatPlcList, sourceList, cacheData: undefined})
             })
             state.cacheData.activeId = undefined
         }
