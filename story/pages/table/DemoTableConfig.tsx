@@ -11,6 +11,7 @@ import {Plc} from "../../../src/packages/Plc";
 import PlcGroup from "../../../src/packages/PlTable/plc/core/PlcGroup";
 import {tPlcType} from "../../../src/packages/PlTable/plc/utils/plc.type";
 import {tPlcStateData} from "../../../src/packages/PlTable/plc/utils/usePropsState";
+import {getTableId} from "../../../src/packages/createUseTableOption/use/use.cache.utils";
 
 export default designPage(() => {
 
@@ -33,16 +34,6 @@ export default designPage(() => {
                 },
             }
         })();
-
-        const getTableId = (flatList: tPlcType[]): string => {
-            return flatList.map(i => {
-                if (i.group) {
-                    return `${i.props.title || '#'}-${getTableId(i.children)}`
-                } else {
-                    return `${i.props.title || '#'}-${i.props.field || '@'}`
-                }
-            }).join('_')
-        }
 
         const propsConfig = (plcList: tPlcType[]) => {
             const tableId = getTableId(plcList)

@@ -26,6 +26,12 @@ export interface iTableOptionCacheRegistryConfig<CacheData = any> {
     getCache: () => CacheData,
 }
 
-export const getTableId = (flatList: tPlcType[]): string => {
-    return flatList.map(getPlcKey).join('_')
+export const getTableId = (plcTypeList: tPlcType[]): string => {
+    return plcTypeList.map(i => {
+        if (i.group) {
+            return `${i.props.title || '#'}-${getTableId(i.children)}`
+        } else {
+            return `${i.props.title || '#'}-${i.props.field || '@'}`
+        }
+    }).join('_')
 }
