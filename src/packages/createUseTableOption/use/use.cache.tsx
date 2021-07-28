@@ -54,8 +54,8 @@ export function useTableOptionCache(
         await init.promise
     })
 
-    const tablePropsConfig = (sourceFlatList: tPlcType[]) => {
-        state.tableId = getTableId(sourceFlatList)
+    const tablePropsConfig = (sourceList: tPlcType[]) => {
+        state.tableId = getTableId(sourceList)
         state.cacheData = config.getCache(state.tableId) || {tableId: state.tableId, activeId: undefined, data: [],}
     }
 
