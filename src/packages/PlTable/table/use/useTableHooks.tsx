@@ -4,7 +4,7 @@ import React, {ReactNode} from "react";
 import {PlainScroll} from "../../../PlScroll";
 import {TableHoverPart} from "../utils/table.utils";
 import {tPlcType} from "../../plc/utils/plc.type";
-import {tPlcStateData} from "../../plc/utils/usePropsState";
+import {tPlcCacheStateData} from "../../plc/utils/usePropsState";
 
 export function useTableHooks() {
     const hooks = {
@@ -31,7 +31,7 @@ export function useTableHooks() {
         /*渲染行tr*/
         onRenderRow: createSyncHooks<(scope: { node: TableNode, row: any, content: ReactNode }) => void>(),
         /*配置列信息*/
-        onConfigPlc: createHooks<(data: { plcList: tPlcType[], stateData: tPlcStateData }) => void>(),
+        onConfigPlc: createHooks<(data: { plcList: tPlcType[], stateData: tPlcCacheStateData }) => void>(),
     }
 
     return hooks;

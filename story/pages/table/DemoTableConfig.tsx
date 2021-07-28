@@ -10,7 +10,7 @@ import PlTable from "../../../src/packages/PlTable";
 import {Plc} from "../../../src/packages/Plc";
 import PlcGroup from "../../../src/packages/PlTable/plc/core/PlcGroup";
 import {tPlcType} from "../../../src/packages/PlTable/plc/utils/plc.type";
-import {tPlcStateData} from "../../../src/packages/PlTable/plc/utils/usePropsState";
+import {tPlcCacheStateData} from "../../../src/packages/PlTable/plc/utils/usePropsState";
 import {getTableId} from "../../../src/packages/createUseTableOption/use/use.cache.utils";
 
 export default designPage(() => {
@@ -20,7 +20,7 @@ export default designPage(() => {
         const cache = (() => {
             const CACHE_KEY = '@@TABLE_CONFIG_CACHE'
             let cacheString = window.localStorage.getItem(CACHE_KEY)
-            let cacheData: Record<string, undefined | tPlcStateData> = {}
+            let cacheData: Record<string, undefined | tPlcCacheStateData> = {}
             if (!!cacheString) {
                 cacheData = JSON.parse(cacheString)
             }
@@ -28,7 +28,7 @@ export default designPage(() => {
                 get: (tableId: string) => {
                     return cacheData[tableId]
                 },
-                set: (tableId: string, stateData: tPlcStateData) => {
+                set: (tableId: string, stateData: tPlcCacheStateData) => {
                     cacheData[tableId] = stateData
                     window.localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData))
                 },
@@ -43,7 +43,7 @@ export default designPage(() => {
             }
         }
 
-        const propsOnConfigPlc = ({plcList, stateData}: { plcList: tPlcType[], stateData: tPlcStateData }) => {
+        const propsOnConfigPlc = ({plcList, stateData}: { plcList: tPlcType[], stateData: tPlcCacheStateData }) => {
             const tableId = getTableId(plcList)
             cache.set(tableId, stateData)
         }

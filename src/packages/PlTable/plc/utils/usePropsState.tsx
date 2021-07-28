@@ -33,13 +33,13 @@ export function usePropsState<Props extends Record<string, any>>(propsRef: { val
     }
 }
 
-export type tPlcState = {
+export type tPlcCacheState = {
     state: PlcGroupPropsType | PlcPropsType,
-    children?: tPlcStateData,
+    children?: tPlcCacheStateData,
     key: string,
 }
 
-export type tPlcStateData = Record<string, tPlcState>
+export type tPlcCacheStateData = Record<string, tPlcCacheState>
 
 export function getPlcKey(i: tPlcType) {
     return i.group ? ('G' + i.props.title || 'GT') : `${i.props.title || 'PT'}:${i.props.field || 'PF'}`
@@ -50,8 +50,8 @@ export function getPlcKey(i: tPlcType) {
  * @author  韦胜健
  * @date    2021/6/2 14:58
  */
-export function getPropsState(sourceList: tPlcType[]): tPlcStateData {
-    const stateList = [] as tPlcState[]
+export function getPropsState(sourceList: tPlcType[]): tPlcCacheStateData {
+    const stateList = [] as tPlcCacheState[]
     sourceList.forEach(i => {
         stateList.push({
             state: deepcopy(i.getState()),
@@ -62,7 +62,7 @@ export function getPropsState(sourceList: tPlcType[]): tPlcStateData {
     return stateList.reduce((prev, item) => {
         prev[item.key] = item
         return prev
-    }, {} as Record<string, tPlcState>)
+    }, {} as Record<string, tPlcCacheState>)
 }
 
 /**
@@ -70,7 +70,7 @@ export function getPropsState(sourceList: tPlcType[]): tPlcStateData {
  * @author  韦胜健
  * @date    2021/6/2 15:04
  */
-export function applyPropsState(stateData: tPlcStateData, plcList: tPlcType[]) {
+export function applyPropsState(stateData: tPlcCacheStateData, plcList: tPlcType[]) {
     plcList.forEach(plcType => {
         const key = getPlcKey(plcType)
         if (!!stateData[key]) {
