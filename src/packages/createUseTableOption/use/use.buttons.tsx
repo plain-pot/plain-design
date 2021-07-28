@@ -195,7 +195,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
             type: 'other',
             code: 'cache-setting',
             position: 'more',
-            command: 'alt+q',
+            command: 'alt+b',
             handler: () => {setting.openSetting(eTableOptionSettingView.cache)}
         }),
         importData: utils.createButton({
