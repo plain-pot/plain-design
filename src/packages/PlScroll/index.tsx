@@ -155,7 +155,7 @@ export const PlScroll = designComponent({
         const methods = {
             refresh: async () => {
                 await delay()
-
+                if (!refs.content!) {return}
                 const {scrollWidth: width1, scrollHeight: height1} = refs.content!
                 handler.contentResize({
                     width: Math.ceil(width1),
