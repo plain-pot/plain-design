@@ -21,6 +21,7 @@ import {Plc} from "../../../Plc";
 import {toArray} from "../../../../utils/toArray";
 import {tTableOptionCache} from "../use.cache";
 import {getPlcKey} from "../../../PlTable/plc/utils/usePropsState";
+import {tTableOptionFilter} from "../use.filter.state";
 
 interface iSeniorFilterData extends iFilterOption {
     id: string
@@ -45,12 +46,14 @@ export function useTableOptionSettingSeniorFilter(
         getSourceFlatPlcList,
         methods,
         cache,
+        filterState,
     }: {
         useTableOptionSettingInner: iTableOptionSettingInnerUser,
         hooks: tTableOptionHooks,
         getSourceFlatPlcList: () => tPlc[],
         methods: tTableOptionMethods,
         cache: tTableOptionCache,
+        filterState: tTableOptionFilter,
     }) {
 
     const DEFAULT_EXPRESSION_JOIN = '或者'
@@ -290,5 +293,16 @@ export function useTableOptionSettingSeniorFilter(
 
         if (queries.length === 0) {return prev}
         return [...prev, {queries, expression: expression}]
+    })
+
+    filterState.useState<any>({
+        seq: Infinity,
+        key: 'senior-filter',
+        title: '高级查询',
+        applyCache: () => {},
+        getCache: () => null,
+        getDisplay: () => () => null,
+        clear: () => {},
+        getActiveFilterCount: () => query.state.data.length
     })
 }
