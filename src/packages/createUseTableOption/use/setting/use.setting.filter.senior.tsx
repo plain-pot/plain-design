@@ -180,6 +180,7 @@ export function useTableOptionSettingSeniorFilter(
         beforeOpen: () => {
             edit.state.data = utils.copyData(query.state.data)
             edit.state.expression = query.state.expression
+            edit.state.isCustomExpression = query.state.isCustomExpression
         },
         render: () => <>
             <div className="pl-table-pro-setting-senior-filter">
@@ -295,6 +296,7 @@ export function useTableOptionSettingSeniorFilter(
         return [...prev, {queries, expression: expression}]
     })
 
+    /*只显示激活的筛选条件*/
     filterState.useState<any>({
         seq: Infinity,
         key: 'senior-filter',
