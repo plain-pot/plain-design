@@ -19,6 +19,8 @@ import PlTable from "../../../PlTable";
 import {PlcIndex} from "../../../PlcIndex";
 import {Plc} from "../../../Plc";
 import {toArray} from "../../../../utils/toArray";
+import {tTableOptionCache} from "../use.cache";
+import {getPlcKey} from "../../../PlTable/plc/utils/usePropsState";
 
 interface iSeniorFilterData extends iFilterOption {
     id: string
@@ -26,6 +28,12 @@ interface iSeniorFilterData extends iFilterOption {
 
 interface iSeniorFilterTargetData extends Omit<iFilterTargetOption, 'option'> {
     option: iSeniorFilterData,
+}
+
+interface iSeniorFilterCacheData {
+    data: Omit<iSeniorFilterData, 'filterConfig' | 'plc'>[],
+    expression: null | string,
+    isCustomExpression: boolean,
 }
 
 const ExpressionJoins = ['&&', '||', 'and', 'or', '并且', '或者']
@@ -36,16 +44,16 @@ export function useTableOptionSettingSeniorFilter(
         hooks,
         getSourceFlatPlcList,
         methods,
+        cache,
     }: {
         useTableOptionSettingInner: iTableOptionSettingInnerUser,
         hooks: tTableOptionHooks,
         getSourceFlatPlcList: () => tPlc[],
         methods: tTableOptionMethods,
+        cache: tTableOptionCache,
     }) {
 
     const DEFAULT_EXPRESSION_JOIN = '或者'
-
-    const isCustomExpression = reactive({value: false})
 
     const utils = {
         nextId: (() => {
@@ -62,6 +70,7 @@ export function useTableOptionSettingSeniorFilter(
             const state = reactive({
                 data: [] as iSeniorFilterData[],
                 expression: null as null | string,
+                isCustomExpression: false,
             })
             const ftoArr = computed(() => state.data.map(i => FilterConfig.getTargetOption(i)).filter(Boolean) as iSeniorFilterTargetData[])
 
@@ -72,6 +81,28 @@ export function useTableOptionSettingSeniorFilter(
         },
     }
 
+    /**
+     * 查询的时候的数据
+     * @author  韦胜健
+     * @date    2021/7/22 21:05
+     */
+    const query = (() => {
+        const {state, ftoArr, defaultExpression} = utils.createState()
+
+        const apply = () => {
+            state.data = utils.copyData(edit.state.data)
+            state.expression = edit.state.expression
+            state.isCustomExpression = edit.state.isCustomExpression
+            methods.pageMethods.reload()
+        }
+
+        return {
+            state,
+            defaultExpression,
+            apply,
+            ftoArr,
+        }
+    })()
 
     /**
      * 编辑的时候的数据
@@ -115,27 +146,29 @@ export function useTableOptionSettingSeniorFilter(
         }
     })()
 
-    /**
-     * 查询的时候的数据
-     * @author  韦胜健
-     * @date    2021/7/22 21:05
-     */
-    const query = (() => {
-        const {state, ftoArr, defaultExpression} = utils.createState()
-
-        const apply = () => {
-            state.data = utils.copyData(edit.state.data)
-            state.expression = edit.state.expression
-            methods.pageMethods.reload()
-        }
-
-        return {
-            state,
-            defaultExpression,
-            apply,
-            ftoArr,
-        }
-    })()
+    cache.registry<iSeniorFilterCacheData>({
+        cacheKey: 'filter-state-senior',
+        applyCache: ({plcList, cacheData}) => {
+            query.state.isCustomExpression = !cacheData ? false : cacheData.isCustomExpression
+            query.state.expression = !cacheData ? null : cacheData.expression
+            query.state.data = !cacheData ? [] : cacheData.data.map(item => {
+                const plc = plcList.find(i => i.props.title === item.label && i.props.field === item.field)
+                if (!plc) {return null}
+                return {
+                    ...item,
+                    filterConfig: plc.props.filterConfig,
+                    plc: plc,
+                }
+            }).filter(Boolean) as iSeniorFilterData[]
+        },
+        getCache: () => {
+            return {
+                expression: query.state.expression,
+                data: query.state.data.map(({filterConfig, plc, ...left}) => left),
+                isCustomExpression: query.state.isCustomExpression,
+            }
+        },
+    })
 
     useTableOptionSettingInner({
         key: eTableOptionSettingView.seniorFilter,
@@ -169,7 +202,7 @@ export function useTableOptionSettingSeniorFilter(
                                 </PlDropdownMenu>
                             }}
                         </PlDropdown>
-                        <PlCheckbox label="自定义查询表达式" v-model={isCustomExpression.value} onChange={utils.resetOperator}/>
+                        <PlCheckbox label="自定义查询表达式" v-model={edit.state.isCustomExpression} onChange={utils.resetOperator}/>
                     </div>
                     <PlButton label="清空" mode="stroke" status="error" onClick={edit.clear}/>
                 </div>
@@ -204,7 +237,7 @@ export function useTableOptionSettingSeniorFilter(
                 </div>
                 <div>
                     <h3>自定义表达式 :</h3>
-                    <PlInput textarea v-model={edit.state.expression} block disabled={!isCustomExpression.value}/>
+                    <PlInput textarea v-model={edit.state.expression} block disabled={!edit.state.isCustomExpression}/>
                 </div>
             </div>
         </>
@@ -212,7 +245,7 @@ export function useTableOptionSettingSeniorFilter(
 
     hooks.onCollectFilterData.use((prev) => {
         if (query.ftoArr.value.length === 0) {return prev}
-        let expression = !isCustomExpression.value || !query.state.expression ? query.defaultExpression.value : query.state.expression
+        let expression = !query.state.isCustomExpression || !query.state.expression ? query.defaultExpression.value : query.state.expression
         /*处理空格*/
         expression = expression.replace(/\s*(\|\||&&|或者|并且)\s*/gi, ' $1 ').replace(/\s+/, ' ')
 

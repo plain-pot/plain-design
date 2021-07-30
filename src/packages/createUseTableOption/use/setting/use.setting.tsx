@@ -40,7 +40,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
     const useTableOptionSettingInner: iTableOptionSettingInnerUser = (config) => {state.settingConfigs.push(config)}
 
     useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState})
-    useTableOptionSettingSeniorFilter({useTableOptionSettingInner, getSourceFlatPlcList, methods, hooks})
+    useTableOptionSettingSeniorFilter({useTableOptionSettingInner, getSourceFlatPlcList, methods, hooks, cache})
     useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
     useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList})
     useTableOptionSettingCache({useTableOptionSettingInner, cache})
