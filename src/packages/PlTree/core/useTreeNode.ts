@@ -213,11 +213,11 @@ export function useTreeNode<Node extends {
         }
     })()) as { root: Node, nodeMap: Record<string, Node> };
 
-    const dataEffectTrigger = throttle(() => {
+    const dataEffectTrigger = () => {
         const {root, nodeMap} = utils.resetData()
         state.root = reactive({...root}) as any
         state.nodeMap = nodeMap
-    }, 100)
+    }
 
     const stopWatchEffect = watchEffect(() => {
         state.root.data[field.children] = dataModel.value
