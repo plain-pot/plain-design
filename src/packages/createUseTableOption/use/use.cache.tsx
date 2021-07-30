@@ -39,11 +39,11 @@ export function useTableOptionCache(
     const getTimeString = () => plainDate.today('YYYY/MM/DD HH:mm:ss', '').getDisplay()
 
     const getDataByRegistration = () => {
-        return state.registration.reduce((prev, item) => {
+        return deepcopy(state.registration.reduce((prev, item) => {
             const {sourceList, sourceFlatPlcList} = state.getPlcData!()
             prev[item.cacheKey] = item.getCache({plcList: sourceFlatPlcList, sourceList})
             return prev
-        }, {} as Record<string, any>)
+        }, {} as Record<string, any>))
     }
 
     hooks.onCollectPlcData.use((plcData) => {
@@ -71,7 +71,7 @@ export function useTableOptionCache(
         const {sourceList, sourceFlatPlcList} = state.getPlcData!()
         if (!!cacheData) {
             state.registration.forEach(registry => {
-                registry.applyCache({plcList: sourceFlatPlcList, sourceList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
+                registry.applyCache({plcList: sourceFlatPlcList.filter(i => !!i.props.field && !!i.props.title), sourceList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
             })
             state.cacheData.activeId = cacheData.id
         } else {

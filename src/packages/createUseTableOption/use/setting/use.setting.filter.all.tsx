@@ -9,7 +9,7 @@ import PlEmpty from "../../../PlEmpty";
 export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState}: { useTableOptionSettingInner: iTableOptionSettingInnerUser, filterState: tTableOptionFilter }) {
 
     const state = reactive({
-        renderFilters: [] as { filter: FilterStateInitialization, display: () => ReactNode }[],
+        renderFilters: [] as { filter: FilterStateInitialization<any>, display: () => ReactNode }[],
     })
 
     const removeAll = () => {
@@ -17,7 +17,7 @@ export function useTableOptionSettingAllFilter({useTableOptionSettingInner, filt
         filterState.clearAll()
     }
 
-    const removeFilter = (filter: FilterStateInitialization) => {
+    const removeFilter = (filter: FilterStateInitialization<any>) => {
         state.renderFilters.splice(state.renderFilters.findIndex(i => i.filter === filter), 1)
         filterState.clearFilter(filter)
     }

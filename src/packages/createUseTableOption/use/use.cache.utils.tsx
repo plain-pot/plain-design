@@ -1,11 +1,4 @@
 import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
-import {getPlcKey} from "../../PlTable/plc/utils/usePropsState";
-
-interface iTableOptionCacheFilterData {}
-
-interface iTableOptionCacheSortData {}
-
-interface iTableOptionCacheConfigData {}
 
 export interface iTableOptionCacheItemData {
     id: number,
@@ -20,10 +13,21 @@ export interface iTableOptionCacheData {
     data: iTableOptionCacheItemData[],
 }
 
+export interface iTableOptionApplyCacheParam<CacheData> {
+    plcList: tPlc[],
+    cacheData: CacheData | undefined
+    sourceList: tPlcType[],
+}
+
+export interface iTableOptionGetCacheParam {
+    plcList: tPlc[],
+    sourceList: tPlcType[],
+}
+
 export interface iTableOptionCacheRegistryConfig<CacheData = any> {
     cacheKey: string,
-    applyCache: (data: { plcList: tPlc[], cacheData: CacheData | undefined, sourceList: tPlcType[] }) => void,
-    getCache: (data: { plcList: tPlc[], sourceList: tPlcType[] }) => CacheData,
+    applyCache: (param: iTableOptionApplyCacheParam<CacheData>) => void,
+    getCache: (param: iTableOptionGetCacheParam) => CacheData,
 }
 
 export const getTableId = (plcTypeList: tPlcType[]): string => {

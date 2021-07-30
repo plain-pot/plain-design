@@ -46,17 +46,21 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
 
     const {refs, onRef} = useRefs({check: PlcCheckRow})
 
-    const state = {
+    const freezeState = {
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         baseTableRef: () => null as null | tPlTable,
     }
+
+    const state = reactive({
+        data: new Map() as Map<tPlc, iFilterTypeData | undefined>
+    })
 
     const distinctFilterInAll = (() => {
         const displayState = reactive({
             distinctData: [] as iDistinctDataInAllFilter[],
         })
         const resetDistinctData = () => {
-            displayState.distinctData = Array.from(data.state.entries()).reduce((prev, [plc, filterTypeData]) => {
+            displayState.distinctData = Array.from(state.data.entries()).reduce((prev, [plc, filterTypeData]) => {
                 if (!!filterTypeData) {
                     const {rows, values} = filterTypeData
                     if (!!rows && rows.length > 0 && !!values && values.length > 0) {
@@ -102,13 +106,12 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         return {getDisplay}
     })();
 
-    const data = filterState.useState<Map<tPlc, iFilterTypeData | undefined>, Record<string, iFilterTypeData | undefined>>({
+    filterState.useState<Record<string, iFilterTypeData | undefined>>({
         seq: 4,
         key: 'distinct-filter',
         title: '去重筛选',
-        state: new Map(),
-        onReady: (flatPlcList, cacheData) => {
-            state.getSourceFlatPlcList = () => flatPlcList
+        applyCache: ({plcList, cacheData}) => {
+            freezeState.getSourceFlatPlcList = () => plcList
             if (!!cacheData) {
                 const map = new Map<tPlc, iFilterTypeData>()
                 Object.entries(cacheData).forEach(([key, filterTypeData]) => {
@@ -117,18 +120,18 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
                         map.set(plc, filterTypeData)
                     }
                 })
-                data.state = map
+                state.data = map
             }
         },
         getActiveFilterCount: (): number => {
-            return Array.from(data.state.values()).reduce((prev, filterTypeData) => prev + (!filterTypeData || !filterTypeData.values || filterTypeData.values.length === 0 ? 0 : 1), 0)
+            return Array.from(state.data.values()).reduce((prev, filterTypeData) => prev + (!filterTypeData || !filterTypeData.values || filterTypeData.values.length === 0 ? 0 : 1), 0)
         },
         getDisplay: distinctFilterInAll.getDisplay,
         clear: () => {
-            data.state.clear()
+            state.data.clear()
         },
-        getCacheData: (): Record<string, iFilterTypeData | undefined> => {
-            return Array.from(data.state.entries()).reduce((prev, [plc, fd]) => {
+        getCache: () => {
+            return Array.from(state.data.entries()).reduce((prev, [plc, fd]) => {
                 const key = getPlcKey(plc)
                 prev[key] = fd
                 return prev
@@ -136,16 +139,16 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         },
     })
 
-    const flatPlcListMap = computed((): Record<string, tPlc | undefined> => !state.getSourceFlatPlcList ? {} : state.getSourceFlatPlcList().reduce((prev, plc) => {
+    const flatPlcListMap = computed((): Record<string, tPlc | undefined> => !freezeState.getSourceFlatPlcList ? {} : freezeState.getSourceFlatPlcList().reduce((prev, plc) => {
         prev[getPlcKey(plc)] = plc
         return prev
     }, {} as Record<string, tPlc | undefined>))
 
-    hooks.onRefTable.use(table => {state.baseTableRef = () => table})
+    hooks.onRefTable.use(table => {freezeState.baseTableRef = () => table})
 
     /*查询的时候被收集筛选条件*/
     hooks.onCollectFilterData.use((prev) => {
-        let queries: iFilterQuery[] = Array.from(data.state.entries()).reduce((prev, [plc, filterTypeData]) => {
+        let queries: iFilterQuery[] = Array.from(state.data.entries()).reduce((prev, [plc, filterTypeData]) => {
             if (!filterTypeData || !filterTypeData.values || filterTypeData.values.length == 0) {
                 return prev
             }
@@ -174,7 +177,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         /*表格中使用的排序参数*/
         const sortData = await hooks.onCollectSortData.exec([])
 
-        const tableSlots = state.baseTableRef()!.slots.default()
+        const tableSlots = freezeState.baseTableRef()!.slots.default()
         const findReactNode = findRreactElement(tableSlots, ({props: {title, field}}) => title === plc.props.title && field === plc.props.field)
         // console.log({tableSlots, findReactNode,})
 
@@ -193,7 +196,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
 
             return () => <>
                 <PlTablePro option={tableOption}>
-                    <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={data.state.get(plc)?.rows}/>
+                    <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={state.data.get(plc)?.rows}/>
                     {findReactNode}
                 </PlTablePro>
             </>
@@ -212,10 +215,10 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
             cancelButton: true,
             onConfirm: () => {
                 const checked = refs.check?.getSelected();
-                (!!checked && checked.length > 0) ? data.state.set(plc, {
+                (!!checked && checked.length > 0) ? state.data.set(plc, {
                     rows: checked,
                     values: checked.map((i) => i[plc.props.field!]),
-                }) : data.state.delete(plc)
+                }) : state.data.delete(plc)
 
 
                 onRef.check(null)
@@ -250,7 +253,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
     }
 
     const clear = (plc: tPlc) => {
-        data.state.delete(plc)
+        state.data.delete(plc)
         methods.pageMethods.reload()
     }
 

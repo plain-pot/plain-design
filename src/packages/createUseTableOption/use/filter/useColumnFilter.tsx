@@ -1,5 +1,5 @@
 import {tTableOptionHooks} from "../use.hooks";
-import {classnames, computed} from "plain-design-composition";
+import {classnames, computed, reactive} from "plain-design-composition";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {FilterConfig, iFilterOption, iFilterQuery, iFilterTargetOption} from "../../../PlFilter/FilterConfig";
 import useContextmenu from "../../../useContextmenu";
@@ -26,14 +26,17 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
 
     const getColumnKey = (plc: tPlc) => plc.props.field! + (plc.props.title || '#_#')
 
-    const data = filterState.useState<iFilterStateDataMap, iFilterCacheDataMap>({
+    const state = reactive({
+        data: {} as iFilterStateDataMap
+    })
+
+    filterState.useState<iFilterCacheDataMap>({
         seq: 2,
         key: 'column-filter',
         title: '列查询',
-        state: {},
-        onReady: (flatPlcList, cacheData) => {
-            const oldData = data.state as iFilterStateDataMap
-            data.state = flatPlcList.reduce((prev, plc) => {
+        applyCache: ({plcList, cacheData}) => {
+            const oldData = state.data
+            state.data = plcList.reduce((prev, plc) => {
                 const key = getColumnKey(plc)
                 if (!!oldData[key]) {
                     prev[key] = {...oldData[key]}
@@ -82,13 +85,13 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
             })
         },
         clear: () => {
-            Object.values(data.state as iFilterStateDataMap).forEach(i => {
+            Object.values(state.data).forEach(i => {
                 i.value = undefined
                 i.filterName = i.plc!.props.filterName
             })
         },
-        getCacheData: () => {
-            const s: iFilterStateDataMap = data.state as any
+        getCache: () => {
+            const s = state.data
             return Object.entries(s).reduce((prev, [key, {filterConfig, plc, ...left}]) => {
                 prev[key] = left
                 return prev
@@ -97,7 +100,7 @@ export function useTableOptionColumnFilter({hooks, methods, customConfig, sortSt
     })
 
     /*列目标筛选配置信息对象*/
-    const columnFilterTargetDataMap = computed(() => Object.entries(data.state).reduce((prev, [columnKey, option]) => {
+    const columnFilterTargetDataMap = computed(() => Object.entries(state.data).reduce((prev, [columnKey, option]) => {
         const fto = FilterConfig.getTargetOption(option)
         !!fto && (prev[columnKey] = fto)
         return prev

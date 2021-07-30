@@ -2,89 +2,62 @@ import {tTableOptionHooks} from "./use.hooks";
 import {tPlc} from "../../PlTable/plc/utils/plc.type";
 import {ReactNode} from "react";
 import {reactive} from "plain-design-composition";
-import {defer} from "../../../utils/defer";
 import {tTableOptionMethods} from "./use.methods";
-import {getPlcKey} from "../../PlTable/plc/utils/usePropsState";
+import {tTableOptionCache} from "./use.cache";
+import {iTableOptionApplyCacheParam, iTableOptionGetCacheParam} from "./use.cache.utils";
 
-export interface FilterStateInitialization<State = any, Cache = any> {
-    seq: number,
+export interface FilterStateInitialization<CacheData> {
+    seq: number,                                                                    // 在filter all中的显示顺序
     key: string,                                                                    // 每个筛选类型自己的唯一标识
-    title: string,
-    state: State,                                                                   // 每个筛选自己的状态数据
-    onReady: (flatPlcList: tPlc[], cacheData: Cache) => void,                       // 此时已经得到了列以及缓存数据
+    title: string,                                                                  // 在filter all中的显示标题
+    applyCache: (param: iTableOptionApplyCacheParam<CacheData>) => void,            // 应用缓存
+    getCache: (param: iTableOptionGetCacheParam) => any,                            // 获取缓存
     getActiveFilterCount: () => number,                                             // 显示当前有多少激活的筛选条件
     getDisplay: () => (() => ReactNode),                                            // 在【所有筛选】面板中展示
     clear: () => void,                                                              // 清空筛选条件
-    getCacheData: () => Cache,                                                      // 获取要缓存的数据
 }
 
-const CacheUtils = (() => {
-
-    const CACHE_KEY = '@@TABLE_CACHE_KEY'
-
-    const cacheData = (() => {
-        const cacheString = window.localStorage.getItem(CACHE_KEY)
-        if (!cacheString) {
-            return {}
-        } else {
-            return JSON.parse(cacheString) as Record<string, any>
-        }
-    })()
-
-    const save = (tableKey: string, filters: FilterStateInitialization[]) => {
-        cacheData[tableKey] = filters.reduce((prev, item) => (prev[item.key] = item.getCacheData(), prev), {} as Record<string, any>)
-        window.localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData))
-    }
-
-    const restore = (tableKey: string) => {
-        return cacheData[tableKey]
-    }
-
-    return {save, restore}
-})();
-
-export function useTableOptionFilterState({hooks, methods}: { hooks: tTableOptionHooks, methods: tTableOptionMethods }) {
+export function useTableOptionFilterState({hooks, methods, cache}: {
+    hooks: tTableOptionHooks,
+    methods: tTableOptionMethods,
+    cache: tTableOptionCache,
+}) {
 
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),                        // 原始列信息对象
         plcKeyString: '',                                                           // 表格的唯一标识
-        filters: [] as FilterStateInitialization[],                                 // 已经注册的筛选类型
+        filters: [] as FilterStateInitialization<any>[],                                 // 已经注册的筛选类型
         activeCount: 0,
     })
 
-    const init = defer()
-
-    hooks.onCollectPlcData.use(val => {
-        const flatPlcList = val.sourceFlatPlcList.filter(i => !!i.props.field)
-        const plcKeyString = flatPlcList.map(getPlcKey).join('.')
-        const cacheData = CacheUtils.restore(plcKeyString)
-
-        state.getSourceFlatPlcList = () => flatPlcList
-        state.plcKeyString = plcKeyString
-
-        state.filters.forEach(filter => {
-            filter.onReady(flatPlcList, !cacheData ? undefined : cacheData[filter.key])
-        })
-
-        init.resolve()
+    cache.registry<Record<string, any>>({
+        cacheKey: 'filter-state',
+        applyCache: ({sourceList, plcList, cacheData}) => {
+            cacheData = cacheData || {}
+            state.filters.forEach(filter => {
+                filter.applyCache({
+                    plcList,
+                    sourceList,
+                    cacheData: !cacheData ? undefined : cacheData[filter.key],
+                })
+            })
+        },
+        getCache: (param) => {
+            return state.filters.reduce((prev, item) => {
+                prev[item.key] = item.getCache(param)
+                return prev
+            }, {} as Record<string, any>)
+        },
     })
 
     hooks.onBeforeLoad.use(() => {
         state.activeCount = state.filters.reduce((prev, i) => prev + i.getActiveFilterCount(), 0)
     })
 
-    hooks.onCollectFilterData.use(async () => {
-        await init.promise
-    })
-
-    function useState<State, Cache>(initialization: FilterStateInitialization<State, Cache>): FilterStateInitialization<State, Cache> {
+    function useState<CacheData = any>(initialization: FilterStateInitialization<CacheData>): void {
         const data = reactive(initialization)
         state.filters = [data, ...state.filters].sort((a, b) => a.seq - b.seq)
         return data as any
-    }
-
-    function save() {
-        CacheUtils.save(state.plcKeyString, state.filters)
     }
 
     const clearAll = () => {
@@ -92,12 +65,12 @@ export function useTableOptionFilterState({hooks, methods}: { hooks: tTableOptio
         methods.pageMethods.reload()
     }
 
-    const clearFilter = (filter: FilterStateInitialization) => {
+    const clearFilter = (filter: FilterStateInitialization<any>) => {
         filter.clear()
         methods.pageMethods.reload()
     }
 
-    return {useState, save, state, clearAll, clearFilter}
+    return {useState, state, clearAll, clearFilter}
 }
 
 export type tTableOptionFilter = ReturnType<typeof useTableOptionFilterState>

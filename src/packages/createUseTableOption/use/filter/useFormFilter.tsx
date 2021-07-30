@@ -14,19 +14,19 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),
         isShow: false,
+        data: [] as iFilterOption[],
     })
 
-    const data = filterState.useState<iFilterOption[], Record<string, iFilterCacheData>>({
+    filterState.useState<Record<string, iFilterCacheData>>({
         seq: 3,
         key: 'form-filter',
         title: '表单查询',
-        state: [],
-        onReady(flatPlcList, cacheData) {
-            state.getSourceFlatPlcList = () => flatPlcList
+        applyCache({plcList, cacheData}) {
+            state.getSourceFlatPlcList = () => plcList
             cacheData = cacheData || {}
-            data.state = flatPlcList.map(plc => {
+            state.data = plcList.map(plc => {
                 const key = getPlcKey(plc)
-                if (!!cacheData[key]) {
+                if (!!cacheData && !!cacheData[key]) {
                     return {...cacheData[key]!, plc, filterConfig: plc.props.filterConfig}
                 } else {
                     return createFilterOptionByPlc(plc)
@@ -54,12 +54,12 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
             })
         },
         clear: () => {
-            if (!data.state) {return}
-            data.state.forEach(fo => FilterConfig.clearFoValue(fo))
+            if (!state.data || state.data.length === 0) {return}
+            state.data.forEach(fo => FilterConfig.clearFoValue(fo))
         },
-        getCacheData: (): Record<string, iFilterCacheData> => {
-            if (!data.state) {return {}}
-            return data.state.reduce((prev, fo) => {
+        getCache: () => {
+            if (!state.data || state.data.length === 0) {return {}}
+            return state.data.reduce((prev, fo) => {
                 const key = getPlcKey(fo.plc!)
                 const {plc, filterConfig, ...left} = fo
                 prev[key] = left
@@ -68,7 +68,7 @@ export function useTableOptionFormFilter({hooks, methods, filterState}: { hooks:
         },
     })
 
-    const ftoArr = computed((): iFilterTargetOption[] => data.state.map(i => FilterConfig.getTargetOption(i)).filter(Boolean) as iFilterTargetOption[])
+    const ftoArr = computed((): iFilterTargetOption[] => state.data.map(i => FilterConfig.getTargetOption(i)).filter(Boolean) as iFilterTargetOption[])
 
     hooks.onCollectFilterData.use(async data => {
         if (ftoArr.value.length === 0) {return data}

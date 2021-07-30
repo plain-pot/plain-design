@@ -19,21 +19,26 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
 
     const state = reactive({
         getSourceFlatPlcList: null as null | (() => tPlc[]),                        // 原始列信息对象
+        data: null as any | iFilterOption,
     })
 
-    const data = filterState.useState<iFilterOption | null, iFilterCacheData | null>({
+    filterState.useState<iFilterCacheData>({
         seq: 1,
-        state: null,
         key: 'search-filter',
         title: '搜索栏',
-        onReady(flatPlcList, cacheData) {
+        getActiveFilterCount: () => {
+            if (!filterTargetOption.value) {return 0}
+            const queries = FilterConfig.formatToQuery(filterTargetOption.value)
+            return (!!queries && toArray(queries).length > 0 ? 1 : 0)
+        },
+        applyCache({plcList, cacheData}) {
 
             let fo: iFilterOption | null = null
 
-            let defaultPlc: tPlc | null = flatPlcList[0];
+            let defaultPlc: tPlc | null = plcList[0];
             let cachePlc: tPlc | null = null;
 
-            flatPlcList.forEach(i => {
+            plcList.forEach(i => {
                 if (!!cacheData) {
                     if (i.props.title === cacheData.label && i.props.field === cacheData.field) {
                         cachePlc = i
@@ -51,35 +56,31 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
             }
 
             if (!!fo) {
-                data.state = fo
+                state.data = fo
             }
 
-            state.getSourceFlatPlcList = () => flatPlcList
+            state.getSourceFlatPlcList = () => plcList
         },
-        getActiveFilterCount: () => {
-            if (!filterTargetOption.value) {return 0}
-            const queries = FilterConfig.formatToQuery(filterTargetOption.value)
-            return (!!queries && toArray(queries).length > 0 ? 1 : 0)
-        },
+
         getDisplay: () => {
             return () => render({showAllFilterButton: false, showFormFilterExpander: false, width: '100%'})
         },
         clear: () => {
-            if (!data.state) {return}
-            FilterConfig.clearFoValue(data.state)
+            if (!state.data) {return}
+            FilterConfig.clearFoValue(state.data)
         },
-        getCacheData: (): iFilterCacheData | null => {
-            if (!data.state) {return null}
-            const {plc, filterConfig, ...left} = data.state as iFilterOption
+        getCache: () => {
+            if (!state.data) {return null}
+            const {plc, filterConfig, ...left} = state.data as iFilterOption
             return left
         },
     })
 
-    const filterTargetOption = computed(() => !!data.state ? FilterConfig.getTargetOption(data.state) : null)
+    const filterTargetOption = computed(() => !!state.data ? FilterConfig.getTargetOption(state.data) : null)
 
     const onFieldChange = (field: string) => {
         const plc = state.getSourceFlatPlcList!().find(i => i.props.field === field)!
-        data.state = createFilterOptionByPlc(plc)
+        state.data = createFilterOptionByPlc(plc)
     }
     const onConfirm = () => methods.pageMethods.reload()
 
