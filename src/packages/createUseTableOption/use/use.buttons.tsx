@@ -259,46 +259,48 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
 
         return <>
             {prev}
-            {[_1, _2, _3]
-                .filter(Boolean)
-                .map(({render, icon, disabled, handler, seq, label}, index) => (
-                    !!render ? render() : <PlButton
-                        key={index}
-                        icon={icon}
-                        disabled={disabled}
-                        onClick={handler}
-                        label={label}
-                        style={{order: String(seq)}}
-                    />
-                ))}
-            {more.length > 0 && <>
-                <PlDropdown placement="bottom-end" width="190" height={null as any}>
-                    {{
-                        reference: ({open}) => (
-                            <PlButton>
-                                <span>更多</span>
-                                <PlIcon icon={'el-icon-arrow-down'} style={{
-                                    transition: 'transform 200ms linear',
-                                    transform: `rotateX(${open ? 180 : 0}deg)`,
-                                }}/>
-                            </PlButton>
-                        ),
-                        popper: () => (
-                            <PlDropdownMenu>
-                                {more.map(({label, icon, disabled, handler, seq, command, render}, index) => (
-                                    !!render ? render() : <PlDropdownOption
-                                        key={index}
-                                        label={label + (!command ? '' : `（${toArray(command!).map(i => i.toUpperCase()).join(',')}）`)}
-                                        icon={icon || undefined}
-                                        disabled={disabled}
-                                        onClick={handler}
-                                    />
-                                ))}
-                            </PlDropdownMenu>
-                        )
-                    }}
-                </PlDropdown>
-            </>}
+            <PlButtonGroup>
+                {[_1, _2, _3]
+                    .filter(Boolean)
+                    .map(({render, icon, disabled, handler, seq, label}, index) => (
+                        !!render ? render() : <PlButton
+                            key={index}
+                            icon={icon}
+                            disabled={disabled}
+                            onClick={handler}
+                            label={label}
+                            style={{order: String(seq)}}
+                        />
+                    ))}
+                {more.length > 0 && <>
+                    <PlDropdown placement="bottom-end" width="190" height={null as any}>
+                        {{
+                            reference: ({open}) => (
+                                <PlButton>
+                                    <span>更多</span>
+                                    <PlIcon icon={'el-icon-arrow-down'} style={{
+                                        transition: 'transform 200ms linear',
+                                        transform: `rotateX(${open ? 180 : 0}deg)`,
+                                    }}/>
+                                </PlButton>
+                            ),
+                            popper: () => (
+                                <PlDropdownMenu>
+                                    {more.map(({label, icon, disabled, handler, seq, command, render}, index) => (
+                                        !!render ? render() : <PlDropdownOption
+                                            key={index}
+                                            label={label + (!command ? '' : `（${toArray(command!).map(i => i.toUpperCase()).join(',')}）`)}
+                                            icon={icon || undefined}
+                                            disabled={disabled}
+                                            onClick={handler}
+                                        />
+                                    ))}
+                                </PlDropdownMenu>
+                            )
+                        }}
+                    </PlDropdown>
+                </>}
+            </PlButtonGroup>
         </>
     })
 

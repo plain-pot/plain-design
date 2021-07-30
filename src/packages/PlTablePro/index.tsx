@@ -54,9 +54,7 @@ export const PlTablePro = designComponent({
                         {props.option.filter.searchFilter.render()}
                         <span/>
                         <div className="pl-table-pro-operation">
-                            <PlButtonGroup>
-                                {props.option.hooks.onButtons.exec(undefined)}
-                            </PlButtonGroup>
+                            {props.option.hooks.onButtons.exec(undefined)}
                         </div>
                     </div>
                     {tableProRenderConfigs.map((i, index) => (
