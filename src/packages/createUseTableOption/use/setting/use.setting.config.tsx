@@ -122,23 +122,23 @@ export function useTableOptionSettingConfig(
                     <PlcIndex/>
                     <PlcDraggier/>
                     <PlcInput title="标题" field="title"/>
-                    <PlcSelect title="对齐方式" field="align">
+                    <PlcSelect title="对齐方式" field="align" width={100}>
                         <PlSelectOption label="左对齐" val="left"/>
                         <PlSelectOption label="居中对齐" val="center"/>
                         <PlSelectOption label="右对齐" val="right"/>
                     </PlcSelect>
-                    <PlcNumber title="宽度" field="width"/>
-                    <Plc title="固定" width={50} align="center" field="fixed" addEditPadding>
+                    <PlcNumber title="宽度" field="width" width={130}/>
+                    <Plc title="固定" width={60} align="center" field="fixed" addEditPadding>
                         {{
                             normal: ({row}) => <PlCheckbox modelValue={row.fixed === 'left'} customReadonly onClick={() => (row.fixed = (row.fixed === 'left' ? undefined : 'left'), handler.onFixed(row as any))}/>
                         }}
                     </Plc>
-                    <Plc title="隐藏" width={50} align="center" field="hide" addEditPadding>
+                    <Plc title="隐藏" width={60} align="center" field="hide" addEditPadding>
                         {{
                             normal: ({row}) => <PlCheckbox modelValue={row.hide === true} customReadonly onClick={() => (row.hide = (row.hide === true ? undefined : true))}/>
                         }}
                     </Plc>
-                    <Plc title={' '} fit/>
+                    <Plc title={' '} fit width={10}/>
                 </PlTable>
             </div>
         )
