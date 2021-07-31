@@ -112,16 +112,16 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         title: '去重筛选',
         applyCache: ({plcList, cacheData}) => {
             freezeState.getSourceFlatPlcList = () => plcList
+            const map = new Map<tPlc, iFilterTypeData>()
             if (!!cacheData) {
-                const map = new Map<tPlc, iFilterTypeData>()
                 Object.entries(cacheData).forEach(([key, filterTypeData]) => {
                     const plc = flatPlcListMap.value[key]
                     if (!!plc && !!filterTypeData) {
                         map.set(plc, filterTypeData)
                     }
                 })
-                state.data = map
             }
+            state.data = map
         },
         getActiveFilterCount: (): number => {
             return Array.from(state.data.values()).reduce((prev, filterTypeData) => prev + (!filterTypeData || !filterTypeData.values || filterTypeData.values.length === 0 ? 0 : 1), 0)

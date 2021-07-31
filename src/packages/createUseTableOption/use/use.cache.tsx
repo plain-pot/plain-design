@@ -68,10 +68,12 @@ export function useTableOptionCache(
     function applyCache(activeId: number | undefined, autoReload = true) {
 
         const cacheData = activeId == null ? null : state.cacheData.data.find(i => i.id == activeId)
-        const {sourceList, sourceFlatPlcList} = state.getPlcData!()
+        let {sourceList, sourceFlatPlcList} = state.getPlcData!()
+        sourceFlatPlcList = sourceFlatPlcList.filter(i => !!i.props.field && !!i.props.title)
+
         if (!!cacheData) {
             state.registration.forEach(registry => {
-                registry.applyCache({plcList: sourceFlatPlcList.filter(i => !!i.props.field && !!i.props.title), sourceList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
+                registry.applyCache({plcList: sourceFlatPlcList, sourceList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
             })
             state.cacheData.activeId = cacheData.id
         } else {
