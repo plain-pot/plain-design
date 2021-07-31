@@ -48,7 +48,7 @@ export function useTableOptionCache(
 
     hooks.onCollectPlcData.use((plcData) => {
         state.getPlcData = () => plcData
-        applyCache(undefined, false)
+        applyCache(state.cacheData.activeId, false)
         init.resolve()
     })
 
@@ -66,7 +66,7 @@ export function useTableOptionCache(
     }
 
     function applyCache(activeId: number | undefined, autoReload = true) {
-        if (!activeId) {activeId = state.cacheData.activeId}
+
         const cacheData = activeId == null ? null : state.cacheData.data.find(i => i.id == activeId)
         const {sourceList, sourceFlatPlcList} = state.getPlcData!()
         if (!!cacheData) {
