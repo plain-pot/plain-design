@@ -1,7 +1,7 @@
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTableOptionHooks} from "./use.hooks";
 import {getTableId, iTableOptionCacheData, iTableOptionCacheItemData, iTableOptionCacheRegistryConfig} from "./use.cache.utils";
-import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
+import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 import {plainDate} from "../../../utils/plainDate";
 import useMessage from "../../useMessage";
 import {deepcopy} from "plain-utils/object/deepcopy";
@@ -68,17 +68,18 @@ export function useTableOptionCache(
     function applyCache(activeId: number | undefined, autoReload = true) {
 
         const cacheData = activeId == null ? null : state.cacheData.data.find(i => i.id == activeId)
-        let {sourceList, sourceFlatPlcList} = state.getPlcData!()
+        const plcData = state.getPlcData!()
+        let {sourceFlatPlcList} = plcData
         sourceFlatPlcList = sourceFlatPlcList.filter(i => !!i.props.field && !!i.props.title)
 
         if (!!cacheData) {
             state.registration.forEach(registry => {
-                registry.applyCache({plcList: sourceFlatPlcList, sourceList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
+                registry.applyCache({plcList: sourceFlatPlcList, plcData, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
             })
             state.cacheData.activeId = cacheData.id
         } else {
             state.registration.forEach(registry => {
-                registry.applyCache({plcList: sourceFlatPlcList, sourceList, cacheData: undefined})
+                registry.applyCache({plcList: sourceFlatPlcList, plcData, cacheData: undefined})
             })
             state.cacheData.activeId = undefined
         }
