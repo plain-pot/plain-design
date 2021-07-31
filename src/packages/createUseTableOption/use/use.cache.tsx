@@ -74,12 +74,12 @@ export function useTableOptionCache(
 
         if (!!cacheData) {
             state.registration.forEach(registry => {
-                registry.applyCache({plcList: sourceFlatPlcList, plcData, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
+                registry.applyCache({plcList: sourceFlatPlcList, sourceList: sourceFlatPlcList, cacheData: deepcopy(cacheData.data[registry.cacheKey])})
             })
             state.cacheData.activeId = cacheData.id
         } else {
             state.registration.forEach(registry => {
-                registry.applyCache({plcList: sourceFlatPlcList, plcData, cacheData: undefined})
+                registry.applyCache({plcList: sourceFlatPlcList, sourceList: sourceFlatPlcList, cacheData: undefined})
             })
             state.cacheData.activeId = undefined
         }
