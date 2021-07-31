@@ -5,8 +5,8 @@ import {reactive} from "plain-design-composition";
 import React, {ReactNode} from "react";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {iFilterData} from "../../PlFilter/FilterConfig";
-import {tPlcType} from "../../PlTable/plc/utils/plc.type";
-import {iTableOptionCacheItemData} from "./use.cache.utils";
+import {tPlc, tPlcType} from "../../PlTable/plc/utils/plc.type";
+import {iTableOptionCacheData, iTableOptionCacheItemData} from "./use.cache.utils";
 
 export interface iTableProRenderConfig {
     seq: number,
@@ -115,6 +115,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onTableRender: createSyncHooks<(renderConfigs: iTableProRenderConfig[]) => void>(true),// table渲染钩子
         onInit: createHooks<() => void>(),                                                          // 异步钩子函数，等待init执行完毕之后，再渲染table
         onQueryParams: createHooks<() => PlainObject>(),                                            // 异步钩子函数，获取查询参数
+        onTableConfig: createSyncHooks<(data: { cacheData: iTableOptionCacheData, sourceList: tPlcType[], flatList: tPlc[] }) => void>(),     // 同步钩子函数，table.props.config执行动作
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数

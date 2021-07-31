@@ -7,6 +7,7 @@ import useMessage from "../../useMessage";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import {defer} from "../../../utils/defer";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
+import {TablePropsConfig} from "../../PlTable/table/utils/table.utils";
 
 export function useTableOptionCache(
     {
@@ -32,7 +33,21 @@ export function useTableOptionCache(
         getPlcData: null as null | (() => tPlcData),
     }
 
-    const init = defer()
+    const init = (() => {
+        const dfd = defer()
+        let count = 1
+        const run = (plcData: tPlcData) => {
+            state.getPlcData = () => plcData
+            if (count < 1) {return}
+            count--
+            applyCache(state.cacheData.activeId, false)
+            dfd.resolve()
+        }
+        return {
+            run,
+            promise: dfd.promise,
+        }
+    })()
 
     const $message = useMessage()
 
@@ -47,18 +62,17 @@ export function useTableOptionCache(
     }
 
     hooks.onCollectPlcData.use((plcData) => {
-        state.getPlcData = () => plcData
-        applyCache(state.cacheData.activeId, false)
-        init.resolve()
+        init.run(plcData)
     })
 
     hooks.onBeginLoad.use(async () => {
         await init.promise
     })
 
-    const tablePropsConfig = (sourceList: tPlcType[]) => {
+    const tablePropsConfig: TablePropsConfig = (sourceList, flatList) => {
         state.tableId = getTableId(sourceList)
         state.cacheData = config.getCache(state.tableId) || {tableId: state.tableId, activeId: undefined, data: [],}
+        hooks.onTableConfig.exec({cacheData: state.cacheData, sourceList, flatList})
     }
 
     function registry<CacheData = any>(registryConfig: iTableOptionCacheRegistryConfig<CacheData>) {

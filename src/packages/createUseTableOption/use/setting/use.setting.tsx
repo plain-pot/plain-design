@@ -42,7 +42,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
     useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState})
     useTableOptionSettingSeniorFilter({useTableOptionSettingInner, getSourceFlatPlcList, methods, hooks, cache, filterState})
     useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
-    useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList})
+    useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList, cache, hooks})
     useTableOptionSettingCache({useTableOptionSettingInner, cache})
     useTableOptionSettingImport({useTableOptionSettingInner})
     useTableOptionSettingExport({useTableOptionSettingInner})
