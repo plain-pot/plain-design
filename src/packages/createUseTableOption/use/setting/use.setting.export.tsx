@@ -85,10 +85,38 @@ export function useTableOptionSettingExport(
             type: 'export-selected',
             title: '选择需要导出的数据',
             desc: '自定义选择导出需要的数据。',
-            handler: async () => {
+            handler: async (exportPlcData) => {
                 closeSetting()
+                await delay(400)
                 const rows = await check.openToCheck()
-                console.log(rows)
+                const exportData = rows.map(row => {
+                    const data: any = {}
+                    exportPlcData.forEach(({field}) => data[field] = row[field])
+                    return data
+                })
+
+                // 导出excel
+                const [ExcelJs, FileSaver] = await Promise.all([
+                    import('exceljs'),
+                    // @ts-ignore
+                    import('file-saver'),
+                ])
+                const workbook = new ExcelJs.Workbook();
+                const worksheet = workbook.addWorksheet('sheet');
+                worksheet.columns = [
+                    {header: 'Id', key: 'id', width: 10},
+                    {header: 'Name', key: 'name', width: 32},
+                    {header: 'D.O.B.', key: 'DOB', width: 10, outlineLevel: 1}
+                ];
+                worksheet.columns = exportPlcData.map(({title, field}) => ({header: title, key: field}))
+                exportData.forEach(data => {
+                    worksheet.addRow(data);
+                })
+                const buffer = await workbook.xlsx.writeBuffer();
+                FileSaver.saveAs(
+                    new Blob([buffer], {type: 'application/vnd.ms-excel'}),
+                    "hello world.xlsx"
+                );
             }
         }
     ]
