@@ -232,22 +232,25 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             await ((editType || config.editType) === eTableProEditType.inline ? editInline() : editForm())
         }
 
-        const batchInsert = async () => {
+        const batchInsert = async (batchInsertConfig?: { rows: any[] }) => {
             await loadingMethods.save()
-            const num = await new Promise<number>((resolve, reject) => {
-                $$dialog({
-                    editRequired: true,
-                    editType: 'number',
-                    editValue: 10,
-                    onConfirm: val => resolve(val as any),
-                    onCancel: reject,
-                    confirmButton: true,
-                    cancelButton: true,
+
+            const newRows = batchInsertConfig?.rows || await (async () => {
+                const num = await new Promise<number>((resolve, reject) => {
+                    $$dialog({
+                        editRequired: true,
+                        editType: 'number',
+                        editValue: 10,
+                        onConfirm: val => resolve(val as any),
+                        onCancel: reject,
+                        confirmButton: true,
+                        cancelButton: true,
+                    })
                 })
-            })
+                return new Array(num).fill(null).map(() => deepcopy((!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))))
+            })()
 
             tableState.editingWhenAddRow = true
-            const newRows = new Array(num).fill(null).map(() => deepcopy((!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))))
             tableState.list.unshift(...newRows)
             await nextTick()
             const newNodes = freezeState.table.flatNodes.value.slice(0, newRows.length)

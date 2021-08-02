@@ -118,7 +118,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
     useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
     useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList, cache, hooks})
     useTableOptionSettingCache({useTableOptionSettingInner, cache})
-    useTableOptionSettingImport({useTableOptionSettingInner, getSourceFlatPlcList})
+    useTableOptionSettingImport({useTableOptionSettingInner, getSourceFlatPlcList, methods, closeSetting})
     useTableOptionSettingExport({useTableOptionSettingInner, closeSetting, check, getSourceFlatPlcList, tableState, hooks})
 
     return {openSetting, closeSetting}
