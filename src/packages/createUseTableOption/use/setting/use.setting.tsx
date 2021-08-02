@@ -17,14 +17,16 @@ import {tTableOptionFilter} from "../use.filter.state";
 import {tTableOptionCache} from "../use.cache";
 import {useTableOptionSettingCache} from "./use.setting.cache";
 import {tTableOptionCheck} from "../check/use.check";
+import {iTableOptionState} from "../../createUseTableOption.utils";
 
-export function useTableOptionSetting({hooks, methods, sortState, filterState, cache, check}: {
+export function useTableOptionSetting({hooks, methods, sortState, filterState, cache, check, tableState}: {
     hooks: tTableOptionHooks,
     methods: tTableOptionMethods,
     sortState: tTableOptionSort,
     filterState: tTableOptionFilter,
     cache: tTableOptionCache,
     check: tTableOptionCheck,
+    tableState: iTableOptionState,
 }) {
 
     const $dialog = useDialog()
@@ -117,7 +119,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
     useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList, cache, hooks})
     useTableOptionSettingCache({useTableOptionSettingInner, cache})
     useTableOptionSettingImport({useTableOptionSettingInner})
-    useTableOptionSettingExport({useTableOptionSettingInner, closeSetting, check, getSourceFlatPlcList})
+    useTableOptionSettingExport({useTableOptionSettingInner, closeSetting, check, getSourceFlatPlcList, tableState})
 
     return {openSetting, closeSetting}
 }

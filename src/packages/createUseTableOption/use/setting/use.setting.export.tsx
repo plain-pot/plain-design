@@ -17,6 +17,7 @@ import PlcCheckRow from "../../../PlcCheckRow";
 import PlLoading from "../../../PlLoading";
 import PlIcon from "../../../PlIcon";
 import {delay} from "plain-utils/utils/delay";
+import {iTableOptionState} from "../../createUseTableOption.utils";
 
 interface ExportOption {
     type: string,
@@ -36,11 +37,13 @@ export function useTableOptionSettingExport(
         closeSetting,
         check,
         getSourceFlatPlcList,
+        tableState,
     }: {
         useTableOptionSettingInner: iTableOptionSettingInnerUser,
         closeSetting: () => void,
         check: tTableOptionCheck,
         getSourceFlatPlcList: () => tPlc[],
+        tableState: iTableOptionState,
     }) {
 
     const $message = useMessage()
@@ -105,9 +108,8 @@ export function useTableOptionSettingExport(
             type: 'export-page',
             title: '导出当前页数据',
             desc: '将表格当前展示的数据导出。',
-            handler: async () => {
-                await delay(3000)
-
+            handler: async (exportPlcData) => {
+                await save(tableState.list, exportPlcData)
             }
         }
 
