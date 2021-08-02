@@ -51,6 +51,7 @@ export const PlArrowStep = designComponent({
         return {
             refer: {
                 refs,
+                props,
             },
             render: () => (
                 index.value != null ? (

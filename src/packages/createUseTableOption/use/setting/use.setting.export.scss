@@ -1,8 +1,9 @@
 @include theme {
   .pl-table-pro-setting-export {
     .pl-table-pro-setting-export-option {
-      padding: 12px;
+      padding: 12px 12px 12px 50px;
       transition: background-color linear 300ms;
+      position: relative;
 
       &:hover {
         background-color: $colorPrimaryLight;
@@ -11,6 +12,17 @@
 
       &:not(:first-child) {
         border-top: solid 1px $ibl;
+      }
+
+      .pl-table-pro-setting-export-option-radio {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .pl-table-pro-setting-export-option-title {
