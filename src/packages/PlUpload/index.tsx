@@ -194,6 +194,9 @@ export const PlUpload = designComponent({
                             .map(type => type.trim())
                             .filter(type => type)
                             .some(acceptedType => {
+                                if (acceptedType === type) {
+                                    return true
+                                }
                                 if (/\..+$/.test(acceptedType)) {
                                     return extension === acceptedType;
                                 }
