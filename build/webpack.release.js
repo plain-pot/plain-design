@@ -33,6 +33,16 @@ module.exports = {
             commonjs: 'react-dom',
             commonjs2: 'react-dom',
         },
+        exceljs: {
+            root: 'ExcelJs',
+            commonjs: 'exceljs',
+            commonjs2: 'exceljs',
+        },
+        'file-saver': {
+            root: 'FileSaver',
+            commonjs: 'file-saver',
+            commonjs2: 'file-saver',
+        },
     },
     output: {
         path: resolve(outputDir),
