@@ -166,7 +166,7 @@ export function useTableOptionSettingExport(
                 state.step++
                 break
             case 1:
-                state.selectPlcList = refs.check!.getSelected() as any
+                state.selectPlcList = (refs.check!.getSelected() as ExportPlcData[]).sort((a, b) => state.plcList.indexOf(a) - state.plcList.indexOf(b))
                 if (state.selectPlcList.length === 0) {
                     return $message.error('请选择要导出的字段！')
                 }
