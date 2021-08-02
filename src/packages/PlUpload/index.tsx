@@ -55,11 +55,11 @@ export const PlUpload = designComponent({
         validator: {type: Function as PropType<FileServiceValidator>},  // FileServiceChooseFileConfig.validator, 选择文件的校验函数
         max: {type: Number},                                            // 最多上传文件个数
         /*upload*/
-        action: {type: String, required: true},                         // 文件上传地址
+        action: {type: String},                                         // 文件上传地址
         data: {type: [Object, Function] as PropType<UploadData>},       // 上传时的额外参数，或者获取额外参数的函数
         headers: {type: Object as PropType<Record<string, string>>,},   // 上传时的请求头
         withCredentials: {type: Boolean},                               // 带cookie凭证信息
-        filename: {type: String, required: true},                       // 文件上传的的时候接收的文件名
+        filename: {type: String},                                       // 文件上传的的时候接收的文件名
         /*other*/
         draggable: {type: Boolean},                                     // 支持拖拽上传
         // request: {type: Function as PropType<CustomRequest>},           // 自定义上传行为
@@ -290,6 +290,12 @@ export const PlUpload = designComponent({
                         promise.then(handler.onSuccess, handler.onError)
                     }
                 } else {
+                    if (!props.action) {
+                        throw new Error('PlUpload: props.action is necessary!')
+                    }
+                    if (!props.filename) {
+                        throw new Error('PlUpload: props.filename is necessary!')
+                    }
                     $$file.upload({
                         action: props.action,
                         data: typeof props.data === "function" ? props.data() : props.data,
