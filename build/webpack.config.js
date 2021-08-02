@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const webpack = require("webpack")
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
 
 const outputDir = 'docs'
 const publicPath = '/plain-design/'
@@ -142,6 +143,9 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             APP_ENV: JSON.stringify(require(resolve(`story/env/config/${process.env.APP_ENV}.js`)))
-        })
+        }),
+        new AddAssetHtmlWebpackPlugin([
+            {filepath: resolve('src/lib/exceljs.bare.min')},
+        ]),
     ],
 }
