@@ -49,21 +49,59 @@ export function useTableOptionSettingExport(
         check: PlcCheckRow,
     })
 
-    const initialState = {
-        exportType: null as null | string,
-        step: 0,
-        stepStatus: undefined as undefined | string,
 
-        plcList: [] as ExportPlcData[],           // 可选的导出的字段数组
-        selectPlcList: [] as ExportPlcData[],     // 已经选中的plc数组
-    }
+    const state = (() => {
+        const initialState = {
+            exportType: null as null | string,
+            step: 0,
+            stepStatus: undefined as undefined | string,
 
-    const state = reactive({
-        ...deepcopy(initialState),
-    })
+            plcList: [] as ExportPlcData[],           // 可选的导出的字段数组
+            selectPlcList: [] as ExportPlcData[],     // 已经选中的plc数组
+        }
+        const reset = () => {
+            Object.assign(state, deepcopy(initialState))
+        }
+        return reactive({
+            ...deepcopy(initialState),
+            reset,
+        })
+    })()
 
-    const exportOptions: ExportOption[] = [
-        {
+    const exportOptions: ExportOption[] = (() => {
+
+        const save = async (rows: any[], exportPlcData: ExportPlcData[]) => {
+            const exportData = rows.map(row => {
+                const data: any = {}
+                exportPlcData.forEach(({field}) => data[field] = row[field])
+                return data
+            })
+
+            // 导出excel
+            const [ExcelJs, FileSaver] = await Promise.all([
+                import('exceljs'),
+                // @ts-ignore
+                import('file-saver'),
+            ])
+            const workbook = new ExcelJs.Workbook();
+            const worksheet = workbook.addWorksheet('sheet');
+            worksheet.columns = [
+                {header: 'Id', key: 'id', width: 10},
+                {header: 'Name', key: 'name', width: 32},
+                {header: 'D.O.B.', key: 'DOB', width: 10, outlineLevel: 1}
+            ];
+            worksheet.columns = exportPlcData.map(({title, field}) => ({header: title, key: field}))
+            exportData.forEach(data => {
+                worksheet.addRow(data);
+            })
+            const buffer = await workbook.xlsx.writeBuffer();
+            FileSaver.saveAs(
+                new Blob([buffer], {type: 'application/vnd.ms-excel'}),
+                "hello world.xlsx"
+            );
+        }
+
+        const exportPage: ExportOption = {
             type: 'export-page',
             title: '导出当前页数据',
             desc: '将表格当前展示的数据导出。',
@@ -71,8 +109,9 @@ export function useTableOptionSettingExport(
                 await delay(3000)
 
             }
-        },
-        {
+        }
+
+        const exportAll: ExportOption = {
             type: 'export-all',
             title: '导出当前所有数据',
             desc: '根据当前的筛选排序条件导出所有数据(数据量比较大的话可能会导出失败)。',
@@ -80,46 +119,21 @@ export function useTableOptionSettingExport(
                 await delay(3000)
                 throw new Error('error')
             },
-        },
-        {
+        }
+
+        const exportSelected: ExportOption = {
             type: 'export-selected',
             title: '选择需要导出的数据',
             desc: '自定义选择导出需要的数据。',
             handler: async (exportPlcData) => {
                 closeSetting()
                 await delay(400)
-                const rows = await check.openToCheck()
-                const exportData = rows.map(row => {
-                    const data: any = {}
-                    exportPlcData.forEach(({field}) => data[field] = row[field])
-                    return data
-                })
-
-                // 导出excel
-                const [ExcelJs, FileSaver] = await Promise.all([
-                    import('exceljs'),
-                    // @ts-ignore
-                    import('file-saver'),
-                ])
-                const workbook = new ExcelJs.Workbook();
-                const worksheet = workbook.addWorksheet('sheet');
-                worksheet.columns = [
-                    {header: 'Id', key: 'id', width: 10},
-                    {header: 'Name', key: 'name', width: 32},
-                    {header: 'D.O.B.', key: 'DOB', width: 10, outlineLevel: 1}
-                ];
-                worksheet.columns = exportPlcData.map(({title, field}) => ({header: title, key: field}))
-                exportData.forEach(data => {
-                    worksheet.addRow(data);
-                })
-                const buffer = await workbook.xlsx.writeBuffer();
-                FileSaver.saveAs(
-                    new Blob([buffer], {type: 'application/vnd.ms-excel'}),
-                    "hello world.xlsx"
-                );
+                await save(await check.openToCheck(), exportPlcData)
             }
         }
-    ]
+
+        return [exportPage, exportAll, exportSelected]
+    })()
 
     const nextStep = async () => {
         switch (state.step) {
@@ -156,8 +170,7 @@ export function useTableOptionSettingExport(
     }
 
     const restart = () => {
-        Object.assign(state, deepcopy(initialState))
-
+        state.reset()
         state.plcList = getSourceFlatPlcList().map((i) => ({
             title: i.props.title,
             field: i.props.field!,
