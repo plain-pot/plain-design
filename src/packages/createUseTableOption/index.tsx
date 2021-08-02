@@ -86,7 +86,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const filterState = useTableOptionFilterState({hooks, methods, cache})
 
         /*设置弹框*/
-        const setting = useTableOptionSetting({hooks, methods, sortState, filterState, cache})
+        const setting = useTableOptionSetting({hooks, methods, sortState, filterState, cache, check})
 
         /*按钮*/
         const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})

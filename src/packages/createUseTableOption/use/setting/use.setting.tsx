@@ -1,5 +1,5 @@
 import React from "react";
-import useDialog from "../../../useDialog";
+import useDialog, {DialogServiceFormatOption, DialogServiceOption} from "../../../useDialog";
 import {tTableOptionHooks} from "../use.hooks";
 import {tTableOptionMethods} from "../use.methods";
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
@@ -16,13 +16,15 @@ import {useTableOptionSettingAllFilter} from "./use.setting.filter.all";
 import {tTableOptionFilter} from "../use.filter.state";
 import {tTableOptionCache} from "../use.cache";
 import {useTableOptionSettingCache} from "./use.setting.cache";
+import {tTableOptionCheck} from "../check/use.check";
 
-export function useTableOptionSetting({hooks, methods, sortState, filterState, cache}: {
+export function useTableOptionSetting({hooks, methods, sortState, filterState, cache, check}: {
     hooks: tTableOptionHooks,
     methods: tTableOptionMethods,
     sortState: tTableOptionSort,
     filterState: tTableOptionFilter,
     cache: tTableOptionCache,
+    check: tTableOptionCheck,
 }) {
 
     const $dialog = useDialog()
@@ -31,6 +33,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
         settingConfigs: [] as iTableOptionSettingConfig[],
         getSourceFlatPlcList: () => [] as tPlc[],
         activeKey: null as null | string,
+        closeSetting: null as null | (() => void),
     })
 
     const getSourceFlatPlcList = () => state.getSourceFlatPlcList()
@@ -39,14 +42,6 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
 
     const useTableOptionSettingInner: iTableOptionSettingInnerUser = (config) => {state.settingConfigs.push(config)}
 
-    useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState})
-    useTableOptionSettingSeniorFilter({useTableOptionSettingInner, getSourceFlatPlcList, methods, hooks, cache, filterState})
-    useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
-    useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList, cache, hooks})
-    useTableOptionSettingCache({useTableOptionSettingInner, cache})
-    useTableOptionSettingImport({useTableOptionSettingInner})
-    useTableOptionSettingExport({useTableOptionSettingInner})
-
     const openSetting = async (key: string) => {
 
         const settingConfigs = state.settingConfigs.sort((a, b) => a.seq - b.seq)
@@ -54,7 +49,7 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
         const showConfig = state.settingConfigs.find(i => i.key === key)
         !!showConfig && showConfig.beforeOpen && (await showConfig.beforeOpen())
 
-        $dialog({
+        const dlgOpt: DialogServiceOption = {
             status: null,
             dialogProps: {
                 wrapperPadding: false,
@@ -107,11 +102,24 @@ export function useTableOptionSetting({hooks, methods, sortState, filterState, c
             },
             cancelButton: true,
             cancelButtonText: '关闭',
-        })
+        }
+        $dialog(dlgOpt)
+        state.closeSetting = () => (dlgOpt as DialogServiceFormatOption).close()
+
         return {openSetting}
     }
 
-    return {openSetting}
+    const closeSetting = () => state.closeSetting && state.closeSetting()
+
+    useTableOptionSettingAllFilter({useTableOptionSettingInner, filterState})
+    useTableOptionSettingSeniorFilter({useTableOptionSettingInner, getSourceFlatPlcList, methods, hooks, cache, filterState})
+    useTableOptionSettingSort({hooks, sortState, getSourceFlatPlcList, useTableOptionSettingInner})
+    useTableOptionSettingConfig({useTableOptionSettingInner, getSourceFlatPlcList, cache, hooks})
+    useTableOptionSettingCache({useTableOptionSettingInner, cache})
+    useTableOptionSettingImport({useTableOptionSettingInner})
+    useTableOptionSettingExport({useTableOptionSettingInner, closeSetting, check})
+
+    return {openSetting, closeSetting}
 }
 
 export type tTableOptionSetting = ReturnType<typeof useTableOptionSetting>
