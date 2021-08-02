@@ -20,7 +20,7 @@ export const PlArrowStepGroup = designComponent({
         })
         const dialog = PlDialog.use.inject(null)
         const state = reactive({
-            showContent: !dialog,
+            showContent: !dialog || dialog.model.value,
         })
         if (!!dialog) {
             dialog.event.on.onOpen(() => {

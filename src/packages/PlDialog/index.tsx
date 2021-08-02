@@ -242,7 +242,7 @@ export const PlDialog = designComponent({
 
         return {
             refer: {
-                props, event,
+                props, event, model: model as { value: boolean },
             },
             render: () => {
                 return (
