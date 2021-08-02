@@ -35,14 +35,14 @@ export type UploadFile = {
     percent?: number,
 }
 
-type BeforeRemove = (file: UploadFile) => boolean
-type BeforeUpload = (file: UploadFile) => void | Promise<void>
-type HandleRemove = (file: UploadFile) => void | Promise<void>
-type HandleUpload = (files: UploadFile | UploadFile[]) => Promise<void>
-type HandlePreview = (file: UploadFile) => void
+export type BeforeRemove = (file: UploadFile) => boolean
+export type BeforeUpload = (file: UploadFile) => void | Promise<void>
+export type HandleRemove = (file: UploadFile) => void | Promise<void>
+export type HandleUpload = (files: UploadFile | UploadFile[]) => Promise<void>
+export type HandlePreview = (file: UploadFile) => void
 
-type UploadData = Record<string, string> | (() => Record<string, string>)
-type UploadModelValue = UploadFile | UploadFile[]
+export type UploadData = Record<string, string> | (() => Record<string, string>)
+export type UploadModelValue = UploadFile | UploadFile[]
 
 export const PlUpload = designComponent({
     name: 'pl-upload',
