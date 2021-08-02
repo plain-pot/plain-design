@@ -17,7 +17,8 @@ import PlcCheckRow from "../../../PlcCheckRow";
 import PlLoading from "../../../PlLoading";
 import PlIcon from "../../../PlIcon";
 import {delay} from "plain-utils/utils/delay";
-import {iTableOptionState} from "../../createUseTableOption.utils";
+import {iQueryRequest, iTableOptionState, tRequestConfig} from "../../createUseTableOption.utils";
+import {tTableOptionHooks} from "../use.hooks";
 
 interface ExportOption {
     type: string,
@@ -38,12 +39,14 @@ export function useTableOptionSettingExport(
         check,
         getSourceFlatPlcList,
         tableState,
+        hooks,
     }: {
         useTableOptionSettingInner: iTableOptionSettingInnerUser,
         closeSetting: () => void,
         check: tTableOptionCheck,
         getSourceFlatPlcList: () => tPlc[],
         tableState: iTableOptionState,
+        hooks: tTableOptionHooks,
     }) {
 
     const $message = useMessage()
@@ -52,6 +55,16 @@ export function useTableOptionSettingExport(
         check: PlcCheckRow,
     })
 
+    const freezeState = (() => {
+        Promise.resolve().then(() => {
+            hooks.onStartLoad.use((ldc) => {
+                freezeState.loadDataConfig = ldc
+            })
+        })
+        return {
+            loadDataConfig: null as null | { request: iQueryRequest, requestData: Record<string, any>, requestConfig: tRequestConfig }
+        }
+    })()
 
     const state = (() => {
         const initialState = {
@@ -117,9 +130,16 @@ export function useTableOptionSettingExport(
             type: 'export-all',
             title: '导出当前所有数据',
             desc: '根据当前的筛选排序条件导出所有数据(数据量比较大的话可能会导出失败)。',
-            handler: async () => {
-                await delay(3000)
-                throw new Error('error')
+            handler: async (exportPlcData) => {
+                if (!freezeState.loadDataConfig) {return}
+                let {request, requestConfig} = freezeState.loadDataConfig!
+                requestConfig = deepcopy(requestConfig)
+                const requestData = (requestConfig.method.toUpperCase() === 'GET' ? requestConfig.query : requestConfig.body) || {}
+                delete requestData.query
+                delete requestData.size
+                requestData.all = true
+                const data = await request(requestConfig)
+                await save(data.rows, exportPlcData)
             },
         }
 

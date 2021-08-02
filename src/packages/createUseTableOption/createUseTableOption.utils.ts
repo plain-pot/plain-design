@@ -165,6 +165,8 @@ export interface iTableProDefaultConfig {
     },
 }
 
+export type iQueryRequest = ReturnType<iTableProDefaultConfig["getDefaultUrlConfig"]["query"]>["request"]
+
 export type TableProConfigEnable = boolean | {
     insert?: boolean | (() => boolean),                             // 是否可新建
     update?: boolean | (() => boolean),                             // 是否可编辑
