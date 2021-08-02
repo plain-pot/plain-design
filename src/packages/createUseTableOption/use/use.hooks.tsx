@@ -1,4 +1,4 @@
-import {iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
+import {iQueryRequest, iTableProDefaultConfig, iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
 import {reactive} from "plain-design-composition";
@@ -85,6 +85,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onBeginLoad: createHooks<() => void>(),                                                     // 异步钩子，开始加载数据之前
         onRequestData: createHooks<(requestData: Record<string, any>) => void>(),                   // 处理请求参数
         onBeforeLoad: createHooks<(requestConfigObject: tRequestConfig) => void>(),                 // 异步钩子，加载数据之前
+        onStartLoad: createHooks<(data: { requestData: Record<string, any>, request: iQueryRequest, requestConfig: tRequestConfig }) => void>(),
         onAfterLoad: createHooks<(rows: PlainObject[]) => void>(),                                  // 异步钩子，加载数据之后
         onLoaded: createSyncHooks<(rows: PlainObject[]) => void>(),                                 // 同步钩子，处理完加载的数据之后
 

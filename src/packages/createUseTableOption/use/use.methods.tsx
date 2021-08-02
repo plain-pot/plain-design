@@ -87,6 +87,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 requestConfig.method === 'GET' ? (requestConfig.query = requestData) : (requestConfig.body = requestData)
             }
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
+            await hooks.onStartLoad.exec({requestConfig, requestData, request})
             let {rows, hasNext} = await request(requestConfig)
             rows = await hooks.onAfterLoad.exec(rows)
             rows = await hooks.onLoaded.exec(rows)
