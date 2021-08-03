@@ -108,6 +108,7 @@ import PlcTree from "./packages/PlcTree";
 import PlcOperator from './packages/PlcOperator'
 import PlTablePro from "./packages/PlTablePro";
 import PlcCheckRow from "./packages/PlcCheckRow";
+import PlcObject from "./packages/PlcObject";
 
 import useTableOption from "./packages/useTableOption";
 import useObjectOption from "./packages/useObjectOption";
@@ -224,5 +225,6 @@ export {
     PlcTree,
     PlcCheckRow,
     PlcOperator,
+    PlcObject,
     PlTablePro,
 }

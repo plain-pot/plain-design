@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {useTableOption} from "../../../src";
+import {PlcObject, useTableOption} from "../../../src";
 import PlTablePro from "../../../src/packages/PlTablePro";
 import {PlcDate, PlSelectOption, Plc, PlIcon} from "../../../src";
 import {PlcSelect} from "../../../src/packages/PlcSelect";
@@ -9,6 +9,7 @@ import {PlcNumber} from "../../../src/packages/PlcNumber";
 import {PlcInput} from "../../../src/packages/PlcInput";
 import {TableRenderScope} from "../../../src/packages/PlTable/plc/utils/plc.type";
 import PlcTextarea from "../../../src/packages/PlcTextarea";
+import useObjectOption from "../../init/useObjectOption";
 
 export default designPage(() => {
 
@@ -60,6 +61,14 @@ export default designPage(() => {
         // filterParam: {queries: [{field: 'normalText', operator: '~', value: '22'}]},
     })
 
+    const parentOption = useObjectOption({
+        url: '/demo',
+        render: () => <>
+            <Plc title="编号id" field="id"/>
+            <PlcInput title="文本normalText" field="normalText" fixed="left"/>
+        </>
+    })
+
     const onClick = (data: { e: React.MouseEvent, scope: TableRenderScope }) => {
         console.log({...data.scope.row})
     }
@@ -90,6 +99,7 @@ export default designPage(() => {
                     </PlSelectOption>
                 </PlcSelect>
                 <PlcTextarea title="长文本longText" field="longText"/>
+                <PlcObject title="父对象" field="parentName" option={parentOption} map={{parentId: 'id', parentName: 'normalText'}}/>
             </PlTablePro>
         </div>
     </>

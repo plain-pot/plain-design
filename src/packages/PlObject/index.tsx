@@ -7,16 +7,20 @@ import PlInput from "../PlInput";
 import React from "react";
 import useObject from "../useObject";
 
+export const PlObjectPropsOption = {
+    option: {type: Object as PropType<tTableOption>},
+    row: {type: Object as PropType<PlainObject>},
+    map: {type: Object as PropType<Record<string, string> | ((source: PlainObject, selected: PlainObject) => void)>},
+    showKey: {type: String},
+    beforeSelect: {type: Function as PropType<(row: PlainObject) => void | Promise<void>>},
+    afterSelect: {type: Function as PropType<(source: PlainObject, selected: PlainObject) => void | Promise<void>>},
+}
+
 export const PlObject = designComponent({
     props: {
         ...EditProps,
         ...StyleProps,
-        option: {type: Object as PropType<tTableOption>},
-        row: {type: Object as PropType<PlainObject>},
-        map: {type: Object as PropType<Record<string, string> | ((source: PlainObject, selected: PlainObject) => void)>},
-        showKey: {type: String},
-        beforeSelect: {type: Function as PropType<(row: PlainObject) => void | Promise<void>>},
-        afterSelect: {type: Function as PropType<(source: PlainObject, selected: PlainObject) => void | Promise<void>>},
+        ...PlObjectPropsOption,
     },
     setup({props}) {
 
