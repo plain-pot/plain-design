@@ -157,6 +157,7 @@ const MenuData: MenuGroup[] = [
         name: 'table-pro', children: [
             {name: '基本示例', title: 'pl-table-pro', page: '/table-pro/basic-usage', complete: true},
             {name: '分组示例', title: 'pl-table-pro', page: '/table-pro/group-usage', complete: true},
+            {name: '自动高度', title: 'pl-table-pro', page: '/table-pro/table-fill', complete: true},
             {name: 'Filter', title: 'pl-filter', page: '/table-pro/pro-filter', complete: true},
             {name: 'Object', title: 'pl-object', page: '/table-pro/demo-object', complete: true},
         ]
