@@ -180,6 +180,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
             await loadingMethods.save()
             let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
+            newRowData = await hooks.onHandleNewRow.exec(newRowData)
 
             const editInline = async () => {
                 tableState.editingWhenAddRow = true
@@ -235,7 +236,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         const batchInsert = async (batchInsertConfig?: { rows: any[] }) => {
             await loadingMethods.save()
 
-            const newRows = batchInsertConfig?.rows || await (async () => {
+            let newRows = batchInsertConfig?.rows || await (async () => {
                 const num = await new Promise<number>((resolve, reject) => {
                     $$dialog({
                         editRequired: true,
@@ -249,6 +250,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 })
                 return new Array(num).fill(null).map(() => deepcopy((!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow))))
             })()
+            newRows = await Promise.all(newRows.map((item) => hooks.onHandleNewRow.exec(item)))
 
             tableState.editingWhenAddRow = true
             tableState.list.unshift(...newRows)

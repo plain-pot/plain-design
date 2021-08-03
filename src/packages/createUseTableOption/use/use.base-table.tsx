@@ -46,7 +46,6 @@ export function useTableOptionBaseTable(
                     data={tableState.list}
                     defaultEditingWhenAddRow={tableState.editingWhenAddRow}
                     currentKey={tableState.currentKey || undefined}
-                    onUpdateCurrentKey={val => tableState.currentKey = val || null}
                     keyField={config.keyField}
                     config={cache.tablePropsConfig}
                     onClickRow={handler.onClickCell}

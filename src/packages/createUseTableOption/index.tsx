@@ -2,7 +2,7 @@ import {iTableOptionState, iTableProConfig, iTableProDefaultConfig, tTableOption
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
-import {computed, reactive} from "plain-design-composition";
+import {computed, onBeforeUnmount, reactive} from "plain-design-composition";
 import {useTableOptionCheck} from "./use/check/use.check";
 import {useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";
@@ -17,6 +17,7 @@ import {iFilterData} from "../PlFilter/FilterConfig";
 import {useTableOptionSortState} from "./use/use.sort.state";
 import {useTableOptionFilterState} from "./use/use.filter.state";
 import {useTableOptionCache} from "./use/use.cache";
+import {delay} from "plain-utils/utils/delay";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -109,7 +110,13 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*查询完毕之后更新列表数据*/
         hooks.onLoaded.use(rows => {
             tableState.list = rows
-            tableState.currentKey = rows.length > 0 ? rows[0].id : null
+            tableState.currentKey = rows.length > 0 ? rows[0][config.keyField] : null
+            delay(0).then(() => hooks.onSelectChange.exec(currentNode.value))
+        })
+        hooks.onClickCell.use((selectNode) => {
+            if (tableState.currentKey === selectNode.key) {return}
+            tableState.currentKey = selectNode.key
+            delay(0).then(() => hooks.onSelectChange.exec(currentNode.value))
         })
         /*获取base table的引用*/
         hooks.onRefTable.use(table => tableState.tableGetter = (() => table) as any)
@@ -135,7 +142,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             </>
         })
 
-        return {
+        const ret = {
             customConfig,
             tableState,
             config,
@@ -150,6 +157,53 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             init,
             cache,
         }
+
+        const {parentOption, parentMap} = config as { parentOption?: (typeof ret), parentMap?: Record<string, string> }
+        if (!!parentOption && parentMap) {
+            /*自己不加载数据，等父表选中数据之后再加载*/
+            config.loadOnStart = false
+
+            /*父表切换选中行之后，重新加载数据*/
+            onBeforeUnmount(parentOption.hooks.onSelectChange.use(async (selectNode) => {
+                if (!selectNode) {
+                    /*父表没有值，则清空行数据*/
+                    let rows: any[] = []
+                    rows = await hooks.onAfterLoad.exec(rows)
+                    rows = await hooks.onLoaded.exec(rows)
+                    tableState.list = rows
+                    pagination.updateTotal(null)
+                    pagination.update({page: 1, size: pagination.pageState.size, hasNext: false, list: rows})
+                } else {
+                    methods.pageMethods.reload()
+                }
+            }))
+            /*子表查询之前，带上父表的查询参数*/
+            onBeforeUnmount(hooks.onCollectFilterData.use(prev => {
+                return [
+                    ...prev,
+                    {
+                        queries: Object.entries(parentMap).map(([childKey, parentKey]) => ({
+                            field: childKey,
+                            value: parentOption.currentNode.value!.data[parentKey],
+                            operator: '='
+                        }))
+                    }
+                ]
+            }))
+            /*子表新建数据的时候，从父表拿到关联字段的值*/
+            onBeforeUnmount(hooks.onHandleNewRow.use(row => {
+                const {value: parentNode} = parentOption.currentNode
+                if (!parentNode) {
+                    throw new Error('TableOption: parent option has no current node when create new record in child option!')
+                }
+                const {data} = parentNode
+                Object.entries(parentMap).forEach(([childKey, parentKey]) => {
+                    row[childKey] = data[parentKey]
+                })
+            }))
+        }
+
+        return ret
     }
 }
 

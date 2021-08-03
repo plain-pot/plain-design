@@ -29,7 +29,7 @@ const DefaultSeq = {
 
 export function useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, command: tTableOptionCommand, setting: tTableOptionSetting, permit: tTableOptionPermit, config: tTableOptionConfig, confirm: tTableOptionConfirm }) {
 
-    const state = {selectNode: undefined as undefined | TableNode}
+    const state = {selectNode: undefined as undefined | null | TableNode}
     hooks.onSelectChange.use(selectNode => state.selectNode = selectNode)
 
     const utils = {

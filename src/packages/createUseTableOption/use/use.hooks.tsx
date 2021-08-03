@@ -77,7 +77,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         /*点击行*/
         onClickCell: createHooks<(selectNode: TableNode) => void>(),                                // 异步钩子，行单击
         onDblClickCell: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，行双击
-        onSelectChange: createHooks<(selectNode: TableNode) => void>(),                             // 异步钩子，单选行变化
+        onSelectChange: createHooks<(selectNode: TableNode | null | undefined) => void>(),          // 异步钩子，单选行变化
         onCheckChange: createHooks<(data: { checked: any[], status: 'checked' | 'uncheck' | 'minus' }) => void>(),// 多选发生变化
         onClickHead: createHooks<(data: { plc: tPlcType, e: React.MouseEvent }) => void>(),         // 点击标题动作
 
@@ -117,6 +117,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onInit: createHooks<() => void>(),                                                          // 异步钩子函数，等待init执行完毕之后，再渲染table
         onQueryParams: createHooks<() => PlainObject>(),                                            // 异步钩子函数，获取查询参数
         onTableConfig: createSyncHooks<(data: { cacheData: iTableOptionCacheData, sourceList: tPlcType[], flatList: tPlc[] }) => void>(),     // 同步钩子函数，table.props.config执行动作
+        onHandleNewRow: createHooks<(row: any) => void>(),                                          // 处理新行对象
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数
