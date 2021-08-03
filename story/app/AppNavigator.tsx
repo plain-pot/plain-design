@@ -13,12 +13,17 @@ export const AppNavigator = designComponent({
             if (!path) path = 'normal/DemoButton'
             if (path.charAt(0) === '/') {path = path.slice(1)}
 
-            state.Page = (await import('../pages/' + path)).default
+            const Components = Object.values(await import('../pages/' + path)) as any[]
+            state.Page = Components.map((Component, index) => (
+                <React.Fragment key={index}>
+                    <Component/>
+                </React.Fragment>
+            ))
         }, {immediate: true})
 
         return () => (
             <div className="app-navigator">
-                {!!state.Page && <state.Page/>}
+                {state.Page}
             </div>
         )
     },

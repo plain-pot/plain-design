@@ -12,6 +12,7 @@ import useMessage from "../useMessage";
 export interface ObjectServiceOption {
     option: tTableOption,
     selected?: PlainObject | PlainObject[],
+    readonly?: boolean,
     beforeConfirm?: (data: PlainObject | PlainObject[]) => void | Promise<void>,
     beforeCancel?: () => void | Promise<void>,
 }
@@ -35,6 +36,8 @@ export function useObject() {
         const {option: tableOption, beforeCancel, beforeConfirm} = option
 
         const onConfirm = async () => {
+            if (option.readonly) {return }
+
             if (!refs.check) {
                 dfd.reject(new Error('选择失败，内部异常！'))
             } else {
@@ -69,7 +72,7 @@ export function useObject() {
                 width: '75vw',
                 vertical: 'center',
             },
-            confirmButton: true,
+            confirmButton: !option.readonly,
             cancelButton: true,
             onConfirm,
             onCancel: async () => {

@@ -1,12 +1,10 @@
-import {designPage} from "plain-design-composition";
+import {designPage, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import useObject from "../../../src/packages/useObject";
-import {useObjectOption} from "../../../src";
-import {PlcTextarea, $$notice, PlButton, Plc, PlcDate, PlcInput, PlcNumber, PlcSelect, PlIcon, PlSelectOption} from "../../../src";
-import {PlcCheckbox} from "../../../src/packages/PlcCheckbox";
+import {$$notice, PlButton, Plc, PlcDate, PlcInput, PlcNumber, PlObject, useObjectOption} from "../../../src";
 
-export default designPage(() => {
+export const demo1 = designPage(() => {
 
     const {$object} = useObject()
 
@@ -54,9 +52,68 @@ export default designPage(() => {
     }
 
     return () => <>
-        <DemoRow title="基本用法">
+        <DemoRow title="选择服务">
             <PlButton onClick={selectRow} label="单选"/>
             <PlButton onClick={selectList} label="多选"/>
         </DemoRow>
     </>
+})
+
+export const demo2 = designPage(() => {
+
+    const state = reactive({
+        formData: {} as any,
+    })
+
+    const option = useObjectOption({
+        title: '示例列表',
+        url: '/demo',
+        render: () => <>
+            <Plc title="编号id" field="id" hideInForm/>
+            <PlcDate title="创建时间" field="createdAt" hideInForm editable={false}/>
+            <PlcDate title="更新时间" field="updatedAt" hideInForm editable={false}/>
+            <PlcDate title="日期" field="dateVal"/>
+            <PlcNumber title="计数count" field="count" required/>
+            <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
+        </>
+    })
+
+    return () => <>
+        <DemoRow title="PlObject">
+            <PlObject option={option} row={state.formData} map={{parentId: 'id', parentName: 'normalText'}} showKey="parentName"/>
+            {JSON.stringify(state.formData)}
+        </DemoRow>
+    </>
+
+})
+
+
+export const disabled = designPage(() => {
+
+    const state = reactive({
+        formData: {} as any,
+    })
+
+    const option = useObjectOption({
+        title: '示例列表',
+        url: '/demo',
+        render: () => <>
+            <Plc title="编号id" field="id" hideInForm/>
+            <PlcDate title="创建时间" field="createdAt" hideInForm editable={false}/>
+            <PlcDate title="更新时间" field="updatedAt" hideInForm editable={false}/>
+            <PlcDate title="日期" field="dateVal"/>
+            <PlcNumber title="计数count" field="count" required/>
+            <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
+        </>
+    })
+
+    return () => <>
+        <DemoRow title="PlObject：禁用与只读">
+            <PlObject option={option} row={state.formData} map={{parentId: 'id', parentName: 'normalText'}} showKey="parentName"/>
+            <PlObject option={option} row={state.formData} map={{parentId: 'id', parentName: 'normalText'}} showKey="parentName" disabled/>
+            <PlObject option={option} row={state.formData} map={{parentId: 'id', parentName: 'normalText'}} showKey="parentName" readonly/>
+            {JSON.stringify(state.formData)}
+        </DemoRow>
+    </>
+
 })

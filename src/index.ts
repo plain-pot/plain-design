@@ -75,6 +75,7 @@ import PlVirtualList from "./packages/PlVirtualList";
 import PlVirtualTable from "./packages/PlVirtualTable";
 import PlInputGroup from "./packages/PlInputGroup";
 import PlEmpty from './packages/PlEmpty'
+import PlObject from "./packages/PlObject";
 
 import PlDateRange from "./packages/PlDateRange";
 
@@ -189,6 +190,7 @@ export {
     PlVirtualTable,
     PlInputGroup,
     PlEmpty,
+    PlObject,
 
     PlDateRange,
 
