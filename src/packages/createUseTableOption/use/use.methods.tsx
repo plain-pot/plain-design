@@ -171,7 +171,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 if (!!deleteResult.error) {
                     return $$notice.error(`删除失败：${deleteResult.error}`)
                 }
-                tableState.list.splice(tableState.list.indexOf(data), 1)
+                await pageMethods.load()
             }
 
             return {save, cancel, delete: _delete}
