@@ -13,6 +13,7 @@ import {useTableOptionEditForm} from "./use.edit-form";
 import {tTableOptionCheck} from "./check/use.check";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
+import {delay} from "plain-utils/utils/delay";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm, getSortData}: {
     tableState: iTableOptionState,
@@ -177,6 +178,12 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             return {save, cancel, delete: _delete}
         })())
 
+        const selectCurrent = async (key: string) => {
+            tableState.currentKey = key
+            await delay(0)
+            await hooks.onSelectChange.exec(currentNode.value)
+        }
+
         const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
             await loadingMethods.save()
             let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
@@ -204,9 +211,11 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         const newRowResult = await request!(requestConfig)
                         newNode.saveEdit(newRowResult.newRow)
                         newNode.closeEdit()
+                        await selectCurrent(newRowResult.newRow[config.keyField])
                     },
                     onCancel: async () => {
                         tableState.list.shift()
+                        await selectCurrent(!tableState.list[0] ? undefined : tableState.list[0][config.keyField])
                     },
                 })
             }
@@ -320,6 +329,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         const updateResult = await request!(requestConfig)
                         node.saveEdit(updateResult.newRow)
                         node.closeEdit()
+                        await selectCurrent(updateResult.newRow[config.keyField])
                     },
                     onCancel: async () => {
                         node.cancelEdit()
@@ -417,7 +427,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         }
 
         return {
-            insert, batchInsert, copy, update, batchUpdate, batchModify, batchDelete,
+            selectCurrent, insert, batchInsert, copy, update, batchUpdate, batchModify, batchDelete,
 
             ...loadingMethods,
         }

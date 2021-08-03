@@ -110,13 +110,11 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         /*查询完毕之后更新列表数据*/
         hooks.onLoaded.use(rows => {
             tableState.list = rows
-            tableState.currentKey = rows.length > 0 ? rows[0][config.keyField] : null
-            delay(0).then(() => hooks.onSelectChange.exec(currentNode.value))
+            methods.editMethods.selectCurrent(rows.length > 0 ? rows[0][config.keyField] : null)
         })
         hooks.onClickCell.use((selectNode) => {
             if (tableState.currentKey === selectNode.key) {return}
-            tableState.currentKey = selectNode.key
-            delay(0).then(() => hooks.onSelectChange.exec(currentNode.value))
+            methods.editMethods.selectCurrent(selectNode.key)
         })
         /*获取base table的引用*/
         hooks.onRefTable.use(table => tableState.tableGetter = (() => table) as any)
@@ -194,6 +192,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             onBeforeUnmount(hooks.onHandleNewRow.use(row => {
                 const {value: parentNode} = parentOption.currentNode
                 if (!parentNode) {
+                    console.log(parentOption)
                     throw new Error('TableOption: parent option has no current node when create new record in child option!')
                 }
                 const {data} = parentNode
