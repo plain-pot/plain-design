@@ -1,16 +1,34 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
 import useTableOption from "../../init/useTableOption";
-import {PlcInput, PlTablePro} from "../../../src";
+import {useNotice, PlcInput, PlTablePro, useHttp} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 import {PlainObject} from "../../../src/packages/createUseTableOption/createUseTableOption.utils";
 
 export const demo1 = designPage(() => {
 
-    // todo code唯一性校验
-    // const http = useHttp()
-    const checkNewCode = (row: PlainObject) => {
-        const {code} = row
+    const $notice = useNotice()
+    const http = useHttp()
+    const checkNewCode = async (row: PlainObject) => {
+        const {code, name, id} = row
+
+        const filterCode = {id: 'check_code', field: 'code', value: code, operator: '='}
+        const filterName = {id: 'check_name', field: 'name', value: name, operator: '='}
+        const filterId = {id: 'check_id', field: 'id', value: [id], operator: '!='}
+
+        const {list} = await http.post('/address/list', {
+            ...!id ? {
+                filters: [filterCode, filterName],
+                filterExpression: '(check_code or check_name)',
+            } : {
+                filters: [filterCode, filterName, filterId],
+                filterExpression: '(check_code or check_name) and (check_id)',
+            },
+        })
+        if (list.length > 0) {
+            $notice.error('地址代码或者地址名称唯一性冲突！')
+            return Promise.reject()
+        }
     }
 
     const provinceOption = useTableOption({
@@ -36,6 +54,9 @@ export const demo1 = designPage(() => {
         parentMap: {parentName: 'name', parentCode: 'code'},
     })
 
+    provinceOption.hooks.onBeforeSaveRow.use(row => checkNewCode(row))
+    cityOption.hooks.onBeforeSaveRow.use(row => checkNewCode(row))
+    districtOption.hooks.onBeforeSaveRow.use(row => checkNewCode(row))
 
     return () => <>
         <DemoRow title="基本用法">

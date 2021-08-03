@@ -107,6 +107,12 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onBeforeUpdate: createHooks<(requestConfigObject: tRequestConfig) => void>(),               // 异步钩子，普通行编辑保存之前
         onAfterUpdate: createHooks<(resp: any) => void>(),                                          // 异步钩子，普通行编辑保存之后
 
+        /*新建或者更新*/
+        onBeforeSaveRow: createHooks<(row: any) => void>(),                                         // 异步钩子函数，保存数据之前
+        onAfterSaveRow: createHooks<(row: any) => void>(),                                          // 异步钩子函数，保存数据之后
+
+        onFormatRow: createHooks<(row: any) => void>(),                                             // 异步钩子函数，得到数据之后执行（加载玩数据，保存（批量）新建，保存（批量）更新）
+
         /*表格相关*/
         onRefTable: createSyncHooks<(table: typeof PlTable.use.class) => void>(),                   // 获取table对象的引用
         onRefTableProEl: createHooks<(el: HTMLDivElement) => void>(),                               // 获取table pro的dom节点引用

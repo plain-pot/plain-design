@@ -90,6 +90,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
             await hooks.onStartLoad.exec({requestConfig, requestData, request})
             let {rows, hasNext} = await request(requestConfig)
+            rows = await hooks.onFormatRow.exec(rows)
             rows = await hooks.onAfterLoad.exec(rows)
             rows = await hooks.onLoaded.exec(rows)
             pagination.update({...targetLoadConfig, hasNext, list: rows})
@@ -184,6 +185,17 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             await hooks.onSelectChange.exec(currentNode.value)
         }
 
+        const saveInsert = async (editRow: any) => {
+            let {request, requestConfig} = utils.getUrlConfig('insert')
+            const saveRowPrev = await hooks.onBeforeSaveRow.exec(editRow)
+            requestConfig.body = deepcopy(saveRowPrev)
+            requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+            const newRowResult = await request!(requestConfig)
+            let saveRowNext = await hooks.onAfterSaveRow.exec(newRowResult.newRow)
+            saveRowNext = await hooks.onFormatRow.exec(saveRowNext)
+            return saveRowNext
+        }
+
         const insert = async (newRow?: Record<string, any>, editType?: eTableProEditType) => {
             await loadingMethods.save()
             let newRowData = deepcopy(newRow || (!config.defaultNewRow ? {} : (typeof config.defaultNewRow === "function" ? config.defaultNewRow() : config.defaultNewRow)))
@@ -205,13 +217,10 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                             $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                             return Promise.reject(validateResult)
                         }
-                        let {request, requestConfig} = utils.getUrlConfig('insert')
-                        requestConfig.body = deepcopy(newNode.editRow)
-                        requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
-                        const newRowResult = await request!(requestConfig)
-                        newNode.saveEdit(newRowResult.newRow)
+                        const saveRow = await saveInsert(newNode.editRow)
+                        newNode.saveEdit(saveRow)
                         newNode.closeEdit()
-                        await selectCurrent(newRowResult.newRow[config.keyField])
+                        await selectCurrent(saveRow[config.keyField])
                     },
                     onCancel: async () => {
                         tableState.list.shift()
@@ -230,11 +239,9 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     title: '新建',
                     plcList: freezeState.table.plcData.value!.sourceFlatPlcList,
                     onConfirm: async (newNode) => {
-                        let {request, requestConfig} = utils.getUrlConfig('insert')
-                        requestConfig.body = deepcopy(newNode.editRow)
-                        requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
-                        const newRowResult = await request!(requestConfig)
-                        tableState.list.unshift(newRowResult.newRow)
+                        const saveRow = await saveInsert(newNode.editRow)
+                        tableState.list.unshift(saveRow)
+                        await selectCurrent(saveRow[config.keyField])
                     },
                 })
             }
@@ -277,9 +284,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         return Promise.reject(validateResults[0])
                     }
                     let {request, requestConfig} = utils.getUrlConfig('batchInsert')
-                    requestConfig.body = deepcopy(newNodes.map(node => node.editRow))
-                    // todo
-                    // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                    requestConfig.body = await Promise.all(deepcopy(newNodes.map(node => node.editRow)).map(row => hooks.onBeforeSaveRow.exec(row)))
+                    requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
                     confirm.close.clear()
                     await pageMethods.reload()
@@ -303,6 +309,17 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             return insert(row)
         }
 
+        const saveUpdate = async (editRow: any) => {
+            let {request, requestConfig} = utils.getUrlConfig('update')
+            const saveRowPrev = await hooks.onBeforeSaveRow.exec(editRow)
+            requestConfig.body = deepcopy(saveRowPrev)
+            requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
+            const newRowResult = await request!(requestConfig)
+            let saveRowNext = await hooks.onAfterSaveRow.exec(newRowResult.newRow)
+            saveRowNext = await hooks.onFormatRow.exec(saveRowNext)
+            return saveRowNext
+        }
+
         const update = async (updateNode?: TableNode, editType?: eTableProEditType) => {
             await loadingMethods.save()
             const node = updateNode || freezeState.table.getCurrent()
@@ -323,13 +340,10 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                             $$message.error(`第${index + 1}条记录校验不通过，${errors[0].label}:${errors[0].message}`)
                             return Promise.reject(validateResult)
                         }
-                        let {request, requestConfig} = utils.getUrlConfig('update')
-                        requestConfig.body = deepcopy(node.editRow)
-                        requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
-                        const updateResult = await request!(requestConfig)
-                        node.saveEdit(updateResult.newRow)
+                        const saveRow = await saveUpdate(node.editRow)
+                        node.saveEdit(saveRow)
                         node.closeEdit()
-                        await selectCurrent(updateResult.newRow[config.keyField])
+                        await selectCurrent(saveRow[config.keyField])
                     },
                     onCancel: async () => {
                         node.cancelEdit()
@@ -343,11 +357,9 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     title: '编辑',
                     plcList: freezeState.table.plcData.value!.sourceFlatPlcList,
                     onConfirm: async (updateNode) => {
-                        let {request, requestConfig} = utils.getUrlConfig('update')
-                        requestConfig.body = deepcopy(updateNode.editRow)
-                        requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
-                        const updateResult = await request!(requestConfig)
-                        await node.saveEdit(updateResult.newRow)
+                        const saveRow = await saveUpdate(updateNode.editRow)
+                        await node.saveEdit(saveRow)
+                        await selectCurrent(saveRow[config.keyField])
                     },
                 })
             }
@@ -373,9 +385,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         return Promise.reject(validateResults[0])
                     }
                     let {request, requestConfig} = utils.getUrlConfig('batchUpdate')
-                    requestConfig.body = deepcopy(updateNodes.map(node => node.editRow))
-                    // todo
-                    // requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
+                    requestConfig.body = await Promise.all(deepcopy(updateNodes.map(node => node.editRow)).map(row => hooks.onBeforeSaveRow.exec(row)))
+                    requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
                     await request!(requestConfig)
                     confirm.close.clear()
                     await pageMethods.reload()
