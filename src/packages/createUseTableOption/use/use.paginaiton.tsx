@@ -3,6 +3,7 @@ import {tTableOptionConfig} from "../createUseTableOption.utils";
 import PlPagination from "../../PlPagination";
 import React from "react";
 import {tTableOptionHooks} from "./use.hooks";
+import {delay} from "plain-utils/utils/delay";
 
 export function useTableOptionPagination({tableState, config, hooks, onPrev, onNext, onJump, onSizeChange}: {
     tableState: { list: any[] },
@@ -53,8 +54,18 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
      */
     config.fill && hooks.onInit.use(async () => {
         const [maxLevel, baseTableHeight] = await Promise.all([
-            new Promise<number>((resolve) => {hooks.onCollectPlcData.use((plcData) => {resolve(plcData.maxLevel)})}),
-            new Promise<number>((resolve) => {hooks.onRefTable.use((baseTable) => {resolve(baseTable.refs.el!.offsetHeight)})})
+            new Promise<number>((resolve) => {
+                const eject = hooks.onCollectPlcData.use((plcData) => {
+                    resolve(plcData.maxLevel)
+                    eject()
+                })
+            }),
+            new Promise<number>((resolve) => {
+                const eject = hooks.onRefTable.use((baseTable) => {
+                    resolve(baseTable.refs.el!.offsetHeight)
+                    eject()
+                })
+            })
         ])
         const headHeight = config.headRowHeight * maxLevel
         const showRows = Math.floor((baseTableHeight - headHeight + 1) / config.bodyRowHeight)

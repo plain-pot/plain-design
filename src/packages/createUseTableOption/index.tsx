@@ -1,4 +1,4 @@
-import {iTableProConfig, iTableProDefaultConfig, iTableOptionState, tTableOptionConfig} from "./createUseTableOption.utils";
+import {iTableOptionState, iTableProConfig, iTableProDefaultConfig, tTableOptionConfig} from "./createUseTableOption.utils";
 import {useTableOptionPagination} from "./use/use.paginaiton";
 import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
@@ -99,15 +99,11 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
         /*执行初始化逻辑，init一定要放在所有hook之后执行*/
         const init = (() => {
-            const state = reactive({
-                isInitialized: false,
-            })
-            Promise.all(hooks.onInit.getListeners().map(i => i(undefined))).finally(() => state.isInitialized = true)
-            hooks.onLoading.use((prev) => {
-                if (!state.isInitialized) {return true}
-                return prev
-            })
-            return {state}
+            const state = reactive({isInitialized: false,})
+            const promise = Promise.all(hooks.onInit.getListeners().map(i => i(undefined))).finally(() => state.isInitialized = true)
+            hooks.onBeginLoad.use(async () => {await promise})
+            hooks.onLoading.use((prev) => !state.isInitialized ? true : prev)
+            return {state, promise}
         })()
 
         /*查询完毕之后更新列表数据*/
