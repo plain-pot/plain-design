@@ -90,7 +90,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             requestConfig = await hooks.onBeforeLoad.exec(requestConfig)
             await hooks.onStartLoad.exec({requestConfig, requestData, request})
             let {rows, hasNext} = await request(requestConfig)
-            rows = await hooks.onFormatRow.exec(rows)
+            rows = await Promise.all(rows.map(row => hooks.onFormatRow.exec(row)))
             rows = await hooks.onAfterLoad.exec(rows)
             rows = await hooks.onLoaded.exec(rows)
             pagination.update({...targetLoadConfig, hasNext, list: rows})
