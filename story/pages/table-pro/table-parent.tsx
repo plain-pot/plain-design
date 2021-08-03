@@ -14,20 +14,34 @@ export const demo1 = designPage(() => {
 
     const cityOption = useTableOption({
         url: '/address',
-        filterParam: {queries: [{field: 'deep', value: '0', operator: '='}]},
         showRows: 5,
+        parentOption: provinceOption,
+        parentMap: {parentName: 'name', parentCode: 'code'},
     })
 
     const districtOption = useTableOption({
         url: '/address',
-        filterParam: {queries: [{field: 'deep', value: '0', operator: '='}]},
         showRows: 5,
+        parentOption: cityOption,
+        parentMap: {parentName: 'name', parentCode: 'code'},
     })
 
 
     return () => <>
         <DemoRow title="基本用法">
             <PlTablePro option={provinceOption}>
+                <PlcInput title="地址代码" field="code"/>
+                <PlcInput title="地址名称" field="name" defaultSearch/>
+                <PlcInput title="经度" field="longitude"/>
+                <PlcInput title="纬度" field="latitude"/>
+            </PlTablePro>
+            <PlTablePro option={cityOption}>
+                <PlcInput title="地址代码" field="code"/>
+                <PlcInput title="地址名称" field="name"/>
+                <PlcInput title="经度" field="longitude"/>
+                <PlcInput title="纬度" field="latitude"/>
+            </PlTablePro>
+            <PlTablePro option={districtOption}>
                 <PlcInput title="地址代码" field="code"/>
                 <PlcInput title="地址名称" field="name"/>
                 <PlcInput title="经度" field="longitude"/>
