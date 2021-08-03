@@ -47,6 +47,12 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
         }
     })
 
+    config.showRows != null && (() => {
+        if (config.pageSizeOptions.indexOf(config.showRows) === -1) {
+            config.pageSizeOptions = [config.showRows, ...config.pageSizeOptions]
+        }
+    })()
+
     /**
      * 如果页面设置了自动填充高度，这里设置第一次加载数据之前，
      * @author  韦胜健
