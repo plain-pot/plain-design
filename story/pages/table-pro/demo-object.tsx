@@ -41,14 +41,16 @@ export default designPage(() => {
         </>
     })
 
+    let selectedRow: any = undefined
     const selectRow = async () => {
-        const checked = await $object({option})
-        $$notice({message: checked.normalText})
+        selectedRow = await $object({option, selected: selectedRow})
+        $$notice({message: selectedRow.normalText})
     }
 
+    let selectedList: any[] = []
     const selectList = async () => {
-        const list = await $object({option}, true)
-        $$notice({message: list.map(i => i.normalText).join(',')})
+        selectedList = await $object({option, selected: selectedList}, true)
+        $$notice({message: selectedList.map(i => i.normalText).join(',')})
     }
 
     return () => <>

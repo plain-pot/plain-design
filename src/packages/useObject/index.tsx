@@ -4,13 +4,14 @@ import useDialog, {DialogServiceFormatOption} from "../useDialog";
 import PlTablePro from "../PlTablePro";
 import {defer} from "../../utils/defer";
 import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
-import {PlcCheck} from "../PlcCheck";
 import PlcPick from "../PlcPick";
 import {designPage, onBeforeUnmount, useRefs} from "plain-design-composition";
-import {TableNode} from "../PlTable/table/use/useTableNode";
+import PlcCheckRow from "../PlcCheckRow";
+import useMessage from "../useMessage";
 
 export interface ObjectServiceOption {
     option: tTableOption,
+    selected?: PlainObject | PlainObject[],
     beforeConfirm?: (data: PlainObject | PlainObject[]) => void | Promise<void>,
     beforeCancel?: () => void | Promise<void>,
 }
@@ -24,8 +25,9 @@ interface ObjectService {
 export function useObject() {
 
     const $dialog = useDialog()
+    const $message = useMessage()
     const {refs, onRef} = useRefs({
-        check: null as null | typeof PlcPick.use.class | typeof PlcCheck.use.class
+        check: null as null | typeof PlcPick.use.class | typeof PlcCheckRow.use.class
     })
 
     const $object: ObjectService = (option: ObjectServiceOption, multiple?: true) => {
@@ -36,7 +38,10 @@ export function useObject() {
             if (!refs.check) {
                 dfd.reject(new Error('选择失败，内部异常！'))
             } else {
-                const data = !multiple ? refs.check.getSelected()! : refs.check.getSelected()!.map((i: TableNode) => i.data)
+                const data = !multiple ? refs.check.getSelected()! : refs.check.getSelected()
+                if (!data || (Array.isArray(data) && data.length === 0)) {
+                    return void $message.error('请选择一行数据！')
+                }
                 !!beforeConfirm && await beforeConfirm(data)
                 dfd.resolve(data)
             }
@@ -49,8 +54,8 @@ export function useObject() {
 
             return () => <>
                 <PlTablePro option={tableOption}>
-                    {multiple && <PlcCheck toggleOnClickRow ref={onRef.check}/>}
-                    {!multiple && <PlcPick toggleOnClickRow ref={onRef.check}/>}
+                    {multiple && <PlcCheckRow toggleOnClickRow ref={onRef.check} selected={option.selected as PlainObject[]}/>}
+                    {!multiple && <PlcPick toggleOnClickRow ref={onRef.check} selected={option.selected as PlainObject}/>}
                 </PlTablePro>
             </>
         })

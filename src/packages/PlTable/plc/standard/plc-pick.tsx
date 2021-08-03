@@ -22,6 +22,7 @@ export default designComponent({
         }),
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
         isCheckable: Function as PropType<(node: TableNode) => boolean>,// 是否可选
+        selected: {type: Array as PropType<PlainObject>},       // 已经选中的数据
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
@@ -29,7 +30,7 @@ export default designComponent({
         const table = injectPlainTable()
 
         const state = reactive({
-            selectRow: null as null | PlainObject,
+            selectRow: props.selected,
         })
 
         const selectKey = computed(() => {
@@ -52,7 +53,7 @@ export default designComponent({
                 state.selectRow = table.state.nodeMap[key]
             },
             clear: () => {
-                state.selectRow = null
+                state.selectRow = undefined
             }
         }
         if (props.toggleOnClickRow) {
