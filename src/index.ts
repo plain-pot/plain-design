@@ -112,6 +112,7 @@ import PlcObject from "./packages/PlcObject";
 
 import useTableOption from "./packages/useTableOption";
 import useObjectOption from "./packages/useObjectOption";
+import useHttp from "./packages/useHttp";
 
 export {
     $$contextmenu,
@@ -207,6 +208,7 @@ export {
     initialize,
     useTableOption,
     useObjectOption,
+    useHttp,
 
     PlcCheck,
     PlcCheckbox,
