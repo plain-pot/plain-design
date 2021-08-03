@@ -139,15 +139,15 @@ export type iTableOptionButton = iTableOptionButtonInner | iTableOptionButtonOut
  * @date    2021/5/19 20:51
  */
 export interface iTableProDefaultConfig {
-    keyField: string,
-    bodyRowHeight: number,
-    headRowHeight: number,
-    indexing?: boolean,
-    border?: boolean,
-    showRow: number,
-    pageSizeOptions: number[],
-    editType: keyof typeof eTableProEditType,
-    loadOnStart?: boolean,
+    keyField: string,                                                   // 行数据唯一标识字段名称
+    bodyRowHeight: number,                                              // 行高
+    headRowHeight: number,                                              // 表头行高
+    indexing?: boolean,                                                 // 是否需要索引列
+    border?: boolean,                                                   // 是否显示单元格边框
+    defaultShowRow: number,                                             // 当没有设置showRow，也没有设置自动填充高度时，默认的显示行数
+    pageSizeOptions: number[],                                          // 也大小选项数组
+    editType: keyof typeof eTableProEditType,                           // 编辑类型，inline或者form
+    loadOnStart?: boolean,                                              // 是否页面初始化的时候就加载数据
     copyDefaultExcludeKeys: string[],                                   // 复制一行的时候，不复制的属性
     injectRules: (filterDataArr: iFilterData[], requestConfig: tRequestConfig) => void | tRequestConfig, // 将筛选条件rules填写到requestConfig中
     sort: iTableSortData | iTableSortData[],                            // 排序方式
@@ -181,6 +181,8 @@ export type TableProConfigEnable = boolean | {
 export interface iTableProConfig<D = any> extends Partial<iTableProDefaultConfig> {
     data?: D[],                                                         // 当前数据
     url?: tUrl,                                                         // 请求地址信息
+    fill?: boolean,                                                     // 是否自动计算高度
+    showRows?: number,                                                   // 显示的行数（自动计算表格的高度）
     queryParams?: PlainObject | Promise<PlainObject> | (() => PlainObject | Promise<PlainObject>)//查询参数
     pageSize?: number,                                                  // 请求页大小
     editType?: keyof typeof eTableProEditType,                          // 编辑类型

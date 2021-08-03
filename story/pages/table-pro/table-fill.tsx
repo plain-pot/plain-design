@@ -12,10 +12,11 @@ export default designPage(() => {
 
     const option = useTableOption({
         url: '/demo',
+        fill: true,
     })
 
     return () => <>
-        <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
+        <div style={{height: 'calc(100vh - 100px)', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
                 <Plc title="编号id" field="id" hideInForm/>
                 <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false}/>

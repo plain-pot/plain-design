@@ -1,8 +1,7 @@
-import {computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
+import {classnames, computed, designComponent, onBeforeUnmount, onMounted, PropType, SimpleFunction, watch} from "plain-design-composition";
 import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import './table-pro.scss'
-import PlButtonGroup from "../PlButtonGroup";
 import {iTableProRenderConfig} from "../createUseTableOption/use/use.hooks";
 import PlLoadingMask from "../PlLoadingMask";
 
@@ -45,7 +44,10 @@ export const PlTablePro = designComponent({
             tableProRenderConfigs = props.option.hooks.onTableRender.exec(tableProRenderConfigs).sort((a, b) => a.seq - b.seq)
 
             return (
-                <div className="pl-table-pro" ref={onRef}>
+                <div className={classnames([
+                    'pl-table-pro',
+                    {'pl-table-pro-fill': props.option.config.fill},
+                ])} ref={onRef}>
                     <div className="pl-table-pro-head">
                         {/*<span className="pl-table-pro-title">
                         <PlIcon icon="el-icon-menu" status="primary"/>

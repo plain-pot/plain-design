@@ -17,7 +17,7 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
 
     const pageState = reactive({
         page: 0,
-        size: config.pageSize || config.showRow,
+        size: config.showRows || config.defaultShowRow,
         hasNext: false,
         total: null as null | number,
     })
@@ -46,6 +46,23 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
         }
     })
 
+    /**
+     * 如果页面设置了自动填充高度，这里设置第一次加载数据之前，
+     * @author  韦胜健
+     * @date    2021/8/3 10:13
+     */
+    config.fill && hooks.onInit.use(async () => {
+        const [maxLevel, baseTableHeight] = await Promise.all([
+            new Promise<number>((resolve) => {hooks.onCollectPlcData.use((plcData) => {resolve(plcData.maxLevel)})}),
+            new Promise<number>((resolve) => {hooks.onRefTable.use((baseTable) => {resolve(baseTable.refs.el!.offsetHeight)})})
+        ])
+        const headHeight = config.headRowHeight * maxLevel
+        const showRows = Math.floor((baseTableHeight - headHeight + 1) / config.bodyRowHeight)
+        pageState.size = showRows
+        config.showRows = showRows
+        config.pageSizeOptions = [showRows, ...config.pageSizeOptions]
+    })
+
     hooks.onTableRender.use(prev => [
         ...prev,
         {
@@ -60,6 +77,7 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
                             currentPage={pageState.page + 1}
                             total={total.value}
                             limitJumpPageByTotalPage={false}
+                            pageSizes={config.pageSizeOptions}
 
                             onJump={val => onJump(val - 1)}
                             onCurrentChange={val => onJump(val - 1)}

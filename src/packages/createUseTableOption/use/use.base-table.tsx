@@ -41,6 +41,8 @@ export function useTableOptionBaseTable(
             render: () => (
                 <PlTable
                     ref={refTable}
+                    showRows={config.showRows}
+                    className="pl-table-pro-base-table"
                     data={tableState.list}
                     defaultEditingWhenAddRow={tableState.editingWhenAddRow}
                     currentKey={tableState.currentKey || undefined}
