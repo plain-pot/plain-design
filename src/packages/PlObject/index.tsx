@@ -2,7 +2,7 @@ import {designComponent, PropType} from "plain-design-composition";
 import {tTableOption} from "../createUseTableOption";
 import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import {EditProps, useEdit} from "../../use/useEdit";
-import {StyleProps} from "../../use/useStyle";
+import {StyleProps, useStyle} from "../../use/useStyle";
 import PlInput from "../PlInput";
 import React from "react";
 import useObject from "../useObject";
@@ -24,6 +24,7 @@ export const PlObject = designComponent({
     },
     setup({props}) {
 
+        useStyle()
         const {editComputed} = useEdit()
         const {$object} = useObject()
 
