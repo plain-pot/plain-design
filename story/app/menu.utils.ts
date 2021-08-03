@@ -161,6 +161,7 @@ const MenuData: MenuGroup[] = [
             {name: 'Filter', title: 'pl-filter', page: '/table-pro/pro-filter', complete: true},
             {name: 'Object', title: 'pl-object', page: '/table-pro/demo-object', complete: true},
             {name: '父子表', title: 'table parent', page: '/table-pro/table-parent', complete: true},
+            {name: 'Address', title: 'table parent', page: '/table-pro/demo-address', complete: true},
         ]
     },
     /*{
