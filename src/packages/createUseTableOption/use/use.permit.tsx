@@ -3,7 +3,10 @@ import {tTableOptionHooks} from "./use.hooks";
 import {usePermission} from "./userPermission";
 
 export function useTableOptionPermit({config, hooks}: { config: tTableOptionConfig, hooks: tTableOptionHooks }) {
-    const {init, permit} = usePermission(config)
+    const {init, permit} = usePermission({
+        ...config,
+        onGetEnable: hooks.onGetEnable.exec,
+    })
     hooks.onInit.use(async () => {await init})
     return permit
 }

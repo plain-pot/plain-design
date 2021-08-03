@@ -10,7 +10,8 @@ export const demo1 = designPage(() => {
     const option = useTableOption({
         url: '/address',
         enable: {
-            insert: false
+            insert: false,
+            update: false,
         },
     })
 

@@ -8,8 +8,17 @@ export interface PermissionState {
     isInit: boolean,
 }
 
+export interface PermissionEnable {
+    insert: boolean,
+    update: boolean,
+    delete: boolean
+}
 
-export function usePermission(config: { permission?: string, enable?: TableProConfigEnable }) {
+export interface PermissionGetEnable {
+    (param: PermissionEnable): PermissionEnable
+}
+
+export function usePermission(config: { permission?: string, enable?: TableProConfigEnable, onGetEnable: PermissionGetEnable }) {
     const state: PermissionState = reactive({insert: null, update: null, delete: null, isInit: false})
 
     /*权限数据加载初始化*/
@@ -36,7 +45,7 @@ export function usePermission(config: { permission?: string, enable?: TableProCo
             update: !!state.update,
             delete: !!state.delete,
         }
-        return typeof config.enable === 'undefined' ? {...defaultEnable} :
+        return config.onGetEnable(typeof config.enable === 'undefined' ? {...defaultEnable} :
             typeof config.enable === "boolean" ? {
                 insert: config.enable,
                 update: config.enable,
@@ -45,7 +54,7 @@ export function usePermission(config: { permission?: string, enable?: TableProCo
                 insert: typeof config.enable.insert === "function" ? config.enable.insert() : config.enable.insert != null ? config.enable.insert : defaultEnable.insert,
                 update: typeof config.enable.update === "function" ? config.enable.update() : config.enable.update != null ? config.enable.update : defaultEnable.update,
                 delete: typeof config.enable.delete === "function" ? config.enable.delete() : config.enable.delete != null ? config.enable.delete : defaultEnable.delete,
-            }
+            })
     })
 
     /**

@@ -1,4 +1,4 @@
-import {iQueryRequest, iTableProDefaultConfig, iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
+import {iQueryRequest, iTableSortData, PlainObject, tRequestConfig, tTableOptionConfig} from "../createUseTableOption.utils";
 import {TableNode} from "../../PlTable/table/use/useTableNode";
 import PlTable from "../../PlTable";
 import {reactive} from "plain-design-composition";
@@ -118,6 +118,7 @@ export function useTableOptionHooks({config}: { config: tTableOptionConfig }) {
         onQueryParams: createHooks<() => PlainObject>(),                                            // 异步钩子函数，获取查询参数
         onTableConfig: createSyncHooks<(data: { cacheData: iTableOptionCacheData, sourceList: tPlcType[], flatList: tPlc[] }) => void>(),     // 同步钩子函数，table.props.config执行动作
         onHandleNewRow: createHooks<(row: any) => void>(),                                          // 处理新行对象
+        onGetEnable: createSyncHooks<(enable: { insert: boolean, update: boolean, delete: boolean }) => void>(true),// 计算enable
 
         onCollectPlcData: createHooks<(plcData: tPlcData) => void>(),                               // 收集到plcData动作
         onCollectFilterData: createHooks<(filterData: iFilterData[]) => void>(),                    // 收集筛选参数

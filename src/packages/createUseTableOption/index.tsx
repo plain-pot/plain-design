@@ -4,7 +4,7 @@ import {useTableOptionMethods} from "./use/use.methods";
 import {useTableOptionHooks} from "./use/use.hooks";
 import {computed, onBeforeUnmount, reactive} from "plain-design-composition";
 import {useTableOptionCheck} from "./use/check/use.check";
-import {useTableOptionConfirm} from "./use/use.confirm";
+import {eTableProStatus, useTableOptionConfirm} from "./use/use.confirm";
 import {useTableOptionCommand} from "./use/use.command";
 import {useTableOptionButtons} from "./use/use.buttons";
 import {useTableOptionSetting} from "./use/setting/use.setting";
@@ -17,7 +17,6 @@ import {iFilterData} from "../PlFilter/FilterConfig";
 import {useTableOptionSortState} from "./use/use.sort.state";
 import {useTableOptionFilterState} from "./use/use.filter.state";
 import {useTableOptionCache} from "./use/use.cache";
-import {delay} from "plain-utils/utils/delay";
 
 export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultConfig) {
     return (customConfig: iTableProConfig<D>) => {
@@ -144,6 +143,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
             customConfig,
             tableState,
             config,
+            confirm,
             pagination,
             pageMethods,
             editMethods,
@@ -199,6 +199,22 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
                 Object.entries(parentMap).forEach(([childKey, parentKey]) => {
                     row[childKey] = data[parentKey]
                 })
+            }))
+
+            onBeforeUnmount(hooks.onGetEnable.use((enable) => {
+                const parents: (typeof ret)[] = []
+                let option = parentOption
+                while (!!option) {
+                    parents.push(option)
+                    option = option.config.parentOption as any
+                }
+                if (parents.some(i => i.confirm.state.status !== eTableProStatus.normal)) {
+                    enable.insert = false
+                    enable.update = false
+                    enable.delete = false
+                } else {
+                    return
+                }
             }))
         }
 
