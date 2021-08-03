@@ -200,6 +200,8 @@ export interface iTableProConfig<D = any> extends Partial<iTableProDefaultConfig
     hooks?: tTableOptionConfigHook,                                     // 监听钩子函数
     enable?: TableProConfigEnable,                                      // 新删改查控制
     hideOperation?: boolean,                                            // 是否隐藏操作栏
+    parentOption?: Record<string, any>,                                 // 父表的option
+    parentMap?: Record<string, any>,                                    // 父表的字段映射（）
 }
 
 export type tTableOptionConfig = iTableProDefaultConfig & iTableProConfig
