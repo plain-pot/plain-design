@@ -19,6 +19,7 @@ import PlIcon from "../../../PlIcon";
 import {delay} from "plain-utils/utils/delay";
 import {iQueryRequest, iTableOptionState, tRequestConfig} from "../../createUseTableOption.utils";
 import {tTableOptionHooks} from "../use.hooks";
+import {plainDate} from "../../../../utils/plainDate";
 
 interface ExportOption {
     type: string,
@@ -113,7 +114,7 @@ export function useTableOptionSettingExport(
             const buffer = await workbook.xlsx.writeBuffer();
             FileSaver.saveAs(
                 new Blob([buffer], {type: 'application/vnd.ms-excel'}),
-                "hello world.xlsx"
+                `${plainDate.today('', 'YYYY-MM-DD').getValue()}.xlsx`
             );
         }
 
