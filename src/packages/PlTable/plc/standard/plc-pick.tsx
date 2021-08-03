@@ -22,7 +22,7 @@ export default designComponent({
         }),
         toggleOnClickRow: {type: Boolean},                      // 是否在点击行的时候触发点击动作
         isCheckable: Function as PropType<(node: TableNode) => boolean>,// 是否可选
-        selected: {type: Array as PropType<PlainObject>},       // 已经选中的数据
+        selected: {type: Object as PropType<PlainObject>},       // 已经选中的数据
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,

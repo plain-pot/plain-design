@@ -33,7 +33,14 @@ export const PlObject = designComponent({
                 throw new Error('PlObject: props.option is necessary!')
             }
             !!props.beforeSelect && await props.beforeSelect(props.row!)
-            const selected = await $object({option: props.option, readonly: !editComputed.value.editable,})
+            const selected = await $object({
+                option: props.option,
+                readonly: !editComputed.value.editable,
+                selected: !props.row || !props.map || typeof props.map !== "object" ? undefined : Object.entries(props.map).reduce((prev, [sourceKey, selectedKey]) => {
+                    prev[selectedKey] = props.row![sourceKey]
+                    return prev
+                }, {} as Record<string, any>)
+            })
 
             if (!!props.map) {
                 if (typeof props.map === "function") {
