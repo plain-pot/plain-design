@@ -2,19 +2,16 @@ import useTableOption from "./useTableOption";
 
 const useObjectOption: typeof useTableOption = (config) => {
 
-    config.fill = undefined
-
     if (config.enable == null) {
         config.enable = false
     }
 
-    const option = useTableOption(config)
-
-    if (option.config.showRows == null) {
-        config.showRows = Math.ceil((document.body.offsetHeight * 0.8 - 200) / option.config.bodyRowHeight) - 1
+    config.fill = undefined
+    if (config.showRows == null) {
+        config.showRows = Math.ceil((document.body.offsetHeight * 0.8 - 200) / 48) - 1
     }
 
-    return option
+    return useTableOption(config)
 }
 
 export default useObjectOption
