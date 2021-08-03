@@ -92,7 +92,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const buttons = useTableOptionButtons({hooks, methods, command, setting, config, permit, confirm})
 
         /*筛选查询*/
-        const filter = useTableOptionFilter({hooks, methods, customConfig, sortState, filterState, setting})
+        const filter = useTableOptionFilter({hooks, methods, customConfig, sortState, filterState, setting, config})
 
         /*基础表格渲染*/
         useTableOptionBaseTable({config, hooks, pagination, tableState, sortState, cache})

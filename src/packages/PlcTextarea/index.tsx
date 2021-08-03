@@ -29,6 +29,7 @@ export const PlcTextarea = designComponent({
                 $dialog({
                     editType: 'textarea',
                     editValue: val,
+                    editReadonly: true,
                 })
             }
         })

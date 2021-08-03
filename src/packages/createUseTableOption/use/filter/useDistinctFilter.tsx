@@ -1,7 +1,7 @@
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import useTableOption from "../../../useTableOption";
 import React from "react";
-import {iTableProConfig, PlainObject} from "../../createUseTableOption.utils";
+import {iTableProConfig, PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils";
 import {computed, designPage, reactive, useRefs} from "plain-design-composition";
 import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
@@ -40,7 +40,7 @@ interface iDistinctDataInAllFilter {
     nodes: TableNode[],
 }
 
-export function useTableOptionDistinctFilter({hooks, methods, customConfig, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, filterState: tTableOptionFilter }) {
+export function useTableOptionDistinctFilter({hooks, methods, customConfig, filterState, config}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, filterState: tTableOptionFilter, config: tTableOptionConfig }) {
 
     const $dialog = useDialog()
 
@@ -184,6 +184,8 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         const Content = designPage(() => {
             const tableOption = useTableOption({
                 ...customConfig,
+                showRows: Math.ceil((document.body.offsetHeight * 0.8 - 200) / config.bodyRowHeight) - 1,
+                fill: false,
                 keyField: plc.props.field,
                 enable: false,
                 sort: sortData,
@@ -210,6 +212,7 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
                 closeOnConfirm: false,
                 width: '75vw',
                 vertical: 'center',
+                wrapperPadding: false,
             },
             confirmButton: true,
             cancelButton: true,

@@ -12,15 +12,15 @@ import PlIcon from "../../../PlIcon";
 import {toArray} from "../../../../utils/toArray";
 import {ContextmenuServiceOption} from "../../../useContextmenu/PlContextMenuService";
 import {useTableOptionDistinctFilter} from "./useDistinctFilter";
-import {iTableProConfig} from "../../createUseTableOption.utils";
+import {iTableProConfig, tTableOptionConfig} from "../../createUseTableOption.utils";
 import PlButtonGroup from "../../../PlButtonGroup";
 import {tTableOptionSort} from "../use.sort.state";
 import {tTableOptionFilter} from "../use.filter.state";
 import {iFilterCacheDataMap, iFilterStateDataMap, renderFtoForm} from "./use.filter.utils";
 
-export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter }) {
+export function useTableOptionColumnFilter({hooks, methods, customConfig, sortState, filterState, config}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, customConfig: iTableProConfig, sortState: tTableOptionSort, filterState: tTableOptionFilter, config: tTableOptionConfig }) {
 
-    const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks, filterState})
+    const distinct = useTableOptionDistinctFilter({customConfig, methods, hooks, filterState, config})
 
     const $contextmenu = useContextmenu()
 
