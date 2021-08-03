@@ -163,7 +163,12 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
 
             /*父表切换选中行之后，重新加载数据*/
             onBeforeUnmount(parentOption.hooks.onSelectChange.use(async (selectNode) => {
-                if (!selectNode) {
+                const noParent = !selectNode || (() => {
+                    const {data} = selectNode
+                    return Object.values(parentMap).every(parentKey => data[parentKey] == null)
+                })()
+
+                if (noParent) {
                     /*父表没有值，则清空行数据*/
                     let rows: any[] = []
                     rows = await hooks.onAfterLoad.exec(rows)
