@@ -20,6 +20,7 @@ import {renderBodyCell} from "../../../PlTable/plc/utils/render";
 import {TreeNodeCheckStatus} from "../../../PlTree/utils/tree-constant";
 import './distinct.filter.scss'
 import {getPlcKey} from "../../../PlTable/plc/utils/usePropsState";
+import useObjectOption from "../../../useObjectOption";
 
 /**
  *在打开去重筛选弹框的时候，需要获取一遍当前表格的查询参数，在获取的同时要排除掉这个列的去重筛选条件参数
@@ -182,12 +183,9 @@ export function useTableOptionDistinctFilter({hooks, methods, customConfig, filt
         // console.log({tableSlots, findReactNode,})
 
         const Content = designPage(() => {
-            const tableOption = useTableOption({
+            const tableOption = useObjectOption({
                 ...customConfig,
-                showRows: Math.ceil((document.body.offsetHeight * 0.8 - 200) / config.bodyRowHeight) - 1,
-                fill: false,
                 keyField: plc.props.field,
-                enable: false,
                 sort: sortData,
                 buttons: [],
                 queryParams: {
