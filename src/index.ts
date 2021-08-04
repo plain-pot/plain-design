@@ -76,6 +76,7 @@ import PlVirtualTable from "./packages/PlVirtualTable";
 import PlInputGroup from "./packages/PlInputGroup";
 import PlEmpty from './packages/PlEmpty'
 import PlObject from "./packages/PlObject";
+import PlAddress from "./packages/PlAddress";
 
 import PlDateRange from "./packages/PlDateRange";
 
@@ -109,6 +110,7 @@ import PlcOperator from './packages/PlcOperator'
 import PlTablePro from "./packages/PlTablePro";
 import PlcCheckRow from "./packages/PlcCheckRow";
 import PlcObject from "./packages/PlcObject";
+import PlcAddress from "./packages/PlcAddress";
 
 import useTableOption from "./packages/useTableOption";
 import useObjectOption from "./packages/useObjectOption";
@@ -193,6 +195,7 @@ export {
     PlInputGroup,
     PlEmpty,
     PlObject,
+    PlAddress,
 
     PlDateRange,
 
@@ -228,5 +231,6 @@ export {
     PlcCheckRow,
     PlcOperator,
     PlcObject,
+    PlcAddress,
     PlTablePro,
 }
