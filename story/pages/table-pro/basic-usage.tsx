@@ -100,7 +100,7 @@ export default designPage(() => {
                 </PlcSelect>
                 <PlcTextarea title="长文本longText" field="longText"/>
                 <PlcObject title="父对象" field="parentName" option={parentOption} map={{parentId: 'id', parentName: 'normalText'}}/>
-                <PlcAddress title="省" field="provinceVal" province/>
+                <PlcAddress title="省" field="provinceVal" province defaultSearch/>
                 <PlcAddress title="市" field="cityVal" parentField="provinceVal" city/>
                 <PlcAddress title="区" field="districtVal" parentField="cityVal" district/>
                 <PlcAddress/>
