@@ -70,8 +70,8 @@ export default designPage(() => {
             <PlTablePro option={option}>
                 <PlcGroup title="分组一">
                     <Plc title="编号id" field="id" link onClick={onClick} hideInForm/>
-                    <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false}/>
-                    <PlcDate title="更新时间" field="updatedAt" hideInForm width={200} editable={false}/>
+                    <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false} datetime/>
+                    <PlcDate title="更新时间" field="updatedAt" hideInForm width={200} editable={false} datetime/>
                     <PlcDate title="日期" field="dateVal"/>
                 </PlcGroup>
                 <PlcGroup title="分组二">

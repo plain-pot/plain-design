@@ -77,8 +77,8 @@ export default designPage(() => {
         <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
             <PlTablePro option={option}>
                 <Plc title="编号id" field="id" link onClick={onClick} hideInForm/>
-                <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false}/>
-                <PlcDate title="更新时间" field="updatedAt" hideInForm width={200} editable={false}/>
+                <PlcDate title="创建时间" field="createdAt" hideInForm width={200} editable={false} datetime/>
+                <PlcDate title="更新时间" field="updatedAt" hideInForm width={200} editable={false} datetime/>
                 <PlcDate title="日期" field="dateVal"/>
                 <PlcNumber title="计数count" field="count" required/>
                 <PlcInput title="文本normalText" field="normalText" required fixed="left"/>

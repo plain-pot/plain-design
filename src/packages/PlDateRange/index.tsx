@@ -85,12 +85,14 @@ export const PlDateRange = designComponent({
                         {...publicDateAttrs.value}
                         modelValue={startModel.value}
                         onChange={handler.onStartChange as any}
+                        defaultTime="00:00:00"
                     />
                     <PlInput modelValue="~" readonly align="center" width={36}/>
                     <PlDate
                         modelValue={endModel.value}
                         {...publicDateAttrs.value}
                         onChange={handler.onEndChange as any}
+                        defaultTime="23:59:59"
                     />
                     <PlInput
                         customReadonly

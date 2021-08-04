@@ -99,8 +99,8 @@ export const disabled = designPage(() => {
         url: '/demo',
         render: () => <>
             <Plc title="编号id" field="id" hideInForm/>
-            <PlcDate title="创建时间" field="createdAt" hideInForm editable={false}/>
-            <PlcDate title="更新时间" field="updatedAt" hideInForm editable={false}/>
+            <PlcDate title="创建时间" field="createdAt" hideInForm editable={false} datetime/>
+            <PlcDate title="更新时间" field="updatedAt" hideInForm editable={false} datetime/>
             <PlcDate title="日期" field="dateVal"/>
             <PlcNumber title="计数count" field="count" required/>
             <PlcInput title="文本normalText" field="normalText" required fixed="left"/>
