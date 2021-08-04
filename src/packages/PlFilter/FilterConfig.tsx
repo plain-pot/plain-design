@@ -19,6 +19,8 @@ export enum eFilterOperator {
     '<=' = '<=',
     'in' = 'in',
     'not in' = 'not in',
+    'in like' = 'in like',
+    'not in like' = 'not in like',
     'is null' = 'is null',
     'is not null' = 'is not null',
 }
@@ -167,11 +169,11 @@ FilterConfig.touchFilter('text')
     })
     .setHandler('包含', {
         render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
-        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in"]})
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in like"]})
     })
     .setHandler('不包含', {
         render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
-        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in"]})
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in like"]})
     })
     .setHandler('为空值', {
         render: () => <PlInput placeholder="为空" disabled/>,
@@ -265,11 +267,11 @@ FilterConfig.touchFilter('number')
     })
     .setHandler('包含', {
         render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
-        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in"]})
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in like"]})
     })
     .setHandler('不包含', {
         render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
-        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in"]})
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in like"]})
     })
     .setHandler('为空值', {
         render: () => <PlInput placeholder="为空" disabled/>,
