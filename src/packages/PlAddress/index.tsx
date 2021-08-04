@@ -34,7 +34,7 @@ export const PlAddress = designComponent({
 
         const {$address} = useAddress()
 
-        const {editState} = useEdit({
+        const {editState, editComputed} = useEdit({
             adjust: val => {
                 if (!props.province && !props.parentValue) {
                     val.disabled = true
@@ -105,7 +105,7 @@ export const PlAddress = designComponent({
 
         return () => (
             <PlSelect
-                modelValue={valueModel.value}
+                modelValue={editComputed.value.loading ? '加载中...' : valueModel.value}
                 onUpdateModelValue={val => handler.onSelectChange(val as string)}>
                 {state.options.map((addr) => (
                     <PlSelectOption label={addr.name} val={addr.code} key={addr.code}/>

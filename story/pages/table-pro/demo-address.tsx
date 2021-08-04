@@ -40,3 +40,26 @@ export const demo2 = designPage(() => {
     </>
 
 })
+export const demo3 = designPage(() => {
+
+    const state = reactive({
+        formData: {
+            province: '630000',
+            city: '632500',
+            district: '632525',
+        } as any
+    })
+
+
+    return () => <>
+        <DemoRow title="默认地址">
+            <ul>
+                <li>省份：<PlAddress province v-model={state.formData.province}/></li>
+                <li>城市：<PlAddress city v-model={state.formData.city} parentValue={state.formData.province}/></li>
+                <li>区县：<PlAddress district v-model={state.formData.district} parentValue={state.formData.city}/></li>
+            </ul>
+            {JSON.stringify(state.formData)}
+        </DemoRow>
+    </>
+
+})
