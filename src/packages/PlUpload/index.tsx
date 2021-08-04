@@ -48,7 +48,7 @@ export const PlUpload = designComponent({
     name: 'pl-upload',
     props: {
         ...EditProps,
-        modelValue: {type: Array as PropType<UploadModelValue>},        // 双向绑定值，文件对象
+        modelValue: {type: [Array, Object] as PropType<UploadModelValue>},// 双向绑定值，文件对象
         /*chooseFile*/
         accept: {type: String},                                         // FileServiceChooseFileConfig.accept, 接收上传的文件类型
         multiple: {type: Boolean, default: true},                       // FileServiceChooseFileConfig.multiple, 是否上传多个文件
