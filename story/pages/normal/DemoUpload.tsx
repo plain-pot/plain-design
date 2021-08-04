@@ -15,6 +15,8 @@ export default designPage(() => {
 
     const state = reactive({
         val: {
+            // singleValue: {id: '001', name: 'logo.jpg',},
+            singleValue: undefined,
             0: [
                 {id: '001', name: 'logo.jpg',},
                 {id: '002', name: 'home.jpg',},
@@ -88,7 +90,7 @@ export default designPage(() => {
                     data={state.uploadData}
                     headers={state.uploadHeaders}
                     v-model={state.val.singleValue}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={'http://localhost:7001/uploadFile'}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
