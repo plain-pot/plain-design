@@ -9,6 +9,7 @@ import {tFormRuleItem} from "../PlForm/form.validate";
 import PlDate from "../PlDate";
 import PlDateRange from "../PlDateRange";
 import PlNumberRange from "../PlNumberRange";
+import {AddressQueryValueFormatter} from "../useAddress/useAddress.utils";
 
 export enum eFilterOperator {
     '=' = '=',
@@ -30,6 +31,7 @@ export interface iFilterQuery {
     field: string,
     operator: keyof typeof eFilterOperator | eFilterOperator,
     value?: any,
+    formatValue?: (value: any) => Promise<any>,
 }
 
 export interface iFilterData {
@@ -153,6 +155,21 @@ export const FilterConfig = (() => {
         !!fo.plc && (fo.handlerName = fo.plc.props.filterHandler)
     }
 
+    const processQueries = async (queries: iFilterQuery[]): Promise<iFilterQuery[]> => {
+        return Promise.all(queries.map(async query => {
+            console.log({...query})
+            const {formatValue, value, ...left} = query
+            if (!formatValue || value == null) {
+                return {value, ...left}
+            } else {
+                return {
+                    ...left,
+                    value: await formatValue(value)
+                }
+            }
+        }))
+    }
+
     return {
         touchFilter,
         getHandler,
@@ -160,6 +177,7 @@ export const FilterConfig = (() => {
         formatToQuery,
         hasValue,
         clearFoValue,
+        processQueries,
     }
 
 })();
@@ -278,6 +296,32 @@ FilterConfig.touchFilter('number')
     .setHandler('不包含', {
         render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
         transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in like"]})
+    })
+    .setHandler('为空值', {
+        render: () => <PlInput placeholder="为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is null"]})
+    })
+    .setHandler('不为空值', {
+        render: () => <PlInput placeholder="不为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is not null"]})
+    })
+
+FilterConfig.touchFilter('address')
+    .setHandler('类似', {
+        render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}, config}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in"], formatValue: AddressQueryValueFormatter.inLike(config)})
+    })
+    .setHandler('等于', {
+        render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}, config}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["="], formatValue: AddressQueryValueFormatter.equal(config)})
+    })
+    .setHandler('包含', {
+        render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}, config}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in"], formatValue: AddressQueryValueFormatter.inLike(config)})
+    })
+    .setHandler('不包含', {
+        render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}, config}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in"], formatValue: AddressQueryValueFormatter.inLike(config)})
     })
     .setHandler('为空值', {
         render: () => <PlInput placeholder="为空" disabled/>,

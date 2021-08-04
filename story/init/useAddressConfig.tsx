@@ -1,6 +1,7 @@
 import {iAddressConfig, iAddressData, iGetAddressByCodes, iGetAddressByName, iGetAddressByParentCodes, iUseAddressConfig} from "../../src/packages/useAddress/useAddress.utils";
 import {useHttp} from "./useHttp";
 import {tHttp} from "../../src/packages/useHttp/useHttp.utils";
+import {toArray} from "../../src/utils/toArray";
 
 export const useAddressConfig: iUseAddressConfig = (() => {
     const map = new WeakMap<tHttp, iAddressConfig | undefined>()
@@ -30,16 +31,14 @@ export const useAddressConfig: iUseAddressConfig = (() => {
                     return prev
                 }, {} as Record<string, iAddressData[]>)
             }
-            const getAddressByName: iGetAddressByName = async (name: string, deep) => {
+            const getAddressByName: iGetAddressByName = async (name: string | string[], deep) => {
                 const data = await http.post<{ list: iAddressData[] }>('/address/list', {
                     all: true,
                     orders: [['code', 'asc']],
-                    filters: [{
-                        queries: [
-                            {field: 'name', value: name, operator: '~'},
-                            ...(deep == null ? [] : [{field: 'deep', value: deep, operator: '='}])
-                        ]
-                    }],
+                    filters: [
+                        {field: 'name', value: toArray(name), operator: 'in like'},
+                        ...(deep == null ? [] : [{field: 'deep', value: deep, operator: '='}])
+                    ],
 
                 })
                 return data.list

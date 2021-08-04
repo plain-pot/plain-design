@@ -1,16 +1,27 @@
 import {designComponent} from "plain-design-composition";
-import {PlcEmitsOptions, PlcPropsOptions} from "../PlTable/plc/utils/plc.utils";
+import {createDefaultFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from "../PlTable/plc/utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../PlTable/plc/utils/plc.scope-slots";
 import {useExternalPlc} from "../PlTable/plc/core/useExternalPlc";
-import {isFragment} from "react-is";
-import React, {ReactElement} from "react";
-import PlSelect from "../PlSelect";
+import React from "react";
 import useAddress from "../useAddress";
 import PlAddress from "../PlAddress";
+import {tDefaultFilterConfigParam} from "../PlFilter/FilterConfig";
+import {iAddressService} from "../useAddress/useAddress.utils";
 
 export const PlcAddress = designComponent({
     props: {
         ...PlcPropsOptions,
+        filterName: {type: String, default: 'address'},
+        filterHandler: {type: String, default: '包含'},
+        defaultFilterConfig: createDefaultFilterConfigProp((param) => {
+            const {config, plc} = param as tDefaultFilterConfigParam
+            const {province, city, district} = plc.props as any
+            const $address = (plc.refer() as any).$address as iAddressService
+            config.province = province
+            config.city = city
+            config.district = district
+            config.$address = $address
+        }),
 
         parentValue: {type: String},                        // 父值
         parentField: {type: String},                        // 父值所在字段名称
@@ -37,7 +48,10 @@ export const PlcAddress = designComponent({
                         parentValue={props.parentValue != null ? props.parentValue : (!!props.parentField ? row[props.parentField] : undefined)}
                     />
                 ),
-            }
+            },
+            externalRefer: {
+                $address
+            },
         })
     },
 })

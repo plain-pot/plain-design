@@ -3,15 +3,17 @@ import {PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions, tPlcScopeSlots, tPlcSlots} from "../utils/plc.scope-slots";
 import {TableRenderScope, tPlcEvent, tPlcType} from "../utils/plc.type";
 import {useBasePlc} from "./useBasePlc";
+import {PlainObject} from "../../../createUseTableOption/createUseTableOption.utils";
 
 type tPlcDefaultScopeSlotsOptions = Partial<typeof PlcScopeSlotsOptions>
 
-export function useExternalPlc({props, slots, scopeSlots, event, defaultScopeSlots}: {
+export function useExternalPlc({props, slots, scopeSlots, event, defaultScopeSlots, externalRefer}: {
     event: tPlcEvent,
     slots: tPlcSlots,
     props: ExtractPropTypes<typeof PlcPropsOptions>,
     scopeSlots: tPlcScopeSlots,
     defaultScopeSlots?: tPlcDefaultScopeSlotsOptions,
+    externalRefer?: PlainObject,
 }) {
 
     const formatScopeSlots: tPlcScopeSlots = {
@@ -118,5 +120,5 @@ export function useExternalPlc({props, slots, scopeSlots, event, defaultScopeSlo
         scopeSlots: formatScopeSlots,
     })
 
-    return {render, refer}
+    return {render, refer: Object.assign(refer, externalRefer)}
 }

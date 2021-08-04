@@ -14,6 +14,7 @@ import {tTableOptionCheck} from "./check/use.check";
 import {eTableProStatus, tTableOptionConfirm} from "./use.confirm";
 import {useTableOptionModifyForm} from "./use.modify-form";
 import {delay} from "plain-utils/utils/delay";
+import {FilterConfig} from "../../PlFilter/FilterConfig";
 
 export function useTableOptionMethods({tableState, config, pagination, hooks, currentNode, check, confirm, getSortData}: {
     tableState: iTableOptionState,
@@ -80,7 +81,8 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             Object.assign(requestData, queryParams)
 
             Object.assign(requestData, targetLoadConfig)
-            const filterDaraArr = await hooks.onCollectFilterData.exec([])
+            let filterDaraArr = await hooks.onCollectFilterData.exec([])
+            filterDaraArr = await Promise.all(filterDaraArr.map(async filterData => ({...filterData, queries: await FilterConfig.processQueries(filterData.queries),})))
             requestConfig = config.injectRules(filterDaraArr, requestConfig) || requestConfig
             const newRequestData = await hooks.onRequestData.exec(requestData)
             if (newRequestData !== requestData) {

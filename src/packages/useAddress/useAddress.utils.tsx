@@ -1,3 +1,5 @@
+import {tFilterConfigObj} from "../PlFilter/FilterConfig";
+
 export interface iAddressData {
     id: string,
     code: string,
@@ -38,4 +40,21 @@ export interface iAddressService {
 
 export interface iUseAddress {
     (): { $address: iAddressService }
+}
+
+export const AddressQueryValueFormatter = {
+    equal: (config: tFilterConfigObj) => {
+        return async (value: any) => {
+            const $address = config.$address as iAddressService
+            const addrList = await $address.config.getAddressByName(value, config.province ? 0 : config.city ? 1 : 2)
+            return addrList.find(i => i.name == value)?.code || 'not found!'
+        }
+    },
+    inLike: (config: tFilterConfigObj) => {
+        return async (value: any) => {
+            const $address = config.$address as iAddressService
+            const addrList = await $address.config.getAddressByName(value, config.province ? 0 : config.city ? 1 : 2)
+            return addrList.length === 0 ? ['not found'] : addrList.map(i => i.code)
+        }
+    },
 }
