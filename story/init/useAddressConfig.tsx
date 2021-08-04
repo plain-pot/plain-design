@@ -21,10 +21,10 @@ export const useAddressConfig: iUseAddressConfig = (() => {
                     all: true,
                 })
                 return data.list.reduce((prev, addr) => {
-                    if (!prev[addr.code]) {
-                        prev[addr.code] = []
+                    if (!prev[addr.parentCode]) {
+                        prev[addr.parentCode] = []
                     }
-                    prev[addr.code].push(addr)
+                    prev[addr.parentCode].push(addr)
                     return prev
                 }, {} as Record<string, iAddressData[]>)
             }

@@ -32,6 +32,7 @@ export interface iUseAddressConfig {
 export interface iAddressService {
     getAddrByCode: (code: string) => Promise<iAddressData>,
     getNameByCodeComputed: (code: string) => string,
+    getAddressByParentCode: (code: string) => Promise<iAddressData[]>,
     config: iAddressConfig,
 }
 
