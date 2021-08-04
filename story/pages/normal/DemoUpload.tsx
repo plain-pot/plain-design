@@ -10,6 +10,7 @@ import PlButton from "../../../src/packages/PlButton";
 import PlIcon from "../../../src/packages/PlIcon";
 import PlDropdownMenu from "../../../src/packages/PlDropdownMenu";
 import PlDropdownOption from "../../../src/packages/PlDropdownOption";
+import {plainDate} from "../../../src/utils/plainDate";
 
 export default designPage(() => {
 
@@ -34,6 +35,7 @@ export default designPage(() => {
         uploadData: {
             level: '123',
             orgCode: '001-123',
+            attr1: plainDate.today('YYYY-MM-DD HH:mm:ss', '').getDisplay(),
         },
         uploadHeaders: {
             Authorization: '2781368215742187',
