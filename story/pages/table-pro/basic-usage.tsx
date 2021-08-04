@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {PlcObject, useTableOption} from "../../../src";
+import {PlcAddress, PlcObject, useTableOption} from "../../../src";
 import PlTablePro from "../../../src/packages/PlTablePro";
 import {PlcDate, PlSelectOption, Plc, PlIcon} from "../../../src";
 import {PlcSelect} from "../../../src/packages/PlcSelect";
@@ -100,6 +100,10 @@ export default designPage(() => {
                 </PlcSelect>
                 <PlcTextarea title="长文本longText" field="longText"/>
                 <PlcObject title="父对象" field="parentName" option={parentOption} map={{parentId: 'id', parentName: 'normalText'}}/>
+                <PlcAddress title="省" field="provinceVal" province/>
+                <PlcAddress title="市" field="cityVal" parentField="provinceVal" city/>
+                <PlcAddress title="区" field="districtVal" parentField="cityVal" district/>
+                <PlcAddress/>
             </PlTablePro>
         </div>
     </>

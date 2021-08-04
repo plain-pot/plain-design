@@ -10,10 +10,14 @@ export const useAddress: iUseAddress = (() => {
         const config = getInitialConfigState('useAddressConfig')()
         let $address = map.get(config)
         if (!$address) {
+            const useAddressByCodeData = useAddressByCode(config)
+            const useAddressByParentCodeData = useAddressByParentCode(config, (list) => {
+                list.forEach(addr => useAddressByCodeData.saveAddress(addr))
+            })
             $address = {
                 config: config,
-                ...useAddressByCode(config),
-                ...useAddressByParentCode(config),
+                ...useAddressByCodeData,
+                ...useAddressByParentCodeData,
             }
             map.set(config, $address)
         }
@@ -84,13 +88,23 @@ function useAddressByCode(config: iAddressConfig) {
         }
     }
 
+    const saveAddress = (addr: iAddressData) => {
+        state.codeToAddress[addr.code] = addr
+        freezeState.queryPromise[addr.code] = (() => {
+            const dfd = defer<iAddressData>()
+            dfd.resolve(addr)
+            return dfd
+        })()
+    }
+
     return {
+        saveAddress,
         getAddrByCode,
         getNameByCodeComputed,
     }
 }
 
-function useAddressByParentCode(config: iAddressConfig) {
+function useAddressByParentCode(config: iAddressConfig, onLoadAddrList: (addrList: iAddressData[]) => void) {
 
     interface AddressListDefer {
         promise: Promise<iAddressData[]>,
@@ -119,9 +133,10 @@ function useAddressByParentCode(config: iAddressConfig) {
         try {
             const data = await config.getAddressByParentCodes(codesToBeQuery)
             codesToBeQuery.forEach((code) => {
-                const addr = data[code] || []
-                freezeState.queryPromise[code]?.resolve(addr)
-                state.codeToAddressList[code] = addr
+                const addrList = data[code] || []
+                freezeState.queryPromise[code]?.resolve(addrList)
+                state.codeToAddressList[code] = addrList
+                onLoadAddrList(addrList)
             })
         } catch (e) {
             console.error(e)

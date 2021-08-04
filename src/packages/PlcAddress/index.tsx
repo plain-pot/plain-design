@@ -30,6 +30,7 @@ export const PlcAddress = designComponent({
                 },
                 edit: ({row, plc}) => !plc.props.field ? null : (
                     <PlAddress
+                        v-model={row[plc.props.field!]}
                         province={props.province}
                         city={props.city}
                         district={props.district}
