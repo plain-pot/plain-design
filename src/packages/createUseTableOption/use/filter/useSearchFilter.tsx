@@ -14,6 +14,7 @@ import {tTableOptionFilter} from "../use.filter.state";
 import {createFilterOptionByPlc, iFilterCacheData} from "./use.filter.utils";
 import {tTableOptionSetting} from "../setting/use.setting";
 import {eTableOptionSettingView} from "../setting/use.setting.utils";
+import {deepcopy} from "plain-utils/object/deepcopy";
 
 export function useTableOptionSearchFilter({hooks, methods, filterState, setting, onCollapse, isCollapse}: { hooks: tTableOptionHooks, methods: tTableOptionMethods, filterState: tTableOptionFilter, setting: tTableOptionSetting, onCollapse: () => void, isCollapse: () => boolean }) {
 
@@ -53,6 +54,12 @@ export function useTableOptionSearchFilter({hooks, methods, filterState, setting
                 fo = {...cacheData!, plc: cachePlc, filterConfig: cachePlc!.props.filterConfig}
             } else if (!!defaultPlc) {
                 fo = createFilterOptionByPlc(defaultPlc)
+                if (fo.value == null && !!fo.filterConfig) {
+                    const config = typeof fo.filterConfig === "function" ? fo.filterConfig(fo) : fo.filterConfig
+                    if (!!config && config.defaultValue != null) {
+                        fo.value = deepcopy(config.defaultValue)
+                    }
+                }
             }
 
             if (!!fo) {
