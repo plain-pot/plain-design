@@ -5,7 +5,7 @@ import {tFormRuleItem} from "../../../PlForm/form.validate";
 import {TableRenderScope} from "./plc.type";
 import {deepcopy} from "plain-utils/object/deepcopy";
 import React from "react";
-import {iFilterOption, tFilterConfig} from "../../../PlFilter/FilterConfig";
+import {tDefaultFilterConfig, tFilterConfig} from "../../../PlFilter/FilterConfig";
 
 export type PlcPropsEditable = boolean | ((node: TableNode) => boolean)
 
@@ -26,12 +26,7 @@ export const PlcGroupPropsOptions = {
     bodyCls: {},                                                            // 给表体添加的class
 }
 
-export function createFilterConfigProp(defaultGetter?: (filter: iFilterOption) => any) {
-    return {
-        type: [Function, Object] as PropType<tFilterConfig>,
-        default: !defaultGetter ? undefined : () => defaultGetter
-    }
-}
+export function createDefaultFilterConfigProp(defaultGetter?: tDefaultFilterConfig) {return {type: Function as PropType<tDefaultFilterConfig>, default: defaultGetter,}}
 
 export const PlcPropsOptions = {
     ...PlcGroupPropsOptions,
@@ -49,7 +44,8 @@ export const PlcPropsOptions = {
     // 筛选先关
     filterName: {type: String, default: 'text'},
     filterHandler: {type: String, default: '包含'},
-    filterConfig: createFilterConfigProp(),
+    filterConfig: {type: [Function, Object] as PropType<tFilterConfig>, default: () => ({})},
+    defaultFilterConfig: createDefaultFilterConfigProp(),
     defaultSearch: {type: Boolean},
 }
 

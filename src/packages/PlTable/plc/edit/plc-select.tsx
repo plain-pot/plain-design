@@ -1,10 +1,11 @@
 import React, {ReactElement} from "react";
 import PlSelect from "../../../PlSelect";
 import {designComponent} from "plain-design-composition";
-import {createFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
+import {createDefaultFilterConfigProp, PlcEmitsOptions, PlcPropsOptions} from "../utils/plc.utils";
 import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
 import {isFragment} from 'react-is'
+import {tDefaultFilterConfigParam} from "../../../PlFilter/FilterConfig";
 
 export default designComponent({
     name: 'plc-select',
@@ -12,10 +13,10 @@ export default designComponent({
         ...PlcPropsOptions,
         filterName: {type: String, default: 'select'},
         filterHandler: {type: String, default: '包含'},
-        filterConfig: createFilterConfigProp(({plc}: any) => {
-            return {
-                // select的筛选选项内容，得是一个函数，先计算完值的话，会导致内容不是响应式的
-                options: () => {
+        defaultFilterConfig: createDefaultFilterConfigProp((data) => {
+            const {config, plc} = data as tDefaultFilterConfigParam
+            if (!config.options) {
+                config.options = () => {
                     if (plc.slots.options.isExist()) {
                         return plc.slots.options()
                     } else {

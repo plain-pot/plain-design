@@ -73,6 +73,8 @@ export type tFilterConfigObj = {
 export type tFilterConfigGetter = (filter: iFilterOption) => tFilterConfigObj
 export type tFilterConfig = tFilterConfigObj | tFilterConfigGetter
 
+export type tDefaultFilterConfig = (data: { config: tFilterConfigObj, plc: any, fo: iFilterOption }) => tFilterConfig | void
+export type tDefaultFilterConfigParam = { config: tFilterConfigObj, plc: tPlc, fo: iFilterOption }
 
 export interface iFilterOption {
     label: string,
@@ -123,7 +125,11 @@ export const FilterConfig = (() => {
         if (!filter) {return }
         const handler = filter.getHandler(opt.handlerName)
         if (!handler) {return }
-        return {filter, handler, option: opt, config: typeof opt.filterConfig === "function" ? opt.filterConfig(opt) : opt.filterConfig}
+        let config = typeof opt.filterConfig === "function" ? opt.filterConfig(opt) : opt.filterConfig
+        if (!!opt.plc && !!opt.plc.props.defaultFilterConfig) {
+            config = opt.plc.props.defaultFilterConfig({fo: opt, plc: opt.plc, config}) || config
+        }
+        return {filter, handler, option: opt, config}
     }
 
     const formatToQuery = (fto: iFilterTargetOption): iFilterQuery | iFilterQuery[] => {
@@ -210,7 +216,7 @@ FilterConfig.touchFilter('date')
     .setHandler('范围', {
         render: (fto, emitConfirm) => {
             if (!fto.option.value) {fto.option.value = {start: null, end: null}}
-            return <PlDateRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onChange={emitConfirm}/>
+            return <PlDateRange v-model-start={fto.option.value.start} v-model-end={fto.option.value.end} onChange={emitConfirm} datetime={fto.config.datetime}/>
         },
         transform: ({option: {value, field}}) => {
             if (!value) {return null}
