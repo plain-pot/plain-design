@@ -8,13 +8,33 @@ export interface iAddressData {
 }
 
 export interface iGetAddressByCodes {
-    (codes: string[]): iAddressData[]
+    (codes: string[]): Promise<Record<string, iAddressData>>
 }
 
 export interface iGetAddressByParentCodes {
-    (codes: string[] | undefined): iAddressData[]
+    (codes: string[]): Promise<Record<string, iAddressData[]>>
 }
 
 export interface iGetAddressByName {
-    (name: string): iAddressData[]
+    (name: string, deep?: number): Promise<iAddressData[]>
+}
+
+export interface iAddressConfig {
+    getAddressByCodes: iGetAddressByCodes,
+    getAddressByParentCodes: iGetAddressByParentCodes,
+    getAddressByName: iGetAddressByName,
+}
+
+export interface iUseAddressConfig {
+    (): iAddressConfig
+}
+
+export interface iAddressService {
+    getAddrByCode: (code: string) => Promise<iAddressData>,
+    getNameByCodeComputed: (code: string) => string,
+    config: iAddressConfig,
+}
+
+export interface iUseAddress {
+    (): { $address: iAddressService }
 }

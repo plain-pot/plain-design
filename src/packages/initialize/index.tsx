@@ -1,10 +1,12 @@
 import {tUseTableOption} from "../createUseTableOption";
 import {iUseHttp} from "../useHttp/useHttp.utils";
+import {iUseAddressConfig} from "../useAddress/useAddress.utils";
 
 export interface InitializeConfigState {
     useTableOption: tUseTableOption,
     useObjectOption: tUseTableOption,
     useHttp: iUseHttp,
+    useAddressConfig: iUseAddressConfig,
 }
 
 let state: InitializeConfigState | null = null
