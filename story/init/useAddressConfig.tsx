@@ -12,7 +12,7 @@ export const useAddressConfig: iUseAddressConfig = (() => {
             const getAddressByCodes: iGetAddressByCodes = async (codes) => {
                 const data = await http.post<{ list: iAddressData[] }>('/address/list', {
                     all: true,
-                    orders: [['code', 'asc']],
+                    orders: {field: 'code', desc: false},
                     filters: [{field: 'code', value: codes, operator: 'in'}],
                 })
                 return data.list.reduce((prev, addr) => (prev[addr.code] = addr, prev), {} as Record<string, iAddressData>)
@@ -20,7 +20,7 @@ export const useAddressConfig: iUseAddressConfig = (() => {
             const getAddressByParentCodes: iGetAddressByParentCodes = async (parentCodes) => {
                 const data = await http.post<{ list: iAddressData[] }>('/address/list', {
                     all: true,
-                    orders: [['code', 'asc']],
+                    orders: {field: 'code', desc: false},
                     filters: [{field: 'parentCode', value: parentCodes, operator: 'in'}],
                 })
                 return data.list.reduce((prev, addr) => {
@@ -34,7 +34,7 @@ export const useAddressConfig: iUseAddressConfig = (() => {
             const getAddressByName: iGetAddressByName = async (name: string | string[], deep) => {
                 const data = await http.post<{ list: iAddressData[] }>('/address/list', {
                     all: true,
-                    orders: [['code', 'asc']],
+                    orders: {field: 'code', desc: false},
                     filters: [
                         {field: 'name', value: toArray(name), operator: 'in like'},
                         ...(deep == null ? [] : [{field: 'deep', value: deep, operator: '='}])

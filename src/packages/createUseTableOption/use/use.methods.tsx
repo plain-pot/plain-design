@@ -71,9 +71,9 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             let targetLoadConfig = {
                 page: !!loadConfig && loadConfig.page != null ? loadConfig.page : pagination.pageState.page,
                 size: !!loadConfig && loadConfig.size != null ? loadConfig.size : pagination.pageState.size,
-                orders: [] as [string, 'asc' | 'desc'][],
+                orders: [] as { field: string, desc: boolean }[],
             }
-            targetLoadConfig.orders = getSortData().map(i => [i.field, i.desc === false ? 'asc' : 'desc'])
+            targetLoadConfig.orders = getSortData().map(({field, desc}) => ({field, desc}))
 
             let {request, requestData, requestConfig} = utils.getUrlConfig('query')
 
