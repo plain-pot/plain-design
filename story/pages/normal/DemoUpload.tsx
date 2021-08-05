@@ -103,7 +103,8 @@ export default designPage(() => {
             <DemoRow title={'多文件上传'}>
                 <PlUpload
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    data={state.uploadData}
+                    action={'http://localhost:7001/uploadFiles'}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                     onUploadSuccess={(param) => {
