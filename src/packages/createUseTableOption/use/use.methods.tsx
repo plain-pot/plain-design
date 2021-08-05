@@ -190,7 +190,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         const saveInsert = async (editRow: any) => {
             let {request, requestConfig} = utils.getUrlConfig('insert')
             const saveRowPrev = await hooks.onBeforeSaveRow.exec(editRow)
-            requestConfig.body = deepcopy(saveRowPrev)
+            requestConfig.body = {row: deepcopy(saveRowPrev)}
             requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
             const newRowResult = await request!(requestConfig)
             let saveRowNext = await hooks.onAfterSaveRow.exec(newRowResult.newRow)
@@ -286,7 +286,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         return Promise.reject(validateResults[0])
                     }
                     let {request, requestConfig} = utils.getUrlConfig('batchInsert')
-                    requestConfig.body = await Promise.all(deepcopy(newNodes.map(node => node.editRow)).map(row => hooks.onBeforeSaveRow.exec(row)))
+                    requestConfig.body = {rows: await Promise.all(deepcopy(newNodes.map(node => node.editRow)).map(row => hooks.onBeforeSaveRow.exec(row)))}
                     requestConfig = await hooks.onBeforeInsert.exec(requestConfig)
                     await request!(requestConfig)
                     confirm.close.clear()
@@ -314,7 +314,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
         const saveUpdate = async (editRow: any) => {
             let {request, requestConfig} = utils.getUrlConfig('update')
             const saveRowPrev = await hooks.onBeforeSaveRow.exec(editRow)
-            requestConfig.body = deepcopy(saveRowPrev)
+            requestConfig.body = {row: deepcopy(saveRowPrev)}
             requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
             const newRowResult = await request!(requestConfig)
             let saveRowNext = await hooks.onAfterSaveRow.exec(newRowResult.newRow)
@@ -387,7 +387,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                         return Promise.reject(validateResults[0])
                     }
                     let {request, requestConfig} = utils.getUrlConfig('batchUpdate')
-                    requestConfig.body = await Promise.all(deepcopy(updateNodes.map(node => node.editRow)).map(row => hooks.onBeforeSaveRow.exec(row)))
+                    requestConfig.body = {rows: await Promise.all(deepcopy(updateNodes.map(node => node.editRow)).map(row => hooks.onBeforeSaveRow.exec(row)))}
                     requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
                     await request!(requestConfig)
                     confirm.close.clear()
@@ -414,10 +414,13 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                 plcList: freezeState.table.plcData.value!.sourceFlatPlcList,
                 onConfirm: async (node) => {
                     let {request, requestConfig} = utils.getUrlConfig('batchUpdate')
-                    requestConfig.body = deepcopy(rows.map(row => ({
-                        id: row.id,
-                        ...node.editRow,
-                    })))
+                    requestConfig.body = {
+                        rows: deepcopy(rows.map(row => ({
+                            id: row.id,
+                            ...node.editRow,
+                        }))),
+                        updateFields: Object.keys(node.editRow),
+                    }
                     await request!(requestConfig)
                     confirm.close.clear()
                     await pageMethods.reload()
