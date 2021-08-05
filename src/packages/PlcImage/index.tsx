@@ -17,6 +17,8 @@ export const PlcImage = designComponent({
             noPadding: true,
         }),
         imgKeyField: {type: String},
+        uploadUrl: {type: String, default: 'http://1.116.13.72:7001/saveFile'},
+        urlPrefix: {type: String, default: 'http://1.116.13.72:6666/file'},
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
@@ -27,9 +29,20 @@ export const PlcImage = designComponent({
         const size = Math.ceil((bodyRowHeight as number) - 20)
 
         const uploadConfig = {
-            action: 'http://localhost:7001/saveFile',
+            action: props.uploadUrl,
             filename: 'file',
             data: {},
+        }
+
+        const formatUrl = (url: string | undefined | null): string | null | undefined => {
+            if (!props.urlPrefix) {return }
+            if (url == null) {return url}
+            if (/^(https?|data:image)/.test(url)) {return url}
+
+            const urlPrefix = props.urlPrefix[props.urlPrefix.length - 1] === '/' ? props.urlPrefix.slice(0, -1) : props.urlPrefix
+            const imgUrl = url[0] === '/' ? url.slice(1) : url
+
+            return [urlPrefix, imgUrl].join('/')
         }
 
         return useExternalPlc({
@@ -39,11 +52,12 @@ export const PlcImage = designComponent({
             event,
             defaultScopeSlots: {
                 normal: ({row, plc}) => (
-                    !plc.props.field ? null : <PlImage src={row[plc.props.field]} height={size} width={size} fit="contain"/>
+                    !plc.props.field ? null : <PlImage src={formatUrl(row[plc.props.field])} height={size} width={size} fit="contain"/>
                 ),
                 edit: ({row, plc}) => !plc.props.field ? null :
                     <PlImageUploader
-                        v-model={row[plc.props.field]}
+                        modelValue={formatUrl(row[plc.props.field])!}
+                        onUpdateModelValue={val => row[plc.props.field!] = val}
                         uploadConfig={uploadConfig}
                         height={size}
                         width={size}

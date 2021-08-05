@@ -6,7 +6,8 @@ import {DemoRow} from "../../components/DemoRow";
 export const demo1 = designPage(() => {
 
     const prodOption = useTableOption({
-        url: '/prod',
+        // url: '/prod',
+        url: 'http://1.116.13.72:7001/prod',
         showRows: 5,
         bodyRowHeight: 80,
     })
