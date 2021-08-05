@@ -10,6 +10,8 @@ import PlDate from "../PlDate";
 import PlDateRange from "../PlDateRange";
 import PlNumberRange from "../PlNumberRange";
 import {AddressQueryValueFormatter} from "../useAddress/useAddress.utils";
+import {OvQueryValueFormatter} from "../useOv/useOv.utils";
+import PlOv from "../PlOv";
 
 export enum eFilterOperator {
     '=' = '=',
@@ -321,6 +323,32 @@ FilterConfig.touchFilter('address')
     .setHandler('不包含', {
         render: (fto, emitConfirm) => <FilterTextContains v-model={fto.option.value} onEnter={emitConfirm}/>,
         transform: ({option: {value, field}, config}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in"], formatValue: AddressQueryValueFormatter.inLike(config)})
+    })
+    .setHandler('为空值', {
+        render: () => <PlInput placeholder="为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is null"]})
+    })
+    .setHandler('不为空值', {
+        render: () => <PlInput placeholder="不为空" disabled/>,
+        transform: ({option: {field}}) => ({field, operator: eFilterOperator["is not null"]})
+    })
+
+FilterConfig.touchFilter('ov')
+    .setHandler('类似', {
+        render: (fto, emitConfirm) => <PlInput v-model={fto.option.value} onEnter={emitConfirm}/>,
+        transform: ({option: {value, field}, config}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in"], formatValue: OvQueryValueFormatter.inLike(config)})
+    })
+    .setHandler('等于', {
+        render: (fto, emitConfirm) => <PlOv v-model={fto.option.value} ov={fto.config.ov} onChange={emitConfirm}/>,
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["="]})
+    })
+    .setHandler('包含', {
+        render: (fto, emitConfirm) => <PlOv v-model={fto.option.value} ov={fto.config.ov} onChange={emitConfirm} multiple/>,
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["in"]})
+    })
+    .setHandler('不包含', {
+        render: (fto, emitConfirm) => <PlOv v-model={fto.option.value} ov={fto.config.ov} onChange={emitConfirm} multiple/>,
+        transform: ({option: {value, field}}) => !FilterConfig.hasValue(value) ? null : ({field, value, operator: eFilterOperator["not in"]})
     })
     .setHandler('为空值', {
         render: () => <PlInput placeholder="为空" disabled/>,

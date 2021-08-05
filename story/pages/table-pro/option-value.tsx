@@ -2,7 +2,8 @@ import {designPage, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import useOv from "../../../src/packages/useOv";
-import {PlOv} from "../../../src";
+import {PlTablePro, PlcDate, PlcInput, PlOv} from "../../../src";
+import useTableOption from "../../init/useTableOption";
 
 export const demo1 = designPage(() => {
 
@@ -45,5 +46,25 @@ export const demo3 = designPage(() => {
         <DemoRow title="有初始值">
             <PlOv v-model={state.val} ov="promotion"/>
         </DemoRow>
+    </>
+})
+
+export const demo4 = designPage(() => {
+
+    const option = useTableOption({
+        title: '选项值',
+        url: '/ov',
+    })
+
+    return () => <>
+        <div style={{height: '100%', boxSizing: 'border-box', backgroundColor: 'white'}}>
+            <PlTablePro option={option}>
+                <PlcInput title="显示值" field="name"/>
+                <PlcInput title="代码" field="code"/>
+                <PlcInput title="类型" field="type"/>
+                <PlcDate title="创建时间" field="createdAt" hideInForm width={180} editable={false} datetime/>
+                <PlcInput title="说明" field="comment"/>
+            </PlTablePro>
+        </div>
     </>
 })
