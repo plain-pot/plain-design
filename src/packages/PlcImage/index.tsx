@@ -18,7 +18,7 @@ export const PlcImage = designComponent({
         }),
         imgKeyField: {type: String},
         uploadUrl: {type: String, default: 'http://1.116.13.72:7001/saveFile'},
-        urlPrefix: {type: String, default: 'http://1.116.13.72:6666/file'},
+        urlPrefix: {type: String, default: 'http://1.116.13.72'},
     },
     scopeSlots: PlcScopeSlotsOptions,
     emits: PlcEmitsOptions,
@@ -52,7 +52,7 @@ export const PlcImage = designComponent({
             event,
             defaultScopeSlots: {
                 normal: ({row, plc}) => (
-                    !plc.props.field ? null : <PlImage src={formatUrl(row[plc.props.field])} height={size} width={size} fit="contain"/>
+                    !plc.props.field ? null : <PlImage src={formatUrl(row[plc.props.field])} height={size} width={size} fit="cover"/>
                 ),
                 edit: ({row, plc}) => !plc.props.field ? null :
                     <PlImageUploader
