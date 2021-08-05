@@ -43,6 +43,8 @@ export function useTableOptionBaseTable(
                     ref={refTable}
                     showRows={config.showRows}
                     className="pl-table-pro-base-table"
+                    bodyRowHeight={config.bodyRowHeight}
+                    headRowHeight={config.headRowHeight}
                     data={tableState.list}
                     defaultEditingWhenAddRow={tableState.editingWhenAddRow}
                     currentKey={tableState.currentKey || undefined}

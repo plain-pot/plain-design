@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {PlcOv, PlcInput, PlTablePro, useTableOption} from "../../../src";
+import {PlcImage, PlcOv, PlcInput, PlTablePro, useTableOption} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 
 export const demo1 = designPage(() => {
@@ -8,13 +8,14 @@ export const demo1 = designPage(() => {
     const prodOption = useTableOption({
         url: '/prod',
         showRows: 5,
-        bodyRowHeight: 70,
+        bodyRowHeight: 80,
     })
 
     return () => (
         <div>
             <DemoRow>
                 <PlTablePro option={prodOption}>
+                    <PlcImage title="产品图片" field="imgPath" imgKeyField="imgId"/>
                     <PlcInput title="产品名称" field="name"/>
                     <PlcOv title="产品类型" field="type" ov="prod_type"/>
                 </PlTablePro>

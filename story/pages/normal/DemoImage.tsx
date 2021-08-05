@@ -28,6 +28,7 @@ export default designPage(() => {
         val: {
             0: img1,
             1: 'error.png',
+            2: undefined,
         },
     })
 
@@ -80,7 +81,7 @@ export default designPage(() => {
                     <PlImageUploader v-model={state.val[1]} uploadConfig={state.uploadConfig}/>
                 </DemoLine>
                 <DemoLine title={'上传失败'}>
-                    <PlImageUploader uploadConfig={{action: '', filename: ''}}/>
+                    <PlImageUploader v-model={state.val[2]} uploadConfig={{action: '', filename: ''}}/>
                 </DemoLine>
             </DemoRow>
         </div>

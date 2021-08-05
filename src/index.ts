@@ -113,6 +113,7 @@ import PlcCheckRow from "./packages/PlcCheckRow";
 import PlcObject from "./packages/PlcObject";
 import PlcAddress from "./packages/PlcAddress";
 import PlcOv from "./packages/PlcOv";
+import PlcImage from "./packages/PlcImage";
 
 import useTableOption from "./packages/useTableOption";
 import useObjectOption from "./packages/useObjectOption";
@@ -240,5 +241,7 @@ export {
     PlcObject,
     PlcAddress,
     PlcOv,
+    PlcImage,
+
     PlTablePro,
 }
