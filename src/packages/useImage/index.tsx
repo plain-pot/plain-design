@@ -1,5 +1,5 @@
 import {createDefaultService} from "../PlRoot/createDefaultService";
-import {reactive, onMounted, ref, useStyles, computed} from "plain-design-composition";
+import {reactive, onMounted, ref, useStyles, computed, onBeforeUnmount} from "plain-design-composition";
 import PlTransition from "../PlTransition";
 import React from "react";
 import {PlImage} from "../PlImage";
@@ -11,6 +11,7 @@ import $$file from "../$$file";
 import {imageCompress} from "./image.service.utils";
 import {createPortal} from "react-dom";
 import {createCounter} from "plain-design-composition"
+import {KeyboardService} from "../keyboard";
 
 interface ImageServicePreviewOption {
     urls: (string | null | undefined)[],
@@ -64,6 +65,11 @@ const Service = createDefaultService({
             state.count = nextCount()
             await state.mounted
             isShow.value = true
+
+            setTimeout(() => {
+                const activeElement = document.activeElement as HTMLElement
+                if (!!activeElement) activeElement.blur()
+            })
         }
 
         const hide = () => isShow.value = false
@@ -195,6 +201,8 @@ const Service = createDefaultService({
             onDblclickImg: hide,
             onClickMask: hide,
         }
+
+        onBeforeUnmount(KeyboardService.listen({esc: () => {isShow.value && hide()}}))
 
         return {
             refer: {

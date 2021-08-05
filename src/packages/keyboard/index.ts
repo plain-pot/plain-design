@@ -160,8 +160,9 @@ export const KeyboardService = {
     options: [] as KeyboardServiceOption[],
     /*订阅点击事件*/
     listen(option: KeyboardServiceOption) {
-        if (!option) return
+        if (!option) return () => {}
         this.options.push(option)
+        return () => void KeyboardService.unbindListener(option)
     },
     /*取消订阅事件*/
     unbindListener(option: KeyboardServiceOption) {
