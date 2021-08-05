@@ -95,6 +95,9 @@ export default designPage(() => {
                     action={'http://localhost:7001/uploadFile'}
                     filename={'file'}
                     handleRemove={state.handleRemove}
+                    onUploadSuccess={(param) => {
+                        console.log(param)
+                    }}
                 />
             </DemoRow>
             <DemoRow title={'多文件上传'}>
@@ -103,6 +106,9 @@ export default designPage(() => {
                     action={'http://193.112.75.134/server/upload/uploadFile'}
                     filename={'file'}
                     handleRemove={state.handleRemove}
+                    onUploadSuccess={(param) => {
+                        console.log(param)
+                    }}
                 />
             </DemoRow>
             <DemoRow title={'文件预览'}>

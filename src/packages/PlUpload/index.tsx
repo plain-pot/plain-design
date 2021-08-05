@@ -14,6 +14,7 @@ import {defer} from "../../utils/defer";
 import {classnames} from "plain-design-composition";
 import PlButtonGroup from "../PlButtonGroup";
 import PlButton from "../PlButton";
+import $$notice from "../$$notice";
 
 const nextFileId = createCounter('upload')
 
@@ -75,6 +76,8 @@ export const PlUpload = designComponent({
     },
     emits: {
         onUpdateModelValue: (val?: UploadModelValue) => true,
+        onUploadSuccess: (data: { file: UploadFile | UploadFile[], resp: any }) => true,
+        onUploadError: (error: any) => true,
     },
     inheritPropsType: HTMLDivElement,
     slots: ['button'],
@@ -271,16 +274,20 @@ export const PlUpload = designComponent({
                 }
 
                 const handler = {
-                    onSuccess: () => {
+                    onSuccess: (data: any) => {
                         toArray(uploadFiles).forEach(file => {
                             file.status = UploadStatus.success
                             file.percent = undefined
+                            $$notice.success(`文件上传成功！`)
                         })
                         dfd.resolve()
+                        emit.onUploadSuccess({file: uploadFiles, resp: data})
                     },
-                    onError: () => {
+                    onError: (error: any) => {
                         toArray(uploadFiles).forEach(file => file.status = UploadStatus.error)
                         dfd.reject()
+                        emit.onUploadError(error)
+                        $$notice.error(`文件上传失败！`)
                     },
                 }
 
