@@ -1,4 +1,4 @@
-import {designPage, reactive} from "plain-design-composition";
+import {computed, designPage, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {PlUpload, UploadFile} from "../../../src/packages/PlUpload";
@@ -15,6 +15,7 @@ import {plainDate} from "../../../src/utils/plainDate";
 export default designPage(() => {
 
     const state = reactive({
+        isSaveFile: false,
         val: {
             // singleValue: {id: '001', name: 'logo.jpg',},
             singleValue: undefined,
@@ -44,7 +45,7 @@ export default designPage(() => {
             console.log('remove file', file)
         },
         handlePreview(file: UploadFile) {
-            console.log(file)
+            $$notice.info(file.name)
         },
         chooseFileValidator(file: FileServiceSingleFile) {
             const {name, calcSize} = file
@@ -66,7 +67,7 @@ export default designPage(() => {
             },
             handleUpload: async (files: UploadFile | UploadFile[]) => {
                 await Promise.all(toArray(files).map(file => $$file.upload({
-                    action: 'http://193.112.75.134/server/upload/uploadFile',
+                    action: urls.value.single,
                     filename: 'file',
                     file: file.file!,
                     data: file.file!.data,
@@ -78,10 +79,20 @@ export default designPage(() => {
                     $$notice.error('请先选择业务类型！')
                     return false
                 }
-                file.data = {businessType}
+                file.data = {businessType, attr1: businessType}
                 return true
             },
         },
+    })
+
+    const urls = computed(() => {
+        return state.isSaveFile ? {
+            single: 'http://localhost:7001/saveFile',
+            multiple: 'http://localhost:7001/saveFiles',
+        } : {
+            single: 'http://localhost:7001/uploadFile',
+            multiple: 'http://localhost:7001/uploadFiles',
+        }
     })
 
     return () => (
@@ -92,7 +103,7 @@ export default designPage(() => {
                     data={state.uploadData}
                     headers={state.uploadHeaders}
                     v-model={state.val.singleValue}
-                    action={'http://localhost:7001/uploadFile'}
+                    action={urls.value.single}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                     onUploadSuccess={(param) => {
@@ -104,7 +115,7 @@ export default designPage(() => {
                 <PlUpload
                     v-model={state.val[0]}
                     data={state.uploadData}
-                    action={'http://localhost:7001/uploadFiles'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                     onUploadSuccess={(param) => {
@@ -115,7 +126,7 @@ export default designPage(() => {
             <DemoRow title={'文件预览'}>
                 <PlUpload
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                     handlePreview={state.handlePreview}
@@ -126,7 +137,7 @@ export default designPage(() => {
                 <PlUpload
                     accept={'excel'}
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -134,7 +145,7 @@ export default designPage(() => {
                 <PlUpload
                     accept={'image/png'}
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -143,7 +154,7 @@ export default designPage(() => {
                 <h4>点击选择文件</h4>
                 <PlUpload
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     validator={state.chooseFileValidator}
                 />
@@ -151,7 +162,7 @@ export default designPage(() => {
             <DemoRow title={'文件状态'}>
                 <PlUpload
                     v-model={state.val[1]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -160,7 +171,7 @@ export default designPage(() => {
                 <PlUpload
                     v-model={state.val[0]}
                     draggable
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -173,7 +184,7 @@ export default designPage(() => {
                     data={state.uploadData}
                     headers={state.uploadHeaders}
                     v-model={state.val.singleValue}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.single}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -181,7 +192,7 @@ export default designPage(() => {
                 <PlUpload
                     autoUpload={false}
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -194,7 +205,7 @@ export default designPage(() => {
                     data={state.uploadData}
                     headers={state.uploadHeaders}
                     v-model={state.val.singleValue}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.single}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -202,7 +213,7 @@ export default designPage(() => {
                 <PlUpload
                     disabled
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -211,7 +222,7 @@ export default designPage(() => {
                     disabled
                     draggable
                     v-model={state.val[0]}
-                    action={'http://193.112.75.134/server/upload/uploadFile'}
+                    action={urls.value.multiple}
                     filename={'file'}
                     handleRemove={state.handleRemove}
                 />
@@ -221,7 +232,7 @@ export default designPage(() => {
                 <PlUpload
                     autoUpload={false}
                     v-model={state.customUpload.val}
-                    action="http://193.112.75.134/server/upload/uploadFiles"
+                    action={urls.value.multiple}
                     filename="file"
                     handleUpload={state.customUpload.handleUpload}
                     handleRemove={state.customUpload.handleRemove}
@@ -234,7 +245,7 @@ export default designPage(() => {
                         button: () => (
                             <PlDropdown>
                                 {{
-                                    default: <PlButton width={188}>
+                                    default: <PlButton>
                                         <span>业务类型：{state.customUpload.businessType || '无'}</span>
                                         <PlIcon icon={'el-icon-arrow-down'}/>
                                     </PlButton>,
