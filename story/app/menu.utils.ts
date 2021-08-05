@@ -167,6 +167,7 @@ const MenuData: MenuGroup[] = [
             {name: '文件列表', title: 'file list', page: '/table-pro/table-files', complete: true},
             {name: '图片列', title: 'image list', page: '/table-pro/table-image', complete: true},
             {name: '选项集', title: 'option value', page: '/table-pro/option-value', complete: true},
+            {name: '图片列', title: 'image column', page: '/table-pro/production-list', complete: true},
         ]
     },
     /*{
