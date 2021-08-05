@@ -7,6 +7,7 @@ import React from "react";
 import PlImage from "../PlImage";
 import {injectPlainTable} from "../PlTable";
 import PlImageUploader from "../PlImageUploader";
+import {$$image} from "../../index";
 
 export const PlcImage = designComponent({
     props: {
@@ -45,14 +46,25 @@ export const PlcImage = designComponent({
             return [urlPrefix, imgUrl].join('/')
         }
 
+        const preview = (index: number) => {
+            $$image.preview((table.dataModel.value || []).map(i => formatUrl(i[props.field!])), index)
+        }
+
         return useExternalPlc({
             props,
             slots,
             scopeSlots,
             event,
             defaultScopeSlots: {
-                normal: ({row, plc}) => (
-                    !plc.props.field ? null : <PlImage src={formatUrl(row[plc.props.field])} height={size} width={size} fit="cover"/>
+                normal: ({row, plc, node}) => (
+                    !plc.props.field ? null : <PlImage
+                        previewOnClick={false}
+                        src={formatUrl(row[plc.props.field])}
+                        height={size}
+                        width={size}
+                        fit="cover"
+                        onClick={() => preview(node.index)}
+                    />
                 ),
                 edit: ({row, plc}) => !plc.props.field ? null :
                     <PlImageUploader
