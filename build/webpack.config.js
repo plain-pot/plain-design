@@ -122,7 +122,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new ForkTsCheckerWebpackPlugin(),
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                memoryLimit: 4096,
+            },
+        }),
         new HtmlWebpackPlugin({
             title: 'Plain Design',
             template: resolve('public/index.html'),

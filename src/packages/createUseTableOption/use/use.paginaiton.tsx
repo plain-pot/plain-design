@@ -77,7 +77,7 @@ export function useTableOptionPagination({tableState, config, hooks, onPrev, onN
         const showRows = Math.floor((baseTableHeight - headHeight + 1) / config.bodyRowHeight)
         pageState.size = showRows
         config.showRows = showRows
-        config.pageSizeOptions = [showRows, ...config.pageSizeOptions]
+        config.pageSizeOptions.indexOf(showRows) === -1 && (config.pageSizeOptions = [showRows, ...config.pageSizeOptions])
     })
 
     hooks.onTableRender.use(prev => [
