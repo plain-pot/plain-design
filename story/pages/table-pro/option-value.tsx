@@ -24,7 +24,7 @@ export default designPage(() => {
                 <PlcInput title="显示值" field="name"/>
                 <PlcInput title="代码" field="code"/>
                 <PlcInput title="类型" field="type"/>
-                <PlcDate title="创建时间" field="createdAt" hideInForm width={150} editable={false} datetime/>
+                <PlcDate title="创建时间" field="createdAt" hideInForm width={180} editable={false} datetime/>
                 <PlcInput title="说明" field="comment"/>
             </PlTablePro>
         </div>
