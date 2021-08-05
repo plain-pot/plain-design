@@ -391,7 +391,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
                     requestConfig = await hooks.onBeforeUpdate.exec(requestConfig)
                     await request!(requestConfig)
                     confirm.close.clear()
-                    await pageMethods.reload()
+                    await pageMethods.load()
                 },
                 onCancel: async () => {
                     updateNodes.forEach(node => {
