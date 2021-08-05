@@ -53,7 +53,7 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const confirm = useTableOptionConfirm({hooks})
 
         /*多选*/
-        const check = useTableOptionCheck({config, hooks, confirm})
+        const check = useTableOptionCheck({config, hooks, confirm, command})
 
         /*分页*/
         const pagination = useTableOptionPagination({

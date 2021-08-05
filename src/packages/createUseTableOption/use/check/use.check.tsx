@@ -6,11 +6,13 @@ import {eTableProStatus, tTableOptionConfirm} from "../use.confirm";
 import {defer} from "../../../../utils/defer";
 import useMessage from "../../../useMessage";
 import PlcProCheck from './PlcProCheck'
+import {tTableOptionCommand} from "../use.command";
 
-export function useTableOptionCheck({hooks, config, confirm}: {
+export function useTableOptionCheck({hooks, config, confirm, command}: {
     hooks: tTableOptionHooks,
     config: tTableOptionConfig,
     confirm: tTableOptionConfirm,
+    command: tTableOptionCommand,
 }) {
 
     const $message = useMessage()
@@ -19,6 +21,14 @@ export function useTableOptionCheck({hooks, config, confirm}: {
         showCheck: false,
     })
     const {refs, onRef} = useRefs({check: PlcProCheck})
+
+    command.on('ctrl+a', (e) => {
+        if (confirm.state.status === eTableProStatus.select) {
+            e.stopPropagation()
+            e.preventDefault()
+            checkAll()
+        }
+    })
 
     hooks.onColumns.use((content) => {
         if (!state.showCheck) {
@@ -41,7 +51,7 @@ export function useTableOptionCheck({hooks, config, confirm}: {
         console.log('清空选择')
     }
     const check = () => {console.log('选中某行')}
-    const checkAll = () => {console.log('全选当前页')}
+    const checkAll = () => {refs.check?.checkAll()}
     const uncheck = () => {console.log('取消选中某行')}
     const uncheckAll = () => {console.log('取消选中当前页')}
     const reverse = () => {console.log('反选当前页')}
