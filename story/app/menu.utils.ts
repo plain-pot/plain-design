@@ -159,11 +159,12 @@ const MenuData: MenuGroup[] = [
             {name: '分组示例', title: 'pl-table-pro', page: '/table-pro/group-usage', complete: true},
             {name: '默认搜索', title: 'pl-table-pro', page: '/table-pro/default-filter', complete: true},
             {name: '自动高度', title: 'pl-table-pro', page: '/table-pro/table-fill', complete: true},
-            {name: 'Filter', title: 'pl-filter', page: '/table-pro/pro-filter', complete: true},
-            {name: 'Object', title: 'pl-object', page: '/table-pro/demo-object', complete: true},
+            {name: '筛选组件', title: 'pl-filter', page: '/table-pro/pro-filter', complete: true},
+            {name: '对象选择', title: 'pl-object', page: '/table-pro/demo-object', complete: true},
             {name: '父子表', title: 'table parent', page: '/table-pro/table-parent', complete: true},
-            {name: 'Address', title: 'table address', page: '/table-pro/demo-address', complete: true},
-            {name: 'onFormatRow', title: 'format row', page: '/table-pro/format-row', complete: true},
+            {name: '地址组件', title: 'table address', page: '/table-pro/demo-address', complete: true},
+            {name: '行数据格式化', title: 'format row', page: '/table-pro/format-row', complete: true},
+            {name: '文件列表', title: 'format row', page: '/table-pro/table-files', complete: true},
         ]
     },
     /*{
