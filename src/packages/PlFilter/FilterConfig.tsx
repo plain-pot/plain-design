@@ -157,7 +157,6 @@ export const FilterConfig = (() => {
 
     const processQueries = async (queries: iFilterQuery[]): Promise<iFilterQuery[]> => {
         return Promise.all(queries.map(async query => {
-            console.log({...query})
             const {formatValue, value, ...left} = query
             if (!formatValue || value == null) {
                 return {value, ...left}
