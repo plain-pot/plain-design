@@ -42,7 +42,7 @@ export const PlOv = designComponent({
 
         return () => (
             <PlSelect
-                modelValue={editComputed.value.loading ? '加载中...' : model.value}
+                modelValue={editComputed.value.loading ? (props.multiple ? undefined : '加载中...') : model.value}
                 onUpdateModelValue={val => model.value = val as string}
                 multiple={props.multiple}
             >

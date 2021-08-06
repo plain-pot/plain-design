@@ -165,7 +165,6 @@ const MenuData: MenuGroup[] = [
             {name: '地址组件', title: 'table address', page: '/table-pro/demo-address', complete: true},
             {name: '行数据格式化', title: 'format row', page: '/table-pro/format-row', complete: true},
             {name: '文件列表', title: 'file list', page: '/table-pro/table-files', complete: true},
-            {name: '图片列', title: 'image list', page: '/table-pro/table-image', complete: true},
             {name: '选项集', title: 'option value', page: '/table-pro/option-value', complete: true},
             {name: '图片列', title: 'image column', page: '/table-pro/production-list', complete: true},
         ]

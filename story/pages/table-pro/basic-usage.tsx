@@ -103,7 +103,7 @@ export default designPage(() => {
                 <PlcAddress title="省" field="provinceVal" province/>
                 <PlcAddress title="市" field="cityVal" parentField="provinceVal" city/>
                 <PlcAddress title="区" field="districtVal" parentField="cityVal" district/>
-                <PlcOv title="选项值" field="ovVal" ov="promotion" defaultSearch/>
+                <PlcOv title="选项值" field="ovVal" ov="promotion"/>
             </PlTablePro>
         </div>
     </>

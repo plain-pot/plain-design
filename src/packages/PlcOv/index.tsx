@@ -14,7 +14,7 @@ export const PlcOv = designComponent({
         ...PlcPropsOptions,
         ...PlObjectPropsOption,
         filterName: {type: String, default: 'ov'},
-        filterHandler: {type: String, default: '类似'},
+        filterHandler: {type: String, default: '包含'},
         defaultFilterConfig: createDefaultFilterConfigProp((param) => {
             const {config, plc} = param as tDefaultFilterConfigParam
             const {ov} = plc.props as any
