@@ -43,6 +43,7 @@ export const renderFtoForm = (
                 contentWidth: 260,
                 labelAlign: 'right',
                 ...formAttrs,
+                style: {textAlign: 'left', paddingLeft: '24px'},
             }}>
             {ftoArr.map((fto, index) => (
                 <PlFormItem label={fto.option.label} key={index}>
