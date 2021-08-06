@@ -78,6 +78,8 @@ import PlEmpty from './packages/PlEmpty'
 import PlObject from "./packages/PlObject";
 import PlAddress from "./packages/PlAddress";
 import PlOv from "./packages/PlOv";
+import PlTabs from "./packages/PlTabs";
+import PlTab from "./packages/PlTab";
 
 import PlDateRange from "./packages/PlDateRange";
 
@@ -202,6 +204,8 @@ export {
     PlObject,
     PlAddress,
     PlOv,
+    PlTab,
+    PlTabs,
 
     PlDateRange,
 
