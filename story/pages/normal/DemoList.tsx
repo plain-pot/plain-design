@@ -58,7 +58,7 @@ export default designComponent({
                 </DemoRow>
                 <DemoRow title={'动画'}>
                     {animations.map(ani => (
-                        <PlButton label={String(ani)} active={state.animations === ani} key={ani} onClick={() => state.animations = ani}/>
+                        <PlButton label={String(ani)} active={state.animations === ani} key={String(ani)} onClick={() => state.animations = ani}/>
                     ))}
                 </DemoRow>
                 <DemoRow>
