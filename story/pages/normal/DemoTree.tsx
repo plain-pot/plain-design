@@ -288,7 +288,7 @@ export default designPage(() => {
                         keyField="id"
                         labelField="name"
                         childrenField="subs"
-                        isCheckable={node => node.data.name.endsWith(1)}
+                        isCheckable={node => (node.data.name || '').endsWith('1')}
                     />
                 </div>
             </DemoRow>
