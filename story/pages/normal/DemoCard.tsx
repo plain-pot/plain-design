@@ -93,7 +93,7 @@ export default designPage(() => {
                     }}
                 </PlCard>
             </DemoRow>
-            {/*<DemoRow title={'海报图'}>
+            <DemoRow title={'海报图'}>
                 <PlCard title={'圣诞之夜'} shadow={'normal'}>
                     {{
                         operator: <PlButton label={'更多'} mode={'text'}/>,
@@ -104,7 +104,7 @@ export default designPage(() => {
                         </>
                     }}
                 </PlCard>
-            </DemoRow>*/}
+            </DemoRow>
         </div>
     )
 })
