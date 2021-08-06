@@ -12,6 +12,7 @@ export const PlDropdownOption = designComponent({
         icon: {type: String},
         disabled: {type: Boolean},
         align: {type: String, default: 'left'},
+        noWrap: {type: Boolean, default: true},
     },
     emits: {
         onClick: (e: React.MouseEvent) => true,
@@ -35,7 +36,8 @@ export const PlDropdownOption = designComponent({
             'pl-dropdown-option',
             `pl-dropdown-option-align-${props.align}`,
             {
-                'pl-dropdown-option-disabled': props.disabled
+                'pl-dropdown-option-disabled': props.disabled,
+                'pl-dropdown-option-no-wrap': props.noWrap,
             }
         ])
 

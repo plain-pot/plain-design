@@ -34,6 +34,10 @@
     &.pl-dropdown-option-align-right {
       text-align: right
     }
+
+    &.pl-dropdown-option-no-wrap {
+      white-space: nowrap;
+    }
   }
 
   .pl-dropdown-group {

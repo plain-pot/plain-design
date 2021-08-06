@@ -273,7 +273,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                         />
                     ))}
                 {more.length > 0 && <>
-                    <PlDropdown placement="bottom-end" width="190" height={null as any}>
+                    <PlDropdown placement="bottom-end" width={null as any} height={null as any}>
                         {{
                             reference: ({open}) => (
                                 <PlButton>
@@ -289,7 +289,7 @@ export function useTableOptionButtons({hooks, methods, command, setting, config,
                                     {more.map(({label, icon, disabled, handler, seq, command, render}, index) => (
                                         !!render ? render() : <PlDropdownOption
                                             key={index}
-                                            label={label + (!command ? '' : `（${toArray(command!).map(i => i.toUpperCase()).join(',')}）`)}
+                                            label={label + (!command ? '' : `[${toArray(command!).map(i => i.toUpperCase()).join(',')}]`)}
                                             icon={icon || undefined}
                                             disabled={disabled}
                                             onClick={handler}
