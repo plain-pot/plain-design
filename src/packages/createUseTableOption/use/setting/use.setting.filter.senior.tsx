@@ -301,10 +301,10 @@ export function useTableOptionSettingSeniorFilter(
         seq: Infinity,
         key: 'senior-filter',
         title: '高级查询',
-        applyCache: () => {},
+        applyCache: () => null,
         getCache: () => null,
         getDisplay: () => () => null,
-        clear: () => {},
+        clear: () => null,
         getActiveFilterCount: () => query.state.data.length
     })
 }

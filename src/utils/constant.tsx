@@ -14,4 +14,4 @@ export const STATUS = {
     info: {icon: 'el-icon-info', status: 'info'},
 } as { [k: string]: { icon: string, status: string } }
 
-export const noop = () => {}
+export const noop = () => void 0

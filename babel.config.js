@@ -1,11 +1,18 @@
-const JsxModel = require('plain-design-composition/plugins/babel-plugin-react-model')
+const JSXModel = require('plain-design-composition/plugins/babel-plugin-react-model')
 
 module.exports = {
-    presets: ["@babel/preset-react", "@babel/preset-env", "@babel/preset-typescript"],
+    presets: [
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage",
+                "corejs": 3,
+            },
+        ],
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+    ],
     "plugins": [
-        // "@babel/plugin-transform-react-jsx",
-        'transform-class-properties',
-        '@babel/plugin-transform-runtime',
-        JsxModel,
+        JSXModel,
     ]
 }
