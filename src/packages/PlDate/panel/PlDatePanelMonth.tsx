@@ -1,12 +1,10 @@
 import {DateItemData, DatePanelItemWrapper, DatePanelWrapper, DatePublicEmits, DatePublicProps, DateView, SlideTransitionDirection} from "../date.utils";
-import {computed, designComponent, PropType} from "plain-design-composition";
-import {useDatePanel, UseDateJudgementView} from "../useDatePanel";
-import {useClasses} from "plain-design-composition";
+import {computed, designComponent, mergeProps, PropType, useClasses} from "plain-design-composition";
+import {UseDateJudgementView, useDatePanel} from "../useDatePanel";
 import PlButton from "../../PlButton";
 import {StyleSize} from "../../../use/useStyle";
 import React from "react";
 import {PlDatePanelYear} from "./PlDatePanelYear";
-import {mergeProps} from "plain-design-composition"
 
 export const PlDatePanelMonth = designComponent({
     name: 'pl-date-panel-month',
@@ -74,7 +72,7 @@ export const PlDatePanelMonth = designComponent({
             const {selectDate} = state
             let list: DateItemData[] = [];
             [0, 1, 2, 3].forEach(i => {
-                const pd = selectDate.useMonthDate(i * 3, 1);
+                const pd = today.useYear(selectDate.year).useMonthDate(i * 3, 1)
                 list.push({label: `Q${i + 1}`, pd, ...getStatus(pd),})
             })
             return list
