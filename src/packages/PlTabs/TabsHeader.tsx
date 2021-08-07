@@ -41,7 +41,7 @@ export const PlTabsHeader = designComponent({
         }
 
         const handler = {
-            onMousewheel: (e: React.WheelEvent) => {
+            onMousewheel: (e: WheelEvent) => {
                 e.stopPropagation()
                 e.preventDefault()
                 const {totalWidth, hostWidth, listLeft} = state.offsetData
@@ -73,14 +73,18 @@ export const PlTabsHeader = designComponent({
         let refreshTimer: number;
         onMounted(() => {
             refreshTimer = setInterval(() => utils.refreshOffsetData(), 1000) as any as number
+
+            refs.el!.addEventListener('wheel', handler.onMousewheel)
         })
         onBeforeUnmount(() => {
             clearInterval(refreshTimer)
+
+            refs.el!.removeEventListener('wheel', handler.onMousewheel)
         })
 
         return {
             render: () => (
-                <div className="pl-tabs-header" onWheel={handler.onMousewheel} ref={onRef.el}>
+                <div className="pl-tabs-header" ref={onRef.el}>
                     <div className="pl-tabs-header-list" style={listStyles.value} ref={onRef.list}>
                         {props.tabs.map((tab, index) => (
                             <div className={classnames([
