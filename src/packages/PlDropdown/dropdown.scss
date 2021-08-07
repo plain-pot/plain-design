@@ -44,9 +44,10 @@
 
     .pl-dropdown-group-title {
       font-size: 12px;
-      color: $colorPrimary;
-      padding: 0 12px;
+      color: $ipc;
+      padding: 8px 12px;
       margin-top: 4px;
+      border-bottom: solid 1px $ibl;
 
       & > .pl-icon {
         margin-right: 6px;

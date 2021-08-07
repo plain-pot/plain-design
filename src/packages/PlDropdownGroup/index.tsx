@@ -24,7 +24,6 @@ export const PlDropdownGroup = designComponent({
                 <div className={classes.value} ref={onRef.el}>
                     {slots.title.isExist() && (
                         <div className="pl-dropdown-group-title">
-                            <PlIcon icon="el-icon-list"/>
                             <span>{slots.title()}</span>
                         </div>
                     )}
