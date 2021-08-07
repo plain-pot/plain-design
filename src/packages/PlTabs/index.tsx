@@ -15,12 +15,12 @@ export const PlTabs = designComponent({
         closeable: {type: Boolean},
     },
     emits: {
-        updateModelValue: (val?: string | number) => true,
+        onUpdateModelValue: (val?: string | number) => true,
     },
     slots: ['default'],
     setup({props, event: {emit}, slots}) {
 
-        const model = useModel(() => props.modelValue, emit.updateModelValue)
+        const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const items = TabCollector.parent()
 
         const tabs = computed(() => items.map((item, index) => ({
