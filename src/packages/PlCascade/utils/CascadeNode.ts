@@ -1,5 +1,6 @@
 import {reactive} from "plain-design-composition";
 import {CascadeConfig, CascadeMark} from "./CascadMark";
+import {PlainObject} from "../../createUseTableOption/createUseTableOption.utils";
 
 export class CascadeNode {
 
@@ -36,7 +37,7 @@ export class CascadeNode {
     get label(): string {return this.data[this.config().labelField]}
 
     /*节点子数据*/
-    get childrenData(): object[] | undefined {
+    get childrenData(): PlainObject[] | undefined {
         const data = this.data[this.config().childrenField]
         return typeof data === "function" ? data() : data
     }
@@ -121,7 +122,7 @@ export class CascadeNode {
     /*---------------------------------------action-------------------------------------------*/
 
     /*设置子节点数据*/
-    setChildren(children: object[]) {
+    setChildren(children: PlainObject[]) {
         // set(this.data, this.config().childrenField, children)
         this.data[this.config().childrenField] = children
     }

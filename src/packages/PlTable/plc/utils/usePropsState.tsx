@@ -76,7 +76,7 @@ export function applyPropsState(stateData: tPlcCacheStateData, plcList: tPlcType
         if (!!stateData[key]) {
             Object.assign(plcType.getState(), stateData[key].state)
             if (plcType.group && !!stateData[key].children) {
-                applyPropsState(stateData[key].children!!, plcType.children)
+                applyPropsState(stateData[key].children!, plcType.children)
             }
         }
     })

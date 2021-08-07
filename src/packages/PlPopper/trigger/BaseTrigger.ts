@@ -115,46 +115,46 @@ function getHoverTrigger({
                              emit,
                          }: {
     model: { value: boolean | undefined },
-    show: Function,
-    hide: Function,
+    show: SimpleFunction,
+    hide: SimpleFunction,
     hoverOpenDelay: number,
     hoverCloseDelay: number,
 
     on: {
-        onEnterReference: Function,
-        onLeaveReference: Function,
+        onEnterReference: SimpleFunction,
+        onLeaveReference: SimpleFunction,
 
-        onEnterPopper: Function,
-        onLeavePopper: Function,
+        onEnterPopper: SimpleFunction,
+        onLeavePopper: SimpleFunction,
 
-        onReferenceFocus: Function,
-        onReferenceBlur: Function,
+        onReferenceFocus: SimpleFunction,
+        onReferenceBlur: SimpleFunction,
 
-        onClickReference: Function,
-        onClickPopper: Function,
+        onClickReference: SimpleFunction,
+        onClickPopper: SimpleFunction,
     },
     off: {
-        onEnterReference: Function,
-        onLeaveReference: Function,
+        onEnterReference: SimpleFunction,
+        onLeaveReference: SimpleFunction,
 
-        onEnterPopper: Function,
-        onLeavePopper: Function,
+        onEnterPopper: SimpleFunction,
+        onLeavePopper: SimpleFunction,
 
-        onReferenceFocus: Function,
-        onReferenceBlur: Function,
+        onReferenceFocus: SimpleFunction,
+        onReferenceBlur: SimpleFunction,
 
-        onClickReference: Function,
-        onClickPopper: Function,
+        onClickReference: SimpleFunction,
+        onClickPopper: SimpleFunction,
     },
     emit: {
-        onReferenceFocus: Function,
-        onReferenceBlur: Function,
+        onReferenceFocus: SimpleFunction,
+        onReferenceBlur: SimpleFunction,
 
-        onEnterReference: Function,
-        onLeaveReference: Function,
+        onEnterReference: SimpleFunction,
+        onLeaveReference: SimpleFunction,
 
-        onEnterPopper: Function,
-        onLeavePopper: Function,
+        onEnterPopper: SimpleFunction,
+        onLeavePopper: SimpleFunction,
     },
 }) {
     let closeTimer: number | undefined;
@@ -239,17 +239,17 @@ function getClickTrigger({
                              off,
                          }: {
     model: { value: boolean | undefined },
-    show: Function,
-    hide: Function,
+    show: SimpleFunction,
+    hide: SimpleFunction,
     openModel: { value: boolean | undefined },
 
     on: {
-        onClickReference: Function,
-        onClickBody: Function,
+        onClickReference: SimpleFunction,
+        onClickBody: SimpleFunction,
     },
     off: {
-        onClickReference: Function,
-        onClickBody: Function,
+        onClickReference: SimpleFunction,
+        onClickBody: SimpleFunction,
     },
 
 }) {
@@ -291,21 +291,21 @@ function getFocusTrigger(
         off,
         emit,
     }: {
-        show: Function,
-        hide: Function,
+        show: SimpleFunction,
+        hide: SimpleFunction,
         reference: HTMLElement,
 
         on: {
-            onReferenceFocus: Function,
-            onReferenceBlur: Function,
+            onReferenceFocus: SimpleFunction,
+            onReferenceBlur: SimpleFunction,
         },
         off: {
-            onReferenceFocus: Function,
-            onReferenceBlur: Function,
+            onReferenceFocus: SimpleFunction,
+            onReferenceBlur: SimpleFunction,
         },
         emit: {
-            onReferenceFocus: Function,
-            onReferenceBlur: Function,
+            onReferenceFocus: SimpleFunction,
+            onReferenceBlur: SimpleFunction,
         },
     }
 ) {

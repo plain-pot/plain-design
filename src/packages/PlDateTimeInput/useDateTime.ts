@@ -1,7 +1,7 @@
 import {ModelType} from "../../shims";
 import {EditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useStyle} from "../../use/useStyle";
-import {computed, useRefs} from "plain-design-composition";
+import {computed, SimpleFunction, useRefs} from "plain-design-composition";
 import {PlDateTimeInput} from "./index";
 import {PlInput} from "../PlInput";
 import {delay} from "plain-utils/utils/delay";
@@ -25,7 +25,7 @@ export function useDateTime(
         },
         agentState: EditPopperAgent,
         emit: {
-            onBlur: Function
+            onBlur: SimpleFunction
         },
     }
 ) {

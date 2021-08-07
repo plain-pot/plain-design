@@ -113,7 +113,7 @@ export function useTreeNode<Node extends {
     const utils = {
         /*根据data获取Node*/
         getTreeNodeByData: (() => {
-            const map = new WeakMap<object, Node>()
+            const map = new WeakMap<Record<string, any>, Node>()
             const get = ({data, level, parentRef, adjust}: { data: any, level: number, parentRef: () => Node, adjust?: (node: Node) => void }): Node => {
                 let node: Node | undefined = map.get(data)
                 if (!node) {

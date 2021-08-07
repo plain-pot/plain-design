@@ -21,7 +21,7 @@ export function formatPlcList(
 ) {
 
     /*config plcTypes*/
-    ;(() => {
+    (() => {
         const flatPlcList: tPlc[] = []
         iteratePlcList({
             plcList: sourceList,

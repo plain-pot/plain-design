@@ -1,5 +1,5 @@
 import './cascade.scss'
-import {computed, designComponent, PropType, reactive, useModel, useRefs, watch} from "plain-design-composition";
+import {computed, designComponent, PropType, reactive, SimpleFunction, useModel, useRefs, watch} from "plain-design-composition";
 import {CascadePanelProps} from "../PlCascadePanel";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {EditProps} from "../../use/useEdit";
@@ -12,6 +12,7 @@ import React from 'react';
 import {useClasses} from "plain-design-composition";
 import {ie} from "plain-utils/utils/ie";
 import PlPopper from "../PlPopper";
+import {SimpleObject} from "../../shims";
 
 export const PlCascade = designComponent({
     name: 'pl-cascade',
@@ -54,7 +55,7 @@ export const PlCascade = designComponent({
 
         const state = reactive({
             inputValue: null as null | string,
-            cacheData: {} as { [key: string]: object[] },
+            cacheData: {} as { [key: string]: SimpleObject[] },
             expandKeys: [] as string[],
         })
 
@@ -109,7 +110,7 @@ export const PlCascade = designComponent({
         /*---------------------------------------utils-------------------------------------------*/
 
         const utils = {
-            getChildren: (node: CascadeNode | null, resolve: Function) => {
+            getChildren: (node: CascadeNode | null, resolve: SimpleFunction) => {
                 let key = !!node ? node.key : 'root'
                 if (state.cacheData[key]) {
                     resolve(state.cacheData[key])

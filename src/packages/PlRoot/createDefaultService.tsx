@@ -11,7 +11,7 @@
 import {ReactNode} from "react";
 import {designComponent} from "plain-design-composition";
 
-export function createDefaultService<Option extends object, Refer extends {
+export function createDefaultService<Option extends Record<string, any>, Refer extends {
     isShow: { value: boolean },
     isOpen: { value: boolean },
     service: (optoin: Option) => void

@@ -5,9 +5,9 @@ export class PopperTrigger {
     data: any
 
     constructor(
-        public name: PopperTriggerType,     // 触发器名称
-        public init: Function,              // 触发器初始化的时候执行函数
-        public destroy: Function            // 触发器销毁的时候执行函数
+        public name: PopperTriggerType,             // 触发器名称
+        public init: SimpleFunction,                // 触发器初始化的时候执行函数
+        public destroy: SimpleFunction              // 触发器销毁的时候执行函数
     ) {
     }
 }

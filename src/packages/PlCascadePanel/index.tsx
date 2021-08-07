@@ -1,4 +1,4 @@
-import {computed, designComponent, PropType, reactive, ref, useModel} from 'plain-design-composition'
+import {computed, designComponent, PropType, reactive, ref, SimpleFunction, useModel} from 'plain-design-composition'
 import './cascade-panel.scss'
 import {CascadeNode} from "../PlCascade/utils/CascadeNode";
 import React, {ReactNode} from "react";
@@ -121,7 +121,7 @@ export const PlCascadePanel = designComponent({
                 }
                 return true
             },
-            iterateAll: (nodes: CascadeNode[], fn: Function, iterateChildren?: Function) => {
+            iterateAll: (nodes: CascadeNode[], fn: SimpleFunction, iterateChildren?: SimpleFunction) => {
                 if (!nodes) return
                 nodes.forEach(node => {
                     fn(node)

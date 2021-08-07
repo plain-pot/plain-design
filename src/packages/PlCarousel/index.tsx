@@ -24,7 +24,7 @@ export const PlCarousel = designComponent({
     },
     inheritPropsType: HTMLDivElement,
     scopeSlots: {
-        indicator: (scope: { val: string, index: number, active: Boolean }) => {},
+        indicator: (scope: { val: string, index: number, active: boolean }) => {},
     },
     slots: ['cover', 'default'],
     emits: {

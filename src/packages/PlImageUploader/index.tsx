@@ -9,6 +9,7 @@ import {defer} from "../../utils/defer";
 import {$$image} from "../useImage";
 import React from "react";
 import PlIcon from "../PlIcon";
+import {SimpleObject} from "../../shims";
 
 enum ImageUploaderStatus {
     /*加载*/
@@ -41,7 +42,7 @@ export const PlImageUploader = designComponent({
         onUpdateModelValue: (val?: string) => true,
         onLoadSuccess: (url: string) => true,
         onLoadError: (e: string | Event) => true,
-        onUploadSuccess: (resp: object | string) => true,
+        onUploadSuccess: (resp: SimpleObject | string) => true,
         onUploadProgress: (percent: number, e: ProgressEvent) => true,
         onUploadFail: (e: any) => true,
     },
