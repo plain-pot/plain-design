@@ -20,7 +20,6 @@ export const PlSelectGroup = designComponent({
                     <>
                         {isShow.value && (slots.label.isExist()) && (
                             <PlSelectOption className="pl-select-group" group label="" val="">
-                                <PlIcon icon="el-icon-list"/>
                                 {slots.label()}
                             </PlSelectOption>
                         )}
