@@ -199,14 +199,14 @@ export default designPage(() => {
 
     function customIsCheckable(node: TableNode) {
         // 名称带字符【2】的记录不能选中
-        return node.data.name.indexOf('2') === -1
+        return (node.data.name || []).indexOf('2') === -1
     }
 
     function customFilterNodeMethod(node: TableNode) {
         if (!state.filterText) {
             return true
         } else {
-            return node.data.name.indexOf(state.filterText) > -1
+            return (node.data.name || []).indexOf(state.filterText) > -1
         }
     }
 
