@@ -6,8 +6,8 @@ import {TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
 import React from "react";
 import {PlTabsInner} from "./TabsInner";
 import {PlTabsHeader} from "./TabsHeader";
-import {PlTabsHeaderHorizontal} from "./TabsHeaderHorizontal";
-import {PlTabsHeaderVertical} from "./TabsHeaderVertical";
+import {PlTabsHeaderHorizontal} from "./header/horizontal/TabsHeaderHorizontal";
+import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";
 
 export const PlTabs = designComponent({
     props: {
