@@ -1,6 +1,38 @@
-.pl-tabs-header-horizontal {
-  .pl-tabs-header-item {
-    display: inline-block;
-    font-size: 14px;
+@include theme {
+  .pl-tabs-header-horizontal {
+    overflow: hidden;
+    position: relative;
+
+    .pl-tabs-header-list {
+      white-space: nowrap;
+      display: inline-block;
+      min-width: 100%;
+      position: relative;
+      transition: 300ms $transitionFlexible left;
+    }
+
+    .pl-tabs-header-item {
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    &.pl-tabs-header-show-more {
+      padding-right: 80px;
+
+      .pl-tabs-header-more-button {
+        z-index: 1;
+        position: absolute;
+        background-color: rgba(white, 0.9);
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 80px;
+        box-shadow: 0 2px 8px #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $ihc;
+      }
+    }
   }
 }

@@ -126,6 +126,34 @@ export const demoShadow = designPage(() => {
     )
 })
 
+export const demoTopLong = designPage(() => {
+    return () => (
+        <DemoRow title="head top 超长列表">
+            <PlTabs headType="card">
+                {new Array(10).fill(0).map((_, index) => (
+                    <React.Fragment key={index}>
+                        <PlTab title={`用户管理_${index}`}>
+                            <div style={{height: '100px'}}>
+                                {`user management_${index}`}
+                            </div>
+                        </PlTab>
+                        <PlTab title={`配置管理_${index}`}>
+                            <div style={{height: '200px'}}>
+                                {`config management_${index}`}
+                            </div>
+                        </PlTab>
+                        <PlTab title={`数据集管理_${index}`}>
+                            <div style={{height: '300px'}}>
+                                {`data map_${index}`}
+                            </div>
+                        </PlTab>
+                    </React.Fragment>
+                ))}
+            </PlTabs>
+        </DemoRow>
+    )
+})
+
 /*
 export const demoBottom = designPage(() => {
     return () => (

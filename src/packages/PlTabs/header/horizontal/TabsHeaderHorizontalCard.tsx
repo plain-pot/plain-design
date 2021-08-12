@@ -10,9 +10,7 @@ export const PlTabsHeaderHorizontalCard = designComponent({
     slots: ['default'],
     setup({props, slots}) {
         return () => <>
-            <div className="pl-tabs-header-list">
-                {slots.default()}
-            </div>
+            {slots.default()}
         </>
     },
 })
