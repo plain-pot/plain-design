@@ -4,7 +4,7 @@ import {useCollect} from "../../use/useCollect";
 import PlTab from "../PlTab";
 import {TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
 import React from "react";
-import {PlInnerTab} from "./InnerTab";
+import {PlTabsInner} from "./TabsInner";
 import {PlTabsHeader} from "./TabsHeader";
 
 export const PlTabs = designComponent({
@@ -54,7 +54,7 @@ export const PlTabs = designComponent({
                         <PlTabsHeader tabs={tabs.value} onClickTabHead={handler.onClickTabHeader}/>
                         <div className="pl-tabs-body">
                             {tabs.value.map((tab, index) => (
-                                <PlInnerTab item={tab.item} key={index} active={tab.active}/>
+                                <PlTabsInner item={tab.item} key={index} active={tab.active}/>
                             ))}
                         </div>
                     </div>

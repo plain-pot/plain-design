@@ -3,7 +3,7 @@ import {PlTabComponent} from "../PlTab";
 import {nextTick} from "../../utils/nextTick";
 import React from "react";
 
-export const PlInnerTab = designComponent({
+export const PlTabsInner = designComponent({
     props: {
         item: {type: Object as PropType<PlTabComponent>, required: true},
         active: {type: Boolean},
