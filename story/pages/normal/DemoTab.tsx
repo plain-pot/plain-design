@@ -3,22 +3,39 @@ import React from "react";
 import {PlTab, PlTabs} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 
-export const demoTop = designPage(() => {
+export const demoText = designPage(() => {
     return () => (
         <DemoRow title="head top">
-            <PlTabs>
+            <PlTabs headType="text">
                 <PlTab title="用户管理">
-                    <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
+                    <div style={{height: '100px'}}>
                         user management
                     </div>
                 </PlTab>
                 <PlTab title="配置管理">
-                    <div style={{height: '200px', backgroundColor: '#969696'}}>
+                    <div style={{height: '200px'}}>
                         config management
                     </div>
                 </PlTab>
                 <PlTab title="数据集管理">
-                    <div style={{height: '300px', backgroundColor: '#606266'}}>
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+            <PlTabs headType="text" headPosition="bottom">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
                         data map
                     </div>
                 </PlTab>
@@ -27,6 +44,89 @@ export const demoTop = designPage(() => {
     )
 })
 
+export const demoCard = designPage(() => {
+    return () => (
+        <DemoRow title="head card">
+            <PlTabs headType="card">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+            <PlTabs headType="card" headPosition="bottom">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+        </DemoRow>
+    )
+})
+
+export const demoShadow = designPage(() => {
+    return () => (
+        <DemoRow title="head shadow">
+            <PlTabs headType="shadow">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+            <PlTabs headType="shadow" headPosition="bottom">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+        </DemoRow>
+    )
+})
+
+/*
 export const demoBottom = designPage(() => {
     return () => (
         <DemoRow title="head bottom">
@@ -125,4 +225,4 @@ export const demoRight = designPage(() => {
             </PlTabs>
         </DemoRow>
     )
-})
+})*/

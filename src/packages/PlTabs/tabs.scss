@@ -7,9 +7,13 @@
       display: inline-block;
     }
 
-    .pl-tabs-header {
+    .pl-tabs-header-item {
+      cursor: pointer;
+    }
+
+    /*.pl-tabs-header {
       height: 45px;
-      /*background-color: #697b8c;*/
+      !*background-color: #697b8c;*!
       box-sizing: border-box;
       position: relative;
       overflow: hidden;
@@ -65,6 +69,6 @@
     .pl-tabs-body {
       position: relative;
       margin-top: 20px;
-    }
+    }*/
   }
 }

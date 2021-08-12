@@ -2,7 +2,7 @@ import {classnames, computed, designComponent, PropType, useClasses, useModel} f
 import './tabs.scss'
 import {useCollect} from "../../use/useCollect";
 import PlTab from "../PlTab";
-import {TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
+import {TabCommonProps, TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
 import React from "react";
 import {PlTabsInner} from "./TabsInner";
 import {PlTabsHeader} from "./TabsHeader";
@@ -12,9 +12,8 @@ import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";
 export const PlTabs = designComponent({
     props: {
         modelValue: {type: [String, Number]},
-        headType: {type: String as PropType<keyof typeof TabHeadType>, default: TabHeadType.text},
-        headPosition: {type: String as PropType<keyof typeof TabHeadPosition>, default: TabHeadPosition.top},
         closeable: {type: Boolean},
+        ...TabCommonProps,
     },
     emits: {
         onUpdateModelValue: (val?: string | number) => true,
@@ -55,30 +54,41 @@ export const PlTabs = designComponent({
 
         return {
             render: () => {
+
+                const head = (() => {
+                    const Header = props.headPosition === 'top' || props.headPosition === 'bottom' ? PlTabsHeaderHorizontal : PlTabsHeaderVertical
+                    return (
+                        <Header headType={props.headType} headPosition={props.headPosition}>
+                            {tabs.value.map((tab, index) => (
+                                <div className={classnames([
+                                    'pl-tabs-header-item',
+                                    {'pl-tabs-header-item-active': tab.active}
+                                ])} key={index}
+                                     onClick={() => handler.onClickTabHeader(tab)}>
+                                    {tab.item.scopeSlots.head({active: false}, tab.item.props.title)}
+                                </div>
+                            ))}
+                        </Header>
+                    )
+                })()
+                const body = (
+                    <div className="pl-tabs-body">
+                        {tabs.value.map((tab, index) => (
+                            <PlTabsInner item={tab.item} key={index} active={tab.active}/>
+                        ))}
+                    </div>
+                )
+
                 return (
                     <div className={classes.value}>
                         <div className="pl-tabs-collector">{slots.default()}</div>
-                        {(() => {
-                            const Header = props.headPosition === 'top' || props.headPosition === 'bottom' ? PlTabsHeaderHorizontal : PlTabsHeaderVertical
-                            return (
-                                <Header>
-                                    {tabs.value.map((tab, index) => (
-                                        <div className={classnames([
-                                            'pl-tabs-header-item',
-                                            {'pl-tabs-header-item-active': tab.active}
-                                        ])} key={index}
-                                             onClick={() => handler.onClickTabHeader(tab)}>
-                                            {tab.item.scopeSlots.head({active: false}, tab.item.props.title)}
-                                        </div>
-                                    ))}
-                                </Header>
-                            )
-                        })()}
-                        <div className="pl-tabs-body">
-                            {tabs.value.map((tab, index) => (
-                                <PlTabsInner item={tab.item} key={index} active={tab.active}/>
-                            ))}
-                        </div>
+                        {props.headPosition === 'top' || props.headPosition === 'left' ? <>
+                            {head}
+                            {body}
+                        </> : <>
+                            {body}
+                            {head}
+                        </>}
                     </div>
                 )
             }
