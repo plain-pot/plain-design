@@ -10,8 +10,8 @@ import {PlTabsHeader} from "./TabsHeader";
 export const PlTabs = designComponent({
     props: {
         modelValue: {type: [String, Number]},
-        headType: {type: String as PropType<TabHeadType>, default: TabHeadType.text},
-        headPosition: {type: String as PropType<TabHeadType>, default: TabHeadPosition.top},
+        headType: {type: String as PropType<keyof typeof TabHeadType>, default: TabHeadType.text},
+        headPosition: {type: String as PropType<keyof typeof TabHeadPosition>, default: TabHeadPosition.top},
         closeable: {type: Boolean},
     },
     emits: {
