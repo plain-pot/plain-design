@@ -41,7 +41,8 @@ export const PlTabs = designComponent({
 
         const classes = useClasses(() => [
             'pl-tabs',
-            `pl-tabs-head-position-${props.headPosition}`
+            `pl-tabs-head-position-${props.headPosition}`,
+            `pl-tabs-head-type-${props.headType}`,
         ])
 
         const handler = {
