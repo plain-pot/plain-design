@@ -1,14 +1,15 @@
-import {designComponent, onMounted, onUpdated, reactive, useClasses, useRefs, useStyles} from "plain-design-composition";
-import React, {useRef} from "react";
+import {designComponent, onUpdated, reactive, useClasses, useRefs, useStyles} from "plain-design-composition";
+import React from "react";
 import {TabCommonProps} from "../../tabs.utils";
 import {PlTabsHeaderHorizontalText} from "./TabsHeaderHorizontalText";
 import {PlTabsHeaderHorizontalCard} from "./TabsHeaderHorizontalCard";
 import {PlTabsHeaderHorizontalShadow} from "./TabsHeaderHorizontalShadow";
 import './tabs-header-horizontal.scss'
-import PlIcon from "../../../PlIcon";
 import PlButton from "../../../PlButton";
 
 export const PlTabsHeaderHorizontal = designComponent({
+    name: 'pl-tabs-header-horizontal',
+    provideRefer: true,
     props: {
         ...TabCommonProps,
     },
@@ -61,26 +62,31 @@ export const PlTabsHeaderHorizontal = designComponent({
             },
         }
 
-        return () => (
-            <div className={classes.value} ref={onRef.el}>
-                {state.showMoreButton && (
-                    <div className="pl-tabs-header-more-button pl-boxshadow">
-                        <PlButton icon="el-icon-arrow-left" mode="text" onClick={handler.scrollLeft}/>
-                        <PlButton icon="el-icon-arrow-right" mode="text" onClick={handler.scrollRight}/>
+        return {
+            refer: {
+                refs,
+            },
+            render: () => (
+                <div className={classes.value} ref={onRef.el}>
+                    {state.showMoreButton && (
+                        <div className="pl-tabs-header-more-button pl-boxshadow">
+                            <PlButton icon="el-icon-arrow-left" mode="text" onClick={handler.scrollLeft}/>
+                            <PlButton icon="el-icon-arrow-right" mode="text" onClick={handler.scrollRight}/>
+                        </div>
+                    )}
+                    <div className="pl-tabs-header-list" style={listStyles.value}>
+                        {(() => {
+                            const Type = props.headType === 'shadow' ? PlTabsHeaderHorizontalShadow :
+                                props.headType === 'card' ? PlTabsHeaderHorizontalCard : PlTabsHeaderHorizontalText
+                            return (
+                                <Type headType={props.headType} headPosition={props.headPosition}>
+                                    {slots.default()}
+                                </Type>
+                            )
+                        })()}
                     </div>
-                )}
-                <div className="pl-tabs-header-list" style={listStyles.value}>
-                    {(() => {
-                        const Type = props.headType === 'shadow' ? PlTabsHeaderHorizontalShadow :
-                            props.headType === 'card' ? PlTabsHeaderHorizontalCard : PlTabsHeaderHorizontalText
-                        return (
-                            <Type headType={props.headType} headPosition={props.headPosition}>
-                                {slots.default()}
-                            </Type>
-                        )
-                    })()}
                 </div>
-            </div>
-        )
+            )
+        }
     },
 })

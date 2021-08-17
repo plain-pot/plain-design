@@ -65,7 +65,7 @@ export const PlTabs = designComponent({
                                     'pl-tabs-header-item',
                                     {'pl-tabs-header-item-active': tab.active}
                                 ])} key={index}
-                                     onClick={() => handler.onClickTabHeader(tab)}>
+                                     onClick={() => handler.onClickTabHeader(tab)} data-active={tab.active ? 1 : 0}>
                                     {tab.item.scopeSlots.head({active: false}, tab.item.props.title)}
                                 </div>
                             ))}

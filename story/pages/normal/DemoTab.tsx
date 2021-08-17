@@ -129,7 +129,7 @@ export const demoShadow = designPage(() => {
 export const demoTopLong = designPage(() => {
     return () => (
         <DemoRow title="head card 超长列表">
-            <PlTabs headType="shadow">
+            <PlTabs>
                 {new Array(10).fill(0).map((_, index) => (
                     <React.Fragment key={index}>
                         <PlTab title={`用户管理_${index}`}>
