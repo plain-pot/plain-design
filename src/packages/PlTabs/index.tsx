@@ -1,18 +1,19 @@
-import {computed, designComponent, PropType, useModel} from "plain-design-composition";
+import {classnames, computed, designComponent, PropType, useClasses, useModel} from "plain-design-composition";
 import './tabs.scss'
 import {useCollect} from "../../use/useCollect";
 import PlTab from "../PlTab";
-import {TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
+import {TabCommonProps, TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
 import React from "react";
-import {PlInnerTab} from "./InnerTab";
+import {PlTabsInner} from "./TabsInner";
 import {PlTabsHeader} from "./TabsHeader";
+import {PlTabsHeaderHorizontal} from "./header/horizontal/TabsHeaderHorizontal";
+import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";
 
 export const PlTabs = designComponent({
     props: {
         modelValue: {type: [String, Number]},
-        headType: {type: String as PropType<TabHeadType>, default: TabHeadType.text},
-        headPosition: {type: String as PropType<TabHeadType>, default: TabHeadPosition.top},
         closeable: {type: Boolean},
+        ...TabCommonProps,
     },
     emits: {
         onUpdateModelValue: (val?: string | number) => true,
@@ -38,6 +39,11 @@ export const PlTabs = designComponent({
             })(),
         })))
 
+        const classes = useClasses(() => [
+            'pl-tabs',
+            `pl-tabs-head-position-${props.headPosition}`
+        ])
+
         const handler = {
             onClickTabHeader: ({item, index, active}: TabData) => {
                 const {props: {val}} = item
@@ -48,15 +54,41 @@ export const PlTabs = designComponent({
 
         return {
             render: () => {
-                return (
-                    <div className="pl-tabs">
-                        <div className="pl-tabs-collector">{slots.default()}</div>
-                        <PlTabsHeader tabs={tabs.value} onClickTabHead={handler.onClickTabHeader}/>
-                        <div className="pl-tabs-body">
+
+                const head = (() => {
+                    const Header = props.headPosition === 'top' || props.headPosition === 'bottom' ? PlTabsHeaderHorizontal : PlTabsHeaderVertical
+                    return (
+                        <Header headType={props.headType} headPosition={props.headPosition}>
                             {tabs.value.map((tab, index) => (
-                                <PlInnerTab item={tab.item} key={index} active={tab.active}/>
+                                <div className={classnames([
+                                    'pl-tabs-header-item',
+                                    {'pl-tabs-header-item-active': tab.active}
+                                ])} key={index}
+                                     onClick={() => handler.onClickTabHeader(tab)}>
+                                    {tab.item.scopeSlots.head({active: false}, tab.item.props.title)}
+                                </div>
                             ))}
-                        </div>
+                        </Header>
+                    )
+                })()
+                const body = (
+                    <div className="pl-tabs-body">
+                        {tabs.value.map((tab, index) => (
+                            <PlTabsInner item={tab.item} key={index} active={tab.active}/>
+                        ))}
+                    </div>
+                )
+
+                return (
+                    <div className={classes.value}>
+                        <div className="pl-tabs-collector">{slots.default()}</div>
+                        {props.headPosition === 'top' || props.headPosition === 'left' ? <>
+                            {head}
+                            {body}
+                        </> : <>
+                            {body}
+                            {head}
+                        </>}
                     </div>
                 )
             }

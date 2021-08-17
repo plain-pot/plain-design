@@ -1,24 +1,41 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {PlTab, PlTabs,PlInput} from "../../../src";
+import {PlTab, PlTabs} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 
-export const demo1 = designPage(() => {
+export const demoText = designPage(() => {
     return () => (
-        <DemoRow title="基本用法">
-            <PlTabs>
+        <DemoRow title="head top">
+            <PlTabs headType="text">
                 <PlTab title="用户管理">
-                    <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
+                    <div style={{height: '100px'}}>
                         user management
                     </div>
                 </PlTab>
                 <PlTab title="配置管理">
-                    <div style={{height: '200px', backgroundColor: '#969696'}}>
+                    <div style={{height: '200px'}}>
                         config management
                     </div>
                 </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+            <PlTabs headType="text" headPosition="bottom">
                 <PlTab title="用户管理">
-                    <div style={{height: '300px', backgroundColor: '#606266'}}>
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
                         data map
                     </div>
                 </PlTab>
@@ -27,23 +44,108 @@ export const demo1 = designPage(() => {
     )
 })
 
-export const longDemo = designPage(() => {
+export const demoCard = designPage(() => {
     return () => (
-        <DemoRow title="超长列表">
-            <PlTabs>
-                {new Array(10).fill(null).map((_, index) => (
+        <DemoRow title="head card">
+            <PlTabs headType="card">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+            <PlTabs headType="card" headPosition="bottom">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+        </DemoRow>
+    )
+})
+
+export const demoShadow = designPage(() => {
+    return () => (
+        <DemoRow title="head shadow">
+            <PlTabs headType="shadow">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+            <PlTabs headType="shadow" headPosition="bottom">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+        </DemoRow>
+    )
+})
+
+export const demoTopLong = designPage(() => {
+    return () => (
+        <DemoRow title="head top 超长列表">
+            <PlTabs headType="card">
+                {new Array(10).fill(0).map((_, index) => (
                     <React.Fragment key={index}>
-                        <PlTab title={"用户管理_" + index}>
-                            <span>用户管理_${index}：</span>
-                            <PlInput onMounted={() => console.log('mounted', '用户管理')}/>
+                        <PlTab title={`用户管理_${index}`}>
+                            <div style={{height: '100px'}}>
+                                {`user management_${index}`}
+                            </div>
                         </PlTab>
-                        <PlTab title={"子模块数据管理_" + index}>
-                            <span>子模块数据管理_${index}：</span>
-                            <PlInput onMounted={() => console.log('mounted', '子模块数据管理')}/>
+                        <PlTab title={`配置管理_${index}`}>
+                            <div style={{height: '200px'}}>
+                                {`config management_${index}`}
+                            </div>
                         </PlTab>
-                        <PlTab title={"数据集_" + index}>
-                            <span>数据集_${index}：</span>
-                            <PlInput onMounted={() => console.log('mounted', '数据集')}/>
+                        <PlTab title={`数据集管理_${index}`}>
+                            <div style={{height: '300px'}}>
+                                {`data map_${index}`}
+                            </div>
                         </PlTab>
                     </React.Fragment>
                 ))}
@@ -52,10 +154,11 @@ export const longDemo = designPage(() => {
     )
 })
 
-export const demo3 = designPage(() => {
+/*
+export const demoBottom = designPage(() => {
     return () => (
-        <DemoRow title="基本用法">
-            <PlTabs>
+        <DemoRow title="head bottom">
+            <PlTabs headPosition="bottom">
                 <PlTab title="用户管理">
                     <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
                         user management
@@ -66,7 +169,7 @@ export const demo3 = designPage(() => {
                         config management
                     </div>
                 </PlTab>
-                <PlTab title="用户管理">
+                <PlTab title="数据集管理">
                     <div style={{height: '300px', backgroundColor: '#606266'}}>
                         data map
                     </div>
@@ -76,10 +179,38 @@ export const demo3 = designPage(() => {
     )
 })
 
-export const demo4 = designPage(() => {
+export const demoTopLong = designPage(() => {
     return () => (
-        <DemoRow title="基本用法">
+        <DemoRow title="head top 超长列表">
             <PlTabs>
+                {new Array(10).fill(0).map((_, index) => (
+                    <React.Fragment key={index}>
+                        <PlTab title={`用户管理_${index}`}>
+                            <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
+                                {`user management_${index}`}
+                            </div>
+                        </PlTab>
+                        <PlTab title={`配置管理_${index}`}>
+                            <div style={{height: '200px', backgroundColor: '#969696'}}>
+                                {`config management_${index}`}
+                            </div>
+                        </PlTab>
+                        <PlTab title={`数据集管理_${index}`}>
+                            <div style={{height: '300px', backgroundColor: '#606266'}}>
+                                {`data map_${index}`}
+                            </div>
+                        </PlTab>
+                    </React.Fragment>
+                ))}
+            </PlTabs>
+        </DemoRow>
+    )
+})
+
+export const demoLeft = designPage(() => {
+    return () => (
+        <DemoRow title="head left">
+            <PlTabs headPosition="left">
                 <PlTab title="用户管理">
                     <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
                         user management
@@ -90,7 +221,7 @@ export const demo4 = designPage(() => {
                         config management
                     </div>
                 </PlTab>
-                <PlTab title="用户管理">
+                <PlTab title="数据集管理">
                     <div style={{height: '300px', backgroundColor: '#606266'}}>
                         data map
                     </div>
@@ -99,3 +230,27 @@ export const demo4 = designPage(() => {
         </DemoRow>
     )
 })
+
+export const demoRight = designPage(() => {
+    return () => (
+        <DemoRow title="head right">
+            <PlTabs headPosition="right">
+                <PlTab title="用户管理">
+                    <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
+                        user management
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px', backgroundColor: '#969696'}}>
+                        config management
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px', backgroundColor: '#606266'}}>
+                        data map
+                    </div>
+                </PlTab>
+            </PlTabs>
+        </DemoRow>
+    )
+})*/

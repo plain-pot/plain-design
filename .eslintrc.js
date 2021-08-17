@@ -28,6 +28,8 @@ module.exports = {
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/prefer-as-const": "off",
         "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-extra-semi": "off",
+        "@typescript-eslint/ban-types": "off",
         'prefer-const': 'off',
     }
 }
