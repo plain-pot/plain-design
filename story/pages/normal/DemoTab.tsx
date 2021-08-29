@@ -154,6 +154,32 @@ export const demoTopLong = designPage(() => {
     )
 })
 
+export const demoVertical = designPage(() => {
+    return () => (
+        <DemoRow title="vertical">
+            {['left', 'right'].map(pos => (
+                <PlTabs headPosition={pos as any} key={pos} style={{width: '49%', display: 'inline-flex', verticalAlign: 'top'}}>
+                    <PlTab title="用户管理">
+                        <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
+                            user management
+                        </div>
+                    </PlTab>
+                    <PlTab title="配置管理">
+                        <div style={{height: '200px', backgroundColor: '#969696'}}>
+                            config management
+                        </div>
+                    </PlTab>
+                    <PlTab title="数据集管理">
+                        <div style={{height: '300px', backgroundColor: '#606266'}}>
+                            data map
+                        </div>
+                    </PlTab>
+                </PlTabs>
+            ))}
+        </DemoRow>
+    )
+})
+
 /*
 export const demoBottom = designPage(() => {
     return () => (

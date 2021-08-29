@@ -1,0 +1,14 @@
+.pl-tabs {
+  &.pl-tabs-head-position-left, &.pl-tabs-head-position-right {
+    display: flex;
+
+    .pl-tabs-body {
+      flex: 1;
+    }
+  }
+}
+
+.pl-tabs-header.pl-tabs-header-vertical {
+
+
+}
