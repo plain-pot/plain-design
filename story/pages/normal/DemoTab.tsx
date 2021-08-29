@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {PlTab, PlTabs} from "../../../src";
+import {PlInput, PlTab, PlTabs} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 
 export const demoText = designPage(() => {
@@ -10,16 +10,19 @@ export const demoText = designPage(() => {
                 <PlTab title="用户管理">
                     <div style={{height: '100px'}}>
                         user management
+                        <PlInput onMounted={() => console.log('111 mounted')}/>
                     </div>
                 </PlTab>
                 <PlTab title="配置管理">
                     <div style={{height: '200px'}}>
                         config management
+                        <PlInput onMounted={() => console.log('222 mounted')}/>
                     </div>
                 </PlTab>
                 <PlTab title="数据集管理">
                     <div style={{height: '300px'}}>
                         data map
+                        <PlInput onMounted={() => console.log('333 mounted')}/>
                     </div>
                 </PlTab>
             </PlTabs>
