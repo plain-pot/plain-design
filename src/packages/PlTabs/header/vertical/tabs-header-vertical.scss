@@ -1,14 +1,85 @@
-.pl-tabs {
-  &.pl-tabs-head-position-left, &.pl-tabs-head-position-right {
-    display: flex;
+@include theme {
+  .pl-tabs {
+    &.pl-tabs-head-position-left, &.pl-tabs-head-position-right {
+      display: flex;
 
-    .pl-tabs-body {
-      flex: 1;
+      .pl-tabs-body {
+        flex: 1;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+
+      .pl-tabs-header {
+        position: relative;
+
+        .pl-tabs-header-item {
+          line-height: 36px;
+          padding: 0 16px;
+          position: relative;
+          z-index: 1;
+          transition: all linear 150ms;
+
+          &:hover {
+            color: $colorPrimary;
+          }
+
+          &.pl-tabs-header-item-active {
+            color: $colorPrimary;
+            background-color: $colorPrimaryLight;
+          }
+        }
+
+        &.pl-tabs-header-pos-left {
+
+          &:before {
+            position: absolute;
+            content: '';
+            right: 0;
+            width: 2px;
+            top: 0;
+            bottom: 0;
+            background-color: $ibl;
+          }
+
+          .pl-tabs-header-item {
+            text-align: right;
+            border-right: solid 2px transparent;
+
+            &:hover {
+              border-right-color: rgba($colorPrimary, 0.5);
+            }
+
+            &.pl-tabs-header-item-active {
+              border-right-color: $colorPrimary;
+            }
+          }
+        }
+
+        &.pl-tabs-header-pos-right {
+          &:before {
+            position: absolute;
+            content: '';
+            left: 0;
+            width: 2px;
+            top: 0;
+            bottom: 0;
+            background-color: $ibl;
+          }
+
+          .pl-tabs-header-item {
+            text-align: left;
+            border-left: solid 2px transparent;
+
+            &:hover {
+              border-left-color: rgba($colorPrimary, 0.5);
+            }
+
+            &.pl-tabs-header-item-active {
+              border-left-color: $colorPrimary;
+            }
+          }
+        }
+      }
     }
   }
-}
-
-.pl-tabs-header.pl-tabs-header-vertical {
-
-
 }

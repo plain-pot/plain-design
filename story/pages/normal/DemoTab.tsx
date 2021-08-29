@@ -160,17 +160,17 @@ export const demoVertical = designPage(() => {
             {['left', 'right'].map(pos => (
                 <PlTabs headPosition={pos as any} key={pos} style={{width: '49%', display: 'inline-flex', verticalAlign: 'top'}}>
                     <PlTab title="用户管理">
-                        <div style={{height: '100px', backgroundColor: '#c6c6c6'}}>
+                        <div style={{height: '100px'}}>
                             user management
                         </div>
                     </PlTab>
                     <PlTab title="配置管理">
-                        <div style={{height: '200px', backgroundColor: '#969696'}}>
+                        <div style={{height: '200px'}}>
                             config management
                         </div>
                     </PlTab>
                     <PlTab title="数据集管理">
-                        <div style={{height: '300px', backgroundColor: '#606266'}}>
+                        <div style={{height: '300px'}}>
                             data map
                         </div>
                     </PlTab>
