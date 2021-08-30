@@ -6,6 +6,7 @@ import {PlTabsHeaderHorizontalCard} from "./TabsHeaderHorizontalCard";
 import {PlTabsHeaderHorizontalShadow} from "./TabsHeaderHorizontalShadow";
 import './tabs-header-horizontal.scss'
 import PlButton from "../../../PlButton";
+import {delay} from "plain-utils/utils/delay";
 
 export const PlTabsHeaderHorizontal = designComponent({
     name: 'pl-tabs-header-horizontal',
@@ -41,7 +42,8 @@ export const PlTabsHeaderHorizontal = designComponent({
             }
         })
 
-        onUpdated(() => {
+        onUpdated(async () => {
+            await delay(50)
             const {scrollWidth, offsetWidth} = refs.el!
             let flag = scrollWidth > offsetWidth + 20
             if (state.showMoreButton !== flag) {
