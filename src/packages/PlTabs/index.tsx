@@ -24,20 +24,23 @@ export const PlTabs = designComponent({
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
         const items = TabCollector.parent()
 
-        const tabs = computed(() => items.map((item, index) => ({
-            item,
-            index,
-            active: (() => {
-                const {val} = item.props
-                if (val != null) {
-                    return model.value == val
-                }
-                if (model.value != null) {
-                    return model.value == index
-                }
-                return index == 0
-            })(),
-        })))
+        const tabs = computed(() => items.map((item, index) => {
+            const {val} = item.props
+            return {
+                item,
+                index,
+                val: val == null ? index : val,
+                active: (() => {
+                    if (val != null) {
+                        return model.value == val
+                    }
+                    if (model.value != null) {
+                        return model.value == index
+                    }
+                    return index == 0
+                })(),
+            }
+        }))
 
         const classes = useClasses(() => [
             'pl-tabs',
@@ -74,7 +77,7 @@ export const PlTabs = designComponent({
                 })()
                 const body = (
                     <div className="pl-tabs-body">
-                        {tabs.value.map((tab, index) => (
+                        {tabs.value.sort((a, b) => String(a.val).localeCompare(String(b.val))).map((tab, index) => (
                             <PlTabsInner item={tab.item} key={index} active={tab.active}/>
                         ))}
                     </div>
