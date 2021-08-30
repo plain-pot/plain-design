@@ -3,6 +3,7 @@ import React from "react";
 import {PlButton, $$message, PlInput, PlRadio, PlRadioGroup, PlTab, PlTabs, useDialog} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
+import {shuffle} from "plain-utils/object/shuffle";
 
 export const DemoBasic = designPage(() => {
     return () => (
@@ -175,7 +176,8 @@ export const DemoDynamic = designPage(() => {
             '配置管理',
             '数据集管理',
             '网点管理',
-            '价格配置',
+            // 以下数据用来模拟超长数据
+            /*'价格配置',
             '系统配置',
             '开发配置',
             '参数配置',
@@ -185,7 +187,7 @@ export const DemoDynamic = designPage(() => {
             '黑名单',
             '白名单',
             '工作流',
-            '审批流',
+            '审批流',*/
         ],
     })
 
@@ -210,6 +212,27 @@ export const DemoDynamic = designPage(() => {
         })
     }
 
+    const resetTabData = () => {
+        const data = [
+            '用户管理',
+            '配置管理',
+            '数据集管理',
+            '网点管理',
+            '价格配置',
+            '系统配置',
+            '开发配置',
+            '参数配置',
+            '装修配置',
+            '源点配置',
+            '网站地图',
+            '黑名单',
+            '白名单',
+            '工作流',
+            '审批流',
+        ]
+        state.tabs = state.tabs.length <= 4 ? data : data.slice(0, 4)
+    }
+
     return () => (
         <DemoRow title="动态增减标签页">
             <PlTabs closeable>
@@ -223,7 +246,10 @@ export const DemoDynamic = designPage(() => {
                         </PlTab>
                     )),
                     operator: () => (
-                        <PlButton label="新页签" icon="el-icon-plus" onClick={addTab}/>
+                        <>
+                            <PlButton label="新页签" icon="el-icon-plus" onClick={addTab}/>
+                            <PlButton mode="stroke" label={state.tabs.length > 4 ? '短页签' : '长页签'} status="error" onClick={resetTabData}/>
+                        </>
                     )
                 }}
             </PlTabs>
