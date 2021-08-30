@@ -4,8 +4,9 @@
     position: relative;
 
     .pl-tabs-header-list {
+      display: inline-flex;
+      align-items: center;
       white-space: nowrap;
-      display: inline-block;
       min-width: 100%;
       position: relative;
       transition: 300ms $transitionFlexible left;

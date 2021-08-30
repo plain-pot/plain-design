@@ -9,6 +9,7 @@
 
     .pl-tabs-header-item {
       cursor: pointer;
+      user-select: none;
 
       .pl-icon {
         margin-left: 8px;
@@ -22,14 +23,17 @@
     }
 
     .pl-tabs-header-item-operator {
+      flex-grow: 1;
+      flex-shrink: 0;
       position: sticky;
-      right: 0;
+      right: 4px;
+      height: 45px;
       line-height: 45px;
       padding-left: 16px;
+      justify-self: flex-end;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      float: right;
+      justify-content: flex-end;
     }
 
     /*.pl-tabs-header {

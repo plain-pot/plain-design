@@ -1,11 +1,10 @@
-import {classnames, computed, designComponent, PropType, useClasses, useModel} from "plain-design-composition";
+import {classnames, computed, designComponent, useClasses, useModel, watch} from "plain-design-composition";
 import './tabs.scss'
 import {useCollect} from "../../use/useCollect";
 import PlTab from "../PlTab";
-import {TabCommonProps, TabData, TabHeadPosition, TabHeadType} from "./tabs.utils";
+import {TabCommonProps, TabData} from "./tabs.utils";
 import React from "react";
 import {PlTabsInner} from "./TabsInner";
-import {PlTabsHeader} from "./TabsHeader";
 import {PlTabsHeaderHorizontal} from "./header/horizontal/TabsHeaderHorizontal";
 import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";
 import PlIcon from "../PlIcon";
@@ -42,6 +41,13 @@ export const PlTabs = designComponent({
                 })(),
             }
         }))
+
+        watch(() => tabs.value.map(i => i.val).join('_'), () => {
+            const activeItem = tabs.value.find(i => i.active)
+            if (!activeItem) {
+                model.value = tabs.value[0]?.val
+            }
+        })
 
         const classes = useClasses(() => [
             'pl-tabs',

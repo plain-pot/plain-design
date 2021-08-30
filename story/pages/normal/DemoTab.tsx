@@ -1,6 +1,6 @@
 import {designPage, reactive} from "plain-design-composition";
 import React from "react";
-import {PlButton, $$message, PlInput, PlRadio, PlRadioGroup, PlTab, PlTabs} from "../../../src";
+import {PlButton, $$message, PlInput, PlRadio, PlRadioGroup, PlTab, PlTabs, useDialog} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 
@@ -174,8 +174,41 @@ export const DemoDynamic = designPage(() => {
             '用户管理',
             '配置管理',
             '数据集管理',
+            '网点管理',
+            '价格配置',
+            '系统配置',
+            '开发配置',
+            '参数配置',
+            '装修配置',
+            '源点配置',
+            '网站地图',
+            '黑名单',
+            '白名单',
+            '工作流',
+            '审批流',
         ],
     })
+
+    const dialog = useDialog()
+
+    const addTab = () => {
+        dialog({
+            editType: 'input',
+            confirmButton: true,
+            cancelButton: true,
+            onConfirm: editValue => {
+                editValue = editValue?.trim()
+                if (!editValue) {
+                    return
+                }
+                if (state.tabs.indexOf(editValue) > -1) {
+                    dialog.warn('唯一性冲突！')
+                    return
+                }
+                state.tabs.unshift(editValue)
+            }
+        })
+    }
 
     return () => (
         <DemoRow title="动态增减标签页">
@@ -190,7 +223,7 @@ export const DemoDynamic = designPage(() => {
                         </PlTab>
                     )),
                     operator: () => (
-                        <PlButton label="新页签" icon="el-icon-plus"/>
+                        <PlButton label="新页签" icon="el-icon-plus" onClick={addTab}/>
                     )
                 }}
             </PlTabs>
