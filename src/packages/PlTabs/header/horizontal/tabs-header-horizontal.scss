@@ -37,21 +37,23 @@
     }
   }
 
-  .pl-tabs-fit-height {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    flex: 1;
-
-    & > .pl-tabs-body {
-      flex: 1;
-      overflow: hidden;
+  .pl-tabs-head-position-top, .pl-tabs-head-position-bottom {
+    &.pl-tabs-fit-height {
       display: flex;
-      align-items: stretch;
+      flex-direction: column;
+      height: 100%;
+      flex: 1;
 
-      & > .pl-inner-tab {
+      & > .pl-tabs-body {
         flex: 1;
-        overflow: auto;
+        overflow: hidden;
+        display: flex;
+        align-items: stretch;
+
+        & > .pl-inner-tab {
+          flex: 1;
+          overflow: auto;
+        }
       }
     }
   }

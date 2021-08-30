@@ -283,24 +283,25 @@ export const DemoFitHeight = designPage(() => {
             </DemoLine>
             <div style={{height: '200px'}}>
                 <PlTabs headPosition={state.position as any} headType={state.headType as any} fitHeight>
-                    <PlTab title="用户管理">
-                        <div style={{height: '200px', padding: '20px 0'}}>
-                            用户管理：
-                            <PlInput/>
-                        </div>
-                    </PlTab>
-                    <PlTab title="配置管理">
-                        <div style={{height: '300px', padding: '20px 0'}}>
-                            配置管理：
-                            <PlInput/>
-                        </div>
-                    </PlTab>
-                    <PlTab title="数据集管理">
-                        <div style={{height: '400px', padding: '20px 0'}}>
-                            数据集管理：
-                            <PlInput/>
-                        </div>
-                    </PlTab>
+                    {new Array(10).fill(0).map((_, index) => (
+                        <React.Fragment key={index}>
+                            <PlTab title={`用户管理_${index}`}>
+                                <div style={{height: '100px', backgroundColor: '#ffffff'}}>
+                                    {`user management_${index}`}
+                                </div>
+                            </PlTab>
+                            <PlTab title={`配置管理_${index}`}>
+                                <div style={{height: '200px', backgroundColor: '#f9f9f9'}}>
+                                    {`config management_${index}`}
+                                </div>
+                            </PlTab>
+                            <PlTab title={`数据集管理_${index}`}>
+                                <div style={{height: '300px', backgroundColor: '#f5f5f5'}}>
+                                    {`data map_${index}`}
+                                </div>
+                            </PlTab>
+                        </React.Fragment>
+                    ))}
                 </PlTabs>
             </div>
         </DemoRow>
