@@ -36,4 +36,23 @@
       }
     }
   }
+
+  .pl-tabs-fit-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+
+    & > .pl-tabs-body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+
+      & > .pl-inner-tab {
+        flex: 1;
+        overflow: auto;
+      }
+    }
+  }
 }

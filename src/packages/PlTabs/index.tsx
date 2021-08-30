@@ -11,8 +11,9 @@ import PlIcon from "../PlIcon";
 
 export const PlTabs = designComponent({
     props: {
-        modelValue: {type: [String, Number]},
-        closeable: {type: Boolean},
+        modelValue: {type: [String, Number]},                   // 双向绑定值，控制当前显示的tab
+        closeable: {type: Boolean},                             // 是否显示关闭按钮，会派发onClose事件
+        fitHeight: {type: Boolean},                             // 适配高度
         ...TabCommonProps,
     },
     emits: {
@@ -53,6 +54,9 @@ export const PlTabs = designComponent({
             'pl-tabs',
             `pl-tabs-head-position-${props.headPosition}`,
             `pl-tabs-head-type-${props.headType}`,
+            {
+                'pl-tabs-fit-height': props.fitHeight
+            },
         ])
 
         const handler = {

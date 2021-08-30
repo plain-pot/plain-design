@@ -15,8 +15,8 @@ export enum TabHeadPosition {
 }
 
 export const TabCommonProps = {
-    headType: {type: String as PropType<keyof typeof TabHeadType>, default: TabHeadType.text},
-    headPosition: {type: String as PropType<keyof typeof TabHeadPosition>, default: TabHeadPosition.top},
+    headType: {type: String as PropType<keyof typeof TabHeadType>, default: TabHeadType.text},                      // 页签样式
+    headPosition: {type: String as PropType<keyof typeof TabHeadPosition>, default: TabHeadPosition.top},           // 页签位置
 }
 
 export type TabData = { item: PlTabComponent, index: number, active: boolean }

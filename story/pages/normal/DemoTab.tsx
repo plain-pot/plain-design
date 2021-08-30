@@ -256,3 +256,53 @@ export const DemoDynamic = designPage(() => {
         </DemoRow>
     )
 })
+
+export const DemoFitHeight = designPage(() => {
+    const state = reactive({
+        position: 'top',
+        headType: 'text',
+
+    })
+
+    return () => (
+        <DemoRow title="固定高度">
+            <DemoLine>
+                <PlRadioGroup v-model={state.position}>
+                    <PlRadio val="top" label="top"/>
+                    <PlRadio val="bottom" label="bottom"/>
+                    <PlRadio val="left" label="left"/>
+                    <PlRadio val="right" label="right"/>
+                </PlRadioGroup>
+            </DemoLine>
+            <DemoLine>
+                <PlRadioGroup v-model={state.headType}>
+                    <PlRadio val="text" label="text"/>
+                    <PlRadio val="card" label="card"/>
+                    <PlRadio val="shadow" label="shadow"/>
+                </PlRadioGroup>
+            </DemoLine>
+            <div style={{height: '200px'}}>
+                <PlTabs headPosition={state.position as any} headType={state.headType as any} fitHeight>
+                    <PlTab title="用户管理">
+                        <div style={{height: '200px', padding: '20px 0'}}>
+                            用户管理：
+                            <PlInput/>
+                        </div>
+                    </PlTab>
+                    <PlTab title="配置管理">
+                        <div style={{height: '300px', padding: '20px 0'}}>
+                            配置管理：
+                            <PlInput/>
+                        </div>
+                    </PlTab>
+                    <PlTab title="数据集管理">
+                        <div style={{height: '400px', padding: '20px 0'}}>
+                            数据集管理：
+                            <PlInput/>
+                        </div>
+                    </PlTab>
+                </PlTabs>
+            </div>
+        </DemoRow>
+    )
+})
