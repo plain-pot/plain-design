@@ -18,6 +18,7 @@
           position: relative;
           z-index: 1;
           transition: all linear 150ms;
+          white-space: nowrap;
 
           &:hover {
             color: $colorPrimary;
