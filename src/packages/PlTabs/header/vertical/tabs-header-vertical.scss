@@ -5,7 +5,6 @@
 
       .pl-tabs-body {
         flex: 1;
-        padding: 0 16px;
         box-sizing: border-box;
       }
 
@@ -80,6 +79,39 @@
             }
           }
         }
+      }
+
+      &.pl-tabs-fit-height {
+        height: 100%;
+        flex: 1;
+        align-items: stretch;
+
+        & > .pl-tabs-header {
+          overflow: auto;
+        }
+
+        & > .pl-tabs-body {
+          overflow: hidden;
+          display: flex;
+          align-items: stretch;
+
+          & > .pl-inner-tab {
+            flex: 1;
+            overflow: auto;
+          }
+        }
+      }
+    }
+
+    &.pl-tabs-head-position-left {
+      .pl-tabs-body {
+        padding-left: 16px;
+      }
+    }
+
+    &.pl-tabs-head-position-right {
+      .pl-tabs-body {
+        padding-right: 16px;
       }
     }
   }

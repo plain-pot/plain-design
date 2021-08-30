@@ -286,17 +286,17 @@ export const DemoFitHeight = designPage(() => {
                     {new Array(10).fill(0).map((_, index) => (
                         <React.Fragment key={index}>
                             <PlTab title={`用户管理_${index}`}>
-                                <div style={{height: '100px', backgroundColor: '#ffffff'}}>
+                                <div style={{height: '200px', backgroundColor: '#ffffff'}}>
                                     {`user management_${index}`}
                                 </div>
                             </PlTab>
                             <PlTab title={`配置管理_${index}`}>
-                                <div style={{height: '200px', backgroundColor: '#f9f9f9'}}>
+                                <div style={{height: '400px', backgroundColor: '#f9f9f9'}}>
                                     {`config management_${index}`}
                                 </div>
                             </PlTab>
                             <PlTab title={`数据集管理_${index}`}>
-                                <div style={{height: '300px', backgroundColor: '#f5f5f5'}}>
+                                <div style={{height: '600px', backgroundColor: '#f5f5f5'}}>
                                     {`data map_${index}`}
                                 </div>
                             </PlTab>
