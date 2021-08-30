@@ -9,6 +9,16 @@
 
     .pl-tabs-header-item {
       cursor: pointer;
+
+      .pl-icon {
+        margin-left: 8px;
+      }
+
+      &:not(.pl-tabs-header-item-active) {
+        .pl-icon {
+          color: $icc;
+        }
+      }
     }
 
     /*.pl-tabs-header {

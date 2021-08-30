@@ -1,8 +1,7 @@
 import {designPage, reactive} from "plain-design-composition";
 import React from "react";
-import {PlRadioGroup, PlRadio, PlInput, PlTab, PlTabs} from "../../../src";
+import {$$message, PlInput, PlRadio, PlRadioGroup, PlTab, PlTabs} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
-import {createRpcReturn} from "fork-ts-checker-webpack-plugin/lib/rpc";
 import {DemoLine} from "../../components/DemoLine";
 
 export const DemoBasic = designPage(() => {
@@ -51,19 +50,19 @@ export const DemoDirection = designPage(() => {
                 <PlTab title="用户管理">
                     <div style={{height: '100px', padding: '20px 0'}}>
                         用户管理：
-                        <PlInput onMounted={() => console.log('111 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
                 <PlTab title="配置管理">
                     <div style={{height: '200px', padding: '20px 0'}}>
                         配置管理：
-                        <PlInput onMounted={() => console.log('222 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
                 <PlTab title="数据集管理">
                     <div style={{height: '300px', padding: '20px 0'}}>
                         数据集管理：
-                        <PlInput onMounted={() => console.log('333 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
             </PlTabs>
@@ -98,19 +97,19 @@ export const DemoHeadType = designPage(() => {
                 <PlTab title="用户管理">
                     <div style={{height: '100px', padding: '20px 0'}}>
                         用户管理：
-                        <PlInput onMounted={() => console.log('111 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
                 <PlTab title="配置管理">
                     <div style={{height: '200px', padding: '20px 0'}}>
                         配置管理：
-                        <PlInput onMounted={() => console.log('222 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
                 <PlTab title="数据集管理">
                     <div style={{height: '300px', padding: '20px 0'}}>
                         数据集管理：
-                        <PlInput onMounted={() => console.log('333 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
             </PlTabs>
@@ -191,22 +190,22 @@ export const DemoClose = designPage(() => {
                 </PlRadioGroup>
             </DemoLine>
             <PlTabs headPosition={state.position as any} headType={state.headType as any} closeable>
-                <PlTab title="用户管理">
+                <PlTab title="用户管理" onClose={() => $$message('close 用户管理')}>
                     <div style={{height: '100px', padding: '20px 0'}}>
                         用户管理：
-                        <PlInput onMounted={() => console.log('111 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
-                <PlTab title="配置管理">
+                <PlTab title="配置管理" onClose={() => $$message('close 配置管理')}>
                     <div style={{height: '200px', padding: '20px 0'}}>
                         配置管理：
-                        <PlInput onMounted={() => console.log('222 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
-                <PlTab title="数据集管理">
+                <PlTab title="数据集管理" onClose={() => $$message('close 数据集管理')}>
                     <div style={{height: '300px', padding: '20px 0'}}>
                         数据集管理：
-                        <PlInput onMounted={() => console.log('333 mounted')}/>
+                        <PlInput/>
                     </div>
                 </PlTab>
             </PlTabs>

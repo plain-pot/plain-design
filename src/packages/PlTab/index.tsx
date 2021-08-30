@@ -14,7 +14,10 @@ export const PlTab = designComponent({
     scopeSlots: {
         head: (data: { active: boolean }) => {},
     },
-    setup({props, slots, scopeSlots}) {
+    emits: {
+        onClose: () => true,
+    },
+    setup({props, slots, scopeSlots, event}) {
         const {refs, onRef} = useRefs({
             el: HTMLSpanElement,
         })
@@ -24,6 +27,7 @@ export const PlTab = designComponent({
                 slots,
                 scopeSlots,
                 props,
+                event,
             },
             render: () => (<span ref={onRef.el}>{props.title}</span>)
         }

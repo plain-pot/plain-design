@@ -8,6 +8,7 @@ import {PlTabsInner} from "./TabsInner";
 import {PlTabsHeader} from "./TabsHeader";
 import {PlTabsHeaderHorizontal} from "./header/horizontal/TabsHeaderHorizontal";
 import {PlTabsHeaderVertical} from "./header/vertical/TabsHeaderVertical";
+import PlIcon from "../PlIcon";
 
 export const PlTabs = designComponent({
     props: {
@@ -69,7 +70,11 @@ export const PlTabs = designComponent({
                                     {'pl-tabs-header-item-active': tab.active}
                                 ])} key={index}
                                      onClick={() => handler.onClickTabHeader(tab)} data-active={tab.active ? 1 : 0}>
-                                    {tab.item.scopeSlots.head({active: false}, tab.item.props.title)}
+                                    <span>{tab.item.scopeSlots.head({active: false}, tab.item.props.title)}</span>
+                                    {props.closeable && <PlIcon icon="el-icon-close" onClick={e => {
+                                        e.stopPropagation()
+                                        tab.item.event.emit.onClose()
+                                    }}/>}
                                 </div>
                             ))}
                         </Header>
