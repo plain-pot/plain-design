@@ -21,6 +21,17 @@
       }
     }
 
+    .pl-tabs-header-item-operator {
+      position: sticky;
+      right: 0;
+      line-height: 45px;
+      padding-left: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      float: right;
+    }
+
     /*.pl-tabs-header {
       height: 45px;
       !*background-color: #697b8c;*!

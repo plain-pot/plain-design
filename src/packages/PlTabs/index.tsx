@@ -19,7 +19,7 @@ export const PlTabs = designComponent({
     emits: {
         onUpdateModelValue: (val?: string | number) => true,
     },
-    slots: ['default'],
+    slots: ['default', 'operator'],
     setup({props, event: {emit}, slots}) {
 
         const model = useModel(() => props.modelValue, emit.onUpdateModelValue)
@@ -77,6 +77,11 @@ export const PlTabs = designComponent({
                                     }}/>}
                                 </div>
                             ))}
+                            {slots.operator.isExist() && (
+                                <div className="pl-tabs-header-item-operator">
+                                    {slots.operator()}
+                                </div>
+                            )}
                         </Header>
                     )
                 })()

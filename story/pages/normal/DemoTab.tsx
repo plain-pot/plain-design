@@ -1,6 +1,6 @@
 import {designPage, reactive} from "plain-design-composition";
 import React from "react";
-import {$$message, PlInput, PlRadio, PlRadioGroup, PlTab, PlTabs} from "../../../src";
+import {PlButton, $$message, PlInput, PlRadio, PlRadioGroup, PlTab, PlTabs} from "../../../src";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
 
@@ -166,48 +166,33 @@ export const DemoLongTabs = designPage(() => {
     )
 })
 
-export const DemoClose = designPage(() => {
+
+export const DemoDynamic = designPage(() => {
+
     const state = reactive({
-        position: 'top',
-        headType: 'text',
+        tabs: [
+            '用户管理',
+            '配置管理',
+            '数据集管理',
+        ],
     })
 
     return () => (
-        <DemoRow title="关闭按钮">
-            <DemoLine>
-                <PlRadioGroup v-model={state.position}>
-                    <PlRadio val="top" label="top"/>
-                    <PlRadio val="bottom" label="bottom"/>
-                    <PlRadio val="left" label="left"/>
-                    <PlRadio val="right" label="right"/>
-                </PlRadioGroup>
-            </DemoLine>
-            <DemoLine>
-                <PlRadioGroup v-model={state.headType}>
-                    <PlRadio val="text" label="text"/>
-                    <PlRadio val="card" label="card"/>
-                    <PlRadio val="shadow" label="shadow"/>
-                </PlRadioGroup>
-            </DemoLine>
-            <PlTabs headPosition={state.position as any} headType={state.headType as any} closeable>
-                <PlTab title="用户管理" onClose={() => $$message('close 用户管理')}>
-                    <div style={{height: '100px', padding: '20px 0'}}>
-                        用户管理：
-                        <PlInput/>
-                    </div>
-                </PlTab>
-                <PlTab title="配置管理" onClose={() => $$message('close 配置管理')}>
-                    <div style={{height: '200px', padding: '20px 0'}}>
-                        配置管理：
-                        <PlInput/>
-                    </div>
-                </PlTab>
-                <PlTab title="数据集管理" onClose={() => $$message('close 数据集管理')}>
-                    <div style={{height: '300px', padding: '20px 0'}}>
-                        数据集管理：
-                        <PlInput/>
-                    </div>
-                </PlTab>
+        <DemoRow title="动态增减标签页">
+            <PlTabs closeable>
+                {{
+                    default: () => state.tabs.map((tab, index) => (
+                        <PlTab key={tab} title={tab} onClose={() => state.tabs.splice(index, 1)}>
+                            <div style={{height: '100px', padding: '20px 0'}}>
+                                {tab}：
+                                <PlInput/>
+                            </div>
+                        </PlTab>
+                    )),
+                    operator: () => (
+                        <PlButton label="新页签" icon="el-icon-plus"/>
+                    )
+                }}
             </PlTabs>
         </DemoRow>
     )
