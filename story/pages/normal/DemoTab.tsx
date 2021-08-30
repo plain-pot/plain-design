@@ -166,3 +166,50 @@ export const DemoLongTabs = designPage(() => {
         </DemoRow>
     )
 })
+
+export const DemoClose = designPage(() => {
+    const state = reactive({
+        position: 'top',
+        headType: 'text',
+    })
+
+    return () => (
+        <DemoRow title="关闭按钮">
+            <DemoLine>
+                <PlRadioGroup v-model={state.position}>
+                    <PlRadio val="top" label="top"/>
+                    <PlRadio val="bottom" label="bottom"/>
+                    <PlRadio val="left" label="left"/>
+                    <PlRadio val="right" label="right"/>
+                </PlRadioGroup>
+            </DemoLine>
+            <DemoLine>
+                <PlRadioGroup v-model={state.headType}>
+                    <PlRadio val="text" label="text"/>
+                    <PlRadio val="card" label="card"/>
+                    <PlRadio val="shadow" label="shadow"/>
+                </PlRadioGroup>
+            </DemoLine>
+            <PlTabs headPosition={state.position as any} headType={state.headType as any} closeable>
+                <PlTab title="用户管理">
+                    <div style={{height: '100px', padding: '20px 0'}}>
+                        用户管理：
+                        <PlInput onMounted={() => console.log('111 mounted')}/>
+                    </div>
+                </PlTab>
+                <PlTab title="配置管理">
+                    <div style={{height: '200px', padding: '20px 0'}}>
+                        配置管理：
+                        <PlInput onMounted={() => console.log('222 mounted')}/>
+                    </div>
+                </PlTab>
+                <PlTab title="数据集管理">
+                    <div style={{height: '300px', padding: '20px 0'}}>
+                        数据集管理：
+                        <PlInput onMounted={() => console.log('333 mounted')}/>
+                    </div>
+                </PlTab>
+            </PlTabs>
+        </DemoRow>
+    )
+})
