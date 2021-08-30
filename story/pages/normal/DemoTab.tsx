@@ -117,3 +117,52 @@ export const DemoHeadType = designPage(() => {
         </DemoRow>
     )
 })
+
+export const DemoLongTabs = designPage(() => {
+
+    const state = reactive({
+        position: 'top',
+        headType: 'text',
+    })
+
+    return () => (
+        <DemoRow title="超长页签">
+            <DemoLine>
+                <PlRadioGroup v-model={state.position}>
+                    <PlRadio val="top" label="top"/>
+                    <PlRadio val="bottom" label="bottom"/>
+                    <PlRadio val="left" label="left"/>
+                    <PlRadio val="right" label="right"/>
+                </PlRadioGroup>
+            </DemoLine>
+            <DemoLine>
+                <PlRadioGroup v-model={state.headType}>
+                    <PlRadio val="text" label="text"/>
+                    <PlRadio val="card" label="card"/>
+                    <PlRadio val="shadow" label="shadow"/>
+                </PlRadioGroup>
+            </DemoLine>
+            <PlTabs headPosition={state.position as any} headType={state.headType as any}>
+                {new Array(10).fill(0).map((_, index) => (
+                    <React.Fragment key={index}>
+                        <PlTab title={`用户管理_${index}`}>
+                            <div style={{height: '100px', backgroundColor: '#f5f5f5'}}>
+                                {`user management_${index}`}
+                            </div>
+                        </PlTab>
+                        <PlTab title={`配置管理_${index}`}>
+                            <div style={{height: '200px', backgroundColor: '#f9f9f9'}}>
+                                {`config management_${index}`}
+                            </div>
+                        </PlTab>
+                        <PlTab title={`数据集管理_${index}`}>
+                            <div style={{height: '300px', backgroundColor: '#ffffff'}}>
+                                {`data map_${index}`}
+                            </div>
+                        </PlTab>
+                    </React.Fragment>
+                ))}
+            </PlTabs>
+        </DemoRow>
+    )
+})
