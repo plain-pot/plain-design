@@ -25,8 +25,6 @@ interface ParentCollector<Child extends { use: { class: any } }> {
 const counter = createCounter('use_collector');
 
 function useCollectInParentInner() {
-    const indexMap = new WeakMap<any, number>();
-
     const items = ref([] as any[]);
     const utils = {
         addItem: (item: any, sort?: UseCollectSort) => {
@@ -41,13 +39,8 @@ function useCollectInParentInner() {
                                 (!childNode.style || childNode.style.display !== 'none'),
                         )
                         .indexOf(el);
-                    // console.log(el, sort)
                 }
-                items.value.push(item);
-                // eslint-disable-next-line
-                item = items.value[items.value.length - 1];
-                indexMap.set(item, sort as number);
-                items.value.sort((a, b) => indexMap.get(a)! - indexMap.get(b)!);
+                items.value.splice(sort, 0, item)
             } else {
                 items.value.push(item);
             }
