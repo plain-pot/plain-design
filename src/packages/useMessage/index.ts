@@ -7,6 +7,7 @@ import {ReactNode} from "react";
 import {RequireFormat} from "../../shims";
 import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {PlMessageManager} from "./PlMessageManager";
+import {STATUS} from "../../utils/constant";
 
 export enum MessageServiceDirection {
     start = 'start',
@@ -57,13 +58,17 @@ export type MessageServiceFormatOption = RequireFormat<MessageServiceOption, 'ho
 const formatOption = (() => {
     let idCount = 0
     return (option: MessageServiceOption): MessageServiceFormatOption => {
+
+        const status = option.status === null ? null : (option.status || 'dark')
+
         return Object.assign(option as MessageServiceFormatOption, {
             id: `message_${idCount++}`,
             close: () => null,
             horizontal: option.horizontal || MessageServiceDirection.center,
             vertical: option.vertical || MessageServiceDirection.start,
             time: option.time === null ? null : (option.time || 3 * 1000),
-            status: option.status || 'dark'
+            status,
+            icon: option?.icon !== undefined ? option.icon : (!status ? null : STATUS[status].icon),
         })
     }
 })()

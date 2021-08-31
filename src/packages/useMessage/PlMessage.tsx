@@ -62,7 +62,9 @@ export default designClassComponent({
                      onClick={handler.onClick}>
                     {!!props.option.icon && <PlIcon icon={props.option.icon}/>}
                     <div className="pl-message-content">{!!props.option.render ? props.option.render() : props.option.message}</div>
-                    <PlIcon icon="el-icon-close" className="pl-message-close" {...createEventListener({onClick: handler.onClickCloseIcon})}/>
+                    <div className="pl-message-close">
+                        <PlIcon icon="el-icon-close" {...createEventListener({onClick: handler.onClickCloseIcon})}/>
+                    </div>
                 </div>
             )
         }

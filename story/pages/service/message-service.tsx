@@ -41,13 +41,13 @@ export default designComponent({
                     <PlButton label={'没有上下文的消息服务'} onClick={showMessageWithoutContext}/>
                 </DemoRow>
                 <DemoRow title={'提示类型'}>
-                    <PlButton onClick={() => $message.lite('提示信息！')} label="lite" style={{backgroundColor: 'white', border: 'solid 1px #ccc', color: '#333'}}/>
-                    <PlButton onClick={() => $message.dark('提示信息！')} label="dark" style={{backgroundColor: '#333', border: 'none'}}/>
                     <PlButton onClick={() => $message.primary('提示信息！')} label="primary" status="primary"/>
                     <PlButton onClick={() => $message.success('提示信息！')} label="success" status="success"/>
                     <PlButton onClick={() => $message.warn('提示信息！')} label="warn" status="warn"/>
                     <PlButton onClick={() => $message.error('提示信息！')} label="error" status="error"/>
                     <PlButton onClick={() => $message.info('提示信息！')} label="help" status="info"/>
+                    <PlButton onClick={() => $message.dark('提示信息！')} label="dark" style={{backgroundColor: '#333', border: 'none'}}/>
+                    <PlButton onClick={() => $message.lite('提示信息！')} label="lite" style={{backgroundColor: 'white', border: 'solid 1px #ccc', color: '#333'}}/>
                 </DemoRow>
                 <DemoRow title={'位置'}>
                     <PlButton onClick={() => $message('提示信息！', {horizontal: MessageServiceDirection.start, vertical: MessageServiceDirection.start})} label="左上"/>
