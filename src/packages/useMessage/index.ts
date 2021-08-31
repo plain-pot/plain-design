@@ -59,7 +59,7 @@ const formatOption = (() => {
     let idCount = 0
     return (option: MessageServiceOption): MessageServiceFormatOption => {
 
-        const status = option.status === null ? null : (option.status || 'dark')
+        const status = option.status === null ? null : (option.status || 'primary')
 
         return Object.assign(option as MessageServiceFormatOption, {
             id: `message_${idCount++}`,
