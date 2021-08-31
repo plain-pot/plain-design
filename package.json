@@ -1,6 +1,6 @@
 {
   "name": "plain-design",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "description": "",
   "main": "dist/plain-design.min.js",
   "typings": "src/index.ts",
