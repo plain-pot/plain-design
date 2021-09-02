@@ -97,7 +97,7 @@ export const PlTabs = designComponent({
                 })()
                 const body = (
                     <div className="pl-tabs-body">
-                        {tabs.value.sort((a, b) => String(a.val).localeCompare(String(b.val))).map((tab, index) => (
+                        {[...tabs.value].sort((a, b) => String(a.val).localeCompare(String(b.val))).map((tab, index) => (
                             <PlTabsInner item={tab.item} key={index} active={tab.active}/>
                         ))}
                     </div>

@@ -23,7 +23,7 @@ export const PlTab = designComponent({
             el: HTMLSpanElement,
         })
         TabCollector.child({sort: () => refs.el!})
-        console.log('attrs', {...attrs})
+        // console.log('attrs', {...attrs})
         return {
             refer: {
                 slots,
