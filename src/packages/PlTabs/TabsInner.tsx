@@ -48,7 +48,7 @@ export const PlTabsInner = designComponent({
 
         return {
             render: () => (
-                <div className="pl-inner-tab" style={styles.value}>
+                <div className="pl-inner-tab" style={styles.value} {...props.item.attrs}>
                     {!!state.init && props.item.slots.default()}
                 </div>
             )
