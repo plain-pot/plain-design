@@ -106,6 +106,10 @@ export const PlFormItem = designComponent({
             }
         ])
 
+        const styles = useStyles((styles) => {
+            styles.width = `${Number(targetProps.value.column) / Number(form.props.column) * 100}%`
+        })
+
         /*label节点宽度，如果有设置labelWidth的话*/
         const labelStyles = useStyles(style => {
             if (!!targetProps.value.labelWidth) {
@@ -145,7 +149,7 @@ export const PlFormItem = designComponent({
                 props,
             },
             render: () => (
-                <div className={classes.value}>
+                <div className={classes.value} style={styles.value}>
                     {(!!props.label || slots.labelContent.isExist()) && (
                         <div className="pl-form-item-label" style={labelStyles.value}>
                             {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}

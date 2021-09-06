@@ -53,14 +53,6 @@
     &.pl-form-vertical-label {
       flex-direction: column;
     }
-
-    @each $col in (2, 3, 4, 5) {
-      &.pl-form-column-#{$col} {
-        .pl-form-item {
-          width: 100% / $col;
-        }
-      }
-    }
   }
 
   .pl-form {

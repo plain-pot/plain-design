@@ -110,7 +110,7 @@ export default designPage(() => {
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
                     </PlFormItem>
-                    <PlFormItem label={'备注'} field={'comments'}>
+                    <PlFormItem label={'备注'} field={'comments'} column={2}>
                         <PlInput textarea v-model={formData.comments}/>
                     </PlFormItem>
                     <PlFormItem label={' '}>
@@ -154,7 +154,7 @@ export default designPage(() => {
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
                     </PlFormItem>
-                    <PlFormItem label={'备注'} field={'comments'}>
+                    <PlFormItem label={'备注'} field={'comments'} block>
                         <PlInput textarea v-model={formData.comments}/>
                     </PlFormItem>
                     <PlFormItem label={' '}>
@@ -185,7 +185,7 @@ export default designPage(() => {
                             <PlRadio label={'非老客户'} val={'N'}/>
                         </PlRadioGroup>
                     </PlFormItem>
-                    <PlFormItem label={'客户性质'} field={'properties'}>
+                    <PlFormItem label={'客户性质'} field={'properties'} column={2}>
                         <PlCheckboxGroup v-model={formData.properties} itemWidth={'50%'}>
                             <PlCheckbox label={'大客户'} val={'large'}/>
                             <PlCheckbox label={'潜在客户'} val={'potential'}/>
@@ -193,12 +193,12 @@ export default designPage(() => {
                             <PlCheckbox label={'赢单客户'} val={'order'}/>
                         </PlCheckboxGroup>
                     </PlFormItem>
-                    <PlFormItem label={'客户级别'} field={'level'}>
+                    <PlFormItem label={'客户级别'} field={'level'} column={2}>
                         <PlSelect v-model={formData.level}>
                             {levelData.map(item => <PlSelectOption label={item.levelName} val={item.code} key={item.code}/>)}
                         </PlSelect>
                     </PlFormItem>
-                    <PlFormItem label={'备注'} field={'comments'}>
+                    <PlFormItem label={'备注'} field={'comments'} block>
                         <PlInput textarea v-model={formData.comments}/>
                     </PlFormItem>
                     <PlFormItem label={' '}>
