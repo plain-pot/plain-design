@@ -107,13 +107,22 @@ export const PlFormItem = designComponent({
         ])
 
         const styles = useStyles((styles) => {
-            styles.width = `${Number(targetProps.value.column) / Number(form.props.column) * 100}%`
+            if (form.props.column !== 1) {
+                styles.width = `${Number(targetProps.value.column) / Number(form.props.column) * 100}%`
+            }
         })
 
         /*label节点宽度，如果有设置labelWidth的话*/
         const labelStyles = useStyles(style => {
             if (!!targetProps.value.labelWidth) {
                 style.width = unit(targetProps.value.labelWidth)
+            }
+        })
+
+        const bodyStyles = useStyles(styles => {
+            if (form.props.column === 1) {
+                styles.width = unit(form.props.contentWidthWhenSingleColumn)
+                styles.flex = 'initial'
             }
         })
 
@@ -155,7 +164,7 @@ export const PlFormItem = designComponent({
                             {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}
                         </div>
                     )}
-                    <div className="pl-form-item-body">
+                    <div className="pl-form-item-body" style={bodyStyles.value}>
                         {slots.default()}
                         {slots.suffix.isExist() && (
                             <div className="pl-form-item-suffix">

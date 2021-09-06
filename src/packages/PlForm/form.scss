@@ -53,6 +53,15 @@
     &.pl-form-vertical-label {
       flex-direction: column;
     }
+
+    &.pl-form-column-1 {
+      display: inline-flex;
+      flex-direction: column;
+
+      .pl-form-item {
+        justify-content: flex-end;
+      }
+    }
   }
 
   .pl-form {

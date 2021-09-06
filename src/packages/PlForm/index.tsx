@@ -34,6 +34,7 @@ export const PlForm = designComponent({
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         columnGutter: {type: [Number, String], default: 16},                // 列之间的间距
         centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
+        contentWidthWhenSingleColumn: {type: Number, default: 400},         // 单列的时候，内容的宽度
         labelWidth: {type: [String, Number]},                               // formItem 文本宽度
         labelAlign: {type: String as PropType<keyof typeof FormLabelAlign | FormLabelAlign>},// 文本对其方式
         contentAlign: {type: String as PropType<keyof typeof FormContentAlign | FormContentAlign>},// content 对齐方式
@@ -70,7 +71,9 @@ export const PlForm = designComponent({
 
         /*设置form宽度*/
         const styles = useStyles((style) => {
-            style.width = unit(props.width)
+            if (props.column !== 1) {
+                style.width = unit(props.width)
+            }
         })
 
         /*---------------------------------------validate-------------------------------------------*/
