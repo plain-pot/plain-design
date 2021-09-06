@@ -113,7 +113,7 @@ export default designPage(() => {
                         <PlInput v-model={formData.name}/>
                     </PlFormItem>
                     <PlFormItem label={'是否老客户'} field={'oldFlag'}>
-                        <PlRadioGroup v-model={formData.oldFlag} itemWidth={'50%'}>
+                        <PlRadioGroup v-model={formData.oldFlag}>
                             <PlRadio label={'老客户'} val={'Y'}/>
                             <PlRadio label={'非老客户'} val={'N'}/>
                         </PlRadioGroup>
@@ -141,7 +141,7 @@ export default designPage(() => {
                 </PlForm>
             </DemoRow>
             <DemoRow title={'内联表单'}>
-                <PlForm inline>
+                <PlForm>
                     <PlFormItem label={'用户名称'}>
                         <PlInput v-model={formData.username}/>
                     </PlFormItem>

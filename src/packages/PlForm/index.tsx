@@ -66,6 +66,7 @@ export const PlForm = designComponent({
             `pl-form-column-${numberState.column}`,
             {
                 'pl-form-vertical-label': props.verticalLabel,
+                'pl-form-center-when-single-column': props.centerWhenSingleColumn,
             }
         ])
 
