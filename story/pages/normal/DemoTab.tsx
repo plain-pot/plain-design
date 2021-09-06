@@ -9,7 +9,7 @@ export const DemoBasic = designPage(() => {
     return () => (
         <DemoRow title="基本用法">
             <PlTabs headType="text">
-                <PlTab title="用户管理">
+                <PlTab title="用户管理" style={{backgroundColor:'#fcfcfb'}}>
                     <div style={{height: '100px', padding: '20px 0'}}>
                         用户管理：
                         <PlInput onMounted={() => console.log('111 mounted')}/>

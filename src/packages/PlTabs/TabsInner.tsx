@@ -1,4 +1,4 @@
-import {designComponent, PropType, reactive, useStyles, watch} from "plain-design-composition";
+import {designComponent, PropType, reactive, useStyles, watch, mergeProps} from "plain-design-composition";
 import {PlTabComponent} from "../PlTab";
 import {nextTick} from "../../utils/nextTick";
 import React from "react";
@@ -47,11 +47,14 @@ export const PlTabsInner = designComponent({
         })
 
         return {
-            render: () => (
-                <div className="pl-inner-tab" style={styles.value}>
-                    {!!state.init && props.item.slots.default()}
-                </div>
-            )
+            render: () => mergeProps({
+                attrs: props.item.attrs,
+                child: (
+                    <div className="pl-inner-tab" style={styles.value}>
+                        {!!state.init && props.item.slots.default()}
+                    </div>
+                ),
+            })
         }
     },
 })

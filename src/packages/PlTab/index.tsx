@@ -4,6 +4,7 @@ import {TabCollector} from "../PlTabs";
 import React from 'react';
 
 export const PlTab = designComponent({
+    inheritAttrs: false,
     props: {
         title: {type: String},                              // 页签标题
         init: {type: Boolean},                              // 是否立即初始化（默认第一次点击页签的时候才会初始化内容）
@@ -17,17 +18,19 @@ export const PlTab = designComponent({
     emits: {
         onClose: () => true,
     },
-    setup({props, slots, scopeSlots, event}) {
+    setup({props, slots, scopeSlots, event, attrs}) {
         const {refs, onRef} = useRefs({
             el: HTMLSpanElement,
         })
         TabCollector.child({sort: () => refs.el!})
+        // console.log('attrs', {...attrs})
         return {
             refer: {
                 slots,
                 scopeSlots,
                 props,
                 event,
+                attrs,
             },
             render: () => (<span ref={onRef.el}>{props.title}</span>)
         }
