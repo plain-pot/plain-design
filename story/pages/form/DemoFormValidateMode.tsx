@@ -44,7 +44,7 @@ export default designPage(() => {
             <br/>
 
             <DemoRow title={'默认模式:form'}>
-                <PlForm modelValue={formData1} contentWidth={'400px'} ref={onRef.form1}>
+                <PlForm modelValue={formData1} ref={onRef.form1}>
                     <PlFormItem label={'标准文本框：必填'} field={'input'} required>
                         <PlInput v-model={formData1.input}/>
                     </PlFormItem>
@@ -68,7 +68,7 @@ export default designPage(() => {
             </DemoRow>
 
             <DemoRow title={'表格模式：table'}>
-                <PlForm modelValue={formData2} contentWidth={'400px'} ref={onRef.form2} validateMode={'table'}>
+                <PlForm modelValue={formData2} ref={onRef.form2} validateMode={'table'}>
                     <PlFormItem label={'标准文本框：必填'} field={'input'} required>
                         <PlInput v-model={formData2.input}/>
                     </PlFormItem>

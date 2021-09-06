@@ -97,7 +97,6 @@ export default designPage(() => {
             <DemoRow>
                 <PlForm ref={onRef.form}
                         modelValue={formData}
-                        contentWidth={'400px'}
                         rules={state.formRules}
                         associateFields={state.associateFields}
                         disabled={state.disabled}

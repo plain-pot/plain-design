@@ -101,7 +101,7 @@ export default designPage(() => {
     return () => (
         <div>
             <DemoRow title={'表单组件'}>
-                <PlForm ref={onRef.form} modelValue={formData} disabled={state.disabled} contentWidth={'400px'}>
+                <PlForm ref={onRef.form} modelValue={formData} disabled={state.disabled}>
                     <PlFormItem label={'普通文本框'} field={'field1'} required>
                         <PlInput v-model={formData.field1} placeholder={'请输入文本'}/>
                     </PlFormItem>
