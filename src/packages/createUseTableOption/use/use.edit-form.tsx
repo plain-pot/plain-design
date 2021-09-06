@@ -29,12 +29,13 @@ export function useTableOptionEditForm() {
         const dialog = $dialog({
             status: null,
             dialogProps: {
+                // contentPadding:false,
                 wrapperPadding: false,
                 horizontal: 'end',
                 fullHeight: true,
                 transition: 'pl-transition-dialog-right',
                 width: null as any,
-                destroyOnClose: false,
+                // destroyOnClose: false,
                 closeOnCancel: false,
                 closeOnConfirm: false,
                 footAlign: 'flex-start',
@@ -42,27 +43,23 @@ export function useTableOptionEditForm() {
             title,
             render() {
                 return (
-                    <div>
-                        <PlForm
-                            ref={onRef.form}
-                            column={1}
-                            width={'100%'}
-                            centerWhenSingleColumn={false}
-                            modelValue={node.editRow}
-                            rules={rules}
-                        >
-                            {plcList.filter(i => !i.props.hideInForm).map((plc, index) => (
-                                <PlFormItem
-                                    key={index}
-                                    label={plc.props.title}
-                                    required={plc.props.required}
-                                    rules={plc.props.rules}
-                                    field={plc.props.field}>
-                                    {renderBodyCell({node, plc, formEdit: true}).body}
-                                </PlFormItem>
-                            ))}
-                        </PlForm>
-                    </div>
+                    <PlForm
+                        ref={onRef.form}
+                        column={1}
+                        modelValue={node.editRow}
+                        rules={rules}
+                    >
+                        {plcList.filter(i => !i.props.hideInForm).map((plc, index) => (
+                            <PlFormItem
+                                key={index}
+                                label={plc.props.title}
+                                required={plc.props.required}
+                                rules={plc.props.rules}
+                                field={plc.props.field}>
+                                {renderBodyCell({node, plc, formEdit: true}).body}
+                            </PlFormItem>
+                        ))}
+                    </PlForm>
                 )
             },
             onConfirm: async () => {
