@@ -1,6 +1,6 @@
 @include theme {
   .pl-form {
-
+    box-sizing: border-box;
     .pl-form-item {
       display: inline-flex;
       margin-bottom: 20px;
@@ -118,6 +118,14 @@
             white-space: nowrap;
           }
         }
+      }
+    }
+
+    &:not(.pl-form-column-1) {
+      .pl-form-item-label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
