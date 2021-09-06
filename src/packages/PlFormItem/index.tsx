@@ -116,6 +116,7 @@ export const PlFormItem = designComponent({
         const labelStyles = useStyles(style => {
             if (!!targetProps.value.labelWidth) {
                 style.width = unit(targetProps.value.labelWidth)
+                style.paddingLeft = unit(form.props.columnGutter)
             }
         })
 
