@@ -32,16 +32,14 @@ export const PlForm = designComponent({
         validateOnRulesChange: {type: Boolean, default: null},              // 是否当rules属性改变之后立即触发一次验证
 
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
-        labelWidth: {type: [String, Number]},                               // formItem 文本宽度
-        contentWidth: {type: [String, Number]},                             // formItem 内容宽度
-
-        labelAlign: {type: String as PropType<keyof typeof FormLabelAlign | FormLabelAlign>},             // 文本对其方式
-        contentAlign: {type: String as PropType<keyof typeof FormContentAlign | FormContentAlign>, default: FormLabelAlign.left},// content 对齐方式
-        width: {type: [String, Number], default: '100%'},                   // 表单宽度
-        centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
-        colon: {type: Boolean, default: true},                              // label的冒号
         columnGutter: {type: [Number, String], default: 16},                // 列之间的间距
-        inline: {type: Boolean},                                            // 行内表单
+        centerWhenSingleColumn: {type: Boolean},                            // 单列的时候会使得表单内容居中，表单文本标题不计宽度，设置该属性为true则使得文本宽度参与计算居中
+        labelWidth: {type: [String, Number]},                               // formItem 文本宽度
+        labelAlign: {type: String as PropType<keyof typeof FormLabelAlign | FormLabelAlign>},// 文本对其方式
+        contentAlign: {type: String as PropType<keyof typeof FormContentAlign | FormContentAlign>},// content 对齐方式
+        width: {type: [String, Number], default: '100%'},                   // 表单宽度
+        colon: {type: Boolean, default: true},                              // label的冒号
+        verticalLabel: {type: Boolean},                                     // 纵向的表单
     },
     emits: {
         /*字段值变化事件*/
@@ -54,87 +52,27 @@ export const PlForm = designComponent({
         /*---------------------------------------state-------------------------------------------*/
 
         /*收集的子组件*/
-        const items = FormCollector.parent(true) as { value: { state: { labelWidth: number }, props: iFormItemPropRules }[] }
+        const items = FormCollector.parent(true) as { value: { props: iFormItemPropRules }[] }
 
         useStyle();
         useEdit({adjust: data => {data.loading = false}});
         const {numberState} = useNumber(props, ['labelWidth', 'contentWidth', 'column', 'width', 'columnGutter'])
 
-        const delayMount = (() => {
-            const isMounted = ref(false)
-            onMounted(async () => {
-                await delay(23)
-                isMounted.value = true
-            })
-            return isMounted
-        })();
-
         /*---------------------------------------compute-------------------------------------------*/
-
-        /*form-item中最大的label节点宽度*/
-        const maxLabelWidth = computed(() => items.value.reduce((prev: number, next) => Math.max(next.state.labelWidth, prev), 0)) as { value: number }
-
-        /*form-item所需要的对齐方式信息*/
-        const align = computed(() => {
-            return {
-                label: props.labelAlign || (numberState.column === 1 ? FormLabelAlign.right : FormLabelAlign.left),
-                content: props.contentAlign,
-            }
-        })
-
-        /*form-item所需要的宽度信息*/
-        const width = computed(() => {
-            /*
-            *  如果没有设置contentWidth
-            *  如果是单列，默认contentWidth是400
-            *  多了则是220
-            */
-            const content = !!numberState.contentWidth ? numberState.contentWidth : numberState.column === 1 ? 400 : 220
-            const label = numberState.labelWidth || maxLabelWidth.value
-
-            if (!!label) {
-                return {
-                    col: label + content,
-                    label,
-                    content,
-                }
-            } else {
-                return {
-                    content,
-                }
-            }
-        })
 
         const classes = useClasses(() => [
             'pl-form',
             `pl-form-column-${numberState.column}`,
             {
-                'pl-form-inline': props.inline,
+                'pl-form-vertical-label': props.verticalLabel,
             }
         ])
 
         /*设置form宽度*/
         const styles = useStyles((style) => {
-            if (props.inline) {
-                return style
-            }
             style.width = unit(props.width)
         })
 
-        /*body节点宽度。如果是单列，则左偏移 label/2 个像素，确保content在屏幕中间*/
-        const bodyStyles = useStyles(style => {
-            if (!delayMount.value) {
-                style.opacity = '0'
-            }
-            if (props.inline) {
-                return style
-            }
-            const {label, col} = width.value
-            if (!label) {return}
-            const {column, columnGutter} = numberState
-            style.width = unit((col! + columnGutter) * column)
-            style.left = `${(props.centerWhenSingleColumn && column === 1) ? -label! / 2 : 0}px`
-        })
         /*---------------------------------------validate-------------------------------------------*/
 
         const formRuleData = computed(() => {
@@ -206,8 +144,6 @@ export const PlForm = designComponent({
         })*/
 
         const childState = reactive({
-            align,
-            width,
             loading: false,
             allErrors: [] as FormValidateError[],
         })
@@ -278,9 +214,7 @@ export const PlForm = designComponent({
             render: () => {
                 return (
                     <div className={classes.value} style={styles.value}>
-                        <div className="pl-form-body" style={bodyStyles.value}>
-                            {slots.default()}
-                        </div>
+                        {slots.default()}
                         <PlLoadingMask modelValue={childState.loading || !!props.loading}/>
                     </div>
                 )

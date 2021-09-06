@@ -22,8 +22,8 @@ export const PlFormItem = designComponent({
         column: {type: [String, Number], default: 1},                       // 多列表单的列数
         block: {type: Boolean},                                             // 占用一行
         colon: {type: Boolean, default: null},                              // label的冒号
-        labelAlign: {type: String as PropType<FormLabelAlign | keyof typeof FormLabelAlign>},             // label 对齐方式
-        contentAlign: {type: String as PropType<FormContentAlign | keyof typeof FormContentAlign>},         // content 对齐方式
+        labelAlign: {type: String as PropType<FormLabelAlign | keyof typeof FormLabelAlign>},// label 对齐方式
+        contentAlign: {type: String as PropType<FormContentAlign | keyof typeof FormContentAlign>},// content 对齐方式
     },
     emits: {
         onBlur: () => true,
@@ -35,7 +35,6 @@ export const PlFormItem = designComponent({
     setup({props, slots, event: {emit}}) {
 
         const form = FormCollector.child()
-        const {refs, onRef} = useRefs({label: HTMLDivElement,})
         const {styleComputed} = useStyle({
             adjust: ret => {
                 !!invalidate.value && (ret.status = StyleStatus.error)
@@ -68,97 +67,51 @@ export const PlFormItem = designComponent({
 
         /*---------------------------------------state-------------------------------------------*/
 
-        const {numberState} = useNumber(props, ['labelWidth', 'column'])
-        const state = reactive({
-            /*当前 form item的label宽度*/
-            labelWidth: 0,
+        const targetProps = computed(() => {
+            /*如果是单列，则不限制label宽度，如果是多列，则采用 form-item的宽度 || form设置的label宽度 || 120px*/
+            const labelWidth: string | number | undefined = form.props.column === 1 ? undefined : (props.labelWidth || form.props.labelWidth || 120)
+
+            /*如果设置了block，则占满整行*/
+            const column = props.block ? form.props.column : props.column
+
+            /*冒号*/
+            const colon = props.colon != null ? props.colon : form.props.colon
+
+            /*文本对齐方式*/
+            const labelAlign = props.labelAlign || form.props.labelAlign || FormLabelAlign.right
+
+            /*内容对齐方式*/
+            const contentAlign = props.contentAlign || form.props.contentAlign || FormContentAlign["flex-start"]
+
+            return {
+                labelWidth,
+                column,
+                colon,
+                labelAlign,
+                contentAlign,
+            }
         })
 
         /*---------------------------------------computed-------------------------------------------*/
 
-        /*是否显示冒号*/
-        const colon = computed(() => props.colon == null ? form.props.colon : props.colon)
-        /*label的目标宽度*/
-        const labelWidth = computed(() => numberState.labelWidth || form.numberState.labelWidth)
-        /*是否设置了label宽度*/
-        const staticWidth = computed(() => !!labelWidth.value)
-        /*是否存在label节点*/
-        const hasLabel = computed(() => !!props.label || slots.labelContent.isExist())
-
         const classes = useClasses(() => [
             'pl-form-item',
             `pl-form-item-size-${styleComputed.value.size}`,
-            `pl-form-item-label-align-${props.labelAlign || form.childState.align.label}`,
-            `pl-form-item-content-align-${props.contentAlign || form.childState.align.content}`,
+            `pl-form-item-label-align-${targetProps.value.labelAlign}`,
+            `pl-form-item-content-align-${targetProps.value.contentAlign}`,
             {
-                'pl-form-item-static-width': staticWidth.value,
+                'pl-form-item-block': props.block,
                 'pl-form-item-required': isRequired.value && !form.props.hideRequiredAsterisk,
                 'pl-form-item-invalidate': !!invalidate.value && !form.props.hideValidateMessage,
             }
         ])
-        const isBlock = computed(() => {
-            const flag = !!props.block || numberState.column === form.numberState.column
-            return {
-                flag,
-                column: flag ? form.numberState.column : numberState.column
-            }
-        })
-
-        /*form-item的宽度，与下一个form-item的gutter*/
-        const styles = useStyles(style => {
-            if (form.props.inline) {
-                return style
-            }
-            const {col} = form.childState.width
-            const {column} = isBlock.value
-            const {columnGutter} = form.numberState
-            if (!!col) {
-                style.width = unit((col + columnGutter) * column)
-            }
-            if (form.numberState.column > 1) {
-                style.paddingRight = unit(form.numberState.columnGutter)
-            }
-        })
 
         /*label节点宽度，如果有设置labelWidth的话*/
         const labelStyles = useStyles(style => {
-            if (form.props.inline) {
-                return style
-            }
-            if (!!labelWidth.value) {
-                style.width = unit(labelWidth.value)
+            if (!!targetProps.value.labelWidth) {
+                style.width = unit(targetProps.value.labelWidth)
             }
         })
-
-        /*如果没有label的话，body应该占用百分百宽度，否则宽度为占用列数x列宽 - label宽度*/
-        const bodyStyles = useStyles(style => {
-            if (form.props.inline) {
-                return style
-            }
-            if (!hasLabel.value) {
-                style.width = '100%'
-            } else {
-                const {label, col} = form.childState.width
-                if (!!label) {
-                    const {columnGutter} = form.numberState
-                    const {column} = isBlock.value
-                    style.width = unit(col! * column + (column - 1) * columnGutter - label)
-                }
-            }
-        })
-
-        /*---------------------------------------hook-------------------------------------------*/
-
-        /**
-         * 如果没有写死labelWidth，这mounted的时候计算label节点宽度
-         * @author  韦胜健
-         * @date    2020/12/11 21:32
-         */
-        if (!staticWidth.value && hasLabel.value) {
-            onBeforeMount(() => {
-                state.labelWidth = refs.label!.scrollWidth + 16
-            })
-        }
 
         /*---------------------------------------validate-------------------------------------------*/
 
@@ -189,19 +142,16 @@ export const PlFormItem = designComponent({
 
         return {
             refer: {
-                state,
                 props,
             },
             render: () => (
-                <div className={classes.value} style={styles.value}>
+                <div className={classes.value}>
                     {(!!props.label || slots.labelContent.isExist()) && (
                         <div className="pl-form-item-label" style={labelStyles.value}>
-                            <div ref={onRef.label} className="pl-form-item-label-inner">
-                                {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!colon.value && ':'}
-                            </div>
+                            {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}
                         </div>
                     )}
-                    <div className="pl-form-item-body" style={bodyStyles.value}>
+                    <div className="pl-form-item-body">
                         {slots.default()}
                         {slots.suffix.isExist() && (
                             <div className="pl-form-item-suffix">
