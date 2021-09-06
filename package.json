@@ -9,7 +9,7 @@
     "src"
   ],
   "scripts": {
-    "start": "npm run local",
+    "start": "npm run prod",
     "local": "cross-env APP_ENV=local vue-cli-service serve",
     "prod": "cross-env APP_ENV=prod vue-cli-service serve",
     "build:prod": "cross-env APP_ENV=prod vue-cli-service build --report",
