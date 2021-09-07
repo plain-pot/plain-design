@@ -16,6 +16,17 @@
         display: flex;
         align-items: center;
         flex: 1;
+        position: relative;
+
+        .pl-form-item-message {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          color: $colorError;
+          font-size: 12px;
+          line-height: normal;
+          padding: 1px 0;
+        }
       }
 
       &.pl-form-item-block {
