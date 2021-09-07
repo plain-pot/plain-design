@@ -1,6 +1,8 @@
 @include theme {
   .pl-form {
     box-sizing: border-box;
+    overflow-x: hidden;
+
     .pl-form-item {
       display: inline-flex;
       margin-bottom: 20px;
@@ -88,7 +90,14 @@
     }
 
     &.pl-form-vertical-label {
-      flex-direction: column;
+      .pl-form-item {
+        flex-direction: column;
+
+        .pl-form-item-label {
+          text-align: left;
+          padding: 0 !important;
+        }
+      }
     }
 
     &.pl-form-column-1 {

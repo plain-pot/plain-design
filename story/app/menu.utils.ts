@@ -76,6 +76,7 @@ const MenuData: MenuGroup[] = [
         name: '表单示例', children: [
             {name: 'Form', title: '表单基础', page: '/form/DemoFormBasic', complete: true},
             {name: 'Form', title: '表单多列', page: '/form/DemoFormGrid', complete: true},
+            {name: 'Form', title: '纵向表单', page: '/form/DemoFormVerticalLabel', complete: true},
             {name: 'Form', title: '表单尺寸', page: '/form/DemoFormSize', complete: true},
             {name: 'Form', title: '表单控制', page: '/form/DemoFormEditControl', complete: true},
             {name: 'Form', title: '校验blur', page: '/form/DemoFormBlur', complete: true},
