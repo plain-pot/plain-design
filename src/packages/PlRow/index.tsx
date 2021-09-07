@@ -3,6 +3,7 @@ import './grid.scss'
 import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import React from 'react';
+import {removeUnit} from "plain-utils/string/removeUnit";
 
 export enum GridAlign {
     left = 'left',
@@ -47,8 +48,8 @@ export const PlRow = designComponent({
             const gutter = Number(props.gutter)
             if (gutter !== 0) {
                 style = {
-                    paddingLeft: unit(gutter / 2),
-                    paddingRight: unit(gutter / 2)
+                    width: `calc(100% + ${unit(props.gutter)})`,
+                    marginLeft: `-${unit(Number(removeUnit(props.gutter)) / 2)}`
                 };
             }
             return style
