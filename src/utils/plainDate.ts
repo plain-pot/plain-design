@@ -20,44 +20,45 @@ type InitialValue = string | DayJs.Dayjs | Date | undefined;
  * @date    2021/1/18 10:26
  */
 export interface PDate {
-    year: number
-    month: number
-    date: number
-    hour: number
-    minute: number
-    second: number
-    time: number
-    day: number
-    timeString: string
-    dateString: string
-    displayFormat: string
-    valueFormat: string
-    Y: number
-    YM: number
-    YMD: number
-    YMDHms: number
-    Hms: number
+    year: number                            // 年
+    month: number                           // 月
+    date: number                            // 日
+    hour: number                            // 时
+    minute: number                          // 分
+    second: number                          // 秒
+    time: number                            // 时间戳
+    day: number                             // 周？
+    timeString: string                      // 时分秒字符串
+    dateString: string                      // 日期字符串
+    displayFormat: string                   // 显示格式化字符串
+    valueFormat: string                     // 值格式化字符串
+    Y: number                               // 年数字
+    YM: number                              // 年月数字(补零)
+    YMD: number                             // 年月日数字(补零)
+    YMDHms: number                          // 年月日时分秒数字(补零)
+    Hms: number                             // 时分秒(补零)
 
-    getDayJs: () => DayJs.Dayjs,
-    getDate: () => Date,
-    getDisplay: () => string
-    getValue: () => string
+    getDayJs: () => DayJs.Dayjs,            // 获取dayjs对象
+    getDate: () => Date,                    // 获取date对象
+    getDisplay: () => string                // 获取显示值
+    getValue: () => string                  // 获取值
 
-    useValue: (value: string) => PDate
-    useDisplay: (display: string) => PDate
-    useYear: (year: number) => PDate
-    useMonthDate: (month: number, date: number) => PDate
-    useHour: (hour: number) => PDate
-    useMinute: (minute: number) => PDate
-    useSecond: (second: number) => PDate
-    useTime: (time: number) => PDate
-    useHms: (data: PDate | [number, number, number]) => PDate,
-    useYMD: (data: PDate | [number, number, number]) => PDate,
+    /*所有use开头的函数，返回值都是一个新的plainDate对象*/
+    useValue: (value: string) => PDate      // 应用值
+    useDisplay: (display: string) => PDate  // 应用显示值
+    useYear: (year: number) => PDate        // 应用年
+    useMonthDate: (month: number, date: number) => PDate // 应用月日
+    useHour: (hour: number) => PDate        // 应用时
+    useMinute: (minute: number) => PDate    // 应用分钟
+    useSecond: (second: number) => PDate    // 应用时
+    useTime: (time: number) => PDate        // 应用时间戳
+    useHms: (data: PDate | [number, number, number]) => PDate,  // 应用时分秒
+    useYMD: (data: PDate | [number, number, number]) => PDate,  // 应用年月日
 
-    format: (value: InitialValue) => string
-    parseDisplay: (display: string) => PDate
-    parseValue: (value: string) => PDate
-    clone: () => PDate,
+    format: (value: InitialValue) => string // 将对象转化为显示字符串格式的值
+    parseDisplay: (display: string) => PDate// 解析显示值
+    parseValue: (value: string) => PDate    // 解析值
+    clone: () => PDate,                     // 复制一个plainDate对象
 }
 
 function wrapDate(initialValue: InitialValue, config: { displayFormat: string, valueFormat: string }): PDate {

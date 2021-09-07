@@ -1,41 +1,51 @@
-import {designComponent, onMounted, reactive, useRefs} from "plain-design-composition";
+import {designComponent} from "plain-design-composition";
 import React from "react";
 import './TestGroupTransition.scss'
-import {NativeInput} from "../../../src/packages/NativeInput";
-import {NativeTextarea} from "../../../src/packages/NativeTextarea";
+import {PlDate} from "../../../src";
+import {PDate} from "../../../src/utils/plainDate";
 
 const DesignPage = designComponent({
     setup() {
 
-        const state = reactive({
-            text: 'hello world' as string | undefined
-        })
+        const today = PlDate.plainDate.today('YYYY年MM月DD日 A HH:mm 星期d', 'YYYY-MM-DD')
 
-        const {refs, onRef} = useRefs({
-            input0: HTMLInputElement,
-            input1: HTMLInputElement,
-            input2: HTMLInputElement,
-            input3: HTMLTextAreaElement,
-        })
+        const getDisplay = (pd: PDate) => {
+            const display = pd.getDisplay()
+            return display
+                .replace(' AM ', ' 上午 ')
+                .replace(' PM ', ' 下午 ')
+
+                .replace('星期1', '星期一')
+                .replace('星期2', '星期二')
+                .replace('星期3', '星期三')
+                .replace('星期4', '星期四')
+                .replace('星期5', '星期五')
+                .replace('星期6', '星期六')
+                .replace('星期0', '星期日')
+        }
+
+        const list = [
+            {
+                name: '今天', val: getDisplay(today)
+            },
+            {name: '星期一', val: getDisplay(today.useValue('2021-09-06'))},
+            {name: '星期二', val: getDisplay(today.useValue('2021-09-07'))},
+            {name: '星期三', val: getDisplay(today.useValue('2021-09-08'))},
+            {name: '星期四', val: getDisplay(today.useValue('2021-09-09'))},
+            {name: '星期五', val: getDisplay(today.useValue('2021-09-10'))},
+            {name: '星期六', val: getDisplay(today.useValue('2021-09-11'))},
+            {name: '星期日', val: getDisplay(today.useValue('2021-09-12'))},
+        ]
 
         return () => (
             <div className={'test-page'}>
-                <div>
-                    {state.text || 'nothing'}
-                </div>
-                {/*这个不嫩用，是坏的*/}
-                <input v-change={state.text} ref={onRef.input0}/>
-
-                <NativeInput v-change={state.text} ref={onRef.input1}/>
-                <NativeInput v-change={state.text} ref={onRef.input2}/>
-                <NativeTextarea v-change={state.text} ref={onRef.input3}/>
-                <div>
-                    <button onClick={() => {
-                        console.log(refs)
-                        refs.input3!.focus()
-                    }}>focus
-                    </button>
-                </div>
+                <ul>
+                    {list.map(i => (
+                        <li key={i.name}>
+                            {i.name}:{i.val}
+                        </li>
+                    ))}
+                </ul>
             </div>
         )
     },
