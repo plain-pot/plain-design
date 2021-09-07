@@ -6,6 +6,7 @@
     .pl-form-item {
       display: inline-flex;
       margin-bottom: 20px;
+      box-sizing: border-box;
 
       .pl-form-item-label {
         padding-right: 8px;
@@ -95,7 +96,7 @@
 
         .pl-form-item-label {
           text-align: left;
-          padding: 0 !important;
+          padding-left: 0 !important;
         }
       }
     }

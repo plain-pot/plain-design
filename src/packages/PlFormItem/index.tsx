@@ -6,6 +6,7 @@ import {FormValidateUtils, tFormRuleItem} from "../PlForm/form.validate";
 import {FormCollector} from "../PlForm";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
+import {removeUnit} from "plain-utils/string/removeUnit";
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -109,6 +110,7 @@ export const PlFormItem = designComponent({
         const styles = useStyles((styles) => {
             if (form.props.column !== 1) {
                 styles.width = `${Number(targetProps.value.column) / Number(form.props.column) * 100}%`
+                styles.padding = `0 ${Number(removeUnit(form.props.columnGutter)) / 2}px`
             }
         })
 

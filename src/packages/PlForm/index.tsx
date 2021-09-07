@@ -1,5 +1,5 @@
 import './form.scss'
-import {computed, designComponent, onMounted, PropType, reactive, ref, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, PropType, reactive, useClasses, useNumber, useStyles, watch} from "plain-design-composition";
 import {EditProps, useEdit} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
 import {FormAssociateFields, FormValidateError, FormValidateTrigger, getFormRuleData, iFormItemPropRules, tFormPropRules} from "./form.validate";
@@ -11,7 +11,7 @@ import React from 'react';
 import {useCollect} from "../../use/useCollect";
 import {PlFormItem} from "../PlFormItem";
 import {PlLoadingMask} from "../PlLoadingMask";
-import {delay} from "plain-utils/utils/delay";
+import {removeUnit} from "plain-utils/string/removeUnit";
 
 export const PlForm = designComponent({
     name: 'pl-form',
@@ -73,7 +73,8 @@ export const PlForm = designComponent({
         /*设置form宽度*/
         const styles = useStyles((style) => {
             if (props.column !== 1) {
-                style.width = unit(props.width)
+                style.width = `calc(${unit(props.width)} + ${unit(props.columnGutter)})`
+                style.marginLeft = `-${Number(removeUnit(props.columnGutter)) / 2}px`
             }
         })
 
