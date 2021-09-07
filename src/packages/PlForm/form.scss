@@ -82,6 +82,18 @@
       @include sizeMixin(form-item) {
         line-height: $value;
       }
+
+      &.pl-form-item-size-large {
+        font-size: 16px;
+      }
+
+      &.pl-form-item-size-normal {
+        font-size: 14px;
+      }
+
+      &.pl-form-item-size-mini {
+        font-size: 12px;
+      }
     }
 
     &:not(.pl-form-vertical-label) {

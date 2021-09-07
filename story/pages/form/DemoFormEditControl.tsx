@@ -97,6 +97,7 @@ export default designPage(() => {
             </DemoRow>
             <DemoRow title={'通过disabledFields控制禁用'}>
                 <PlCheckboxGroup v-model={state.formDisabledFields}>
+                    <PlCheckbox checkboxForAll label="全部"/>
                     <PlCheckbox label="客户名称" val="name"/>
                     <PlCheckbox label="客户员工数量" val="type"/>
                     <PlCheckbox label="客户加入时间" val="joinTime"/>
