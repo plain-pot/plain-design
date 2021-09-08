@@ -12,11 +12,11 @@ const valCounter = createCounter('collapse')
 export const PlCollapse = designComponent({
     name: 'pl-collapse',
     props: {
-        modelValue: {type: Boolean, default: true},
-        detail: {type: String},
-        noArrow: {type: Boolean},
-        disabled: {type: Boolean, default: null},
-        val: {type: String},
+        modelValue: {type: Boolean, default: true},             // 双向绑定，控制是否显示
+        detail: {type: String},                                 // 详情内容，可以用默认插槽内容代替
+        disabled: {type: Boolean, default: null},               // 禁用展开收起的功能
+        val: {type: String},                                    // 唯一标识，结合 CollapseGroup的时候使用
+        title: {type: String},                                  // 标题
     },
     emits: {
         onUpdateModelValue: (val: boolean) => true
@@ -24,7 +24,7 @@ export const PlCollapse = designComponent({
     inheritPropsType: HTMLDivElement,
     slots: [
         'default',
-        'title',
+        'head',
     ],
     setup({props, event: {emit}, slots}) {
 
@@ -45,7 +45,6 @@ export const PlCollapse = designComponent({
         const classes = useClasses(() => [
             'pl-collapse',
             {
-                'pl-collapse-has-arrow': !props.noArrow,
                 'pl-collapse-is-open': isOpen.value,
             }
         ])
@@ -77,18 +76,15 @@ export const PlCollapse = designComponent({
             refer: {refs},
             render: () => (
                 <div className={classes.value} ref={onRef.el}>
-                    {(slots.title.isExist()) && <div className="pl-collapse-title" onClick={handler.onClickTitle}>
-                        {slots.title()}
-
-                        {!props.noArrow && !isDisabled.value && <div className="pl-collapse-arrow">
-                            <PlIcon icon="el-icon-arrow-right"/>
-                        </div>}
-                    </div>}
-                    <PlCollapseTransition show={isOpen.value && (!!props.detail || slots.default.isExist())}>
-                        <div className="pl-collapse-detail">
-                            {slots.default(props.detail)}
+                    {(slots.head.isExist() || props.title) && (
+                        <div className="pl-collapse-title">
+                            <PlIcon icon="el-icon-caret-right" onClick={handler.onClickTitle}/>
+                            <div onClick={handler.onClickTitle}>{slots.head(props.title)}</div>
                         </div>
-                    </PlCollapseTransition>
+                    )}
+                    <div className="pl-collapse-detail" style={{display: isOpen.value && (!!props.detail || slots.default.isExist()) ? '' : 'none'}}>
+                        {slots.default(props.detail)}
+                    </div>
                 </div>
             )
         }

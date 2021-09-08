@@ -1,56 +1,38 @@
-.pl-collapse {
-  &.pl-collapse-has-arrow {
-    $arrow-width: 32px;
+@include theme {
 
+  .pl-collapse {
     .pl-collapse-title {
-      padding-right: $arrow-width;
-      position: relative;
+      font-size: 16px;
+      color: $colorPrimary;
+      padding: 16px 0;
+      border-bottom: solid 1px $ibl;
+      display: flex;
+      align-items: center;
 
-      .pl-collapse-arrow {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        width: $arrow-width;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      .pl-icon {
+        margin-right: 4px;
+      }
 
-        .pl-icon {
-          transition: transform 300ms $transition;
-        }
+      & > * {
+        cursor: pointer;
       }
     }
 
     &.pl-collapse-is-open {
-      .pl-collapse-arrow {
-        .pl-icon {
+      .pl-collapse-title {
+        & > .pl-icon:first-child {
           transform: rotate(90deg);
         }
       }
     }
   }
-}
 
-@include theme {
   .pl-collapse-group {
-    border-top: solid 1px $ibl;
+    border-bottom: solid 1px $ibl;
 
-    .pl-collapse {
-      border-bottom: solid 1px $ibl;
-
-      .pl-collapse-title {
-        font-size: 14px;
-        padding: 12px 0;
-
-        .pl-collapse-arrow {
-          color: $icc;
-        }
-      }
-
-      .pl-collapse-detail {
-        font-size: 12px;
-      }
+    .pl-collapse-title {
+      border-bottom: none;
+      border-top: solid 1px $ibl;
     }
   }
 }
