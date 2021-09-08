@@ -8,6 +8,7 @@ import {unit} from "plain-utils/string/unit";
 import React from "react";
 import {removeUnit} from "plain-utils/string/removeUnit";
 import PlIcon from "../PlIcon";
+import PlTooltip from "../PlTooltip";
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -165,7 +166,13 @@ export const PlFormItem = designComponent({
                 <div className={classes.value} style={styles.value}>
                     {(!!props.label || slots.labelContent.isExist()) && (
                         <div className="pl-form-item-label" style={labelStyles.value}>
-                            {slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}
+                            {!props.label || form.props.column == 1 ? (
+                                <>{slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}</>
+                            ) : (
+                                <PlTooltip message={props.label}>
+                                    <span>{slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}</span>
+                                </PlTooltip>
+                            )}
                         </div>
                     )}
                     <div className="pl-form-item-body" style={bodyStyles.value}>
