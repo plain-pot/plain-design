@@ -4,7 +4,7 @@
 
     .pl-form-item {
       display: inline-flex;
-      margin-bottom: 36px;
+      margin-bottom: 20px;
       box-sizing: border-box;
 
       .pl-form-item-label {
@@ -25,6 +25,10 @@
           font-size: 12px;
           line-height: normal;
           padding: 1px 0;
+
+          .pl-icon + span {
+            margin-left: 4px;
+          }
         }
       }
 
@@ -91,13 +95,6 @@
       /*line-height*/
       @include sizeMixin(form-item) {
         line-height: $value;
-        .pl-form-item-message {
-          line-height: $value;
-
-          .pl-icon + span {
-            margin-left: 4px;
-          }
-        }
       }
 
       &.pl-form-item-size-large {
@@ -148,23 +145,30 @@
         width: 100% !important;
         align-items: center;
 
-        .pl-form-item {
-          margin-bottom: 12px;
-
-          .pl-form-item-label {
-            position: absolute;
-            right: 100%;
-            top: 0;
-            white-space: nowrap;
+        &:not(.pl-form-vertical-label) {
+          .pl-form-item {
+            .pl-form-item-label {
+              position: absolute;
+              right: 100%;
+              top: 0;
+              white-space: nowrap;
+            }
           }
-        }
 
-        .pl-form-item-body {
-          .pl-form-item-message {
-            left: 100% !important;
-            top: 0 !important;
-            white-space: nowrap;
-            padding-left: 8px;
+          .pl-form-item-body {
+            .pl-form-item-message {
+              left: 100% !important;
+              top: 0 !important;
+              white-space: nowrap;
+              padding-left: 8px;
+            }
+          }
+
+          /*line-height*/
+          @include sizeMixin(form-item) {
+            .pl-form-item-message {
+              line-height: $value;
+            }
           }
         }
       }

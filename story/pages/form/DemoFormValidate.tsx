@@ -103,7 +103,11 @@ export default designPage(() => {
                         disabled={state.disabled}
                         column={state.config.column}
                         centerWhenSingleColumn={state.config.centerWhenSingleColumn}
+                        verticalLabel={state.config.verticalLabel}
                 >
+                    <PlFormItem label="纵向文本">
+                        <PlCheckbox label="纵向文本" v-model={state.config.verticalLabel}/>
+                    </PlFormItem>
                     <PlFormItem label="单列居中">
                         <PlCheckbox label="单列居中" v-model={state.config.centerWhenSingleColumn}/>
                     </PlFormItem>

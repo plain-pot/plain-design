@@ -117,7 +117,7 @@ export const PlFormItem = designComponent({
 
         /*label节点宽度，如果有设置labelWidth的话*/
         const labelStyles = useStyles(style => {
-            if (!!targetProps.value.labelWidth) {
+            if (!!targetProps.value.labelWidth && !form.props.verticalLabel) {
                 style.width = unit(targetProps.value.labelWidth)
                 style.paddingLeft = unit(form.props.columnGutter)
             }
