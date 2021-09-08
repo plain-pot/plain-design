@@ -37,6 +37,7 @@ export default designPage(() => {
             field21: 'field20',
         },
         disabled: undefined as undefined | boolean,
+        config: {} as any,
     })
 
     const {formData} = state
@@ -100,7 +101,21 @@ export default designPage(() => {
                         rules={state.formRules}
                         associateFields={state.associateFields}
                         disabled={state.disabled}
+                        column={state.config.column}
+                        centerWhenSingleColumn={state.config.centerWhenSingleColumn}
                 >
+                    <PlFormItem label="单列居中">
+                        <PlCheckbox label="单列居中" v-model={state.config.centerWhenSingleColumn}/>
+                    </PlFormItem>
+                    <PlFormItem label="列数">
+                        <PlRadioGroup v-model={state.config.column} itemWidth="20%">
+                            <PlRadio label="单列" val={1}/>
+                            <PlRadio label="2列" val={2}/>
+                            <PlRadio label="3列" val={3}/>
+                            <PlRadio label="4列" val={4}/>
+                            <span>[{state.config.column}]</span>
+                        </PlRadioGroup>
+                    </PlFormItem>
                     <PlFormItem label={'必填校验'} field={'field1'} required>
                         <PlInput v-model={formData.field1}/>
                     </PlFormItem>

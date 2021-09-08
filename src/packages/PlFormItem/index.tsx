@@ -177,7 +177,7 @@ export const PlFormItem = designComponent({
                         )}
                         {!!invalidate.value && !form.props.hideValidateMessage && (
                             <div className="pl-form-item-message">
-                                {form.props.column === 1 && <PlIcon icon="el-icon-error" status="error"/>}
+                                <PlIcon icon="el-icon-error" status="error"/>
                                 <span>{invalidate.value.message}</span>
                             </div>
                         )}
