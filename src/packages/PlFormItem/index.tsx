@@ -7,6 +7,7 @@ import {FormCollector} from "../PlForm";
 import {unit} from "plain-utils/string/unit";
 import React from "react";
 import {removeUnit} from "plain-utils/string/removeUnit";
+import PlIcon from "../PlIcon";
 
 export const PlFormItem = designComponent({
     name: 'pl-form-item',
@@ -174,9 +175,12 @@ export const PlFormItem = designComponent({
                                 {slots.suffix()}
                             </div>
                         )}
-                        {!!invalidate.value && !form.props.hideValidateMessage && (<div className="pl-form-item-message">
-                            {invalidate.value.message}
-                        </div>)}
+                        {!!invalidate.value && !form.props.hideValidateMessage && (
+                            <div className="pl-form-item-message">
+                                {form.props.column === 1 && <PlIcon icon="el-icon-error" status="error"/>}
+                                <span>{invalidate.value.message}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             )

@@ -1,7 +1,6 @@
 @include theme {
   .pl-form {
     box-sizing: border-box;
-    overflow-x: hidden;
 
     .pl-form-item {
       display: inline-flex;
@@ -130,10 +129,31 @@
 
       .pl-form-item {
         justify-content: flex-end;
+        position: relative;
 
         .pl-form-item-label {
           flex: 1;
           white-space: nowrap;
+        }
+
+        .pl-form-item-body {
+          .pl-form-item-message {
+            left: 100% !important;
+            top: 0 !important;
+            white-space: nowrap;
+            padding-left: 8px;
+
+            .pl-icon + span {
+              margin-left: 4px;
+            }
+          }
+        }
+
+        /*line-height*/
+        @include sizeMixin(form-item) {
+          .pl-form-item-message {
+            line-height: $value;
+          }
         }
       }
 
@@ -142,7 +162,6 @@
         align-items: center;
 
         .pl-form-item {
-          position: relative;
 
           .pl-form-item-label {
             position: absolute;

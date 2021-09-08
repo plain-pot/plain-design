@@ -78,7 +78,7 @@ export default designPage(() => {
                 </PlForm>
             </DemoRow>
             <DemoRow title={'对齐方式'}>
-                <PlForm>
+                <PlForm centerWhenSingleColumn>
                     <PlFormItem label={'文本对齐方式'} contentAlign={'space-between'}>
                         <PlRadioGroup v-model={config.labelAlign}>
                             <PlRadio label={'左对齐'} val={'left'}/>
@@ -97,7 +97,7 @@ export default designPage(() => {
                         </PlRadioGroup>
                     </PlFormItem>
                 </PlForm>
-                <PlForm labelAlign={config.labelAlign} contentAlign={config.contentAlign}>
+                <PlForm labelAlign={config.labelAlign} contentAlign={config.contentAlign} centerWhenSingleColumn>
                     <PlFormItem label={'客户名称'} field={'name'}>
                         <PlInput v-model={formData.name}/>
                     </PlFormItem>
@@ -137,19 +137,6 @@ export default designPage(() => {
                     <PlFormItem label={' '}>
                         <PlButton mode={'stroke'} label={'取消'}/>
                         <PlButton label={'提交'}/>
-                    </PlFormItem>
-                </PlForm>
-            </DemoRow>
-            <DemoRow title={'内联表单'}>
-                <PlForm>
-                    <PlFormItem label={'用户名称'}>
-                        <PlInput v-model={formData.username}/>
-                    </PlFormItem>
-                    <PlFormItem label={'生日'}>
-                        <PlDate v-model={formData.birthday}/>
-                    </PlFormItem>
-                    <PlFormItem>
-                        <PlButton icon={'el-icon-search'} label={'查询'}/>
                     </PlFormItem>
                 </PlForm>
             </DemoRow>
