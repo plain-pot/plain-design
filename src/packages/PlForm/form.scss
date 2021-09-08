@@ -153,21 +153,21 @@
               top: 0;
               white-space: nowrap;
             }
-          }
 
-          .pl-form-item-body {
-            .pl-form-item-message {
-              left: 100% !important;
-              top: 0 !important;
-              white-space: nowrap;
-              padding-left: 8px;
+            .pl-form-item-body {
+              .pl-form-item-message {
+                left: 100% !important;
+                top: 0 !important;
+                white-space: nowrap;
+                padding-left: 8px;
+              }
             }
-          }
 
-          /*line-height*/
-          @include sizeMixin(form-item) {
-            .pl-form-item-message {
-              line-height: $value;
+            /*line-height*/
+            @include sizeMixin(form-item) {
+              .pl-form-item-message {
+                line-height: $value !important;
+              }
             }
           }
         }
