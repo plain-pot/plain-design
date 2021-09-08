@@ -72,8 +72,21 @@ module.exports = {
         rules: [
             {
                 test: /\.(t|j)sx?$/,
-                loader: 'babel-loader',
-                exclude: /node_modules(?!.*(plain-utils|plain-loading|plain-popper).*)/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                    },
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            happyPackMode: false,
+                            compilerOptions: {
+                                jsx: 'preserve'
+                            }
+                        }
+                    }
+                ],
             },
             {
                 test: /\.css$/,//css处理顺口

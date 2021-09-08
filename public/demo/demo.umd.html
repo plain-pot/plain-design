@@ -25,18 +25,26 @@
         PlainDesignComposition,
         PlainDesign,
     })
-    const {PlButton, PlRoot, $$message} = PlainDesign
-    const App = () => {
-        return (
-            <div>
-                <PlRoot>
-                    <PlButton onClick={() => $$message('hello world')}>
-                        this is app
-                    </PlButton>
-                </PlRoot>
-            </div>
-        )
-    }
+    const {PlButton, PlInput, PlRoot, $$message} = PlainDesign
+    const {reactive, designPage} = PlainDesignComposition
+    const App = designPage(() => {
+        const state = reactive({
+            formData: {},
+        })
+        return () => {
+            return (
+                <div>
+                    <PlRoot>
+                        <PlButton onClick={() => $$message('hello world')}>
+                            this is app
+                        </PlButton>
+                        <PlInput modelValue={state.formData.username} onUpdateModelValue={val => state.formData.username = val}/>
+                        {JSON.stringify(state.formData.username)}
+                    </PlRoot>
+                </div>
+            )
+        }
+    })
     ReactDOM.render(<App/>, document.querySelector('#app'))
 </script>
 </body>
