@@ -4,70 +4,7 @@ import React from "react";
 import {useCollect} from "../../../src/use/useCollect";
 import './DemoUseCollect.scss'
 
-export const DemoUseCollectChildComponent = designComponent({
-    name: 'demo-use-collect-child-component',
-    props: {
-        label: {type: String},
-        val: {type: [String, Number]},
-        modelValue: {},
-        trueValue: {default: true as any},
-        falseValue: {default: false as any},
-    },
-    slots: ['default'],
-    emits: {
-        onUpdateModelValue: (val: any) => true
-    },
-    setup({props, event, slots}) {
-
-        const {refs, onRef} = useRefs({
-            button: HTMLButtonElement
-        })
-        const parent = DemoUseCollector.child({injectDefaultValue: null, sort: () => refs.button!})
-
-        const modelValue = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {
-            autoEmit: !parent,
-            autoWatch: !parent,
-        })
-
-        const handler = {
-            click: () => {
-                if (!!parent) {
-                    parent.handler.clickItem(props.val!)
-                } else {
-                    modelValue.value = isChecked.value ? props.falseValue : props.trueValue
-                }
-            }
-        }
-
-        const isChecked = computed(() => {
-            if (!parent) {
-                return modelValue.value === props.trueValue
-            } else {
-                return parent.utils.isChecked(props.val!)
-            }
-        })
-
-        const classes = useClasses(() => [
-            'demo-use-collect-child',
-            {
-                'demo-use-collect-child-checked': isChecked.value
-            }
-        ])
-
-        return {
-            refer: {
-                props,
-            },
-            render: () => (
-                <button onClick={handler.click} className={classes.value} ref={onRef.button}>
-                    {slots.default(props.label)}
-                </button>
-            )
-        }
-    },
-})
-
-export const DemoUseCollectParentComponent = designComponent({
+const DemoUseCollectParentComponent = designComponent({
     name: 'demo-use-collect-parent-component',
     props: {
         parentName: {type: String},
@@ -139,7 +76,70 @@ export const DemoUseCollectParentComponent = designComponent({
     },
 })
 
-export const DemoUseCollector = useCollect(() => ({parent: DemoUseCollectParentComponent, child: DemoUseCollectChildComponent}))
+const DemoUseCollectChildComponent = designComponent({
+    name: 'demo-use-collect-child-component',
+    props: {
+        label: {type: String},
+        val: {type: [String, Number]},
+        modelValue: {},
+        trueValue: {default: true as any},
+        falseValue: {default: false as any},
+    },
+    slots: ['default'],
+    emits: {
+        onUpdateModelValue: (val: any) => true
+    },
+    setup({props, event, slots}) {
+
+        const {refs, onRef} = useRefs({
+            button: HTMLButtonElement
+        })
+        const parent = DemoUseCollector.child({injectDefaultValue: null, sort: () => refs.button!})
+
+        const modelValue = useModel(() => props.modelValue, event.emit.onUpdateModelValue, {
+            autoEmit: !parent,
+            autoWatch: !parent,
+        })
+
+        const handler = {
+            click: () => {
+                if (!!parent) {
+                    parent.handler.clickItem(props.val!)
+                } else {
+                    modelValue.value = isChecked.value ? props.falseValue : props.trueValue
+                }
+            }
+        }
+
+        const isChecked = computed(() => {
+            if (!parent) {
+                return modelValue.value === props.trueValue
+            } else {
+                return parent.utils.isChecked(props.val!)
+            }
+        })
+
+        const classes = useClasses(() => [
+            'demo-use-collect-child',
+            {
+                'demo-use-collect-child-checked': isChecked.value
+            }
+        ])
+
+        return {
+            refer: {
+                props,
+            },
+            render: () => (
+                <button onClick={handler.click} className={classes.value} ref={onRef.button}>
+                    {slots.default(props.label)}
+                </button>
+            )
+        }
+    },
+})
+
+const DemoUseCollector = useCollect(() => ({parent: DemoUseCollectParentComponent, child: DemoUseCollectChildComponent}))
 
 export default designComponent(({
     setup() {
@@ -147,6 +147,10 @@ export default designComponent(({
             selected: [],
             showFlag: true,
             showFlag2: null,
+        })
+        console.log({
+            DemoUseCollectChildComponent,
+            DemoUseCollectParentComponent
         })
         return () => (
             <div>
