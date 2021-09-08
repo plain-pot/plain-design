@@ -36,6 +36,20 @@
         display: flex;
       }
 
+      &.pl-form-item-required {
+        .pl-form-item-label {
+          &:before {
+            content: '*';
+            color: $colorError;
+            position: relative;
+            top: 2px;
+            right: 12px;
+            width: 0;
+            display: inline-block;
+          }
+        }
+      }
+
       /*label align*/
       &.pl-form-item-label-align-left {
         .pl-form-item-label {
