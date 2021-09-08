@@ -51,6 +51,7 @@ export const PlNumber = designComponent({
         const state = reactive({
             isFocus: false,                                         // 当前是否获取焦点
             interval: null as null | number,                        // 进步器长摁定时器
+            timer: null as null | number,
         })
 
         const {numberState} = useNumber(props, ['step', 'max', 'min', 'precision'])
@@ -151,6 +152,9 @@ export const PlNumber = designComponent({
                 if (state.interval != null) {
                     clearInterval(state.interval)
                 }
+                if (state.timer != null) {
+                    clearTimeout(state.timer)
+                }
                 window.removeEventListener('mouseup', methods.clearInterval)
             },
             focus: () => {
@@ -184,12 +188,16 @@ export const PlNumber = designComponent({
             },
             intervalAdd: () => {
                 methods.add()
-                state.interval = setInterval(methods.add, 100) as any as number
+                state.timer = setTimeout(() => {
+                    state.interval = setInterval(methods.add, 100) as any as number
+                }, 500) as any as number
                 window.addEventListener('mouseup', methods.clearInterval)
             },
             intervalMinus: () => {
                 methods.minus()
-                state.interval = setInterval(() => methods.minus(), 100) as any as number
+                state.timer = setTimeout(() => {
+                    state.interval = setInterval(() => methods.minus(), 100) as any as number
+                }, 500) as any as number
                 window.addEventListener('mouseup', methods.clearInterval)
             },
             clearHandler: () => {
