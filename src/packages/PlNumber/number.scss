@@ -84,10 +84,10 @@
     @include statusMixin(input) {
       .pl-number-prepend-button, .pl-number-append-button {
         border-color: $value !important;
-        background-color: rgba($value, 0.1);
+        background-color: mix($value, white, 10%);
       }
       input {
-        background-color: rgba($value, 0.05);
+        background-color: mix($value, white, 5%);
         color: $value;
       }
     }

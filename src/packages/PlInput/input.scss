@@ -145,17 +145,17 @@
 
         &.pl-input-focus {
           .pl-input-inner, .pl-textarea-inner {
-            box-shadow: 0 0 0 2px rgba($value, 0.2);
+            box-shadow: 0 0 0 2px mix($value, white, 20%);
           }
         }
 
         .pl-input-inner, .pl-textarea-inner {
           border-color: $value;
           color: $value;
-          background-color: rgba($value, 0.05);
+          background-color: mix($value, white, 5%);
 
           &:focus {
-            box-shadow: 0 0 0 2px rgba($value, 0.2);
+            box-shadow: 0 0 0 2px mix($value, white, 20%);
           }
         }
       }
