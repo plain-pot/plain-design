@@ -196,10 +196,6 @@ export default designPage(() => {
                     <DemoLine title={'300px'}><PlInput width={'300px'}/></DemoLine>
                 </DemoRow>
 
-                <DemoRow title={'输入框组'}>
-
-                </DemoRow>
-
                 <DemoRow title={'自定义内容'}>
                     <PlInput suffixIcon={'el-icon-search'}>
                         <span>自定义内容</span>
