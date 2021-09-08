@@ -38,6 +38,7 @@
                         <PlButton onClick={() => $$message('hello world')}>
                             this is app
                         </PlButton>
+                        <PlInput status="error"/>
                         <PlTagInput modelValue={state.formData.username} onUpdateModelValue={val => state.formData.username = val}/>
                         {JSON.stringify(state.formData.username)}
                     </PlRoot>

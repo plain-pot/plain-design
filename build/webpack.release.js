@@ -72,21 +72,18 @@ module.exports = {
         rules: [
             {
                 test: /\.(t|j)sx?$/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                    },
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            transpileOnly: true,
-                            happyPackMode: false,
-                            compilerOptions: {
-                                jsx: 'preserve'
-                            }
-                        }
+                loader: 'babel-loader',
+                options: (() => {
+                    const defaultOptions = require('../babel.config')
+                    return {
+                        ...defaultOptions,
+                        presets: [
+                            ...defaultOptions.presets,
+                            '@babel/preset-typescript'
+                        ],
                     }
-                ],
+                })(),
+                exclude: /node_modules(?!.*(plain-utils|plain-loading|plain-popper).*)/,
             },
             {
                 test: /\.css$/,//css处理顺口
