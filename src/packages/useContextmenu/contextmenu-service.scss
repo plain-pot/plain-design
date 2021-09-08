@@ -7,9 +7,13 @@
       transform-origin: top left;
       box-sizing: border-box;
       box-shadow: $boxshadow;
-      padding: 12px 0;
-      font-size: 14px;
+      padding: 4px 0;
       border: solid 1px $ibc;
+
+      .pl-dropdown-option {
+        font-size: 12px;
+        color: $itc;
+      }
     }
   }
 }
