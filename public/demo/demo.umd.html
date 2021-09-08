@@ -25,7 +25,7 @@
         PlainDesignComposition,
         PlainDesign,
     })
-    const {PlButton, PlInput, PlRoot, $$message} = PlainDesign
+    const {PlButton, PlInput, PlTagInput, PlRoot, $$message} = PlainDesign
     const {reactive, designPage} = PlainDesignComposition
     const App = designPage(() => {
         const state = reactive({
@@ -38,7 +38,7 @@
                         <PlButton onClick={() => $$message('hello world')}>
                             this is app
                         </PlButton>
-                        <PlInput modelValue={state.formData.username} onUpdateModelValue={val => state.formData.username = val}/>
+                        <PlTagInput modelValue={state.formData.username} onUpdateModelValue={val => state.formData.username = val}/>
                         {JSON.stringify(state.formData.username)}
                     </PlRoot>
                 </div>
