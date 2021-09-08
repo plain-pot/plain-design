@@ -9,6 +9,10 @@
 
       .pl-form-item-label {
         padding-right: 8px;
+
+        .pl-tooltip-reference {
+          display: block;
+        }
       }
 
       .pl-form-item-body {
@@ -37,16 +41,13 @@
       }
 
       &.pl-form-item-required {
-        .pl-form-item-label {
-          &:before {
-            content: '*';
-            color: $colorError;
-            position: relative;
-            top: 2px;
-            right: 12px;
-            width: 0;
-            display: inline-block;
-          }
+        .pl-form-item-required-dot {
+          color: $colorError;
+          position: relative;
+          top: 2px;
+          right: 12px;
+          width: 0;
+          display: inline-block;
         }
       }
 

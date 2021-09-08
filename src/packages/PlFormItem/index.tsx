@@ -166,13 +166,20 @@ export const PlFormItem = designComponent({
                 <div className={classes.value} style={styles.value}>
                     {(!!props.label || slots.labelContent.isExist()) && (
                         <div className="pl-form-item-label" style={labelStyles.value}>
-                            {!props.label || form.props.column == 1 ? (
-                                <>{slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}</>
-                            ) : (
-                                <PlTooltip message={props.label}>
-                                    <span>{slots.labelContent(props.label)} {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}</span>
-                                </PlTooltip>
-                            )}
+                            {(() => {
+                                const content = <>
+                                    {isRequired.value && <span className="pl-form-item-required-dot">*</span>}
+                                    {slots.labelContent(props.label)}
+                                    {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}
+                                </>
+                                return !props.label || form.props.column == 1 ? content : (
+                                    <PlTooltip message={props.label} showWidth="100%">
+                                    <span>
+                                        {content}
+                                    </span>
+                                    </PlTooltip>
+                                )
+                            })()}
                         </div>
                     )}
                     <div className="pl-form-item-body" style={bodyStyles.value}>
