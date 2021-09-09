@@ -1,6 +1,6 @@
 import {designPage} from "plain-design-composition";
 import React from "react";
-import {PlcOv, PlcAddress, PlcObject, useTableOption} from "../../../src";
+import {$$message, PlcOv, PlcAddress, PlcObject, useTableOption} from "../../../src";
 import PlTablePro from "../../../src/packages/PlTablePro";
 import {PlcDate, PlSelectOption, Plc, PlIcon} from "../../../src";
 import {PlcSelect} from "../../../src/packages/PlcSelect";
@@ -70,7 +70,7 @@ export default designPage(() => {
     })
 
     const onClick = (data: { e: React.MouseEvent, scope: TableRenderScope }) => {
-        console.log({...data.scope.row})
+        $$message(data.scope.row.normalText)
     }
 
     return () => <>
