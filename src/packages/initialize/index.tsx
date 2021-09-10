@@ -2,6 +2,7 @@ import {tUseTableOption} from "../createUseTableOption";
 import {iUseHttp} from "../useHttp/useHttp.utils";
 import {iUseAddressConfig} from "../useAddress/useAddress.utils";
 import {iUseOvConfig} from "../useOv/useOv.utils";
+import ExcelJs from 'exceljs'
 
 export interface InitializeConfigState {
     useTableOption: tUseTableOption,
@@ -9,6 +10,8 @@ export interface InitializeConfigState {
     useHttp: iUseHttp,
     useAddressConfig: iUseAddressConfig,
     useOvConfig: iUseOvConfig,
+    getExceljs: () => Promise<typeof ExcelJs>,
+    getFileSaver: () => Promise<any>,
 }
 
 let state: InitializeConfigState | null = null

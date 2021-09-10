@@ -11,4 +11,7 @@ initialize(() => ({
     useHttp,
     useAddressConfig,
     useOvConfig,
+    getExceljs: () => import('exceljs'),
+    // @ts-ignore
+    getFileSaver: () => import('file-saver'),
 }))
