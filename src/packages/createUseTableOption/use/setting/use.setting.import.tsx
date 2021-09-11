@@ -41,16 +41,16 @@ export function useTableOptionSettingImport(
         const plcList = getSourceFlatPlcList()
         let importPlcList: (tPlc | undefined)[] = [undefined]
         let importData: any[] = []
-        sheet.eachRow((row, rowIndex) => {
+        sheet.eachRow((row: any, rowIndex) => {
             if (rowIndex === 1) {
-                row.eachCell((cell) => {
+                row.eachCell((cell: any) => {
                     const plcTitle = cell.value
                     const plc = plcList.find(i => i.props.title === plcTitle)
                     importPlcList.push(plc)
                 })
             } else {
                 const itemData = {} as any
-                row.eachCell((cell, cellIndex) => {
+                row.eachCell((cell: any, cellIndex: number) => {
                     const plc = importPlcList[cellIndex]
                     if (!plc) {return}
                     itemData[plc.props.field!] = cell.value
