@@ -41,7 +41,7 @@ export function useTableOptionSettingImport(
         const plcList = getSourceFlatPlcList()
         let importPlcList: (tPlc | undefined)[] = [undefined]
         let importData: any[] = []
-        sheet.eachRow((row: any, rowIndex) => {
+        sheet.eachRow((row: any, rowIndex: number) => {
             if (rowIndex === 1) {
                 row.eachCell((cell: any) => {
                     const plcTitle = cell.value
