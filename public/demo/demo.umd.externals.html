@@ -10,87 +10,10 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/react/17.0.1/umd/react.production.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/react-dom/17.0.1/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/plain-design-composition@0.0.98/dist/plain-design-composition.min.js"></script>
+<script src="https://unpkg.com/plain-design-composition@0.0.100/dist/plain-design-composition.min.js"></script>
+<script src="https://unpkg.com/plain-design-composition@0.0.100/plugins/babel-plugin-react-model.browser"></script>
 <script src="https://unpkg.com/plain-design@0.0.61/dist/plain-design.min.js"></script>
-<script>
-    function genAssignmentCode(types, vModelValue, handlerParameter) {
-        const object = vModelValue.object;
-        const property = vModelValue.property;
-        let propertyName = vModelValue.computed ? property : types.StringLiteral(property.name || property.value)
-        return types.ExpressionStatement(
-            types.CallExpression(
-                types.MemberExpression(types.Identifier("React"), types.Identifier("$$set")),
-                [object, propertyName, handlerParameter]
-            )
-        );
-    };
-    Babel.registerPlugin("JSXModel", function (babel) {
-        const {types} = babel;
-        return {
-            inherits: Babel.availablePlugins['syntax-jsx'].default,
-            visitor: {
-                JSXOpeningElement: tagPath => {
-                    /*标签的名称，比如input、button，el-form等鞥*/
-                    const tagName = tagPath.node.name.name;
-                    const handlePaths = {vModel: [], vChange: null, onChange: null,}
 
-                    tagPath.get("attributes").forEach(attrPath => {
-                        if (!attrPath.node.name) {return;}
-                        if (attrPath.node.name.name.indexOf("v-model") === 0) {handlePaths.vModel.push(attrPath)}
-                        if (attrPath.node.name.name === "v-change") {handlePaths.vChange = attrPath}
-                        if (attrPath.node.name.name === "onChange") {handlePaths.onChange = attrPath}
-                    });
-
-                    /*---------------------------------------处理v-change-------------------------------------------*/
-
-                    if (!!handlePaths.vChange) {
-                        /*v-model 属性表达式*/
-                        const sugarValueExpression = handlePaths.vChange.node.value.expression;
-                        if (!('property' in sugarValueExpression)) {throw new Error('v-model value must be a valid JavaScript member expression.')}
-                        /*语法糖value属性值*/
-                        const sugarValue = types.JSXAttribute(types.jSXIdentifier("value"), types.JSXExpressionContainer(tagName === 'input' || tagName === 'textarea' ? types.logicalExpression("||", sugarValueExpression, types.StringLiteral("")) : sugarValueExpression,));
-                        /*语法糖onChange属性函数的第一个参数*/
-                        const handlerFirstParameter = types.Identifier("$event");
-                        /*语法糖onChange属性值*/
-                        const sugarOnChange = types.JSXAttribute(types.JSXIdentifier("onChange"), types.JSXExpressionContainer(types.ArrowFunctionExpression([handlerFirstParameter], types.BlockStatement([
-                            genAssignmentCode(types, sugarValueExpression, handlerFirstParameter),
-                            ...(!!handlePaths.onChange ? [types.ExpressionStatement(types.CallExpression(handlePaths.onChange.node.value.expression, [handlerFirstParameter])),] : [])
-                        ]))));
-
-                        handlePaths.vChange.replaceWithMultiple([...[sugarValue, sugarOnChange]]);
-                    }
-                    if (!!handlePaths.vChange && !!handlePaths.onChange) {handlePaths.onChange.remove()}
-
-                    /*---------------------------------------处理v-model-------------------------------------------*/
-
-                    handlePaths.vModel.forEach(vModel => {
-                        /*v-model 属性表达式*/
-                        const sugarValueExpression = vModel.node.value.expression;
-                        if (!('property' in sugarValueExpression)) {throw new Error('v-model value must be a valid JavaScript member expression.')}
-                        /*propName 绑定的字段名*/
-                        let propName = vModel.node.name.name.slice(8)
-                        if (!propName) {propName = 'modelValue'}
-                        const isNativeInput = tagName === 'input' || tagName === 'textarea'
-                        if (isNativeInput) {propName = 'value'}
-                        /*语法糖value属性值*/
-                        const sugarValue = types.JSXAttribute(types.jSXIdentifier(propName), types.JSXExpressionContainer(isNativeInput ? types.logicalExpression("||", sugarValueExpression, types.StringLiteral("")) : sugarValueExpression));
-                        /*语法糖change handler属性函数的第一个参数*/
-                        const handlerFirstParameter = types.Identifier("$event");
-                        /*语法糖change handler属性名*/
-                        const handlerPropName = isNativeInput ? 'onInput' : (propName === 'modelValue' ? 'onUpdateModelValue' : 'onUpdate' + propName.charAt(0).toUpperCase() + propName.slice(1));
-                        /*语法糖onChange属性值*/
-                        const sugarOnChange = types.JSXAttribute(types.JSXIdentifier(handlerPropName), types.JSXExpressionContainer(types.ArrowFunctionExpression([handlerFirstParameter], types.BlockStatement([
-                            genAssignmentCode(types, sugarValueExpression, handlerFirstParameter),
-                        ]))));
-
-                        vModel.replaceWithMultiple([...[sugarValue, sugarOnChange]]);
-                    })
-                }
-            }
-        };
-    });
-
-</script>
 <script type="text/jsx" data-plugins="JSXModel">
     console.log({
         React,
