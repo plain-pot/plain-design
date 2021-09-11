@@ -6,8 +6,8 @@ import {disabledUserSelect} from "plain-utils/dom/disabledUserSelect";
 import {enableUserSelect} from "plain-utils/dom/enableUserSelect";
 import {delay} from "plain-utils/utils/delay";
 import React from 'react';
-
-const bg = require('../../PlColorButton/opacity.png').default
+// @ts-ignore
+import opacityPng from '../../PlColorButton/opacity.png'
 
 export const PlColorAlphaSlider = designComponent({
     name: 'pl-color-alpha-slider',
@@ -39,7 +39,7 @@ export const PlColorAlphaSlider = designComponent({
 
         const styles = useStyles(() => ({
             height: unit(numberState.size),
-            backgroundImage: `url(${bg})`,
+            backgroundImage: `url(${opacityPng})`,
         }))
 
         const shadowStyles = useStyles(() => ({
