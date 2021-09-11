@@ -170,7 +170,7 @@ export const PlFormItem = designComponent({
                                 const content = <>
                                     {isRequired.value && <span className="pl-form-item-required-dot">*</span>}
                                     {slots.labelContent(props.label)}
-                                    {!!props.label && !!props.label.trim() && !!targetProps.value && ':'}
+                                    {!!props.label && !!props.label.trim() && !!targetProps.value && '：'}
                                 </>
                                 return !props.label || form.props.column == 1 ? content : (
                                     <PlTooltip message={props.label} showWidth="100%">
