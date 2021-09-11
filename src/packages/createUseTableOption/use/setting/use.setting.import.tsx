@@ -6,6 +6,7 @@ import {reactive} from "plain-design-composition";
 import {defer} from "../../../../utils/defer";
 import {tTableOptionMethods} from "../use.methods";
 import {delay} from "plain-utils/utils/delay";
+import {getInitialConfigState} from "../../../initialize";
 
 export function useTableOptionSettingImport(
     {
@@ -33,7 +34,7 @@ export function useTableOptionSettingImport(
     }
 
     const readFile = async (file: File): Promise<any[]> => {
-        const ExcelJs = await import('exceljs')
+        const ExcelJs = await getInitialConfigState('getExceljs')()
         const workbook = new ExcelJs.Workbook();
         await workbook.xlsx.load(await fileToBuf(file))
         const sheet = workbook.getWorksheet(1)
