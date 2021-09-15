@@ -31,10 +31,10 @@ const useTableOption = createUseTableOption({
         const totalCacheData = !str ? {} : JSON.parse(str)
 
         const getCache = (key: string): iTableOptionCacheData => {
-            return totalCacheData[key]
+            return totalCacheData[key + window.location.hash]
         }
         const setCache = (cacheData: iTableOptionCacheData) => {
-            totalCacheData[cacheData.tableId] = cacheData
+            totalCacheData[cacheData.tableId + window.location.hash] = cacheData
             window.localStorage.setItem(STORAGE_KEY, JSON.stringify(totalCacheData))
         }
         return {getCache, setCache}

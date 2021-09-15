@@ -20,6 +20,7 @@ import {delay} from "plain-utils/utils/delay";
 import {iQueryRequest, iTableOptionState, tRequestConfig} from "../../createUseTableOption.utils";
 import {tTableOptionHooks} from "../use.hooks";
 import {plainDate} from "../../../../utils/plainDate";
+import {getInitialConfigState} from "../../../initialize";
 
 interface ExportOption {
     type: string,
@@ -96,9 +97,8 @@ export function useTableOptionSettingExport(
 
             // 导出excel
             const [ExcelJs, FileSaver] = await Promise.all([
-                import('exceljs'),
-                // @ts-ignore
-                import('file-saver'),
+                getInitialConfigState('getExceljs')(),
+                getInitialConfigState('getFileSaver')(),
             ])
             const workbook = new ExcelJs.Workbook();
             const worksheet = workbook.addWorksheet('sheet');

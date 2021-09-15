@@ -6,6 +6,7 @@ import {reactive} from "plain-design-composition";
 import {defer} from "../../../../utils/defer";
 import {tTableOptionMethods} from "../use.methods";
 import {delay} from "plain-utils/utils/delay";
+import {getInitialConfigState} from "../../../initialize";
 
 export function useTableOptionSettingImport(
     {
@@ -33,23 +34,23 @@ export function useTableOptionSettingImport(
     }
 
     const readFile = async (file: File): Promise<any[]> => {
-        const ExcelJs = await import('exceljs')
+        const ExcelJs = await getInitialConfigState('getExceljs')()
         const workbook = new ExcelJs.Workbook();
         await workbook.xlsx.load(await fileToBuf(file))
         const sheet = workbook.getWorksheet(1)
         const plcList = getSourceFlatPlcList()
         let importPlcList: (tPlc | undefined)[] = [undefined]
         let importData: any[] = []
-        sheet.eachRow((row, rowIndex) => {
+        sheet.eachRow((row: any, rowIndex: number) => {
             if (rowIndex === 1) {
-                row.eachCell((cell) => {
+                row.eachCell((cell: any) => {
                     const plcTitle = cell.value
                     const plc = plcList.find(i => i.props.title === plcTitle)
                     importPlcList.push(plc)
                 })
             } else {
                 const itemData = {} as any
-                row.eachCell((cell, cellIndex) => {
+                row.eachCell((cell: any, cellIndex: number) => {
                     const plc = importPlcList[cellIndex]
                     if (!plc) {return}
                     itemData[plc.props.field!] = cell.value

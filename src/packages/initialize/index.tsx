@@ -9,6 +9,8 @@ export interface InitializeConfigState {
     useHttp: iUseHttp,
     useAddressConfig: iUseAddressConfig,
     useOvConfig: iUseOvConfig,
+    getExceljs: () => Promise<any>,
+    getFileSaver: () => Promise<any>,
 }
 
 let state: InitializeConfigState | null = null

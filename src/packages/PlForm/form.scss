@@ -110,6 +110,9 @@
       /*line-height*/
       @include sizeMixin(form-item) {
         line-height: $value;
+        .pl-form-item-body {
+          min-height: $value;
+        }
       }
 
       &.pl-form-item-size-large {

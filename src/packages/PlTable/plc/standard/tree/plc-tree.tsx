@@ -33,7 +33,7 @@ export default designComponent({
             bodyCls: 'plc-tree-node',
             hideInForm: true,
         }),
-        contentWidth: {type: Number, default: 100},                         // 显示的内容宽度
+        contentWidth: {type: Number, default: 120},                         // 显示的内容宽度
         rowDraggable: {type: Boolean},                                      // 行是否可以拖拽排序
         allowRowDraggable: {type: Function as PropType<(node: TableNode) => boolean>},// 行是否可以被拖拽放置到其他位置
         allowRowDroppable: {type: Function as PropType<(startNode: TableNode, moveNode: TableNode, dropType: TreeDropType) => boolean>},// 行是否可以被放置（放到子节点中，放到前面，放到后面）
@@ -116,7 +116,7 @@ export default designComponent({
 
         onMounted(() => {
             watch(() => maxShowLevel.value, () => {
-                refer.props.width = width.value
+                refer.props.width = width.value + 10
             }, {immediate: true})
         })
 
