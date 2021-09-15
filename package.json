@@ -3,6 +3,7 @@
   "version": "0.0.59",
   "description": "",
   "main": "dist/plain-design.min.js",
+  "module": "dist/plain-design.commonjs.min.js",
   "typings": "src/index.ts",
   "files": [
     "dist",

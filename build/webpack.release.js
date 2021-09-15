@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const outputDir = 'dist'
 
-module.exports = {
+const config = {
     mode: 'production',
     entry: {
         index: resolve('src/index.ts'),
@@ -147,3 +147,16 @@ module.exports = {
     },
 
 }
+
+
+module.exports = [
+    {
+        ...config,
+        output: {
+            path: resolve(outputDir),
+            filename: 'plain-design.commonjs.min.js',
+            libraryTarget: 'commonjs2',
+        },
+    },
+    config,
+]
