@@ -298,7 +298,7 @@ export const PlSelect = designComponent({
                                 placeholder={inputBinding.value.placeholder!}
                                 default={({item, index}: { item: SelectOption, index: number }) => (
                                     <React.Fragment key={index}>
-                                        <span>{item.props.label}</span>,
+                                        <span>{item.props.label}</span>
                                         <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
                                     </React.Fragment>
                                 )}
