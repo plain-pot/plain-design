@@ -381,6 +381,9 @@
   }*/
   /*input*/
   .plt-cell {
+    & > * {
+      vertical-align: middle;
+    }
 
     & > .pl-input {
       width: 100%;
