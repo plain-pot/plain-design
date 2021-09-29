@@ -56,7 +56,6 @@ export function useTableOptionBaseTable(
                     sort={sortState.sortQueryData.value}
                     onCollectPlcData={hooks.onCollectPlcData.exec}
                 >
-                    <PlcIndex start={pagination.pageState.page * pagination.pageState.size}/>
                     {hooks.onColumns.exec([])}
                 </PlTable>
             )
