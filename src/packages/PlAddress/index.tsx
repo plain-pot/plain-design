@@ -16,6 +16,7 @@ import PlSelectOption from "../PlSelectOption";
 let watchParentChange = false
 
 export const PlAddress = designComponent({
+    name: 'pl-address',
     props: {
         ...EditProps,
         ...StyleProps,

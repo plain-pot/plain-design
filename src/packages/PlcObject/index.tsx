@@ -6,6 +6,7 @@ import {useExternalPlc} from "../PlTable/plc/core/useExternalPlc";
 import React from "react";
 
 export const PlcObject = designComponent({
+    name: 'plc-object',
     props: {
         ...PlcPropsOptions,
         ...PlObjectPropsOption,

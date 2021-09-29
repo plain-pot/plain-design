@@ -8,6 +8,7 @@ import useOv from "../useOv";
 import PlSelectOption from "../PlSelectOption";
 
 export const PlOv = designComponent({
+    name: 'pl-ov',
     props: {
         ...EditProps,
         ...StyleProps,

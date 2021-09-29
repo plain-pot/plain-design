@@ -6,6 +6,7 @@ import {useClasses} from "plain-design-composition";
 import './loading.scss'
 
 export const PlLoading = designComponent({
+    name: 'pl-loading',
     props: {
         type: {type: String, default: 'alpha'},
         status: {type: String, default: null},

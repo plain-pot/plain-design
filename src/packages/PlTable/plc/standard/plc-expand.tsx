@@ -12,6 +12,7 @@ import {PlcScopeSlotsOptions} from "../utils/plc.scope-slots";
 import {useExternalPlc} from "../core/useExternalPlc";
 
 export default designComponent({
+    name: 'plc-expand',
     props: {
         ...createPlcPropOptions({
             autoFixedLeft: true,

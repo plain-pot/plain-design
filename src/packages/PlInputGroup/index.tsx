@@ -3,6 +3,7 @@ import React from "react";
 import './input-group.scss'
 
 export const PlInputGroup = designComponent({
+    name: 'pl-input-group',
     props: {
         block: {type: Boolean}
     },

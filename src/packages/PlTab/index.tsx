@@ -4,6 +4,7 @@ import {TabCollector} from "../PlTabs";
 import React from 'react';
 
 export const PlTab = designComponent({
+    name: 'pl-tab',
     inheritAttrs: false,
     props: {
         title: {type: String},                              // 页签标题
