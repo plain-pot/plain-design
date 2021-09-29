@@ -56,7 +56,9 @@ const config = {
         //别名
         alias: {
             "@": resolve('src'),// @指向src
-            "~": resolve('node_modules')//~指向node_modules
+            "~": resolve('node_modules'),//~指向node_modules
+            'plain-design-composition/src/index': 'abc',
+            'async-validator': resolve('src/libs/async-validator/index.js'),
         },
         //当你加载一个文件的时候,没有指定扩展名的时候，会自动寻找哪些扩展名
         extensions: [".ts", ".tsx", ".js", ".json"]
