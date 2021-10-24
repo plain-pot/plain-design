@@ -10,16 +10,20 @@ import addressData from '../data/address.json'
 import {defer, DFD} from "plain-utils/utils/defer";
 import {delay} from "plain-utils/utils/delay";
 import {PlLoading} from "../../../src";
+import {debounce} from "plain-utils/utils/debounce";
 
-export const demo1 = designPage(() => {
+export const asyncDemo = designPage(() => {
     const state = reactive({
-        val: null as any,
+        formData: {
+            code: null as any,
+            display: null as null | string,
+        },
     })
 
     const data = (addressData as any[]).map(({name, code}) => ({name, code}))
-    console.log(addressData)
 
     const selectConfig = reactive({
+        // 保存输入的搜索关键字，用来判断显示的内容
         filterText: '',
         // 选项数据
         options: [] as { label: string, val: string }[],
@@ -32,7 +36,7 @@ export const demo1 = designPage(() => {
             } else {
                 if (!selectConfig.filterText) {
                     return (
-                        <div className="pl-background-disabled-text" style={{padding: '12px 0',textAlign:'center'}}>
+                        <div className="pl-background-disabled-text" style={{padding: '12px 0', textAlign: 'center'}}>
                             请输入搜索关键字！
                         </div>
                     )
@@ -43,7 +47,7 @@ export const demo1 = designPage(() => {
         // 只要promise存在，就显示加载状态
         dfd: null as null | DFD,
         // 当搜索关键字变化的时候，刷线promise
-        onSearchChange: async (text: string | null) => {
+        onSearchChange: debounce(async (text: string | null) => {
             if (!!selectConfig.dfd) {
                 selectConfig.dfd.reject('')
                 selectConfig.dfd = null
@@ -52,22 +56,40 @@ export const demo1 = designPage(() => {
             if (!text) {
                 selectConfig.options = []
             } else {
+                // 这里模拟网络异步请求动作，等待1s~2s得到匹配的数据
                 selectConfig.dfd = defer<any[]>()
                 const timer = Math.random() * 1000 + 1000
                 await delay(timer)
                 selectConfig.options = data.filter(i => (i.name + i.code).indexOf(text) > -1).map(({name, code}) => ({label: name, val: code}))
                 selectConfig.dfd = null
             }
-        }
+        }, 300),
+        // 监听选中变化动作
+        onChange: (val?: any) => {
+            if (!val) {
+                state.formData = {
+                    code: null,
+                    display: null,
+                }
+            } else {
+                state.formData = {
+                    code: val,
+                    display: selectConfig.options.find(i => i.val === val)?.label || null
+                }
+            }
+        },
     })
 
     return () => <>
         <DemoRow title="异步数据">
             <PlSelect
-                v-model={state.val}
-                onInputChange={selectConfig.onSearchChange}
+                modelValue={state.formData.code}
                 filterMethod={selectConfig.filterMethod}
                 empty={selectConfig.empty}
+                displayValue={state.formData.display!}
+
+                onInputChange={selectConfig.onSearchChange}
+                onChange={selectConfig.onChange}
             >
                 {!!selectConfig.dfd ? (
                     <div className="pl-background-disabled-text" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 0'}}>
@@ -80,7 +102,102 @@ export const demo1 = designPage(() => {
                     ))
                 )}
             </PlSelect>
-            {JSON.stringify({optionsLen: selectConfig.options.length, val: state.val, loading: !!selectConfig.dfd})}
+            {JSON.stringify({optionsLen: selectConfig.options.length, val: state.formData.code, loading: !!selectConfig.dfd})}
+        </DemoRow>
+    </>
+})
+
+export const asyncDemoWithInitialValue = designPage(() => {
+    const state = reactive({
+        formData: {
+            code: '440000' as any,
+            display: '广东省' as any,
+        },
+    })
+
+    const data = (addressData as any[]).map(({name, code}) => ({name, code}))
+
+    const selectConfig = reactive({
+        // 保存输入的搜索关键字，用来判断显示的内容
+        filterText: '',
+        // 选项数据
+        options: [] as { label: string, val: string }[],
+        // 任何选项都显示，因为选项都是通过搜索关键字异步加载出来的
+        filterMethod: () => true,
+        // 自定义无数据时显示的内容
+        empty: (defaultEmpty: () => ReactNode) => {
+            if (selectConfig.dfd) {
+                return null
+            } else {
+                if (!selectConfig.filterText) {
+                    return (
+                        <div className="pl-background-disabled-text" style={{padding: '12px 0', textAlign: 'center'}}>
+                            请输入搜索关键字！
+                        </div>
+                    )
+                }
+                return defaultEmpty()
+            }
+        },
+        // 只要promise存在，就显示加载状态
+        dfd: null as null | DFD,
+        // 当搜索关键字变化的时候，刷线promise
+        onSearchChange: debounce(async (text: string | null) => {
+            if (!!selectConfig.dfd) {
+                selectConfig.dfd.reject('')
+                selectConfig.dfd = null
+            }
+            selectConfig.filterText = text!
+            if (!text) {
+                selectConfig.options = []
+            } else {
+                // 这里模拟网络异步请求动作，等待1s~2s得到匹配的数据
+                selectConfig.dfd = defer<any[]>()
+                const timer = Math.random() * 1000 + 1000
+                await delay(timer)
+                selectConfig.options = data.filter(i => (i.name + i.code).indexOf(text) > -1).map(({name, code}) => ({label: name, val: code}))
+                selectConfig.dfd = null
+            }
+        }, 300),
+        // 监听选中变化动作
+        onChange: (val?: any) => {
+            if (!val) {
+                state.formData = {
+                    code: null,
+                    display: null,
+                }
+            } else {
+                state.formData = {
+                    code: val,
+                    display: selectConfig.options.find(i => i.val === val)?.label || null
+                }
+            }
+        },
+    })
+
+    return () => <>
+        <DemoRow title="异步数据:带初始值">
+            <PlSelect
+                modelValue={state.formData.code}
+                filterMethod={selectConfig.filterMethod}
+                empty={selectConfig.empty}
+                displayValue={state.formData.display!}
+
+                onInputChange={selectConfig.onSearchChange}
+                onChange={selectConfig.onChange}
+            >
+                {!!selectConfig.dfd ? (
+                    <div className="pl-background-disabled-text" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 0'}}>
+                        <PlLoading style={{fontSize: '24px'}}/>
+                        <span>数据加载中</span>
+                    </div>
+                ) : (
+                    selectConfig.options.map((opt, index) => (
+                        <PlSelectOption label={opt.label} val={opt.val} key={index}/>
+                    ))
+                )}
+            </PlSelect>
+            {JSON.stringify({optionsLen: selectConfig.options.length, val: state.formData.code, loading: !!selectConfig.dfd})}
         </DemoRow>
     </>
 })

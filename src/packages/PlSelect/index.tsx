@@ -12,7 +12,6 @@ import {handleKeyboard} from "../keyboard";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
 import {useCollect} from "../../use/useCollect";
-import {ie} from "plain-utils/utils/ie";
 import PlPopper from "../PlPopper";
 
 const Props = {
@@ -33,6 +32,7 @@ const Props = {
     noMatchText: {type: String, default: '暂无匹配数据'},             // 筛选无数据时展示的文本
     noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
     filterMethod: Function,                                         // 筛选过滤函数
+    displayValue: {type: String},                                   // 输入框显示的文本
     popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
 }
 
@@ -141,6 +141,9 @@ export const PlSelect = designComponent({
          */
         const displayValue = computed(() => {
             if (!props.multiple) {
+                if (!!props.displayValue) {
+                    return props.displayValue
+                }
                 for (let i = 0; i < formatData.value.length; i++) {
                     const item = formatData.value[i];
                     if (item.props.val == model.value) {
@@ -279,7 +282,7 @@ export const PlSelect = designComponent({
             onInputChange: (val: string | null) => {
                 filterText.value = val
                 event.emit.onInputChange(val)
-                if (!agentState.isShow.value && ie) {
+                if (!agentState.isShow.value) {
                     agentState.methods.show()
                 }
             },
