@@ -5,7 +5,7 @@ import $$file, {FileServiceDefaultAccept, FileServiceUploadConfig} from "../$$fi
 import {useClasses} from "plain-design-composition";
 import {unit} from "plain-utils/string/unit";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import {$$image} from "../useImage";
 import React from "react";
 import PlIcon from "../PlIcon";

@@ -2,7 +2,7 @@ import React from "react";
 import {tTableOption} from "../createUseTableOption";
 import useDialog, {DialogServiceFormatOption} from "../useDialog";
 import PlTablePro from "../PlTablePro";
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import {PlainObject} from "../createUseTableOption/createUseTableOption.utils";
 import PlcPick from "../PlcPick";
 import {designPage, onBeforeUnmount, useRefs} from "plain-design-composition";

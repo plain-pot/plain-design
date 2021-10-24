@@ -5,7 +5,7 @@ import {RequireFormat} from "../../shims";
 import {createServiceWithoutContext, createUseService} from "../PlRoot/registryRootService";
 import {createDefaultManager} from "../PlRoot/createDefaultManager";
 import PlDialogService from "./PlDialogService";
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import './dialog-service.scss'
 
 export enum DialogServiceEditType {

@@ -1,14 +1,48 @@
-import {designPage} from "plain-design-composition";
+import {designPage, reactive} from "plain-design-composition";
 import React from "react";
 import {DemoRow} from "../../components/DemoRow";
 import {DemoLine} from "../../components/DemoLine";
-import {reactive} from "plain-design-composition";
 import {PlSelect} from "../../../src/packages/PlSelect";
 import {PlSelectOption} from "../../../src/packages/PlSelectOption";
 import {PlSelectGroup} from "../../../src/packages/PlSelectGroup";
 import {PlCheckbox} from "../../../src/packages/PlCheckbox";
+import addressData from '../data/address.json'
+import {DFD} from "plain-utils/utils/defer";
 
-export default designPage(() => {
+export const demo1 = designPage(() => {
+    const state = reactive({
+        val: null as any,
+    })
+
+    const data = (addressData as any[]).map(({name, code}) => ({name, code}))
+
+    const selectConfig = reactive({
+        // 选项数据
+        options: [] as { label: string, val: string }[],
+        // 任何选项都显示，因为选项都是通过搜索关键字异步加载出来的
+        filterMethod: () => true,
+        // 只要promise存在，就显示加载状态
+        dfd: null as null | DFD,
+        // 当搜索关键字变化的时候，刷线promise
+        onSearchChange: (text: string | null) => {
+            if (!!selectConfig.dfd) {
+                selectConfig.dfd.reject('')
+            }
+        }
+    })
+
+    return () => <>
+        <DemoRow title="异步数据">
+            <PlSelect v-model={state.val}>
+                {selectConfig.options.map((opt, index) => (
+                    <PlSelectOption label={opt.label} val={opt.val} key={index}/>
+                ))}
+            </PlSelect>
+        </DemoRow>
+    </>
+})
+
+export const demo2 = designPage(() => {
 
     const val = reactive({val: {} as any}).val
 

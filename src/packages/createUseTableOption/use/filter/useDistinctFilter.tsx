@@ -5,7 +5,7 @@ import {iTableProConfig, PlainObject, tTableOptionConfig} from "../../createUseT
 import {computed, designPage, reactive, useRefs} from "plain-design-composition";
 import PlTablePro from "../../../PlTablePro";
 import useDialog, {DialogServiceFormatOption} from "../../../useDialog";
-import {defer} from "../../../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import PlcCheckRow from "../../../PlcCheckRow";
 import {iFilterQuery} from "../../../PlFilter/FilterConfig";
 import {tTableOptionHooks} from "../use.hooks";

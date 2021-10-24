@@ -10,7 +10,7 @@ import {Plc} from "../../../Plc";
 import PlcOperator from "../../../PlcOperator";
 import PlButton from "../../../PlButton";
 import useDialog, {DialogServiceOption} from "../../../useDialog";
-import {defer} from "../../../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import useMessage from "../../../useMessage";
 import PlButtonGroup from "../../../PlButtonGroup";
 import PlRadio from "../../../PlRadio";

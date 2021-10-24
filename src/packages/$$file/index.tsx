@@ -1,5 +1,5 @@
 import {$$message} from "../$$message"
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 
 export type FileServiceSingleFile = File & { calcSize: number, data?: any }
 export type FileServiceValidator = (file: FileServiceSingleFile) => boolean | undefined

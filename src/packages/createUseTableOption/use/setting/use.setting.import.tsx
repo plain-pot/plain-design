@@ -3,7 +3,7 @@ import {eTableOptionSettingView, iTableOptionSettingInnerUser} from "./use.setti
 import {tPlc} from "../../../PlTable/plc/utils/plc.type";
 import {PlUpload, UploadFile} from "../../../PlUpload";
 import {reactive} from "plain-design-composition";
-import {defer} from "../../../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import {tTableOptionMethods} from "../use.methods";
 import {delay} from "plain-utils/utils/delay";
 import {getInitialConfigState} from "../../../initialize";

@@ -10,7 +10,7 @@ import {useClasses} from "plain-design-composition";
 import {toArray} from "../../utils/toArray";
 import $$message from "../$$message";
 import {$$dialog} from "../useDialog";
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import {classnames} from "plain-design-composition";
 import PlButtonGroup from "../PlButtonGroup";
 import PlButton from "../PlButton";

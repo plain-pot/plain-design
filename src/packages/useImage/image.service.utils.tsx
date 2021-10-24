@@ -3,7 +3,7 @@
  * @author  韦胜健
  * @date    2021/1/21 11:46
  */
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import $$file from "../$$file";
 
 export function urlToImage(url: string) {

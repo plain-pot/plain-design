@@ -1,11 +1,10 @@
 import {tTableOptionConfig} from "../createUseTableOption.utils";
 import {tTableOptionHooks} from "./use.hooks";
 import {getTableId, iTableOptionCacheData, iTableOptionCacheItemData, iTableOptionCacheRegistryConfig} from "./use.cache.utils";
-import {tPlcType} from "../../PlTable/plc/utils/plc.type";
 import {plainDate} from "../../../utils/plainDate";
 import useMessage from "../../useMessage";
 import {deepcopy} from "plain-utils/object/deepcopy";
-import {defer} from "../../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import {tPlcData} from "../../PlTable/plc/format/formatPlcList";
 import {TablePropsConfig} from "../../PlTable/table/utils/table.utils";
 

@@ -1,5 +1,5 @@
 import Schema, {RuleItem} from 'async-validator'
-import {defer} from "../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import {deepcopy} from "plain-utils/object/deepcopy";
 
 const logError = (msg: string) => {console.error(`PlForm:${msg}`)}

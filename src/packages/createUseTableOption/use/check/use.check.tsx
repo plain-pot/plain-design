@@ -3,7 +3,7 @@ import {PlainObject, tTableOptionConfig} from "../../createUseTableOption.utils"
 import {tTableOptionHooks} from "../use.hooks";
 import React from "react";
 import {eTableProStatus, tTableOptionConfirm} from "../use.confirm";
-import {defer} from "../../../../utils/defer";
+import {defer} from "plain-utils/utils/defer";
 import useMessage from "../../../useMessage";
 import PlcProCheck from './PlcProCheck'
 import {tTableOptionCommand} from "../use.command";
