@@ -1,20 +1,18 @@
 import './select.scss'
 import {EditProps} from "../../use/useEdit";
 import {StyleProps, useStyle} from "../../use/useStyle";
-import {computed, designComponent, PropType, ref, useModel, useRefs} from "plain-design-composition";
+import {classnames, computed, createEventListener, designComponent, PropType, reactive, ref, useModel, useRefs} from "plain-design-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlInput} from "../PlInput";
 import {PlSelectPanel} from "./PlSelectPanel";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useSelect} from "./useSelect";
-import React from "react";
+import React, {ReactNode} from "react";
 import {handleKeyboard} from "../keyboard";
 import {PlInputInnerTags} from "../PlInput/PlInputInnertags";
 import PlIcon from "../PlIcon";
-import {createEventListener} from "plain-design-composition"
 import {useCollect} from "../../use/useCollect";
 import {ie} from "plain-utils/utils/ie";
-import {classnames} from "plain-design-composition";
 import PlPopper from "../PlPopper";
 
 const Props = {
@@ -31,6 +29,7 @@ const Props = {
     collapseTags: {type: Boolean, default: true},                   // 多选模式下，默认超过三个选项，其他的将省略显示
     maxTags: {type: Number, default: 3},                            // 最多战士的tag的个数
 
+    empty: {type: Function as PropType<(defaultRender: () => ReactNode) => ReactNode>},// 自定义empty内容
     noMatchText: {type: String, default: '暂无匹配数据'},             // 筛选无数据时展示的文本
     noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
     filterMethod: Function,                                         // 筛选过滤函数
@@ -44,6 +43,7 @@ export const PlSelect = designComponent({
     },
     emits: {
         onUpdateModelValue: (val?: number | string | string[]) => true,
+        onInputChange: (val: string | null) => true,
         onClick: (option: SelectOption) => true,
 
         onSpace: (e: React.KeyboardEvent) => true,
@@ -68,6 +68,13 @@ export const PlSelect = designComponent({
 
         const model = useModel(() => props.modelValue as number | string | string[] | undefined, event.emit.onUpdateModelValue)
         const filterText = ref(null as string | null)
+        const panelContentRender = (() => {
+            const state = reactive({
+                render: () => slots.default(),
+                reset: () => (state.render = () => slots.default())
+            })
+            return state
+        })()
         const agentState = useEditPopperAgent({
             event,
             serviceGetter: useSelect,
@@ -84,7 +91,7 @@ export const PlSelect = designComponent({
                     })(),
                     modelValue: model.value,
                     height: popperHeight.value,
-                    content: slots.default,
+                    content: panelContentRender.render,
                     filterMethod: utils.filterMethod,
                     onChange: handler.onServiceChange,
                     onClick: event.emit.onClick,
@@ -271,6 +278,7 @@ export const PlSelect = designComponent({
             onInputClear: () => model.value = undefined,
             onInputChange: (val: string | null) => {
                 filterText.value = val
+                event.emit.onInputChange(val)
                 if (!agentState.isShow.value && ie) {
                     agentState.methods.show()
                 }
@@ -286,27 +294,30 @@ export const PlSelect = designComponent({
         }
 
         return {
-            render: () => (
-                <PlInput {...inputBinding.value}>
-                    {{
-                        hidden: () => slots.default(),
-                        default: !props.multiple ? null : () => (
-                            <PlInputInnerTags
-                                data={multipleTags.value}
-                                collapseTags={props.collapseTags}
-                                maxTags={props.maxTags}
-                                placeholder={inputBinding.value.placeholder!}
-                                default={({item, index}: { item: SelectOption, index: number }) => (
-                                    <React.Fragment key={index}>
-                                        <span>{item.props.label}</span>
-                                        <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
-                                    </React.Fragment>
-                                )}
-                            />
-                        )
-                    }}
-                </PlInput>
-            )
+            render: () => {
+                panelContentRender.reset()
+                return (
+                    <PlInput {...inputBinding.value}>
+                        {{
+                            hidden: () => slots.default(),
+                            default: !props.multiple ? null : () => (
+                                <PlInputInnerTags
+                                    data={multipleTags.value}
+                                    collapseTags={props.collapseTags}
+                                    maxTags={props.maxTags}
+                                    placeholder={inputBinding.value.placeholder!}
+                                    default={({item, index}: { item: SelectOption, index: number }) => (
+                                        <React.Fragment key={index}>
+                                            <span>{item.props.label}</span>
+                                            <PlIcon icon="el-icon-close" {...createEventListener({onClick: () => handler.onClickItemCloseIcon(item, index)})}/>
+                                        </React.Fragment>
+                                    )}
+                                />
+                            )
+                        }}
+                    </PlInput>
+                )
+            }
         }
     },
 })

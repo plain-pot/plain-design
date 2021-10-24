@@ -1,12 +1,11 @@
-import {computed, designComponent, PropType, ref, useModel, useNumber, useRefs, useStyles} from "plain-design-composition";
+import {computed, designComponent, PropType, ref, useClasses, useModel, useNumber, useRefs, useStyles} from "plain-design-composition";
 import {PlSelectOption, SelectOption} from "../PlSelectOption";
 import {PlScroll} from "../PlScroll";
 import {unit} from "plain-utils/string/unit";
 import $$notice from "../$$notice";
 import PlIcon from "../PlIcon";
-import React from "react";
+import React, {ReactNode} from "react";
 import {useCollect} from "../../use/useCollect";
-import {useClasses} from "plain-design-composition";
 
 export const PlSelectPanel = designComponent({
     name: 'pl-select-panel',
@@ -21,6 +20,7 @@ export const PlSelectPanel = designComponent({
         noDataText: {type: String, default: '暂无数据'},                 // 无数据时显示的文本
         filterMethod: {type: Function as PropType<(option: { val: string | number, label: string | number, disabled?: boolean }) => boolean>},// 筛选过滤函数
         content: {type: [Object, Function]},                            // 内容虚拟dom或者渲染函数
+        empty: {type: Function as PropType<(defaultRender: () => ReactNode) => ReactNode>},// 自定义empty内容
         height: {type: Number},                                         // 面板高度，超过会显示自定义滚动条
 
         showDebug: {type: Boolean},
@@ -220,12 +220,16 @@ export const PlSelectPanel = designComponent({
             },
             render: () => {
 
+                const defaultEmpty = () => (
+                    <div className="pl-select-panel-empty-text">
+                        <PlIcon icon="el-icon-nodata"/>
+                        {options.value.length === 0 ? props.noDataText : props.noMatchText}
+                    </div>
+                )
+
                 const inner = <>
                     {(options.value.length === 0 || showOptions.value.length === 0) ? (
-                        <div className="pl-select-panel-empty-text">
-                            <PlIcon icon="el-icon-nodata"/>
-                            {options.value.length === 0 ? props.noDataText : props.noMatchText}
-                        </div>
+                        props.empty ? props.empty(defaultEmpty) : defaultEmpty()
                     ) : null}
                     {slots.default()}
                     {!!props.content ? ((typeof props.content === "function" ? props.content() : props.content)) : null}
