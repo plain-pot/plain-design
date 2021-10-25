@@ -80,6 +80,7 @@ import PlAddress from "./packages/PlAddress";
 import PlOv from "./packages/PlOv";
 import PlTabs from "./packages/PlTabs";
 import PlTab from "./packages/PlTab";
+import PlAutoComplete from "./packages/PlAutoComplete";
 
 import PlDateRange from "./packages/PlDateRange";
 
@@ -206,6 +207,7 @@ export {
     PlOv,
     PlTab,
     PlTabs,
+    PlAutoComplete,
 
     PlDateRange,
 
