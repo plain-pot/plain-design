@@ -53,11 +53,12 @@ export const PlAutoComplete = designComponent({
         }
 
         const panelContentRender = (() => {
+            const newRender = () => () => slots.default(props.suggestion?.map((suggestMsg, index) => (
+                <PlSelectOption label={suggestMsg} val={suggestMsg} key={index}/>
+            )))
             const state = reactive({
-                render: () => slots.default(props.suggestion?.map((suggestMsg, index) => (
-                    <PlSelectOption label={suggestMsg} val={suggestMsg} key={index}/>
-                ))),
-                reset: () => (state.render = () => slots.default())
+                render: newRender(),
+                reset: () => (state.render = newRender())
             })
             return state
         })();
