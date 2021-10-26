@@ -80,28 +80,23 @@ export const demo3 = designPage(() => {
         // 只要promise存在，就显示加载状态
         dfd: null as null | DFD,
         // 当搜索关键字变化的时候，刷线promise
-        onSearchChange: (() => {
-            const handler = debounce(async (text: string | null) => {
-                if (!text) {
-                    selectConfig.options = []
-                } else {
-                    // 这里模拟网络异步请求动作，等待1s~2s得到匹配的数据
-                    selectConfig.dfd = defer<any[]>()
-                    const timer = Math.random() * 1000 + 1000
-                    await delay(timer)
-                    selectConfig.options = data.filter(i => i.name.indexOf(text) > -1).map(({name}) => (name))
-                    selectConfig.dfd = null
-                }
-            }, 300)
-            return (text: string | null) => {
-                if (!!selectConfig.dfd) {
-                    selectConfig.dfd.reject('')
-                    selectConfig.dfd = null
-                }
-                state.text = text!
-                handler(text)
+        onSearchChange: debounce(async (text: string | null) => {
+            if (!!selectConfig.dfd) {
+                selectConfig.dfd.reject('')
+                selectConfig.dfd = null
             }
-        })(),
+            state.text = text!
+            if (!text) {
+                selectConfig.options = []
+            } else {
+                // 这里模拟网络异步请求动作，等待1s~2s得到匹配的数据
+                selectConfig.dfd = defer<any[]>()
+                const timer = Math.random() * 1000 + 1000
+                await delay(timer)
+                selectConfig.options = data.filter(i => i.name.indexOf(text) > -1).map(({name}) => (name))
+                selectConfig.dfd = null
+            }
+        }, 300)
     })
 
     return () => (
