@@ -10,11 +10,11 @@ import PlSelectOption from "../PlSelectOption";
 
 export const PlAutoComplete = designComponent({
     props: {
-        modelValue: {type: [String, Number]},
-        suggestion: {type: Array as PropType<string[]>},
-        filterMethod: Function,                                         // 筛选过滤函数
-        popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},
-        inputProps: {type: Object as PropType<Partial<typeof PlInput.use.props>>},                                     // input组件绑定属性对象
+        modelValue: {type: [String, Number]},                                           // 双向绑定值
+        suggestion: {type: Array as PropType<string[]>},                                // 建议的输入文本
+        filterMethod: Function,                                                         // 自定义的筛选过滤函数
+        popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},    // popper组件属性
+        inputProps: {type: Object as PropType<Partial<typeof PlInput.use.props>>},      // input组件绑定属性对象
     },
     emits: {
         onUpdateModelValue: (val?: string | number) => true,
