@@ -57,6 +57,7 @@ export const PlSelectOption = designComponent({
             refer,
             render: () => {
                 return (
+                    /*必须要有这个div，不然收集item的时候，没法确定顺序*/
                     <div
                         {...{
                             ref: onRef.el,
