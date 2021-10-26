@@ -1,5 +1,5 @@
 import {classnames, computed, designComponent, PropType, reactive, useModel, useRefs} from "plain-design-composition";
-import React from "react";
+import React, {ReactNode} from "react";
 import PlInput from "../PlInput";
 import {useEditPopperAgent} from "../useEditPopperAgent/useEditPopperAgent";
 import {useSelect} from "../PlSelect/useSelect";
@@ -15,6 +15,7 @@ export const PlAutoComplete = designComponent({
         filterMethod: Function,                                                         // 自定义的筛选过滤函数
         popperAttrs: {type: Object as PropType<Partial<typeof PlPopper.use.props>>},    // popper组件属性
         inputProps: {type: Object as PropType<Partial<typeof PlInput.use.props>>},      // input组件绑定属性对象
+        empty: {type: Function as PropType<(defaultRender: () => ReactNode) => ReactNode>},// 自定义empty内容
     },
     emits: {
         onUpdateModelValue: (val?: string | number) => true,
@@ -75,6 +76,7 @@ export const PlAutoComplete = designComponent({
                 reference: () => refs.input?.refs.input,
                 renderAttrs: () => ({
                     ref: r => panel = r,
+                    empty: props.empty,
                     height: popperHeight.value,
                     content: panelContentRender.render,
                     filterMethod: utils.filterMethod,
@@ -162,9 +164,10 @@ export const PlAutoComplete = designComponent({
         })
 
         return {
-            render: () => (
-                <PlInput{...inputBinding.value}/>
-            )
+            render: () => {
+                panelContentRender.reset()
+                return <PlInput{...inputBinding.value}/>
+            }
         }
     },
 })
