@@ -1,6 +1,5 @@
-import {computed, designComponent, useRefs} from "plain-design-composition";
+import {computed, designComponent, useClasses, useRefs} from "plain-design-composition";
 import {SelectGroupCollector} from "../PlSelectGroup";
-import {useClasses} from "plain-design-composition";
 import React from "react";
 import {PlCheckbox} from "../PlCheckbox";
 import PlIcon from "../PlIcon";
@@ -9,6 +8,7 @@ import {SelectCollector} from "../PlSelect";
 
 export const PlSelectOption = designComponent({
     name: 'pl-select-option',
+    inheritPropsType: HTMLDivElement,
     props: {
         label: {type: [String, Number], required: true},
         val: {type: [String, Number], required: true},
@@ -18,7 +18,10 @@ export const PlSelectOption = designComponent({
         group: {type: Boolean},
     },
     slots: ['default'],
-    setup({props, slots}) {
+    emits: {
+        onClick: (e: React.MouseEvent) => true,
+    },
+    setup({props, slots, event: {emit}}) {
 
         const {refs, onRef} = useRefs({
             el: HTMLDivElement,
@@ -47,7 +50,8 @@ export const PlSelectOption = designComponent({
         ])
 
         const handler = {
-            click: () => {
+            click: (e: React.MouseEvent) => {
+                emit.onClick(e)
                 if (props.group) return
                 !!panel && panel.handler.clickOption(refer)
             }

@@ -1,7 +1,7 @@
 import {designPage, reactive} from "plain-design-composition";
 import {DemoRow} from "../../components/DemoRow";
 import React, {ReactNode} from "react";
-import {PlSelectGroup, PlAutoComplete, PlSelectOption, PlLoading, PlSelect} from "../../../src";
+import {PlAutoComplete, PlLoading, PlSelectGroup, PlSelectOption} from "../../../src";
 import addressData from '../data/address.json'
 import {defer, DFD} from "plain-utils/utils/defer";
 import {debounce} from "plain-utils/utils/debounce";
@@ -114,7 +114,7 @@ export const demo3 = designPage(() => {
                     </div>
                 ) : (
                     selectConfig.options.map((opt, index) => (
-                        <PlSelectOption label={opt} val={opt} key={index}/>
+                        <PlSelectOption label={opt} val={opt} key={index} onClick={() => console.log(222, opt)}/>
                     ))
                 )}
             </PlAutoComplete>
