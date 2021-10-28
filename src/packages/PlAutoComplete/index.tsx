@@ -41,7 +41,7 @@ export const PlAutoComplete = designComponent({
          * @author  韦胜健
          * @date    2020/12/4 10:06
          */
-        const popperHeight = computed(() => !props.suggestion?.length || props.suggestion?.length > 6 ? 200 : null)
+        const popperHeight = computed(() => props.popperAttrs?.height !== undefined ? props.popperAttrs?.height : (!props.suggestion?.length || props.suggestion?.length > 6 ? 200 : null))
 
         /*---------------------------------------utils-------------------------------------------*/
 
@@ -84,7 +84,7 @@ export const PlAutoComplete = designComponent({
                     onChange: handler.onServiceChange,
                     onClick: event.emit.onClick,
                 }),
-                popperAttrs: ({
+                popperAttrs: () => ({
                     ...props.popperAttrs as any,
                     onMousedownPopper: () => agentState.state.focusCounter++,
                     onClickPopper: () => refs.input!.methods.focus(),

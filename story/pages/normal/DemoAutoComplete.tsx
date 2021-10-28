@@ -106,6 +106,9 @@ export const demo3 = designPage(() => {
                 filterMethod={selectConfig.filterMethod}
                 empty={selectConfig.empty}
                 onInputChange={selectConfig.onSearchChange}
+                popperAttrs={{
+                    height: selectConfig.options.length < 6 ? null as any : undefined,
+                }}
             >
                 {!!selectConfig.dfd ? (
                     <div className="pl-background-disabled-text" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 0'}}>
