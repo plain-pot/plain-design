@@ -1,6 +1,6 @@
 {
   "name": "plain-design",
-  "version": "0.0.74",
+  "version": "0.0.75",
   "description": "",
   "main": "dist/plain-design.min.js",
   "module": "dist/plain-design.commonjs.min.js",
