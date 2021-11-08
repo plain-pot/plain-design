@@ -10,6 +10,7 @@
     "src"
   ],
   "scripts": {
+    "dev": "npm run prod",
     "start": "npm run prod",
     "local": "cross-env APP_ENV=local vue-cli-service serve",
     "prod": "cross-env APP_ENV=prod vue-cli-service serve",
@@ -20,7 +21,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "plain-design-composition": "0.0.98",
+    "plain-design-composition": "0.0.103",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -49,7 +50,7 @@
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "@vue/runtime-core": "~3.1.5",
+    "@vue/runtime-core": "^3.2.21",
     "autoprefixer": "^8.6.5",
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.13.3",
@@ -65,7 +66,7 @@
     "fork-ts-checker-webpack-plugin": "^6.2.4",
     "mini-css-extract-plugin": "^1.6.2",
     "mockjs": "^1.1.0",
-    "plain-design-composition": "0.0.97",
+    "plain-design-composition": "0.0.103",
     "postcss": "^8.2.13",
     "postcss-loader": "^4.2.0",
     "qs": "^6.10.1",

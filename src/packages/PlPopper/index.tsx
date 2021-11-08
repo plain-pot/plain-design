@@ -1,6 +1,6 @@
 import './popper.scss'
 import {createError} from "../../utils/createError";
-import {computed, designComponent, getCurrentDesignInstance, markRaw, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
+import {computed, designComponent, getCurrentDesignInstance, markRaw, MultipleClass, onBeforeUnmount, onMounted, PropType, reactive, useModel, useNumber, useRefs, useStyles, watch} from "plain-design-composition";
 import {nextIndex} from "plain-design-composition"
 import {getPopperTrigger, PopperTrigger, PopperTriggerType} from "./trigger/PopperTrigger";
 import {getElement} from "../../utils/getElement";
@@ -28,7 +28,7 @@ export const PlPopper = designComponent({
         message: {type: String},                                    // 内容文本
         disabled: {type: Boolean},                                  // 禁用
         transition: {type: String, default: 'pl-transition-fade'},  // 动画名称：pl-transition-fade, pl-transition-scale, pl-transition-scale-y, pl-transition-popper-drop
-        popperClass: {type: [String, Array, Object]},               // popper容器节点样式
+        popperClass: {type: [String, Array, Object] as PropType<MultipleClass>},// popper容器节点样式
         offset: {type: [Number, String]},                           // 偏移量
         width: {type: [Number, String]},                            // 宽度
         height: {type: [Number, String]},                           // 高度
