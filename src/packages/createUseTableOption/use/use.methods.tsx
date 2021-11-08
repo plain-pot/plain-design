@@ -306,7 +306,7 @@ export function useTableOptionMethods({tableState, config, pagination, hooks, cu
             await loadingMethods.save()
             if (!row) {
                 if (!currentNode.value) {
-                    return $$notice.warn('请选中一行要删除的数据！')
+                    return $$notice.warn('请选中一行要复制的数据！')
                 }
                 row = deepcopy(currentNode.value.data)
             }
