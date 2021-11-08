@@ -40,7 +40,8 @@ export function createUseTableOption<D = any>(defaultConfig: iTableProDefaultCon
         const currentNode = computed(() => {
             const table = tableState.tableGetter()
             if (!table) {return null}
-            return table.getCurrent()
+            if (!tableState.currentKey) {return }
+            return table.getNode(tableState.currentKey)
         })
 
         /*钩子函数*/
