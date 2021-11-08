@@ -31,12 +31,13 @@ export function createSyncHooks<Handler extends (arg: any) => any,
     const exec = (arg: Parameters<Handler>["0"]): Parameters<Handler>["0"] => {
         if (state.innerHandlers.length === 0) {return arg}
         let index = 0
-        let innerHandler: InnerHandler | undefined = state.innerHandlers[index] as any
+        const innerHandlers = [...state.innerHandlers]
+        let innerHandler: InnerHandler | undefined = innerHandlers[index]
         while (!!innerHandler) {
             let newArg = (innerHandler as any)(arg);
             if (newArg !== undefined) {arg = newArg}
             index++
-            innerHandler = state.innerHandlers[index] as any
+            innerHandler = innerHandlers[index] as any
         }
         return arg
     }
